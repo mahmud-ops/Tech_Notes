@@ -7,7 +7,7 @@
 
 **Project :** Counter
 
-```JavaScript
+```JS
 const decreaseBtn = document.getElementById("decreaseBtn");
 const resetBtn = document.getElementById("resetBtn");
 const increaseBtn = document.getElementById("increaseBtn");
@@ -29,9 +29,11 @@ resetBtn.onclick = function(){
     countLabel.textContent = count;
 }
 ```
+Built-in object that provides a collection 
+of properties and methods
+
 ## Math objects
 ```JS
-// Math = built-in object that provides a collection of properties and methods
 
 let x = 3;
 let y = 2;
@@ -50,4 +52,46 @@ z = Math.tan(x);
 z = Math.abs(x);
 z = Math.sign(x);
 ```
+
+**Project :** Random Number Generator:
+![Output](image.png)
+```JS
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My website</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <button id="myButton">roll</button><br>
+    <label id="label1" class="my"></label><br>
+    <label id="label2"></label><br>
+    <label id="label3"></label><br>
+    <script src="index.js"></script>
+</body>
+</html>
+
+
+const myButton = document.getElementById("myButton");
+const label1 = document.getElementById("label1");
+const label2 = document.getElementById("label2");
+const label3 = document.getElementById("label3");
+const min = 1;
+const max = 6;
+let randomNum1;
+let randomNum2;
+let randomNum3;
+
+myButton.onclick = function() {
+    randomNum1 = Math.floor(Math.random() * max) + min;
+    randomNum2 = Math.floor(Math.random() * max) + min;
+    randomNum3 = Math.floor(Math.random() * max) + min;
+    label1.textContent = randomNum1;
+    label2.textContent = randomNum2;
+    label3.textContent = randomNum3;
+}
+
+```  
 
