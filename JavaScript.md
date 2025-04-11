@@ -90,8 +90,49 @@ myButton.onclick = function() {
     randomNum3 = Math.floor(Math.random() * max) + min;
     label1.textContent = randomNum1;
     label2.textContent = randomNum2;
-    label3.textContent = randomNum3;
+    label3.textContent = randomNum3; 
 }
-
 ```  
+## Checked
+[Video](https://youtu.be/SgxzJdqhyfw?list=PLZPZq0r_RZOO1zkgO4bIdfuLpizCeHYKv)
+
+```js
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input name="payment" type="radio" id="Bkash"><label for="Bkash">Bkash</label><br>
+    <input name="payment" type="radio" id="Nagad"><label for="Nagad">Nagad</label><br>
+    <input name="payment" type="radio" id="COD"><label for="COD">Cash on delivery</label><br>
+
+    <br>
+    <input type="submit" name="submit" id="submit">
+
+    <p id="text"></p>
+    <script>
+        let bkash = document.getElementById("Bkash");
+let nagad = document.getElementById("Nagad");
+let cod = document.getElementById("COD");
+let text = document.getElementById("text");
+
+document.getElementById("submit").onclick = function() {
+        if (bkash.checked) {
+        text.textContent = "You're paying with Bkash";
+        } else if (nagad.checked) {
+            text.textContent = "You're paying with Nagad";
+        } else if (cod.checked) {
+           text.textContent = "You're paying with COD";
+        } else {
+        text.textContent = "Please select a payment method";
+        }
+    }
+    </script>
+</body>
+</html>
+```
+
 
