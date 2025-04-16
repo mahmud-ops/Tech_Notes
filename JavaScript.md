@@ -181,7 +181,7 @@ switch(variable) {
             console.log("It's Tuesday");
             break;
         case 5:
-            console.log("It's Wednesday");
+            console.log("It's Wdnesday");
             break;
         case 6:
             console.log("It's Thursday");
