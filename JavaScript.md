@@ -205,7 +205,7 @@ You can use them to:
 - Cut or split the string
 - Add new text
 
-## 🧠 Examples:
+**Example**
 
 ```js
 let name = "Mahmud";
@@ -220,15 +220,15 @@ console.log(name.includes("mud")); // true
 console.log(name.slice(0, 3)); // "Mah"
 ```
 
-## ⚡ Common String Methods:
+**Common String Methods**
 
-| Method            | What it does                     | Example/Output                      |
-|-------------------|----------------------------------|-------------------------------------|
-| `length`          | Counts characters                | `"Mahmud".length` -> `6`            |
-| `toUpperCase()`   | Makes all letters BIG            | `"Mahmud".toUpperCase()` -> `"MAHMUD"` |
-| `toLowerCase()`   | Makes all letters small          | `"Mahmud".toLowerCase()` -> `"mahmud"` |
-| `includes()`      | Checks if something is inside    | `"Mahmud".includes("mud")` -> `true` |
-| `slice()`         | Cuts a part of the string        | `"Mahmud".slice(0, 3)` -> `"Mah"`  |
-| `replace()`       | Replaces part of the string      | `"Mahmud".replace("mud", "mat")` -> `"Mahmat"` |
-| `trim()`          | Removes spaces at the ends       | `"  Mahmud  ".trim()` -> `"Mahmud"` |
-```
+Method | What it does | Example/Output
+length | Counts characters | "Mahmud".length -> 6
+toUpperCase() | Makes all letters BIG | "Mahmud".toUpperCase() -> "MAHMUD"
+toLowerCase() | Makes all letters small | "Mahmud".toLowerCase() -> "mahmud"
+includes() | Checks if something is inside | "Mahmud".includes("mud") -> true
+startsWith() | Checks if string starts with given substring | "Mahmud".startsWith("Mah") -> true
+endsWith() | Checks if string ends with given substring | "Mahmud".endsWith("mud") -> true
+slice() | Cuts a part of the string | "Mahmud".slice(0, 3) -> "Mah"
+replace() | Replaces part of the string | "Mahmud".replace("mud", "mat") -> "Mahmat"
+trim() | Removes spaces at the ends | "  Mahmud  ".trim() -> "Mahmud"
