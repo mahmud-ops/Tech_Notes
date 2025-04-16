@@ -181,7 +181,7 @@ switch(variable) {
             console.log("It's Tuesday");
             break;
         case 5:
-            console.log("It's Wdnesday");
+            console.log("It's Wednesday");
             break;
         case 6:
             console.log("It's Thursday");
@@ -192,4 +192,43 @@ switch(variable) {
         default:
             console.log("Invalid day!");
     }
+```
+
+## String methods
+String methods are built-in tools in JavaScript that help you work with text (called strings).
+
+You can use them to:
+
+- Find something in a string
+- Change part of the string
+- Make it uppercase/lowercase
+- Cut or split the string
+- Add new text
+
+## 🧠 Examples:
+
+```js
+let name = "Mahmud";
+
+// Makes it uppercase
+console.log(name.toUpperCase()); // "MAHMUD"
+
+// Checks if it includes "mud"
+console.log(name.includes("mud")); // true
+
+// Gets part of the string
+console.log(name.slice(0, 3)); // "Mah"
+```
+
+## ⚡ Common String Methods:
+
+| Method            | What it does                     | Example/Output                      |
+|-------------------|----------------------------------|-------------------------------------|
+| `length`          | Counts characters                | `"Mahmud".length` -> `6`            |
+| `toUpperCase()`   | Makes all letters BIG            | `"Mahmud".toUpperCase()` -> `"MAHMUD"` |
+| `toLowerCase()`   | Makes all letters small          | `"Mahmud".toLowerCase()` -> `"mahmud"` |
+| `includes()`      | Checks if something is inside    | `"Mahmud".includes("mud")` -> `true` |
+| `slice()`         | Cuts a part of the string        | `"Mahmud".slice(0, 3)` -> `"Mah"`  |
+| `replace()`       | Replaces part of the string      | `"Mahmud".replace("mud", "mat")` -> `"Mahmat"` |
+| `trim()`          | Removes spaces at the ends       | `"  Mahmud  ".trim()` -> `"Mahmud"` |
 ```
