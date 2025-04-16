@@ -115,9 +115,9 @@ myButton.onclick = function() {
     <p id="text"></p>
     <script>
         let bkash = document.getElementById("Bkash");
-let nagad = document.getElementById("Nagad");
-let cod = document.getElementById("COD");
-let text = document.getElementById("text");
+        let nagad = document.getElementById("Nagad");
+        let cod = document.getElementById("COD");
+        let text = document.getElementById("text");
 
 document.getElementById("submit").onclick = function() {
         if (bkash.checked) {
@@ -134,5 +134,62 @@ document.getElementById("submit").onclick = function() {
 </body>
 </html>
 ```
+## Ternary operator
 
+*conditin ? if_true : if_false ;*
 
+```js
+let age = 12;
+let messege = age >= 18 ? "Adult" : "Minor";
+
+console.log(messege);
+```
+## switch statement
+switch is like a multiple choice question for your code.
+It checks the value of a variable, and runs the matching case.
+
+**Format**
+
+```js
+switch(variable) {
+  case value1:
+    // do something
+    break;
+  case value2:
+    // do something else
+    break;
+  default:
+    // if nothing matches
+}
+```
+**Example**
+
+```js
+    var day = 2;
+
+    switch(day){
+        case 1:
+            console.log("It's Saturday");
+            break;
+        case 2:
+            console.log("It's Sunday");
+            break;
+        case 3:
+            console.log("It's Monday");
+            break;
+        case 4:
+            console.log("It's Tuesday");
+            break;
+        case 5:
+            console.log("It's Wednesday");
+            break;
+        case 6:
+            console.log("It's Thursday");
+            break;
+        case 7:
+            console.log("It's Friday");
+            break;
+        default:
+            console.log("Invalid day!");
+    }
+```
