@@ -222,8 +222,6 @@ console.log(name.slice(0, 3)); // "Mah"
 
 **Common String Methods**
 
-### Common String Methods
-
 | Method          | What it does                                   | Example/Output                               |
 |-----------------|------------------------------------------------|----------------------------------------------|
 | `length`        | Counts characters                              | `"Mahmud".length` -> `6`                     |
@@ -235,3 +233,32 @@ console.log(name.slice(0, 3)); // "Mah"
 | `slice()`       | Cuts a part of the string                      | `"Mahmud".slice(0, 3)` -> `"Mah"`            |
 | `replace()`     | Replaces part of the string                    | `"Mahmud".replace("mud", "mat")` -> `"Mahmat"`|
 | `trim()`        | Removes spaces at the ends                     | `"  Mahmud  ".trim()` -> `"Mahmud"`          |
+| `padStart()`    | Adds padding at the beginning of the string    | `"Mahmud".padStart(10, "0")` -> `"000Mahmud"`|
+| `padEnd()`      | Adds padding at the ending of the string       | `"Mahmud".padEnd(10, "0")` -> `"Mahmud000"`  |
+
+## String slicing
+Slices a portion from a string
+
+**Format:**string_name.slice(startingIndex , endingIndex);
+
+```js
+let string = "A random string";
+
+console.log(string);
+console.log(string.slice(0,9));//sliced from index 0 t0 9
+console.log(string.slice(9));//sliced from index 9 t0 rest
+```
+
+**Seperating 1st and last name from full name**
+
+In this case we don't know the length of someone's name , so , we can't specify the index for slicing first name or last name
+```js
+let Name = "Abdullah Al Mahmud";
+let firstName = Name.slice(0 , Name.indexOf(" ")); //From index 0 to the 1st empty space.
+let lastName = Name.slice(Name.indexOf(" ") + 1); //`+ 1` : gotta start from after the 1st space , not from the 1st space.
+
+console.log(firstName); 
+console.log(lastName); 
+```
+##  METHOD CHAINING
+[Video bookmark](https://youtu.be/J4YhlDsNqeE?list=PLZPZq0r_RZOO1zkgO4bIdfuLpizCeHYKv)
