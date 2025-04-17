@@ -261,4 +261,32 @@ console.log(firstName);
 console.log(lastName); 
 ```
 ##  METHOD CHAINING
-[Video bookmark](https://youtu.be/J4YhlDsNqeE?list=PLZPZq0r_RZOO1zkgO4bIdfuLpizCeHYKv)
+[Video tutorial](https://youtu.be/J4YhlDsNqeE?list=PLZPZq0r_RZOO1zkgO4bIdfuLpizCeHYKv)
+
+Calling one method after another in one continuous line of code.
+
+**Task :** Get a user name with *window.prompt* then if there's any extra space , unorganised capitalisations , the code should fix it.
+
+`maHmuD ---> Mahmud`
+
+**Without method chaining**
+
+```js
+let username = window.prompt("Enter your username : ");
+
+username = username.trim();//removes extra spaces
+
+let firstLetter = username.charAt(0);//gets character at index 0 (1st character)
+firstLetter = firstLetter.toUpperCase();
+
+let otherLetters = username.slice(1);//gets other chars from index 1
+otherLetters = otherLetters.toLowerCase();
+console.log(firstLetter + otherLetters);
+```
+
+**With method chaining**
+```js
+let username = window.prompt("Enter your username : ");
+username = username.trim().charAt(0).toUpperCase() + username.slice(1).toLocaleLowerCase();
+console.log(username);
+```
