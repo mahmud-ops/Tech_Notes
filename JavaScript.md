@@ -304,29 +304,123 @@ No jokes, no auto type conversion — it's the "I said what I said" of compariso
 
 **Loose vs Strict:**
 ```js
-5 == "5"     // true ✅ (loose equality - just compares value)
-5 === "5"    // false ❌ (strict equality - type mismatch)
+5 == "5"     // true (loose equality - just compares value)
+5 === "5"    // false (strict equality - type mismatch)
 ```
 
-| Operator | Name            | Compares Value? | Compares Type? | Auto Converts? |
-|----------|------------------|----------------|----------------|----------------|
-| `==`     | Loose Equality   | ✅ Yes         | ❌ No          | ✅ Yes         |
-| `===`    | Strict Equality  | ✅ Yes         | ✅ Yes         | ❌ No          |
+| Operator | Name            | Compares Value?| Compares Type? | Auto Converts? |
+|----------|-----------------|----------------|----------------|----------------|
+| `==`     | Loose Equality  | Yes            | No             | Yes            |
+| `===`    | Strict Equality | Yes            | Yes            | No             |
 
 ---
 
-**🧪 Examples:**
+**Examples:**
 ```js
-console.log(7 === 7);        // true ✅ (same value and type)
-console.log("7" === 7);      // false ❌ (string vs number)
-console.log(true === 1);     // false ❌ (boolean vs number)
-console.log(null === null);  // true ✅
+console.log(7 === 7);        // true (same value and type)
+console.log("7" === 7);      // false (string vs number)
+console.log(true === 1);     // false (boolean vs number)
+console.log(null === null);  // true
 ```
+***Same for inequality `!== (Strict inequality)`***
+---
+## While loop
+*I already know this*
+repeat some code `WHILE` some condition is true
+
+**Example code**
+```js
+let loggedIn = false;
+let username;
+let password;
+
+while(!loggedIn){
+    username = window.prompt(`Enter your username`);
+    password = window.prompt(`Enter your password`);
+
+    if(username === "myUsername" && password === "myPassword"){
+        loggedIn = true;
+        console.log("You are logged in!");
+    }
+    else{
+        console.log("Invalid credentials! Please try again");
+    }
+}
+```
+## do while
+It runs the code **first**, then checks the condition. So the loop body *will always execute at least once*.
 
 ---
 
-**🔐 Use `===` when:**
-✅ You want accurate and safe comparisons  
-✅ You don’t want JS to do weird type magic behind your back  
-✅ You’re coding like a pro 😎  
+**Example code:**
+```js
+let loggedIn = false;
+let username;
+let password;
 
+do {
+    username = window.prompt(`Enter your username`);
+    password = window.prompt(`Enter your password`);
+
+    if(username === "myUsername" && password === "myPassword"){
+        loggedIn = true;
+        console.log("You are logged in!");
+    }
+    else {
+        console.log("Invalid credentials! Please try again");
+    }
+} while (!loggedIn);
+```
+**Why use `do...while` instead of `while`?**
+
+- `while`: **checks first**, runs only **if** condition is true.
+- `do...while`: **runs once**, then checks — perfect for login prompts, menus, etc.
+
+So if you wanna make sure something runs **at least once**, no matter what — `do...while` is your go-to.
+
+## for loop
+Repeat same code for a limited amount of time.
+
+---
+
+## Project 01 : Number guessing game
+This code 
+
+-🎯 Generates a random number between min (1) and max (100).
+
+-⌨️ Takes user input using window.prompt() to guess the number.
+
+-🔁 Runs a loop (while) until the user guesses the correct number.
+
+-🔼 Gives a hint if the guess is too high.
+
+-🔽 Gives a hint if the guess is too low.
+
+-✅ Shows a congratulatory message and the total number of attempts when guessed correctly.
+
+-🔢 Uses Math.floor() and Math.random() to generate a whole number within the specified range.
+
+-📈 Tracks how many tries the user took using the attempts variable.
+```js
+let min = 1;
+let max = 100;
+let UserInput = window.prompt(`Enter a number form ${min} to ${max} : `);
+let randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+let isRunning = true;
+let attempts = 0;
+
+while(isRunning){
+    if(UserInput > randomNumber){
+        UserInput = window.prompt(`The number is lower than ${UserInput},Enter another number`);
+        attempts++;
+    }
+    else if(UserInput < randomNumber){
+        UserInput = window.prompt(`The number is higher than ${UserInput},Enter another number`);
+        attempts++;
+    }
+    else{
+        window.alert(`Congratulations,You've guessed it right in ${attempts} attemps`);
+        isRunning = false;
+    }
+}
+```
