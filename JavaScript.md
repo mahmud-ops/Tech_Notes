@@ -260,7 +260,7 @@ let lastName = Name.slice(Name.indexOf(" ") + 1); //`+ 1` : gotta start from aft
 console.log(firstName); 
 console.log(lastName); 
 ```
-##  METHOD CHAINING
+##  Method chaining
 [Video tutorial](https://youtu.be/J4YhlDsNqeE?list=PLZPZq0r_RZOO1zkgO4bIdfuLpizCeHYKv)
 
 Calling one method after another in one continuous line of code.
@@ -290,3 +290,5 @@ let username = window.prompt("Enter your username : ");
 username = username.trim().charAt(0).toUpperCase() + username.slice(1).toLocaleLowerCase();
 console.log(username);
 ```
+## Strict equal (`===`) concept
+[video](https://youtu.be/O7aUm0AuUy4?list=PLZPZq0r_RZOO1zkgO4bIdfuLpizCeHYKv)
