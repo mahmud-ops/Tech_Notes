@@ -290,5 +290,44 @@ let username = window.prompt("Enter your username : ");
 username = username.trim().charAt(0).toUpperCase() + username.slice(1).toLocaleLowerCase();
 console.log(username);
 ```
-## Strict equal (`===`) concept
+## Strict equality (`===`) concept
 [video](https://youtu.be/O7aUm0AuUy4?list=PLZPZq0r_RZOO1zkgO4bIdfuLpizCeHYKv)
+
+In JavaScript, **strict equality** is written as `===`
+
+It **compares both**:
+
+- The **value**
+- AND the **type**
+
+No jokes, no auto type conversion — it's the "I said what I said" of comparisons.
+
+**Loose vs Strict:**
+```js
+5 == "5"     // true ✅ (loose equality - just compares value)
+5 === "5"    // false ❌ (strict equality - type mismatch)
+```
+
+| Operator | Name            | Compares Value? | Compares Type? | Auto Converts? |
+|----------|------------------|----------------|----------------|----------------|
+| `==`     | Loose Equality   | ✅ Yes         | ❌ No          | ✅ Yes         |
+| `===`    | Strict Equality  | ✅ Yes         | ✅ Yes         | ❌ No          |
+
+---
+
+**🧪 Examples:**
+```js
+console.log(7 === 7);        // true ✅ (same value and type)
+console.log("7" === 7);      // false ❌ (string vs number)
+console.log(true === 1);     // false ❌ (boolean vs number)
+console.log(null === null);  // true ✅
+```
+
+---
+
+**🔐 Use `===` when:**
+✅ You want accurate and safe comparisons  
+✅ You don’t want JS to do weird type magic behind your back  
+✅ You’re coding like a pro 😎  
+
+---
