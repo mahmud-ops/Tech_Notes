@@ -386,21 +386,14 @@ Repeat same code for a limited amount of time.
 ## Project 01 : Number guessing game
 This code 
 
--🎯 Generates a random number between min (1) and max (100).
-
--⌨️ Takes user input using window.prompt() to guess the number.
-
--🔁 Runs a loop (while) until the user guesses the correct number.
-
--🔼 Gives a hint if the guess is too high.
-
--🔽 Gives a hint if the guess is too low.
-
--✅ Shows a congratulatory message and the total number of attempts when guessed correctly.
-
--🔢 Uses Math.floor() and Math.random() to generate a whole number within the specified range.
-
--📈 Tracks how many tries the user took using the attempts variable.
+- 🎯 Generates a random number between min (1) and max (100).
+- ⌨️ Takes user input using window.prompt() to guess the number.
+- 🔁 Runs a loop (while) until the user guesses the correct number.
+- 🔼 Gives a hint if the guess is too high.
+- 🔽 Gives a hint if the guess is too low.
+- ✅ Shows a congratulatory message and the total number of attempts when guessed correctly.
+- 🔢 Uses Math.floor() and Math.random() to generate a whole number within the specified range.
+- 📈 Tracks how many tries the user took using the attempts variable.
 ```js
 let min = 1;
 let max = 100;
