@@ -464,3 +464,42 @@ let ans = add(2,3);
 console.log(ans);
 ```
 ![Return illustration](Images/JS/Return.png)
+<img src="Images/JS/Return.png" alt="Return" width="300"/>
+
+
+
+## Variable scope
+
+```javascript
+// Global scope
+let globalVar = "I am a global variable";
+
+function exampleFunction() {
+    // Local scope (Function scope)
+    let functionVar = "I am a function-scoped variable";
+    console.log(globalVar);  // Accessible, since globalVar is declared globally
+    console.log(functionVar); // Accessible within the function
+
+    if (true) {
+        // Block scope (let and const are block-scoped)
+        let blockVar = "I am a block-scoped variable";
+        console.log(blockVar);  // Accessible within the block
+    }
+    
+    // Uncommenting the following line will throw an error
+    // console.log(blockVar); // blockVar is not accessible here, outside the block
+}
+
+exampleFunction();
+
+console.log(globalVar); // Accessible
+// Uncommenting the following line will throw an error
+// console.log(functionVar); // functionVar is not accessible outside the function
+```
+---
+- **Global scope**: `globalVar` is accessible anywhere in the code, even inside functions.
+- **Function scope**: `functionVar` is only accessible inside the function `exampleFunction`.
+- **Block scope**: `blockVar` is scoped to the `if` block and can’t be accessed outside it.
+
+## Project 2 : Temperature converter
+
