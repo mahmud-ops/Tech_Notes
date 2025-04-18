@@ -412,8 +412,54 @@ while(isRunning){
         attempts++;
     }
     else{
-        window.alert(`Congratulations,You've guessed it right in ${attempts} attemps`);
+        window.alert(`Congratulations,You've guessed it right in ${attempts} attempts`);
         isRunning = false;
     }
 }
+```
+## Function
+A section of reusable code . Declare it once . use it whenever you want.
+
+*functon name(parameter){*
+
+*--code--*
+
+*}*
+
+*name(argument);*
+
+**Example code**
+```js
+function happyBirthday(username, age){ //Function definition 
+    console.log('Happy birthday to you!');
+    console.log('Happy birthday to you!');
+    console.log('Happy birthday dear ${username}!');
+    console.log('Happy birthday to you!');
+    console.log('You are ${age} years old');
+}
+
+happyBirthday('BroCode', 25);//Function call
+happyBirthday('Spongebob', 30);
+happyBirthday('Patrick', 37);
+```
+---
+**Return**
+Returns a value from the fucntion to a variable
+```js
+function add (x , y){
+    let sum = x + y;
+    return sum;
+}
+
+let ans = add(2,3);
+console.log(ans);
+```
+**OR**
+```js
+function add(x , y){
+    return x + y;
+}
+
+let ans = add(2,3);
+console.log(ans);
 ```
