@@ -589,8 +589,107 @@ let fruits = ["apple", "banana", "orange", "grape", "mango", "pineapple", "kiwi"
 | `fruits.some(f => f.startsWith("z"))`| `false`                                       | Checks if **any** item satisfies condition             |
 | `fruits.reduce((acc, f) => acc + ", " + f)` | `"apple, banana, ..."`                     | Combines all elements into a single string             |
 | `fruits.forEach((f, i) => ...)`      | Logs each item and index                      | Runs a function on each item (no return)               |
-| `fruits.join(" | ")`                 | `"apple | banana | ..."`                      | Joins elements into a single string with separator     |
+| `fruits.join("-")`                 | `"apple-banana-..."`                      | Joins elements into a single string with separator     |
 | `fruits.flatMap(f => [f, f.length])` | `["apple", 5, "banana", 6, ...]`              | Maps and flattens the array one level deep             |
 | `let [a,b,...rest]=fruits`           | `a="apple", b="banana"`                       | Destructures array into variables                      |
 
 ---
+## Foreach loop (Iterates through an array)
+
+```js
+let fruits = ["apple", "orange", "banana", "coconut"];
+
+for (let fruit of fruits) {
+    console.log(fruit);
+}
+```
+---
+
+## 2D array
+
+```js
+let matrix = [
+            [1,2,3],
+            [4,5,6],
+            [7,8,9]
+            ];
+
+for(let row of matrix){
+    console.log(row);
+}
+// Output
+// (3) [1, 2, 3]
+// (3) [4, 5, 6]
+// (3) [7, 8, 9]
+```
+```js
+let matrix = [
+            [1,2,3],
+            [4,5,6],
+            [7,8,9]
+            ];
+
+for(let row of matrix){
+    let rowstring = row.join(' ');//Joining the elements with a space and then printing them as a string
+    console.log(rowstring);
+}
+// Output
+// 1 2 3
+// 4 5 6
+// 7 8 9
+```
+*Will be explained further while doing projects.*
+---
+## Spread operator (...)
+... allows an iterable such as an array or string to be expanded in to separate elements (unpacks the elements)
+
+suppose we have to find the max number in an array:
+```js
+let numbers = [2,4,5,6,7,4,7,10];
+let max = Math.max(numbers);
+
+console.log(max); 
+
+//Output : NaN
+```
+Why didn’t it show the max number?
+Because `Math.max()` works with individual numbers, not an entire array or string.
+
+So, we need to unpack the array into separate elements using the `spread operator (...)`.
+```js
+let numbers = [2,4,5,6,7,4,7,10];
+let max = Math.max(...numbers);//used '... (spread operator)'
+
+console.log(max); 
+
+//Output : 10
+```
+---
+
+Let's unpack multiple arrays and put the elements in one single array
+```js
+let fruits = ["apple" , "banana" , "mango" , "pear"];
+let vegetables = ["brochli" , "tomato" , "carrot"];
+
+let foods = [fruits , vegetables];
+console.log(foods);
+
+//Output : (2) [Array(4) , Array(3)]❌
+```
+We need to unpack them first:
+
+```js
+let fruits = ["apple" , "banana" , "mango" , "pear"];
+let vegetables = ["brochli" , "tomato" , "carrot"];
+
+let foods = [...fruits , ...vegetables];
+console.log(foods);
+
+//Output : (7) ['apple', 'banana', 'mango', 'pear', 'brochli', 'tomato', 'carrot']✅
+```
+Now, Let's unpack a string and then join the characters with '-'
+```js
+let name = "Mahmud";
+console.log([...name].join("-")); 
+//Output : M-a-h-m-u-d
+```
