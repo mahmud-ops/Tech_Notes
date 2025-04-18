@@ -444,6 +444,7 @@ happyBirthday('Patrick', 37);
 ```
 ---
 **Return**
+
 Returns a value from the function to a variable
 ```js
 function add (x , y){
@@ -502,3 +503,94 @@ console.log(globalVar); // Accessible
 
 ## Project 2 : Temperature converter
 
+**HTML**
+```html
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My website</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <form>
+        <h1>Temperature conversion:</h1>
+        <input type="number" id="textBox" value="0"><br>
+
+        <input type="radio" id="toFahrenheit" name="unit">
+        <label for="toFahrenheit">Celsius ➡ Fahrenheit</label><br>
+
+        <input type="radio" id="toCelsius" name="unit">
+        <label for="toCelsius">Fahrenheit ➡ Celsius</label><br>
+
+        <button type="button" onclick="convert()">submit</button>
+        <p id="result"></p>
+    </form>
+    
+    <script src="index.js"></script>
+</body>
+</html>
+```
+**JavaScript**
+
+```JS
+const textBox = document.getElementById("textBox");
+const toFahrenheit = document.getElementById("toFahrenheit");
+const toCelsius = document.getElementById("toCelsius");
+const result = document.getElementById("result");
+let temp;
+
+function convert(){
+
+    if(toFahrenheit.checked){
+        temp = Number(textBox.value);
+        temp = temp * 9 / 5 + 32;
+        result.textContent = temp.toFixed(1) + "°F";
+    }
+    else if(toCelsius.checked){
+        temp = Number(textBox.value);
+        temp = (temp - 32) * (5/9);
+        result.textContent = temp.toFixed(1) + "°C";
+    }
+    else{
+        result.textContent = "Select a unit"; 
+    }
+}
+```
+---
+## Array
+A variable like structure that holds more than 1 value.
+```js
+let fruits = ["apple", "banana", "orange", "grape", "mango", "pineapple", "kiwi", "strawberry", "peach", "watermelon"];
+```
+
+| Function                             | Console Output Example                        | What does it do?                                        |
+|--------------------------------------|-----------------------------------------------|---------------------------------------------------------|
+| `console.log(fruits.length)`         | `10`                                          | Returns the total number of items in the array         |
+| `console.log(fruits[0])`             | `"apple"`                                     | Accesses the first element                             |
+| `console.log(fruits.at(-1))`         | `"watermelon"`                                | Accesses the last element                              |
+| `fruits.push("papaya")`              | `11`                                          | Adds "papaya" to the end, returns new length           |
+| `fruits.pop()`                       | `"papaya"`                                    | Removes the last item and returns it                   |
+| `fruits.unshift("lemon")`            | `11`                                          | Adds "lemon" to the start, returns new length          |
+| `fruits.shift()`                     | `"lemon"`                                     | Removes the first element and returns it               |
+| `console.log(fruits.includes("mango"))` | `true`                                      | Checks if "mango" exists in the array                  |
+| `console.log(fruits.indexOf("grape"))` | `3`                                         | Returns the index of "grape"                           |
+| `fruits.reverse()`                   | `[...]` (reversed list)                       | Reverses the array in-place                            |
+| `fruits.sort()`                      | `[...]` (sorted list)                         | Sorts the array alphabetically                         |
+| `fruits.splice(2, 1)`                | `["grape"]`                                   | Removes 1 item at index 2                              |
+| `fruits.splice(2, 0, "lychee")`      | `[]`                                          | Inserts "lychee" at index 2                            |
+| `console.log(fruits.slice(1, 4))`    | `["banana", "lychee", "mango"]`               | Returns a shallow copy from index 1 to 3               |
+| `fruits.map(f => f.toUpperCase())`   | `["APPLE", "BANANA", ...]`                    | Creates a new array by transforming each item          |
+| `fruits.filter(f => f.length > 6)`   | `["pineapple", "strawberry", "watermelon"]`   | Returns items where condition is true                  |
+| `fruits.find(f => f.startsWith("p"))`| `"pineapple"`                                 | Returns the first match                               |
+| `fruits.every(f => f.length > 3)`    | `true`                                        | Checks if **all** items satisfy condition              |
+| `fruits.some(f => f.startsWith("z"))`| `false`                                       | Checks if **any** item satisfies condition             |
+| `fruits.reduce((acc, f) => acc + ", " + f)` | `"apple, banana, ..."`                     | Combines all elements into a single string             |
+| `fruits.forEach((f, i) => ...)`      | Logs each item and index                      | Runs a function on each item (no return)               |
+| `fruits.join(" | ")`                 | `"apple | banana | ..."`                      | Joins elements into a single string with separator     |
+| `fruits.flatMap(f => [f, f.length])` | `["apple", 5, "banana", 6, ...]`              | Maps and flattens the array one level deep             |
+| `let [a,b,...rest]=fruits`           | `a="apple", b="banana"`                       | Destructures array into variables                      |
+
+---
