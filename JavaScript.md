@@ -463,8 +463,7 @@ function add(x , y){
 let ans = add(2,3);
 console.log(ans);
 ```
-![Return illustration](Images/JS/Return.png)
-<img src="Images/JS/Return.png" alt="Return" width="300"/>
+<img src="Images/JS/Return.png" alt="Return" width="600"/>
 
 
 
