@@ -444,7 +444,7 @@ happyBirthday('Patrick', 37);
 ```
 ---
 **Return**
-Returns a value from the fucntion to a variable
+Returns a value from the function to a variable
 ```js
 function add (x , y){
     let sum = x + y;
@@ -463,3 +463,4 @@ function add(x , y){
 let ans = add(2,3);
 console.log(ans);
 ```
+![alt text](Return.png)
