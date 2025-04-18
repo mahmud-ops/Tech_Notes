@@ -463,4 +463,4 @@ function add(x , y){
 let ans = add(2,3);
 console.log(ans);
 ```
-![alt text](Images\JS\Return.png)
+![Return illustration](Images/JS/Return.png)
