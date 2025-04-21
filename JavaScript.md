@@ -638,7 +638,8 @@ for(let row of matrix){
 // 4 5 6
 // 7 8 9
 ```
-*Will be explained further while doing projects.*
+---
+**Will be explained further while doing projects.**
 ---
 ## Spread operator (...)
 ... allows an iterable such as an array or string to be expanded in to separate elements (unpacks the elements)
@@ -693,3 +694,12 @@ let name = "Mahmud";
 console.log([...name].join("-")); 
 //Output : M-a-h-m-u-d
 ```
+## Rest parameters:   
+Works inside a function
+
+Allow a function work with a variable , number of arguments bundled into an array
+
+spread = expands an array into seperate elements 
+
+rest =  bundles elementd into an array
+
