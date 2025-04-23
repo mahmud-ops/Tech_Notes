@@ -1052,4 +1052,117 @@ bool winner(char player , char computer , char *spaces){
         return true;
     }
 ```
-## Dinamic memory :
+## Dynamic memory 
+Alright, imagine this:
+
+You're a toddler playing with blocks. You have two toy boxes:
+
+- 🧺 **Stack Box**: It’s small and already has spots for blocks when you start playing. It’s fast, but not very flexible.
+- 🧳 **Heap Box**: It's bigger and more flexible. You can ask your parents (the computer) for more blocks anytime *while* you’re playing.
+
+Now, **dynamic memory** is like saying:
+
+> “Hey Mom! I don’t know how many blocks I’ll need yet... Can you give me more *when I ask*?”
+
+That’s what the **`new`** keyword does in C++ — it asks the computer for space *while* the program is running, not before.
+
+So if you don't know how many toys (data) you're gonna play with until later, you use dynamic memory to be chill and ready for anything.
+
+👶💬 “Gimme moar blockz!”  
+💻✨ “Here you go! From the heap!”
+
+Wanna see that in toddler-code?
+
+```cpp
+int* blocks = new int[5]; // "I need 5 blocks!" at playtime
+```
+
+Boom. Dynamic. Just like your energy at bedtime 😅
+
+Memory that is allocated after the program
+is already compiled & running.
+Use the `new` operator to allocate
+memory in the heap rather than the stack
+
+
+Useful when we don't know how much memory
+we will need. Makes our programs more flexible,
+especially when accepting user input.
+
+```cpp
+#include<iostream>    
+#include<iomanip>     
+#include<ctime>       
+#include<cstdlib>   
+
+using namespace std;
+
+int main(){
+    int size;
+
+    // Ask user for the number of grades to input
+    cin >> size;
+
+    // Dynamically allocate memory to store 'size' number of grades
+    char *pGrades = new char[size];
+
+    // Take input for each grade
+    for(int i = 0 ; i < size ; i ++){
+        cout << "Enter grade no. " << i + 1 << " : ";
+        cin >> pGrades[i];
+    }
+
+    // Print all the entered grades
+    for(int i = 0 ; i < size ; i++){
+        cout << pGrades[i] << " ";
+    }
+    cout << endl;
+
+    // Free the dynamically allocated memory to avoid memory leaks
+    delete[] pGrades;
+
+    return 0;
+}
+```
+**🧨 What is a Memory Leak?**
+A **memory leak** happens when your program grabs memory (using `new`) but **forgets to return it** (using `delete`). That memory stays reserved forever (until the program ends), but it’s not usable anymore.
+
+Basically:
+
+> You rented a room. You left.  
+> But you **never returned the key**, so no one else can use it.  
+> That room = wasted memory. 🙃
+
+---
+
+**🔍 Example in Code:**
+
+```cpp
+void leakExample() {
+    int* p = new int[100];  // You booked 100 rooms 🏨
+    // forgot to delete[] p;
+    // boom 💥 memory leak
+}
+```
+
+Every time that function runs, your system loses a chunk of RAM it can’t use anymore. Stack that up and your PC starts lagging harder than a 2008 laptop running GTA V 😬.
+
+---
+
+**📉 Why It's Bad:**
+- Wastes memory (obviously).
+- Slows down performance.
+- Over time, can crash the program or even the system if it's really bad.
+- In long-running programs (like games, servers, or robots), it’s a big no-no 🚫.
+
+---
+
+**✅ How to Avoid It:**
+- **Always `delete` what you `new`.**
+- Even better: use **smart pointers** like `std::unique_ptr` or `std::shared_ptr` in C++. They clean up for you like a good roommate.
+
+---
+
+**TL;DR:**
+A **memory leak** is like leaving food in the fridge and forgetting about it. You don’t eat it, no one else eats it, it just rots there… forever. 🧀🧂
+
