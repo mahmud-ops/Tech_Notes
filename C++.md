@@ -549,4 +549,87 @@ Always check if the pointer is `null` before you try to use it:
 if (pointer != NULL) {
     
 }
+```
+
+**Checking if the address was assigned in a pointer** 
+```cpp
+#include<iostream>
+#include<iomanip>
+
+using namespace std;
+int main(){
+    int *pointer = nullptr;
+    int x = 128;
+
+    if(pointer == nullptr){
+        cout << "Address was not assigned.\n";
+    }
+    else{
+        cout << "Address was assigned.\n";
+    }
+    return 0;
+}
+
+//output : Address was not assigned.
+```
+```cpp
+#include<iostream>
+#include<iomanip>
+
+using namespace std;
+int main(){
+    int *pointer = nullptr;
+    int x = 128;
+
+    pointer = &x;//Assigned address
+
+    if(pointer == nullptr){
+        cout << "Address was not assigned.\n";
+    }
+    else{
+        cout << "Address was assigned.\n";
+    }
+    return 0;
+}
+
+//output : Address was assigned.
+```
+*It's not safe to dereference a null pointer*
+
+## Project 1 : Tic Tac Toe
+
+**Step 1 : Draw the board**
+
+```cpp
+#include<iostream>
+#include<iomanip>
+
+using namespace std;
+void drawBoard(char *spaces);
+
+int main(){
+    char spaces[9] = {' ',' ',' ',' ',' ',' ',' ',' ',' '};//9 empty spaces (Grids)'
+    bool running = true; // Keeping the game running.
+
+    drawBoard(spaces);
+    return 0;
+}
+
+void drawBoard(char *spaces){
+    cout << "     |     |     " << endl; //5 spaces in each grid
+    cout << " "<<spaces[0]<<"   |  "<<spaces[1]<<"  |  "<<spaces[2]<<"   " << endl;
+    cout << "_____|_____|_____" << endl;
+    cout << "     |     |     " << endl;
+    cout << " "<<spaces[3]<<"   |  "<<spaces[4]<<"  |  "<<spaces[5]<<"   " << endl;
+    cout << "_____|_____|_____" << endl;
+    cout << "     |     |     " << endl;
+    cout << " "<<spaces[6]<<"   |  "<<spaces[7]<<"  |  "<<spaces[8]<<"   " << endl;
+    cout << "     |     |     " << endl;
+}
+```
+If I put any value at a specific adress in the `spaces` array the value will show up in the grid.
+
+`void drawBoard(char *spaces);` draws the grindlines , gets value at the address of `spaces` and has the ability to change it if we want.
+
+**Step 2: Enter player's move**
 
