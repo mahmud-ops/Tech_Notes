@@ -633,3 +633,421 @@ If I put any value at a specific adress in the `spaces` array the value will sho
 
 **Step 2: Enter player's move**
 
+1. Player will place `X` as an array element in `spaces` array at an specific index.
+2. **Edge case :** Is the cell occupied ??
+
+```cpp
+#include<iostream>
+#include<iomanip>
+
+using namespace std;
+
+void drawBoard(char *spaces);
+void playerMove(char player , char *spaces);
+
+int main(){
+    char spaces[9] = {' ',' ',' ',' ',' ',' ',' ',' ',' '};//9 empty spaces (Grids)
+    bool running = true;
+    char player = 'X';
+
+    drawBoard(spaces);
+    
+    while(running){
+        playerMove(player , spaces);
+    }
+    
+    return 0;
+}
+
+void drawBoard(char *spaces){
+    cout << "     |     |     " << endl;
+    cout << " "<<spaces[0]<<"   |  "<<spaces[1]<<"  |  "<<spaces[2]<<"   " << endl;
+    cout << "_____|_____|_____" << endl;
+    cout << "     |     |     " << endl;
+    cout << " "<<spaces[3]<<"   |  "<<spaces[4]<<"  |  "<<spaces[5]<<"   " << endl;
+    cout << "_____|_____|_____" << endl;
+    cout << "     |     |     " << endl;
+    cout << " "<<spaces[6]<<"   |  "<<spaces[7]<<"  |  "<<spaces[8]<<"   " << endl;
+    cout << "     |     |     " << endl;
+}
+void playerMove(char player , char *spaces){
+    int number;
+    cout << "Enter a number from 1 to 9 to place a marker.\n";
+    cin >> number;
+
+    if(number >= 1 && number <= 9){
+        if(spaces[number - 1] == ' '){
+            spaces[number - 1] = player;
+            drawBoard(spaces);
+        }
+        else{
+            cout << "~~~~~~~~~~~~~~~~~~~~~~\n";
+            cout << "That cell is occupied.\n";
+            cout << "~~~~~~~~~~~~~~~~~~~~~~\n";
+        }
+    }
+    else{
+        cout << "From 1 to 9.\n";
+    }
+}
+```
+**Step 3 : Computer's move**
+
+- Computer will place at a random position. `(from 0 to 8)`
+```cpp
+#include <iostream>
+#include <cstdlib>  // For rand() and srand()
+#include <ctime>    // For time()
+
+int main() {
+    // Seed the random number generator
+    srand(time(0));
+
+    // Generate a random number between 0 and 8
+    int random_number = rand() % 9;  // 9 is exclusive, so it generates numbers from 0 to 8
+
+    std::cout << "Random number between 0 and 8: " << random_number << std::endl;
+
+    return 0;
+}
+```
+**Code**
+
+Did some debugging.
+
+```cpp
+#include<iomanip>
+#include <iostream>
+#include <cstdlib>  // For rand() and srand()
+#include <ctime>    // For time()
+
+using namespace std;
+
+void drawBoard(char *spaces);
+void playerMove(char player , char *spaces);
+void computerMove(char computer , char *spaces);
+
+int main(){
+    char spaces[9] = {' ',' ',' ',' ',' ',' ',' ',' ',' '};//9 empty spaces (Grids)
+    bool running = true;
+    char player = 'X';
+    char computer = 'O';
+    
+    while(running){
+        computerMove(computer , spaces);
+        drawBoard(spaces);
+        playerMove(player , spaces);    
+    }
+
+    
+    return 0;
+}
+
+void drawBoard(char *spaces){
+    cout << "     |     |     " << endl;
+    cout << " "<<spaces[0]<<"   |  "<<spaces[1]<<"  |  "<<spaces[2]<<"   " << endl;
+    cout << "_____|_____|_____" << endl;
+    cout << "     |     |     " << endl;
+    cout << " "<<spaces[3]<<"   |  "<<spaces[4]<<"  |  "<<spaces[5]<<"   " << endl;
+    cout << "_____|_____|_____" << endl;
+    cout << "     |     |     " << endl;
+    cout << " "<<spaces[6]<<"   |  "<<spaces[7]<<"  |  "<<spaces[8]<<"   " << endl;
+    cout << "     |     |     " << endl;
+}
+void playerMove(char player , char *spaces){
+    int number;
+    cout << "Enter a number from 1 to 9 to place a marker.\n";
+    cin >> number;
+    
+    while(true){
+        if(number >= 1 && number <= 9){
+            if(spaces[number - 1] == ' '){
+                spaces[number - 1] = player;
+                break;
+            }
+            else{
+                cout << "~~~~~~~~~~~~~~~~~~~~~~\n";
+                cout << "That cell is occupied . Enter another number.\n";
+                cout << "~~~~~~~~~~~~~~~~~~~~~~\n";
+                cin >> number;
+            }
+        }
+        else{
+            cout << "From 1 to 9.\n";
+        }
+    }
+    
+}
+void computerMove(char computer , char *spaces){
+    
+    srand(time(0));
+    
+    while(true){
+        int positon = rand() % 9; //Generates a random number from 0 to 8
+        if(spaces[positon] == ' '){
+            spaces[positon] = computer;
+            break;
+        }
+    }
+}
+```
+
+**Step 4 : Winner determiner**
+
+Stop the program if someone wins
+
+```cpp
+#include<iomanip>
+#include <iostream>
+#include <cstdlib>  // For rand() and srand()
+#include <ctime>    // For time()
+
+using namespace std;
+
+void drawBoard(char *spaces);
+void playerMove(char player , char *spaces);
+void computerMove(char computer , char *spaces);
+bool winner(char player , char computer , char *spaces);
+
+int main(){
+    char spaces[9] = {' ',' ',' ',' ',' ',' ',' ',' ',' '};//9 empty spaces (Grids)
+    bool running = true;
+    char player = 'X';
+    char computer = 'O';
+    
+    while(running){
+        computerMove(computer , spaces);
+        if(winner(player , computer , spaces)){
+            running = false;
+        }
+
+        drawBoard(spaces);
+
+        
+        playerMove(player , spaces);    
+        if(winner(player , computer , spaces)){
+            running = false;        }
+    }
+        
+    
+        return 0;
+    }
+
+void drawBoard(char *spaces){
+    cout << '\n';
+    cout << "     |     |     " << endl;
+    cout << " "<<spaces[0]<<"   |  "<<spaces[1]<<"  |  "<<spaces[2]<<"   " << endl;
+    cout << "_____|_____|_____" << endl;
+    cout << "     |     |     " << endl;
+    cout << " "<<spaces[3]<<"   |  "<<spaces[4]<<"  |  "<<spaces[5]<<"   " << endl;
+    cout << "_____|_____|_____" << endl;
+    cout << "     |     |     " << endl;
+    cout << " "<<spaces[6]<<"   |  "<<spaces[7]<<"  |  "<<spaces[8]<<"   " << endl;
+    cout << "     |     |     " << endl;
+    cout << '\n';
+}
+void playerMove(char player , char *spaces){
+    int number;
+    cout << "Enter a number from 1 to 9 to place a marker.\n";
+    cin >> number;
+    
+    while(true){
+        if(number >= 1 && number <= 9){
+            if(spaces[number - 1] == ' '){
+                spaces[number - 1] = player;
+                break;
+            }
+            else{
+                cout << "~~~~~~~~~~~~~~~~~~~~~~\n";
+                cout << "That cell is occupied . Enter another number.\n";
+                cout << "~~~~~~~~~~~~~~~~~~~~~~\n";
+                cin >> number;
+            }
+        }
+        else{
+            cout << "From 1 to 9.\n";
+        }
+    }
+    
+}
+void computerMove(char computer , char *spaces){
+    
+    srand(time(0));
+    
+    while(true){
+        int positon = rand() % 9; //Generates a random number from 0 to 8
+        if(spaces[positon] == ' '){
+            spaces[positon] = computer;
+            break;
+            }
+        }
+    }
+bool winner(char player , char computer , char *spaces){
+    if(spaces[0] != ' ' && spaces[0] == spaces[1] && spaces[1] == spaces[2]){
+        spaces[0] == player ? cout << "You win.\n" : cout << "You lose.\n";
+    }
+    else if(spaces[3] != ' ' && spaces[3] == spaces[4] && spaces[4] == spaces[5]){
+        spaces[3] == player ? cout << "You win.\n" : cout << "You lose.\n";
+    }
+    else if(spaces[6] != ' ' && spaces[6] == spaces[7] && spaces[7] == spaces[8]){
+        spaces[6] == player ? cout << "You win.\n" : cout << "You lose.\n";
+    }
+    else if(spaces[0] != ' ' && spaces[0] == spaces[3] && spaces[3] == spaces[6]){
+        spaces[0] == player ? cout << "You win.\n" : cout << "You lose.\n";
+    }
+    else if(spaces[1] != ' ' && spaces[1] == spaces[4] && spaces[4] == spaces[7]){
+        spaces[1] == player ? cout << "You win.\n" : cout << "You lose.\n";
+    }
+    else if(spaces[2] != ' ' && spaces[2] == spaces[5] && spaces[5] == spaces[8]){
+        spaces[2] == player ? cout << "You win.\n" : cout << "You lose.\n";
+    }
+    else if(spaces[0] != ' ' && spaces[0] == spaces[4] && spaces[4] == spaces[8]){
+        spaces[0] == player ? cout << "You win.\n" : cout << "You lose.\n";
+    }
+    else if(spaces[2] != ' ' && spaces[2] == spaces[4] && spaces[4] == spaces[6]){
+        spaces[2] == player ? cout << "You win.\n" : cout << "You lose.\n";
+    }
+    else{
+        return false;// No one won yet
+    }
+
+    return true; // Someone won.
+}
+```
+**Step 5 : Check if it's a tie**
+
+```cpp
+#include<iomanip>
+#include <iostream>
+#include <cstdlib>  // For rand() and srand()
+#include <ctime>    // For time()
+
+using namespace std;
+
+void drawBoard(char *spaces);
+void playerMove(char player , char *spaces);
+void computerMove(char computer , char *spaces);
+bool winner(char player , char computer , char *spaces);
+bool tie(char *spaces);
+
+int main(){
+    char spaces[9] = {' ',' ',' ',' ',' ',' ',' ',' ',' '};//9 empty spaces (Grids)
+    bool running = true;
+    char player = 'X';
+    char computer = 'O';
+    
+    while(running){
+        computerMove(computer , spaces);
+        if(winner(player , computer , spaces)){
+            running = false;
+            break;
+        }
+        
+        drawBoard(spaces);
+        
+        
+        playerMove(player , spaces);    
+        if(winner(player , computer , spaces)){
+            running = false;
+            break;
+        }
+        else if(tie(spaces)){
+            running = false;
+            break;
+        }
+    }
+    
+    
+        return 0;
+    }
+    
+    void drawBoard(char *spaces){
+    cout << '\n';
+    cout << "     |     |     " << endl;
+    cout << " "<<spaces[0]<<"   |  "<<spaces[1]<<"  |  "<<spaces[2]<<"   " << endl;
+    cout << "_____|_____|_____" << endl;
+    cout << "     |     |     " << endl;
+    cout << " "<<spaces[3]<<"   |  "<<spaces[4]<<"  |  "<<spaces[5]<<"   " << endl;
+    cout << "_____|_____|_____" << endl;
+    cout << "     |     |     " << endl;
+    cout << " "<<spaces[6]<<"   |  "<<spaces[7]<<"  |  "<<spaces[8]<<"   " << endl;
+    cout << "     |     |     " << endl;
+    cout << '\n';
+}
+void playerMove(char player , char *spaces){
+    int number;
+    cout << "Enter a number from 1 to 9 to place a marker.\n";
+    cin >> number;
+    
+    while(true){
+        if(number >= 1 && number <= 9){
+            if(spaces[number - 1] == ' '){
+                spaces[number - 1] = player;
+                break;
+            }
+            else{
+                cout << "~~~~~~~~~~~~~~~~~~~~~~\n";
+                cout << "That cell is occupied . Enter another number.\n";
+                cout << "~~~~~~~~~~~~~~~~~~~~~~\n";
+                cin >> number;
+            }
+        }
+        else{
+            cout << "From 1 to 9.\n";
+        }
+    }
+    
+}
+void computerMove(char computer , char *spaces){
+    
+    srand(time(0));
+    
+    while(true){
+        int positon = rand() % 9; //Generates a random number from 0 to 8
+        if(spaces[positon] == ' '){
+            spaces[positon] = computer;
+            break;
+        }
+    }
+    }
+bool winner(char player , char computer , char *spaces){
+    if(spaces[0] != ' ' && spaces[0] == spaces[1] && spaces[1] == spaces[2]){
+        spaces[0] == player ? cout << "You win.\n" : cout << "You lose.\n";
+    }
+    else if(spaces[3] != ' ' && spaces[3] == spaces[4] && spaces[4] == spaces[5]){
+        spaces[3] == player ? cout << "You win.\n" : cout << "You lose.\n";
+    }
+    else if(spaces[6] != ' ' && spaces[6] == spaces[7] && spaces[7] == spaces[8]){
+        spaces[6] == player ? cout << "You win.\n" : cout << "You lose.\n";
+    }
+    else if(spaces[0] != ' ' && spaces[0] == spaces[3] && spaces[3] == spaces[6]){
+        spaces[0] == player ? cout << "You win.\n" : cout << "You lose.\n";
+    }
+    else if(spaces[1] != ' ' && spaces[1] == spaces[4] && spaces[4] == spaces[7]){
+        spaces[1] == player ? cout << "You win.\n" : cout << "You lose.\n";
+    }
+    else if(spaces[2] != ' ' && spaces[2] == spaces[5] && spaces[5] == spaces[8]){
+        spaces[2] == player ? cout << "You win.\n" : cout << "You lose.\n";
+    }
+    else if(spaces[0] != ' ' && spaces[0] == spaces[4] && spaces[4] == spaces[8]){
+        spaces[0] == player ? cout << "You win.\n" : cout << "You lose.\n";
+    }
+    else if(spaces[2] != ' ' && spaces[2] == spaces[4] && spaces[4] == spaces[6]){
+        spaces[2] == player ? cout << "You win.\n" : cout << "You lose.\n";
+    }
+    else{
+        return false;
+    }
+
+    return true;
+}
+    bool tie(char *spaces){
+        for(int i = 0 ; i < 9 ; i++){
+            if(spaces[i] == ' '){
+                return false;
+            }
+        }
+        cout << "It's a tie.\n";
+        return true;
+    }
+```
