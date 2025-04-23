@@ -1125,6 +1125,7 @@ int main(){
 }
 ```
 **🧨 What is a Memory Leak?**
+
 A **memory leak** happens when your program grabs memory (using `new`) but **forgets to return it** (using `delete`). That memory stays reserved forever (until the program ends), but it’s not usable anymore.
 
 Basically:
@@ -1164,5 +1165,6 @@ Every time that function runs, your system loses a chunk of RAM it can’t use a
 ---
 
 **TL;DR:**
+
 A **memory leak** is like leaving food in the fridge and forgetting about it. You don’t eat it, no one else eats it, it just rots there… forever. 🧀🧂
 
