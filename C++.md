@@ -597,6 +597,7 @@ int main(){
 *It's not safe to dereference a null pointer*
 
 ## Project 1 : Tic Tac Toe
+[tutorial](https://youtu.be/-TkoO8Z07hI?t=16037)
 
 **Step 1 : Draw the board**
 
@@ -1051,3 +1052,4 @@ bool winner(char player , char computer , char *spaces){
         return true;
     }
 ```
+## Dinamic memory :
