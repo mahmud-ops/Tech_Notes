@@ -702,4 +702,88 @@ Allow a function work with a variable , number of arguments bundled into an arra
 spread = expands an array into seperate elements 
 
 rest =  bundles elementd into an array
+---
+```js
+function openFridge(...food){
+    return food;   
+}
 
+let food_1 = "Pizza";
+let food_2 = "Hamburger";
+let food_3 = "Sushi";
+let food_4 = "Rice";
+let food_5 = "Fish";
+let food_6 = "Meat";
+let food_7 = "Beef";
+
+let foods = openFridge(food_1 , food_2 , food_3 , food_4 , food_5 , food_6 , food_7);
+//All the elements passed as parameters
+
+console.log(foods);
+```
+**Output**
+```js
+(7) ['Pizza', 'Hamburger', 'Sushi', 'Rice', 'Fish', 'Meat', 'Beef']
+```
+
+> We can use an array for multiple parameters , while calling the function.😜
+
+```js
+function function_name(...single_parameter){
+    return single_parameter;
+}
+
+let element_1 = "Element-1"
+let element_2 = "Element-2"
+let element_3 = "Element-3"
+.
+.
+.
+.
+let array = function_name(element_1 , element_2); // The array has 2 elements.
+console.log(array); //---> (2) ['Element-1', 'Element-2']
+
+```
+**Application**
+
+**Sum**
+```js
+function sum(...numbers){
+    let result = 0;
+    for(let number of numbers){
+        result += number;
+    }
+    return result;
+}
+
+let addition = sum(1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 10);
+console.log(`Your total is $${addition}`);
+
+//Output : Your total is $46
+```
+**Average**
+```js
+function average(...numbers){
+    let result = 0;
+    for(let number of numbers){
+        result += number;
+    }
+    return (result/numbers.length).toFixed(2);
+}
+
+let avg = average(1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 10);
+console.log(`Your average is $${avg}`);
+
+//Output : Your average is $5.11
+```
+**Combining strings**
+```js
+function getFullName(...name){
+    return name.join(" ");
+}
+
+let fullName = getFullName("Abdullah" , "Al" , "Mahmud");
+console.log(fullName);
+
+//Output : Abdullah Al Mahmud
+```
