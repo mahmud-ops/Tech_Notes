@@ -1181,3 +1181,174 @@ A **memory leak** is like leaving food in the fridge and forgetting about it. Yo
 **Disadvantages:**
 - uses more memory
 - slower
+
+**Iterative aproach**
+```cpp
+#include<iostream>
+using namespace std;
+void walk(int steps);
+
+int main(){
+
+    walk(10);
+
+    return 0;
+}
+
+//function def
+void walk(int steps){
+    for(int i = 0 ; i < steps ; i ++){
+        cout <<  "You took a step\n";
+    }
+}
+```
+
+**Recursive aproach**
+```cpp
+#include<iostream>
+using namespace std;
+void walk(int steps);
+
+int main(){
+
+    walk(10);
+    return 0;
+}
+
+//function def
+void walk(int steps){
+    if(steps > 0){// Edge case
+        cout << "You took a step.\n";
+        walk(steps - 1); // Calling the function within itself;
+    }
+}
+```
+> Didn't get this line : **Why `steps - 1`**
+```cpp
+walk(steps - 1); // Calling the function within itself;
+```
+**Step by step execution**
+`walk(5)`
+ └── calls walk(5-1) = `walk(4)`
+      └── calls walk(4-1) = `walk(3)`
+           └── calls walk(3-1) = `walk(2)`
+                └── calls walk(2-1) = `walk(1)`
+                     └── calls walk(1-1) = `walk(0)`
+---
+If we don't use `steps - 1` instead of `steps` it'll be an infinite loop.
+
+A recursive function stops at the base / edge case.
+
+**Factorial**
+
+`5! = 5*4*3*2*1 or 1*2*3*4*5`
+
+`n! = n*(n-1)*(n-2)*(n-3)...*1`
+
+**Iterative aproach**
+ ```cpp
+ #include<iostream>
+using namespace std;
+
+int factorial(int num);
+int main(){
+    int result = factorial(5);
+    cout << result;
+    return 0;
+}
+
+//Functon definition
+int factorial(int num){
+    int result = 1;// start from 1
+    for(int i = 1 ; i <= num ; i++){
+        result *= i; // 1*1*2*3*4*5
+    }
+
+    return result;
+}
+```
+**Recursive aproach**
+```cpp
+#include<iostream>
+using namespace std;
+
+int factorial(int num);
+int main(){
+    int result = factorial(5);
+    cout << result;
+    return 0;
+}
+
+//Functon definition
+int factorial(int num){
+
+    if(num == 1 || num == 0){// Base case
+        return 1;
+    }
+    else{
+        return num * factorial(num - 1);// Recursive call
+    }
+
+}
+```
+**Step by step execution**
+
+factorial(5)
+   └── returns 5 * factorial(4)
+         └── returns 4 * factorial(3)
+               └── returns 3 * factorial(2)
+                     └── returns 2 * factorial(1)
+                           └── returns 1 (base case)
+`5 * 4 * 3 * 2 * 1 = 120`
+
+## Stack overflow
+
+**Understanding Stack Overflow in Recursion**
+
+In computer programming, a **stack overflow** occurs when the **call stack**—the memory structure that stores information about function calls—exceeds its limit. This happens when there are too many function calls on the stack, typically due to **infinite recursion**.
+
+**What is the Call Stack?**
+
+The **call stack** is a data structure that keeps track of active function calls. Every time a function is called, a new "frame" is added to the stack. Each frame holds information such as local variables and the return address for the function. Once the function finishes executing, its frame is removed from the stack.
+
+**What Happens in Recursion?**
+
+Recursion occurs when a function calls itself. In a well-implemented recursive function, each call progresses toward a **base case**, which is the condition that stops further recursion.
+
+However, if a recursive function lacks a proper base case or the base case is never reached, the function will continue calling itself indefinitely. As a result, the call stack grows larger and larger with each recursive call.
+
+**The Problem: Stack Overflow**
+
+If the recursion doesn't stop, the call stack will eventually run out of space. This is where the term **stack overflow** comes from. The system's memory is exhausted, leading to an error, and the program crashes. This is a critical issue because it can cause the system to behave unpredictably or terminate prematurely.
+
+**Example of Stack Overflow in Recursion**
+
+Consider the following example of faulty recursion:
+
+```cpp
+void faultyFunction(int steps) {
+    cout << "Recursion in progress...\n";
+    faultyFunction(steps);  // No base case, recursion never stops
+}
+```
+
+In this example, the function **`faultyFunction`** calls itself with the same value for `steps`, which means it will never reach a stopping condition. As each call adds a new frame to the stack, eventually, the system runs out of memory, leading to a stack overflow.
+
+**Preventing Stack Overflow**
+
+To avoid a stack overflow, every recursive function must have a **base case**—a condition under which the function stops calling itself. This ensures that recursion progresses toward completion and does not continue indefinitely.
+
+Here’s an example of a properly functioning recursive function:
+
+```cpp
+void safeFunction(int steps) {
+    if (steps <= 0) return;  // Base case: stop recursion
+    cout << "Recursion in progress...\n";
+    safeFunction(steps - 1);  // Recursive call with reduced steps
+}
+```
+
+In this case, each recursive call reduces the value of `steps`, eventually reaching the base case (`steps <= 0`), at which point the recursion stops.
+
+
+A **stack overflow** is the result of excessive function calls without a proper termination condition. Properly designed recursion ensures that each call progresses towards the base case, preventing the call stack from growing uncontrollably. By ensuring a proper base case and reducing the problem size with each recursive call, we can avoid stack overflow errors and ensure efficient use of system memory.

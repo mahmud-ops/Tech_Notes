@@ -1,27 +1,21 @@
 #include<iostream>
-#include<iomanip>
-#include<ctime>
-#include<cstdlib>
-
 using namespace std;
+
+int factorial(int num);
 int main(){
-    int size;
-    cout << "Enter size : " << '\n';
-    
-    char *pNum;
-    cin >> size;
-    pNum = new char[size];
-
-    for(int i = 0 ; i < size ; i++){
-        cout << "Enter element no. " << i+1 << ": ";
-        cin >> pNum[i];
-    }
-
-    for(int i = 0 ; i < size ; i++){
-        cout << pNum[i] << " ";
-    }
- 
-    delete[] pNum;
-    
+    int result = factorial(5);
+    cout << result;
     return 0;
+}
+
+//Functon definition
+int factorial(int num){
+
+    if(num == 1 || num == 0){// Base case
+        return 1;
+    }
+    else{
+        return num * factorial(num - 1);// Recursive call
+    }
+
 }
