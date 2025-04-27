@@ -1118,7 +1118,7 @@ int main(){
     }
     cout << endl;
 
-    // Free the dynamically allocated memory to avoid memory leaks
+    // Free the dynamically allocated memory to avoid memory leaks****
     delete[] pGrades;
 
     return 0;
@@ -1168,3 +1168,16 @@ Every time that function runs, your system loses a chunk of RAM it can’t use a
 
 A **memory leak** is like leaving food in the fridge and forgetting about it. You don’t eat it, no one else eats it, it just rots there… forever. 🧀🧂
 
+## Recursion 
+
+**Recursion** - a programming technique where a function invokes itself from within to break a complex concept into a repeatable single step.
+
+**(iterative vs recursive)**
+
+**Advantages:**
+- less code and is cleaner
+- useful for sorting and searching algorithms
+
+**Disadvantages:**
+- uses more memory
+- slower
