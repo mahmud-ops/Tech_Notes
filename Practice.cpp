@@ -1,21 +1,17 @@
 #include<iostream>
-using namespace std;
+#include<iomanip>
+#include<ctime>
+#include<cstdlib>
 
-int factorial(int num);
-int main(){
-    int result = factorial(5);
-    cout << result;
-    return 0;
+using namespace std;
+template <typename T>// Define T
+T Max(T x , T y){ // Replace with T
+    return (x > y) ? x:y;
 }
 
-//Functon definition
-int factorial(int num){
-
-    if(num == 1 || num == 0){// Base case
-        return 1;
-    }
-    else{
-        return num * factorial(num - 1);// Recursive call
-    }
-
+int main(){
+    cout << Max(1,3) << '\n';
+    cout << Max('a' , 'b') << '\n';
+    cout << Max(1.1,3.5) << '\n';
+    return 0;
 }

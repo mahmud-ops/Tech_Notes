@@ -1357,3 +1357,63 @@ In this case, each recursive call reduces the value of `steps`, eventually reach
 
 
 A **stack overflow** is the result of excessive function calls without a proper termination condition. Properly designed recursion ensures that each call progresses towards the base case, preventing the call stack from growing uncontrollably. By ensuring a proper base case and reducing the problem size with each recursive call, we can avoid stack overflow errors and ensure efficient use of system memory.
+
+## Function templates
+- describes what a function looks like.
+- Can be used to generate as many overloaded functions
+- as needed, each using different data types 1    
+
+```cpp
+int max(int x , int y){
+    return (x > y) ? x:y;
+}
+int main(){
+    cout << max(1,3) << '\n';
+    return 0;
+}
+```
+What if I want to make the function return float / double / chars ?
+
+```cpp
+
+int max(int x , int y){
+    return (x > y) ? x:y;
+}
+double max(double x , double y){
+    return (x > y) ? x:y;
+}
+char max(char x , char y){
+    return (x > y) ? x:y;
+}
+
+int main(){
+    cout << max(1,3) << '\n';
+    return 0;
+}
+```
+> Gotta make multiple functions for different data type .
+
+There's a way to do it in one function....`Function templates`
+
+- Replace the datatype with `T`
+- Then define `T`
+
+```cpp
+template <typename T>// Define T
+T Max(T x , T y){ // Replace with T
+    return (x > y) ? x:y;
+}
+
+int main(){
+    cout << Max(1,3) << '\n';
+    cout << Max('a' , 'b') << '\n';
+    cout << Max(1.1,3.5) << '\n';
+    return 0;
+}
+```
+**output**
+<pre>
+3
+b
+3.5
+</pre>
