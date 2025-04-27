@@ -1228,13 +1228,16 @@ void walk(int steps){
 walk(steps - 1); // Calling the function within itself;
 ```
 **Step by step execution**
+<pre>
 `walk(5)`
  └── calls walk(5-1) = `walk(4)`
       └── calls walk(4-1) = `walk(3)`
            └── calls walk(3-1) = `walk(2)`
                 └── calls walk(2-1) = `walk(1)`
                      └── calls walk(1-1) = `walk(0)`
+</pre>
 ---
+
 If we don't use `steps - 1` instead of `steps` it'll be an infinite loop.
 
 A recursive function stops at the base / edge case.
@@ -1292,13 +1295,15 @@ int factorial(int num){
 }
 ```
 **Step by step execution**
-
+<pre>
 factorial(5)
    └── returns 5 * factorial(4)
          └── returns 4 * factorial(3)
                └── returns 3 * factorial(2)
                      └── returns 2 * factorial(1)
                            └── returns 1 (base case)
+</pre>
+
 `5 * 4 * 3 * 2 * 1 = 120`
 
 ## Stack overflow
