@@ -1537,3 +1537,100 @@ int main(){
 > Mahmud , CSE 16th batch.
 > Tanvir , EEE 16th batch.
 > Rahad , Civil 16th batch.
+
+## Passing a struct in a function
+```cpp
+struct car
+{
+    string name;
+    int year;
+    string color;
+};
+
+void printCar(car car); // Structure as parameter
+
+int main(){
+    car car1 , car2;
+    
+    car1.name = "Mustang";
+    car1.year = 2023;
+    car1.color = "Red";
+    
+    car2.name = "Supra";
+    car2.year = 2024;
+    car2.color = "Black";
+
+    printCar(car1); 
+    
+    cout << '\n';
+    
+    printCar(car2); 
+    
+    return 0;
+}
+void printCar(car car){
+    cout << car.name << endl;
+    cout << car.year << endl;
+    cout << car.color << endl;
+}
+```
+>Mustang
+2023
+Red
+>
+>Supra
+2024
+Black
+
+**Let's work with some address**
+
+```cpp
+void printCar(car car){
+    cout << car.name << endl;
+    cout << &car.name << endl; // Address of the name of the car.
+    cout << &car << endl; // Address of the car `struct`
+}
+```
+>Mustang
+0x61fea8      (Same address)
+0x61fea8      (Same address)
+>
+>Supra
+0x61fedc      (Same address)
+0x61fedc      (Same address)
+
+Here , The address of the name and the struct are the same.
+
+Which means , the members and the structure are stored in the same address.
+
+This function works with a copy of the structure.
+
+**Let's `call by reference`**
+```cpp
+void printCar(car &car); // Called by ref
+
+int main(){
+    car car1 , car2;
+    
+    car1.name = "Mustang";
+    car1.year = 2023;
+    car1.color = "Red";
+    
+    car2.name = "Supra";
+    car2.year = 2024;
+    car2.color = "Black";
+
+    printCar(car1); 
+
+    cout << '\n';
+
+    printCar(car2); 
+    
+    return 0;
+}
+void printCar(car &car){
+    cout << car.name << endl;
+    cout << &car.name << endl;
+    cout << &car << endl;
+}
+```

@@ -4,32 +4,38 @@
 #include<cstdlib>
 
 using namespace std;
-struct student
+
+struct car
 {
-    string Name;
-    string dept;
-    int batch;
+    string name;
+    int year;
+    string color;
 };
 
+void printCar(car &car); // Called by ref
+
 int main(){
+    car car1 , car2;
+    
+    car1.name = "Mustang";
+    car1.year = 2023;
+    car1.color = "Red";
+    
+    car2.name = "Supra";
+    car2.year = 2024;
+    car2.color = "Black";
 
-    student student_1 , student_2 , student_3;
+    printCar(car1); 
 
-    student_1.Name = "Mahmud";
-    student_1.dept = "CSE";
-    student_1.batch = 16;
+    cout << '\n';
 
-    student_2.Name = "Tanvir";
-    student_2.dept = "EEE";
-    student_2.batch = 16;
-
-    student_3.Name = "Rahad";
-    student_3.dept = "Civil";
-    student_3.batch = 16;
-
-    cout << student_1.Name << " , " << student_1.dept << " " << student_1.batch << "th batch.\n";  
-    cout << student_2.Name << " , " << student_2.dept << " " << student_2.batch << "th batch.\n";  
-    cout << student_3.Name << " , " << student_3.dept << " " << student_3.batch << "th batch.\n";  
-
+    printCar(car2); 
+    
     return 0;
 }
+void printCar(car &car){
+    cout << car.name << endl;
+    cout << &car.name << endl;
+    cout << &car << endl;
+}
+
