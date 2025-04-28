@@ -4,14 +4,32 @@
 #include<cstdlib>
 
 using namespace std;
-template <typename T>// Define T
-T Max(T x , T y){ // Replace with T
-    return (x > y) ? x:y;
-}
+struct student
+{
+    string Name;
+    string dept;
+    int batch;
+};
 
 int main(){
-    cout << Max(1,3) << '\n';
-    cout << Max('a' , 'b') << '\n';
-    cout << Max(1.1,3.5) << '\n';
+
+    student student_1 , student_2 , student_3;
+
+    student_1.Name = "Mahmud";
+    student_1.dept = "CSE";
+    student_1.batch = 16;
+
+    student_2.Name = "Tanvir";
+    student_2.dept = "EEE";
+    student_2.batch = 16;
+
+    student_3.Name = "Rahad";
+    student_3.dept = "Civil";
+    student_3.batch = 16;
+
+    cout << student_1.Name << " , " << student_1.dept << " " << student_1.batch << "th batch.\n";  
+    cout << student_2.Name << " , " << student_2.dept << " " << student_2.batch << "th batch.\n";  
+    cout << student_3.Name << " , " << student_3.dept << " " << student_3.batch << "th batch.\n";  
+
     return 0;
 }

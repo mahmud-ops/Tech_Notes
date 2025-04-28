@@ -1417,3 +1417,123 @@ int main(){
 b
 3.5
 </pre>
+**What if we compare between 2 datatypes**
+```cpp
+template <typename T>// Define T
+T Max(T x , T y){ // Replace with T
+    return (x > y) ? x:y;
+}
+
+int main(){
+    cout << Max(1,3.5) << '\n';
+    return 0;
+}
+```
+> ERROR
+
+Here `T` is defined as one datatype.
+
+Which means this template only works with one datatype.
+
+So , we have to define another datatype
+
+```cpp
+template <typename T , typename U>
+```
+```cpp
+template <typename T , typename U>// Define T
+T Max(T x , U y){ // Replace with T
+    return (x > y) ? x:y;
+}
+
+int main(){
+    cout << Max(1,3.5) << '\n';
+    return 0;
+}
+```
+> 3
+
+But the maximum number is 3.5
+
+Here , the template returns an integer , cuz here `T` refers to an integer and `U` a double.
+
+> **T** Max(T x , U y)
+
+To return a double we have to do it like this.
+> U Max(T x , U y)
+
+There's a better method to do it .
+```cpp
+auto Max(T x , U y)
+```
+This will return all kinds of datatype.
+```cpp
+template <typename T , typename U>// Define T
+auto Max(T x , U y){ // Replace with T
+    return (x > y) ? x:y;
+}
+
+int main(){
+    cout << Max(1,3.5) << '\n';
+    return 0;
+}
+```
+> 3.5
+## Structs
+- A structure that groups related variables under one name.
+- Structs can contain many different data types (string, integer, float, etc.).
+- Variables in a struct are known as "members".
+- Members can be accessed with the `.` Class Member Access Operator.
+```cpp
+// Define the structure
+struct structure_name {
+    data_type variable_1;
+    data_type variable_2;
+    data_type variable_3;
+};
+
+// Declare structure variables
+structure_name member_1, member_2;
+
+// Assign value to a variable inside a structure
+member_1.variable_1 = value;
+```
+**Exampla code**
+```cpp
+using namespace std;
+// Define the structure
+struct student
+{
+    string Name;
+    string dept;
+    int batch;
+};
+
+int main(){
+    
+    // Declare structure variables
+    student student_1 , student_2 , student_3;
+
+    // Assign value to a variable inside a structure
+    student_1.Name = "Mahmud";
+    student_1.dept = "CSE";
+    student_1.batch = 16;
+
+    student_2.Name = "Tanvir";
+    student_2.dept = "EEE";
+    student_2.batch = 16;
+
+    student_3.Name = "Rahad";
+    student_3.dept = "Civil";
+    student_3.batch = 16;
+
+    cout << student_1.Name << " , " << student_1.dept << " " << student_1.batch << "th batch.\n";  
+    cout << student_2.Name << " , " << student_2.dept << " " << student_2.batch << "th batch.\n";  
+    cout << student_3.Name << " , " << student_3.dept << " " << student_3.batch << "th batch.\n";  
+
+    return 0;
+}
+```
+> Mahmud , CSE 16th batch.
+> Tanvir , EEE 16th batch.
+> Rahad , Civil 16th batch.
