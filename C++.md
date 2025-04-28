@@ -1634,3 +1634,214 @@ void printCar(car &car){
     cout << &car << endl;
 }
 ```
+> Same output. Nothing happened....**YET**
+
+**Task : Paint the cars**
+```cpp
+struct car
+{
+    string name;
+    int year;
+    string color;
+};
+
+void printCar(car &car); // Called by ref
+void paintCar(car &car , string color); // Passed the address of the car , Now the functon will go to the address and paint the car.      
+
+int main(){
+    car car1 , car2;
+    
+    car1.name = "Mustang";
+    car1.year = 2023;
+    car1.color = "Red";
+    
+    car2.name = "Supra";
+    car2.year = 2024;
+    car2.color = "Black";
+
+    paintCar(car1 , "Silver"); // `color` parameter --> silver
+    paintCar(car2 , "Cyan");
+    printCar(car1); 
+
+    cout << '\n';
+
+    printCar(car2); 
+    
+    return 0;
+}
+void printCar(car &car){
+    cout << car.name << endl;
+    cout << car.color << endl;
+}
+void paintCar(car &car , string color){
+    car.color = color; // The color of the car will be equal to the `color` parameter.
+}       
+```
+The address of the car is given to the function and what to work with (`Color`) as parameters. Now the `paintCar()` function will go to the address and work with the color.
+
+## enums ( enumerations )
+A user defined data-type that consist of paired named-integers constants.
+> Great , If you have a set of potential options.
+
+```cpp
+nt main(){
+    string day = "saturday";
+
+    switch (day)
+    {
+    case "saturday":
+        cout << "It's saturday\n";
+        break;
+    
+    default:
+        cout << "ERROR-404";
+        break;
+    }
+    return 0;
+}
+```
+> Practice.cpp:10:16: error: switch quantity not an integer;
+
+Switch does not work on strings.
+
+TO make it work we have can use `enum`. It will convsider the strings as some paired-named integers. 
+
+```cpp
+enum day{saturday = 10, sunday = 20, monday = 30, tuesday = 40, wednesday = 50, thursday = 60, friday = 70};
+// saturday = 10 : Explicitly assigned the integer value.
+
+
+using namespace std;
+int main(){
+
+    switch (saturday)
+    {
+    case saturday:
+        cout << "It's saturday\n";
+        break;
+    
+    case sunday:
+        cout << "It's sunday\n";
+        break;
+    
+    case monday:
+        cout << "It's monday\n";
+        break;
+    
+    case tuesday:
+        cout << "It's tuesday\n";
+        break;
+    
+    case wednesday:
+        cout << "It's wednesday\n";
+        break;
+    
+    case thursday:
+        cout << "It's thursday\n";
+        break;
+    
+    case friday:
+        cout << "It's friday\n";
+        break;
+    
+    default:
+        cout << "ERROR-404";
+        break;
+    }
+    return 0;
+}
+```
+> It's saturday.
+
+**We can access the strings with it's asigned values**
+
+```cpp
+enum day{saturday = 10, sunday = 20, monday = 30, tuesday = 40, wednesday = 50, thursday = 60, friday = 70};
+// saturday = 10 : Explicitly assigned the integer value.
+
+
+using namespace std;
+int main(){
+
+    switch (saturday)
+    {
+    case 10:
+        cout << "It's saturday\n";
+        break;
+    
+    case 20:
+        cout << "It's sunday\n";
+        break;
+    
+    case 30:
+        cout << "It's monday\n";
+        break;
+    
+    case 40:
+        cout << "It's tuesday\n";
+        break;
+    
+    case 50:
+        cout << "It's wednesday\n";
+        break;
+    
+    case 60:
+        cout << "It's thursday\n";
+        break;
+    
+    case 70:
+        cout << "It's friday\n";
+        break;
+    
+    default:
+        cout << "ERROR-404";
+        break;
+    }
+    return 0;
+}
+```
+> It's saturday.
+
+**What if we don't asign the integers ?**
+
+It'll be implicitly assigned as 0,1,2,3.....
+```cpp
+int main(){
+    switch (saturday)
+    {
+    case 0:
+        cout << "It's saturday\n";
+        break;
+    
+    case 1:
+        cout << "It's sunday\n";
+        break;
+    
+    case 2:
+        cout << "It's monday\n";
+        break;
+    
+    case 3:
+        cout << "It's tuesday\n";
+        break;
+    
+    case 4:
+        cout << "It's wednesday\n";
+        break;
+    
+    case 5:
+        cout << "It's thursday\n";
+        break;
+    
+    case 6:
+        cout << "It's friday\n";
+        break;
+    
+    default:
+        cout << "ERROR-404";
+        break;
+    }
+    return 0;
+}
+```
+> It's saturday.

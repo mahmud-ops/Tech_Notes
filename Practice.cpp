@@ -3,39 +3,45 @@
 #include<ctime>
 #include<cstdlib>
 
+enum day{saturday , sunday , monday , tuesday , wednesday , thursday , friday};
+// saturday = 10 : Explicitly assigned the integer value.
+
+
 using namespace std;
-
-struct car
-{
-    string name;
-    int year;
-    string color;
-};
-
-void printCar(car &car); // Called by ref
-
 int main(){
-    car car1 , car2;
+    switch (saturday)
+    {
+    case 0:
+        cout << "It's saturday\n";
+        break;
     
-    car1.name = "Mustang";
-    car1.year = 2023;
-    car1.color = "Red";
+    case 1:
+        cout << "It's sunday\n";
+        break;
     
-    car2.name = "Supra";
-    car2.year = 2024;
-    car2.color = "Black";
-
-    printCar(car1); 
-
-    cout << '\n';
-
-    printCar(car2); 
+    case 2:
+        cout << "It's monday\n";
+        break;
     
+    case 3:
+        cout << "It's tuesday\n";
+        break;
+    
+    case 4:
+        cout << "It's wednesday\n";
+        break;
+    
+    case 5:
+        cout << "It's thursday\n";
+        break;
+    
+    case 6:
+        cout << "It's friday\n";
+        break;
+    
+    default:
+        cout << "ERROR-404";
+        break;
+    }
     return 0;
 }
-void printCar(car &car){
-    cout << car.name << endl;
-    cout << &car.name << endl;
-    cout << &car << endl;
-}
-
