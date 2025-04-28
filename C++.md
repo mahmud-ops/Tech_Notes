@@ -1848,6 +1848,4 @@ int main(){
 
 **The end**
 
-Next : C++ Object Oriented Programming
-
-[Proceed]()
+Next : **[C++ Object Oriented Programming](https://github.com/mahmud-ops/Coding_Notes_1/blob/master/C%2B%2BOOP.bd.txt)**
