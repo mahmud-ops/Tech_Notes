@@ -236,5 +236,106 @@ Encapsulation is wraping up of data and member function in a single unit called 
 
 Is an special method that gets ivoked automatically at time of object creation. Used for initialisation .
 
+- Same name as class.
+- No return type.
+- Only called once (automatically) , at object creation.
+- Memory allocation happens when object is called.
 
+---
 
+A class doesn't take up any memory space . But when an object is created , it takes up some space. 
+
+**Constructor example**
+```cpp
+#include<iostream>
+#include<string>
+
+using namespace std;
+
+class car{
+    private:
+        int insurance_number;
+    public:
+        car(){ // Constructor
+            cout << "This? It's a constructor, bro.\n";
+        }
+        string brand;
+        string color;
+        int year;
+        double price;
+
+    string paintCar(car , string newColor){
+        color = newColor;
+    }
+
+    int setIns(int newIns){
+        insurance_number = newIns; 
+    }
+
+    int getIns(){
+        cout << insurance_number << '\n';
+    }
+};
+
+int main(){
+
+    car c1; 
+    car c2; 
+    car c3; 
+
+    c1.setIns(33155);
+    c1.getIns();
+
+    // Didn't call any method / function here.
+    return 0;
+}
+```
+> This? It's a constructor, bro. (still printed this [`constructor`]) for c1
+> This? It's a constructor, bro. (still printed this [`constructor`]) for c2
+> This? It's a constructor, bro. (still printed this [`constructor`]) for c3
+> 33155
+
+Each time an object is created the constructor gets evoked automatically.
+
+**We can assign common values for an object in a constructor**
+```cpp
+#include<iostream>
+#include<string>
+
+using namespace std;
+
+class car{
+    private:
+        int insurance_number;
+    public:
+        car(){ 
+            brand = "Toyota"; // Every car will be from toyota.
+        }
+        string brand;
+        string color;
+        int year;
+        double price;
+};
+
+int main(){
+
+    car c1; 
+    car c2; 
+
+    // Didn't assign any value. Stull it's print 'Toyota' twice for c1 and c2.
+
+    cout << c1.brand << '\n';
+    cout << c2.brand << '\n';
+
+    return 0;
+}
+```
+> Toyota
+> Toyota
+
+---
+
+There are 3 types of constructors
+1. Non-parameterized constructor.
+2. Parameterized constructor.
+3. Copy constructor.
