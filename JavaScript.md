@@ -845,3 +845,6 @@ function rollDice(){ // submit button
     diceImages.length = 0;  // Refresh the array
 }
 ```
+
+## Project 4 : Random password generator
+
