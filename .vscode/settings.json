@@ -2,5 +2,6 @@
     "files.associations": {
         "cstdlib": "cpp",
         "ostream": "cpp"
-    }
+    },
+    "livePreview.defaultPreviewPath": "/index.html"
 }
