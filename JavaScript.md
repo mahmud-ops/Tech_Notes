@@ -787,3 +787,61 @@ console.log(fullName);
 
 //Output : Abdullah Al Mahmud
 ```
+## Project 3 : Dice roller
+
+**Dice Roller - What It Does**
+
+- Takes user input for how many dice to roll
+- Generates a random number between 1 and 6 for each dice roll
+- Displays the list of rolled numbers in text form
+- Dynamically shows the corresponding dice images based on the rolled values
+- Clears the previous results each time a new roll is made to avoid duplication
+- Works instantly on button click using JavaScript without refreshing the page
+
+**HTML**
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Dice roller</h1>
+        <input type="number" id="diceNumber" placeholder="How many dice do you want to roll ?" min="1">
+        <input type="submit" id="submit" onclick="rollDice()">
+
+        <div id="displayText">Values</div>
+        <div id="displayImage">Images</div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+```
+**JavaScript**
+```js
+let submit = document.getElementById("submit");
+let displayText = document.getElementById("displayText");
+let displayImage = document.getElementById("displayImage");
+
+let values = [];
+let diceImages = [];
+
+function rollDice(){ // submit button
+    let diceNumber = document.getElementById("diceNumber").value;
+    for(let i = 0 ; i < diceNumber ; i++){
+        value = Math.floor(Math.random()*6) + 1;
+        values.push(value);
+        diceImages.push(`<img src = "Dice_images/Dice_${value}.png" alt = "dice : ${values}">`);
+    }
+
+    console.log(values);
+    displayText.textContent = `${values.join(' , ')}`;
+    displayImage.innerHTML = `${diceImages.join(' ')}`;
+    values.length = 0;  // Refresh the array
+    diceImages.length = 0;  // Refresh the array
+}
+```

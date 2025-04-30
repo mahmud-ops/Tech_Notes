@@ -1,0 +1,25 @@
+.container{
+    background-color: coral;
+    border-radius: 10px;
+    width: 300px;
+    padding: 20px;
+}
+input[type = "number"]{
+    background: #ffffff;
+    width: 90%;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+}
+#submit{
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: cornflowerblue;
+    margin-top: 10px;
+    cursor: pointer;
+    font-weight: bolder;
+}
+#submit:hover{
+    background-color: rgb(55, 118, 234);
+}
