@@ -1,10 +1,8 @@
-function sum(callback , x , y ){
-    let result = x + y;
-    callback(result);
+let fruits = ["apple" , "orange" , "banana" , "pinapple"];
+
+function upperCase(element , index , array){
+    array[index] = element.slice(0,1).toUpperCase() + element.slice(1);
 }
 
-function showResult(result){
-    console.log(result);
-}
-
-sum(showResult , 5 , 6); // showresult() gets ivoked right after sum.
+fruits.forEach(upperCase);
+console.log(fruits);

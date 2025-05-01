@@ -1009,5 +1009,73 @@ sum(showResult , 5 , 6); // showresult() gets ivoked right after sum.
 
 Method used to iterate over all the elements of an array and apply a specific function (`callback`) to each element.
 ```js
-array.foeach(callback);
+array.foreach(callback);
 ```
+**Doubling eac element of an array and printin them.**
+```js
+let numbers = [1 , 5 , 12 , 6 , 8 , 9];
+
+function double(element){
+    element *= 2;
+    console.log(element);
+}
+
+//array.foreach(callback);
+numbers.forEach(double);
+```
+**To upperCase**
+```js
+let fruits = ["apple" , "orange" , "banana" , "pinapple"];
+
+function upperCase(element , index , array){
+    array[index] = element.toUpperCase();
+}
+
+fruits.forEach(upperCase);
+console.log(fruits);
+```
+
+**What's wrong with this ?...this works fine**
+```js
+function upperCase(element) {
+    element = element.toUpperCase();  // Convert to uppercase
+    console.log(element);             // Log it
+}
+```
+> APPLE
+> ORANGE
+> BANANA
+> PINAPPLE
+> *This ain't an array..😕*
+
+This prints the element as uppercases but the original array still stays the same.
+
+The purpose of forEach was to edit the actuall array.
+
+That's why we have to work with the whole array and the index of each element and pass them as parameters.
+
+```js
+function upperCase(element , index , array){
+    array[index] = element.toUpperCase();
+}
+
+fruits.forEach(upperCase);
+console.log(fruits);
+```
+> (4) ['APPLE', 'ORANGE', 'BANANA', 'PINAPPLE']
+**So , this one's better.**
+
+**Capitalise each element**
+
+> apple --> Apple
+```js
+let fruits = ["apple" , "orange" , "banana" , "pinapple"];
+
+function upperCase(element , index , array){
+    array[index] = element.slice(0,1).toUpperCase() + element.slice(1);
+}
+
+fruits.forEach(upperCase);
+console.log(fruits);
+```
+> (4) ['Apple', 'Orange', 'Banana', 'Pinapple']
