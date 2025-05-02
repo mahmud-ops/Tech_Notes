@@ -1079,3 +1079,173 @@ fruits.forEach(upperCase);
 console.log(fruits);
 ```
 > (4) ['Apple', 'Orange', 'Banana', 'Pinapple']
+---
+## map() Method
+Applies a function(callback) to each element of an array and returns a new array.
+
+---
+
+**🔥 `map()` is basically `forEach()` on steroids 💪**
+
+Both go through each element in an array —  
+But while `forEach()` just *does stuff and leaves*, 
+`map()` does stuff AND gives you a fresh new array like:
+
+> "Here you go king 👑 — the glow-up version."
+
+- `map()` = “copy + upgrade”  
+- `forEach()` = “task done, peace out ✌️”
+
+**UpperCase each element of an array using map()**
+```js
+let fruits = ["apple" , "orange" , "banana" , "pinapple"];
+
+function upperCase(element){
+    return element.toUpperCase(); // Return the output...
+}
+
+let newArray = fruits.map(upperCase); // ...to a new array
+console.log(newArray);
+```
+> (4) ['APPLE', 'ORANGE', 'BANANA', 'PINAPPLE']
+---
+## filter() methods
+```js
+array.filter(callback);
+```
+Creates a new array by filtering out elements.
+
+```js
+filteredArray.length != originalArray.
+```
+
+**Filtering out the even numbers from an array.**
+```js
+let nums = [1 , 10 , 20 , 25 , 40 , 35 , 24 , 2];
+
+function even(element){
+    return element % 2 === 0;
+}
+
+let evenNums = nums.filter(even);
+console.log(evenNums);
+```
+> (5) [10, 20, 40, 24, 2]
+
+**Find the adults**
+```js
+const ages = [10 , 12 , 14 , 16 , 18 , 20 , 22 , 24 , 25];
+
+function findAdults(element){
+    return element > 17;
+}
+
+let adults = ages.filter(findAdults);
+console.log(adults);
+```
+> (5) [18, 20, 22, 24, 25]
+
+## reduce() method
+```js
+array.reduce(callback);
+```
+
+Reduces the array in a single value.
+
+**Sum of the elements of an array**
+```js
+const array = [1,2,3,4,5,6,7,8,9,10];
+
+function sum(previousElement , nextElement){
+    return previousElement + nextElement;
+}
+
+let SUM = array.reduce(sum);
+console.log(SUM);
+```
+**Didn't understand this part.**
+```js
+function sum(previousElement , nextElement){
+    return previousElement + nextElement;
+}
+```
+`How does the previousElement , nextElement parameters iterate ??`
+**Step by step execution**
+```js
+array = [1,2,3,4,5,6,7,8,9,10];
+```
+<pre>          
+         sum(1, 2)
+             ↓
+             3 (Now this is the prev)
+             ↓
+         sum(3, 3) --> (prev , next) 
+             ↓
+             6
+             ↓
+         sum(6, 4)
+             ↓
+             10
+             ↓
+         sum(10, 5)
+             ↓
+         15 (Final Result)
+</pre>
+## Function expressions
+A way to define functions as valus or variables
+
+**Function declaration vs Function expression**
+
+**Function declaration**
+```js
+function hello(){
+    console.log("Hello");
+}
+```
+**Function expression**
+```js
+const hello = function(){
+    console.log("Hello");
+}
+```
+## setTimeOutz()
+
+```js
+setTimeOut(callback , `time in milliseconds`);
+```
+```js
+const hello = function(){
+    console.log("hello");
+}
+setTimeout(hello,4000);
+```
+> Hello             (printed after 4s / 4000 ms)
+
+*Or , we can pass an intire function expression as an argument*
+```js
+setTimeout(
+    function(){
+        console.log("Hello world !");
+    } , 4000
+);
+```
+> Hello world !             (printed after 4s / 4000 ms)
+```js
+// Applied on map()
+const numbers = [1,23,4,5,6,78,9];
+const square = numbers.map(function(element){ // Intire function expression in map as a callback
+    return Math.pow(element,2);
+})
+
+console.log(square);
+```
+> (7) [1, 529, 16, 25, 36, 6084, 81]
+
+## Arrow function
+
+A concise way to learn function expressions. Good for simple functions we use once only.
+```js
+(parameters) => code;
+```
+
+

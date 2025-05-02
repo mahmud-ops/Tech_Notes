@@ -1,8 +1,6 @@
-let fruits = ["apple" , "orange" , "banana" , "pinapple"];
+const numbers = [1,23,4,5,6,78,9];
+const square = numbers.map(function(element){
+    return Math.pow(element,2);
+})
 
-function upperCase(element , index , array){
-    array[index] = element.slice(0,1).toUpperCase() + element.slice(1);
-}
-
-fruits.forEach(upperCase);
-console.log(fruits);
+console.log(square);
