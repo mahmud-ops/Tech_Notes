@@ -1,6 +1,9 @@
-const numbers = [1,23,4,5,6,78,9];
-const square = numbers.map(function(element){
-    return Math.pow(element,2);
-})
+const person_1 = {
+    name: "Spongebob",
+    age: 21,
+    hello: () => {
+        console.log(`Hi I am Spongebob`);
+    }
+};
 
-console.log(square);
+person_1.hello();

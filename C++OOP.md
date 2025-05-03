@@ -322,7 +322,7 @@ int main(){
     car c1; 
     car c2; 
 
-    // Didn't assign any value. Stull it's print 'Toyota' twice for c1 and c2.
+    // Didn't assign any value. Stull it's printing 'Toyota' twice for c1 and c2.
 
     cout << c1.brand << '\n';
     cout << c2.brand << '\n';
@@ -340,4 +340,59 @@ There are 3 types of constructors
 2. Parameterized constructor.
 3. Copy constructor.
 
-[Bookmark](https://youtu.be/mlIUKyZIUUU?t=2227)
+**Non-parameterized constructor**
+```cpp
+car(){ 
+            cout << "This? It's a constructor, bro.\n";
+}
+```
+**Parameterized constructor**
+```cpp
+#include<iostream>
+#include<iomanip>
+
+using namespace std;
+
+class student {
+    private:
+
+    public:
+        student(string n , string sub , string dept){ // parameterised constructor
+            name = n;
+            subject = sub;
+            department = dept;
+        }
+    
+        void display(){
+            cout << name << endl;
+            cout << subject << endl;
+            cout << department << endl;
+        }
+
+    string name;
+    string subject;
+    string department;
+};
+
+int main(){
+    student s1("Mahmud" , "C++" , "CSE"); // Create an object with parameters.
+    s1.display();
+
+    return 0;
+}
+```
+**Constructor overloading**
+We can make multiple parameterised constructors with the same name in a class but with different parameters and there won't be any errors.
+```cpp
+student(string n , string sub , string dept){ // parameterised constructor 1
+            name = n;
+            subject = sub;
+            department = dept;
+        }
+
+student(int age, string hobby , string ethnicity , string height){ // parameterised constructor 2
+//..... ..... .....
+}
+```
+Constructor overloading is an example of **Polimorphism** ( We'll discuss about it later )
+---

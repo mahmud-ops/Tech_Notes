@@ -1,28 +1,32 @@
 #include<iostream>
-#include<string>
+#include<iomanip>
 
 using namespace std;
 
-class car{
+class student {
     private:
-        int insurance_number;
+
     public:
-        car(){ 
-            brand = "Toyota"; // Every car will be from toyota.
+        student(string n , string sub , string dept){ // parameterised constructor
+            name = n;
+            subject = sub;
+            department = dept;
         }
-        string brand;
-        string color;
-        int year;
-        double price;
+    
+        void display(){
+            cout << name << endl;
+            cout << subject << endl;
+            cout << department << endl;
+        }
+
+    string name;
+    string subject;
+    string department;
 };
 
 int main(){
-
-    car c1; 
-    car c2; 
-
-    cout << c1.brand << '\n';
-    cout << c2.brand << '\n';
+    student s1("Mahmud" , "C++" , "CSE"); // Create an object with parameters.
+    s1.display();
 
     return 0;
 }

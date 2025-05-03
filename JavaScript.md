@@ -1247,5 +1247,61 @@ A concise way to learn function expressions. Good for simple functions we use on
 ```js
 (parameters) => code;
 ```
+```js
+cconst hello = (name , age) => {
+    console.log(`Hello ${name} , you are ${age} years old`);
+}
+hello("Mahmud" , 21);
+```
+> Hello Mahmud , you are 21 years old
 
+**Use it in setTimeOut()**
+```js
+setTimeout(
+    () => {
+    console.log(`Hello`)
+},4000);
+```
+> Hello             (Printed after 4s)
+---
+**Using it on map , filter and reduce**
+```js
+const numbers = [1,2,3,4,5,6,7,8,9,10];
 
+// map 
+const double = numbers.map(
+    (element) => {
+        return 2*element;
+    }
+);
+
+// filter
+const evenNums = numbers.filter(
+    (element) => {
+        return element % 2 === 0;
+    }
+);
+
+// reduce
+const sum = numbers.reduce(
+    (accumulator , current) => {
+        return accumulator + current;
+    }
+);
+
+console.log(double);
+console.log(evenNums);
+console.log(sum);
+```
+> (10) [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
+> (5) [2, 4, 6, 8, 10]
+> 55
+
+## Object
+A collection of related properties or methods.
+```js
+object = {
+    key: value;
+    function();
+}
+```
