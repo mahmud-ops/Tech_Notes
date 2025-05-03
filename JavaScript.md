@@ -1305,3 +1305,99 @@ object = {
     function();
 }
 ```
+**Method :** The function called in an object.
+```js
+object = {
+    key: value;
+    function(); // This is a method.
+}
+```
+**Example**
+```js
+const person_1 = {
+    name: "Spongebob",
+    age: 21,
+    hello: () => {
+        console.log(`Hi I am Spongebob`);
+    }
+};
+
+person_1.hello();
+```
+
+## this:
+Reference to the object where `this` is used.
+(It depends on the immediate context.
+person_1.name = this.name)
+**Application**
+```js
+const person_1 = {
+    name: "Spongebob",
+    age: 21,
+    hello: () => {
+        console.log(`Hi I am ${this.name}`);
+    }
+};
+
+person_1.hello();
+```
+> Hi I am 
+
+Where's the name 😕 ?
+
+**`This` does not work for arrow function**
+**Use a regular function instead**
+```js
+const person_1 = {
+    name: "Spongebob",
+    age: 21,
+    hello: function(){
+        console.log(`My name is ${this.name}`)
+    }
+};
+
+const person_2 = {
+    name: "Squidward",
+    age: 32,
+    hello: function(){
+        console.log(`My name is ${this.name}`)
+    }
+};
+
+person_1.hello();
+person_2.hello();
+```
+> My name is Spongebob
+> My name is Squidward
+## Constructor
+Special methods of defining the properties and methods of an object.
+```js
+function car(make , name , year , color , callback){ // Constructor
+    this.make = make,
+    this.name = name,
+    this.year = year,
+    this.color = color
+
+    callback.call(this); // "Yo callback, I want you to run as if you are this object (this). Use my properties like they're your own."
+    // So , it's gonna use the properties as it's own parameters.
+
+const display = function(){
+    console.log(`Make : ${this.make}`);
+    console.log(`Name : ${this.name}`);
+    console.log(`Year : ${this.year}`);
+    console.log(`Color : ${this.color}`);
+}
+const car_1 = new car("Ford" , "Mustang" , "2022" , "Blue" , display);
+const car_2 = new car("Toyota" , "Supra" , "2024" , "zet black" , display);
+```
+**This is the main part (Constructor) ⤵️**
+```js
+function car(make , name , year , color , callback){ // Constructor
+    this.make = make,
+    this.name = name,
+    this.year = year,
+    this.color = color
+}
+```
+Applied some callback context in it.
+
