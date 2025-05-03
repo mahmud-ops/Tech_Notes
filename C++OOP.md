@@ -340,13 +340,13 @@ There are 3 types of constructors
 2. Parameterized constructor.
 3. Copy constructor.
 
-**Non-parameterized constructor**
+### Non-parameterized constructor
 ```cpp
 car(){ 
             cout << "This? It's a constructor, bro.\n";
 }
 ```
-**Parameterized constructor**
+### Parameterized constructor
 ```cpp
 #include<iostream>
 #include<iomanip>
@@ -394,5 +394,274 @@ student(int age, string hobby , string ethnicity , string height){ // parameteri
 //..... ..... .....
 }
 ```
-Constructor overloading is an example of **Polimorphism** ( We'll discuss about it later )
+> Constructor overloading is an example of **Polimorphism** ( We'll discuss about it later )
+### this
+
+**this** is a special pointer in C++ that points to the current object.
+> `this -> property` is same as `*(this).property`
+
+what if someone codes like this....it's his choice 😠
+```cpp
+student(string name, string subject , string dept){ // parameterised constructor 1
+            name = name;
+            subject = subject;
+            dept = dept;
+        }
+```
+Which one's object / parameter ?😕
+> `Just assigns the parameter name to itself` — the member variable gets ignored. So the actual name inside the object stays uninitialized. 💀
+
+Do it like this instead ⤵️
+```cpp
+class student {
+    private:
+
+    public:
+        student(string name, string sub , string dept){
+            this -> name = name;
+            this -> sub = sub;
+            this -> dept = dept;
+        }
+    
+        void display(){
+            cout << name << endl;
+            cout << sub << endl;
+            cout << dept << endl;
+        }
+
+    string name;
+    string sub;
+    string dept;
+};
+```
+
+**🧠 So why use the same name , if i could use a different keyword to prevent naming conflicts ?**
+Honestly? It’s all about readability, consistency, and sometimes just developer laziness (aka `efficiency` if you're tryna sound professional 😅).
+
+**When the constructor takes a bunch of params, it's kinda satisfying to match them up like this:**
+```cpp
+Person(string name, int age, string gender) {
+    this->name = name;
+    this->age = age;
+    this->gender = gender;
+}
+```
+Looks clean, easy to match. You instantly know which param belongs to which member.
+
+**Align with pointer :** Put the `name`(parameter) in the address of the `name`(object).
+
+### Copy constructors:
+
+C++ compiler can build default copy constructors or we can make our own custom copy constructor.
+**Default copy constructor**
+```cpp
+#include<iostream>
+#include<iomanip>
+
+using namespace std;
+
+class student {
+    private:
+
+    public:
+        student(string name, string sub , string dept){ // parameterised constructor
+            this -> name = name;
+            this -> sub = sub;
+            this -> dept = dept;
+        }
+    
+        void display(){
+            cout << name << endl;
+            cout << sub << endl;
+            cout << dept << endl;
+        }
+
+    string name;
+    string sub;
+    string dept;
+};
+
+int main(){
+    student s1("Mahmud" , "C++" , "CSE"); // Create an object with parameters.
+    
+    student s2(s1); // We can copy the properties of s1 just by passing s1 in s2.
+    // Default copy constructor...copies all properties.
+    
+    s2.display(); //---> Same output as s1.display();
+
+    return 0;
+}
+```
+> Mahmud
+> C++
+> CSE
+
+**Custom copy constructor**
+```cpp
+class student {
+    private:
+
+    public:
+        student(string name, string sub , string dept){
+            this -> name = name;
+            this -> sub = sub;
+            this -> dept = dept;
+        }
+
+        //Custom copy constructor
+        student(student &original_object){
+            cout << "This is a custom copy constructor." << endl;
+            this -> name = original_object.name; // Says , "copy the name from the address of the original object".
+            // Copies only the name from the original object.
+        }
+        
+    
+        void display(){
+            cout << name << endl;
+            cout << sub << endl;
+            cout << dept << endl;
+        }
+
+    string name;
+    string sub;
+    string dept;
+};
+
+int main(){
+    student s1("Mahmud" , "C++" , "CSE"); // Create an object with parameters.
+    
+    student s2(s1);     
+    s2.display();
+
+    return 0;
+}
+```
+> This is a custom copy constructor.                (Automatically generated)
+> Mahmud
+
+**There are 2 types of copy while making a copy constructor**
+1. Shallow copy.
+2. Deep copy.
+
+#### Shallow copy
+
+A **shallow copy** of an object copies all the member values **as they are**, including pointers.
+The issue pops up when dynamic memory is involved—both objects end up pointing to the **same memory**, which can lead to problems like **double deletion** or **unexpected data changes**.
+
+**Recap : Dynamic memory allocation**
+Alright, imagine this:
+
+You're a toddler playing with blocks. You have two toy boxes:
+
+- 🧺 **Stack Box**: It’s small and already has spots for blocks when you start playing. It’s fast, but not very flexible.
+- 🧳 **Heap Box**: It's bigger and more flexible. You can ask your parents (the computer) for more blocks anytime *while* you’re playing.
+
+Now, **dynamic memory** is like saying:
+
+> “Hey Mom! I don’t know how many blocks I’ll need yet... Can you give me more *when I ask*?”
+
+That’s what the **`new`** keyword does in C++ — it asks the computer for space *while* the program is running, not before.
+
+So if you don't know how many toys (data) you're gonna play with until later, you use dynamic memory to be chill and ready for anything.
+
+👶💬 “Gimme moar blockz!”  
+💻✨ “Here you go! From the heap!”
+
+Wanna see that in toddler-code?
+
+```cpp
+int* blocks = new int[5]; // "I need 5 blocks!" at playtime
+```
+
+Boom. Dynamic. Just like your energy at bedtime 😅
+
+Memory that is allocated after the program
+is already compiled & running.
+Use the `new` operator to allocate
+memory in the heap rather than the stack
+
+
+Useful when we don't know how much memory
+we will need. Makes our programs more flexible,
+especially when accepting user input.
+
+```cpp
+#include<iostream>    
+#include<iomanip>     
+#include<ctime>       
+#include<cstdlib>   
+
+using namespace std;
+
+int main(){
+    int size;
+
+    // Ask user for the number of grades to input
+    cin >> size;
+
+    // Dynamically allocate memory to store 'size' number of grades
+    char *pGrades = new char[size];
+
+    // Take input for each grade
+    for(int i = 0 ; i < size ; i ++){
+        cout << "Enter grade no. " << i + 1 << " : ";
+        cin >> pGrades[i];
+    }
+
+    // Print all the entered grades
+    for(int i = 0 ; i < size ; i++){
+        cout << pGrades[i] << " ";
+    }
+    cout << endl;
+
+    // Free the dynamically allocated memory to avoid memory leaks****
+    delete[] pGrades;
+
+    return 0;
+}
+```
+**🧨 What is a Memory Leak?**
+
+A **memory leak** happens when your program grabs memory (using `new`) but **forgets to return it** (using `delete`). That memory stays reserved forever (until the program ends), but it’s not usable anymore.
+
+Basically:
+
+> You rented a room. You left.  
+> But you **never returned the key**, so no one else can use it.  
+> That room = wasted memory. 🙃
+
 ---
+
+**🔍 Example in Code:**
+
+```cpp
+void leakExample() {
+    int* p = new int[100];  // You booked 100 rooms 🏨
+    // forgot to delete[] p;
+    // boom 💥 memory leak
+}
+```
+
+Every time that function runs, your system loses a chunk of RAM it can’t use anymore. Stack that up and your PC starts lagging harder than a 2008 laptop running GTA V 😬.
+
+---
+
+**📉 Why It's Bad:**
+- Wastes memory (obviously).
+- Slows down performance.
+- Over time, can crash the program or even the system if it's really bad.
+- In long-running programs (like games, servers, or robots), it’s a big no-no 🚫.
+
+---
+
+**✅ How to Avoid It:**
+- **Always `delete` what you `new`.**
+- Even better: use **smart pointers** like `std::unique_ptr` or `std::shared_ptr` in C++. They clean up for you like a good roommate.
+
+---
+
+**TL;DR:**
+
+A **memory leak** is like leaving food in the fridge and forgetting about it. You don’t eat it, no one else eats it, it just rots there… forever. 🧀🧂
+
+

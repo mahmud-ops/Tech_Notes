@@ -7,26 +7,37 @@ class student {
     private:
 
     public:
-        student(string n , string sub , string dept){ // parameterised constructor
-            name = n;
-            subject = sub;
-            department = dept;
+        student(string name, string sub , string dept){ // parameterised constructor
+            this -> name = name;
+            this -> sub = sub;
+            this -> dept = dept;
         }
+
+        //Custom copy constructor
+        student(student &original_object){
+            cout << "This is a custom copy constructor." << endl;
+            this -> name = original_object.name; // Copies only the name from the original object.
+        }
+        
     
         void display(){
             cout << name << endl;
-            cout << subject << endl;
-            cout << department << endl;
+            cout << sub << endl;
+            cout << dept << endl;
         }
 
     string name;
-    string subject;
-    string department;
+    string sub;
+    string dept;
 };
 
 int main(){
     student s1("Mahmud" , "C++" , "CSE"); // Create an object with parameters.
-    s1.display();
+    
+    student s2(s1); // We can copy the properties of s1 just by passing s1 in s2.
+    // Default copy constructor...copies all properties.
+    
+    s2.display(); //---> Same output as s1.display();
 
     return 0;
 }
