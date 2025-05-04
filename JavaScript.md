@@ -1399,5 +1399,24 @@ function car(make , name , year , color , callback){ // Constructor
     this.color = color
 }
 ```
-Applied some callback context in it.
+> Make : Ford
+> Name : Mustang
+> Year : 2022
+> Color : Blue 
+
+> Make : Toyota
+> Name : Supra
+> Year : 2024
+> Color : zet black
+
+Applied callback concept in it.
+
+What if I didn't have to call a callback every time I make an object.
+**Proceed to classes ⤵️**
+
+## Class
+(ES6 feature) Provides a more structured and clearer way to work with objects compared to traditional constructor functions.
+
+
+
 
