@@ -1011,7 +1011,7 @@ Method used to iterate over all the elements of an array and apply a specific fu
 ```js
 array.foreach(callback);
 ```
-**Doubling eac element of an array and printin them.**
+**Doubling each element of an array and printin them.**
 ```js
 let numbers = [1 , 5 , 12 , 6 , 8 , 9];
 
@@ -1416,7 +1416,174 @@ What if I didn't have to call a callback every time I make an object.
 
 ## Class
 (ES6 feature) Provides a more structured and clearer way to work with objects compared to traditional constructor functions.
+```js
+class car {
+    constructor(name , price) {
+        this.name = name;
+        this.price = price;
+    }
 
+    display() {
+        console.log(`The price of the ${this.name} is $${this.price}`);
+    }
+}
 
+const car_1 = new car("Mustang" , 25000);
+const car_2 = new car("Cavero" , 35000);
+const car_3 = new car("Supra" , 45000);
 
+car_1.display();
+car_2.display();
+car_3.display();
+```
+> The price of the Mustang is $25000
+> The price of the Cavero is $35000
+> The price of the Supra is $45000
 
+**Let's add sales tax**
+```js
+class car {
+    constructor(name , price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    display() {
+        console.log(`The price of the ${this.name} is $${this.addTax()} (Including sales tax))`);
+    }// Called addTax(); function here , Which will edit the price by adding 5% sales tax to it.
+
+    addTax(){
+        return this.price + this.price*0.05;
+    }
+}
+
+const car_1 = new car("Mustang" , 25000);
+const car_2 = new car("Cavero" , 35000);
+const car_3 = new car("Supra" , 45000);
+
+car_1.display();
+car_2.display();
+car_3.display();
+```
+> The price of the Mustang is $26250 (Including sales tax)
+> The price of the Cavero is $36750 (Including sales tax)
+> The price of the Supra is $47250 (Including sales tax)
+
+## Static keyword 
+Keyword that defines properties or methods that belong to a class itself rather than the objects created from that class ( Class own anything static , not the objects )
+
+Suppose I've made a class. And accessed it like this
+```js
+class car{
+    constructor(name , price){
+        this.name = name;
+        this.price = price;
+    }
+}
+
+const car_1 = new car("Mustang" , 25000);
+console.log(car_1.name);
+```
+I can define the name in the class and access it immediatly with the `static` keyword
+```js
+class car{
+    static name = "Mustang";
+}
+console.log(car.name);
+```
+> Mustang
+
+**EASY 😎**
+
+**Now add tax to the price**
+```js
+class car{
+    static name = "Mustang";
+    static price = 25000;
+
+    static addTax(price){
+        return price + price*0.05;
+    }
+}
+console.log(car.name);
+console.log(car.addTax(car.price));
+```
+> Mustang
+> 26250
+
+**Mini project : Enter usernames and count the users using `static` keyword**
+```js
+class user{
+    static userCount = 0;
+
+    constructor(username){
+        this.username = username;
+        user.userCount++;
+    }
+
+    displayUser(){
+        console.log(`Hi ! Iam ${this.username}`);
+    }
+
+    static displayUserCount(){
+        console.log(`There are ${user.userCount} users online`);
+    }
+}
+
+const user_1 = new user("Spongebob");     
+const user_2 = new user("Patrick");     
+const user_3 = new user("Sandy");     
+
+user_1.displayUser();
+user_2.displayUser();
+user_3.displayUser();
+
+user.displayUserCount();
+```
+> Hi ! Iam Spongebob
+> Hi ! Iam Patrick
+> Hi ! Iam Sandy
+> There are 3 users online
+
+## Inheritance
+
+Inheritance allows a new class to inherit properties and methods from an existing class (Parent → Child).
+
+- It helps with **code reusability**, so you don’t have to repeat yourself.
+
+```js
+// Parent class
+class Animal {
+    isAlive = true;
+
+    eat() {
+        console.log(`This ${this.name} is eating.`);
+    }
+
+    sleep() {
+        console.log(`This ${this.name} is sleeping.`);
+    }
+}
+
+// Child classes
+class Rabbit extends Animal { // Rabbit is a child class of Animal
+    name = "rabbit";
+}
+
+class Hawk extends Animal { // Hawk is a child class of Animal
+    name = "hawk";
+}
+
+const rabbit = new Rabbit();
+const hawk = new Hawk();
+
+rabbit.sleep();
+hawk.sleep();
+```
+
+> Output:
+> This rabbit is sleeping.
+> This hawk is sleeping.
+
+Even though the `sleep()` and `eat()` methods belong to the `Animal` class, we can still call them from `rabbit` and `hawk` objects.
+That’s because `Rabbit` and `Hawk` *inherit* from `Animal` — they're child classes and get access to all its properties and methods.

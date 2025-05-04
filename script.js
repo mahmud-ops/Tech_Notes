@@ -1,17 +1,27 @@
-function car(make , name , year , color , callback){ // Constructor
-    this.make = make,
-    this.name = name,
-    this.year = year,
-    this.color = color
+//Parent class
+class animal{
+    isAlive = true;
 
-    callback.call(this);
+    eat(){
+        console.log(`This ${this.name} is eating.`);
+    }
+
+    sleep(){
+        console.log(`This ${this.name} is sleeping.`);
+    }
 }
 
-const display = function(){
-    console.log(`Make : ${this.make}`);
-    console.log(`Name : ${this.name}`);
-    console.log(`Year : ${this.year}`);
-    console.log(`Color : ${this.color}`);
+//Child class
+class Rabbit extends animal{ // Rabbit is a child class of animal
+    name = "rabbit";
 }
-const car_1 = new car("Ford" , "Mustang" , "2022" , "Blue" , display);
-const car_2 = new car("Toyota" , "Supra" , "2024" , "zet black" , display);
+
+class Hawk extends animal{ // Hawk is a child class of animal
+    name = "hawk";
+}
+
+const rabbit = new Rabbit();
+const hawk = new Hawk();
+
+rabbit.sleep();
+hawk.sleep();
