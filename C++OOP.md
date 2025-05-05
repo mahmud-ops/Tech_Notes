@@ -2,10 +2,6 @@
 
 ## classes and obejects
 
-Sure thing. Here's the full note with the **basic format of a class** included — clean, simple, and in your writing style:
-
----
-
 **Objects** are like the entities in the real world.  
 **Classes** are the blueprints of the objects.
 
@@ -102,7 +98,9 @@ Error : What is this `Private` thing ?? 🤷‍♂️
 
 ---
 
-## Access modifiers
+## Access modifiers / Specifiers
+
+Struct is public and class is private by default.
 
 **Private :** Data & methods are accessible `inside class`. (`Default`)
 

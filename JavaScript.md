@@ -1625,3 +1625,8 @@ rabbit.run(); // The rabbit is running
 hawk.fly(); // The hawk is flying
 hawk.run(); // Error (A child can't access a method from another child)
 ```
+## Super keyword
+Keyword used in classes to call the constructor or to access the properties and methods of a parent (AKA `superclass`) 
+- this = this object
+- super = the parent
+
