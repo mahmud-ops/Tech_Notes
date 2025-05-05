@@ -1629,4 +1629,125 @@ hawk.run(); // Error (A child can't access a method from another child)
 Keyword used in classes to call the constructor or to access the properties and methods of a parent (AKA `superclass`) 
 - this = this object
 - super = the parent
+```js
+class Animal {
+    isAlive = true;
+}
 
+class Rabit extends Animal {
+    constructor(name , age , runSpeed){
+        this.name = name;
+        this.age = age;
+        this.runSpeed = runSpeed;
+    }
+}
+
+class Fish extends Animal {
+    constructor(name , age , swimSpeed){
+        this.name = name;
+        this.age = age;
+        this.swimSpeed = swimSpeed;
+    }
+}
+
+class Hawk extends Animal {
+    constructor(name , age , flySpeed){
+        this.name = name;
+        this.age = age;
+        this.flySpeed = flySpeed;
+    }
+}
+
+const rabit = new Rabit("Bugs" , 1 , 25);
+```
+> Error messege : Must call super constructor in derived class before accessing 'this' or returning from derived constructor
+
+* `super()` calls the constructor of the parent class.
+* It's **mandatory** in a child class constructor **before** using `this`.
+* It sets up the parent part (`Animal`) of the object properly.
+* Without it, JavaScript doesn’t know how to initialize `this`, so it throws an error.
+* Think of it like setting up the base model before adding custom features.
+* Once `super()` runs, you can safely assign things like `this.name`, `this.age`, etc.
+
+```js
+class Animal {
+    isAlive = true;
+}
+
+class Rabit extends Animal {
+    constructor(name , age , runSpeed){
+        super(); // Called super
+        this.name = name;
+        this.age = age;
+        this.runSpeed = runSpeed;
+    }
+}
+
+class Fish extends Animal {
+    constructor(name , age , swimSpeed){
+        super(); // Called super
+        this.name = name;
+        this.age = age;
+        this.swimSpeed = swimSpeed;
+    }
+}
+
+class Hawk extends Animal {
+    constructor(name , age , flySpeed){
+        super(); // Called super
+        this.name = name;
+        this.age = age;
+        this.flySpeed = flySpeed;
+    }
+}
+
+const rabit = new Rabit("Bugs bunny" , 1 , 25);
+console.log(`${rabit.name} is ${rabit.age} years old , his running speed is ${rabit.runSpeed} mph.`)
+```
+> Bugs bunny is 1 years old , his running speed is 25 mph.
+
+ Since `name` and `age` are common properties, we can move them to the parent class's constructor. However, we'll still need to pass them from the child class using `super(name, age)` in the constructor.
+
+```js
+class Animal {
+    isAlive = true;
+    constructor(name , age){
+        this.name = name;
+        this.age = age;
+    }
+}
+
+class Rabit extends Animal {
+    constructor(name , age , runSpeed){
+        super(name , age); // we'll still need to pass them from the child class using `super(name, age)` in the constructor.
+        this.runSpeed = runSpeed;
+    }
+}
+
+class Fish extends Animal {
+    constructor(name , age , swimSpeed){
+        super(name , age); 
+        this.swimSpeed = swimSpeed;
+    }
+}
+
+class Hawk extends Animal {
+    constructor(name , age , flySpeed){
+        super(name , age); 
+        this.flySpeed = flySpeed;
+    }
+}
+
+const rabit = new Rabit("Bugs Bunny", 1, 25);
+console.log(`${rabit.name} is ${rabit.age} years old, his running speed is ${rabit.runSpeed} mph.`);
+
+const fish = new Fish("Nemo", 2, 10);
+console.log(`${fish.name} is ${fish.age} years old, his swimming speed is ${fish.swimSpeed} mph.`);
+
+const hawk = new Hawk("Sky Hunter", 3, 60);
+console.log(`${hawk.name} is ${hawk.age} years old, his flying speed is ${hawk.flySpeed} mph.`);
+
+```
+> 'Bugs Bunny is 1 years old, his running speed is 25 mph.'
+'Nemo is 2 years old, his swimming speed is 10 mph.'
+'Sky Hunter is 3 years old, his flying speed is 60 mph.'
