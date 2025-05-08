@@ -3,37 +3,15 @@
 
 using namespace std;
 int main(){
-    vector<int> v;
-    int n;
-    cout << "How many elements ?\n";
-    cin >> n;
+    vector<pair<int , string>> student;
 
-    for(int i = 0 ; i < n ; i++){
-        int num;
-        cin >> num;
-        v.push_back(num);
+    student.push_back({20 , "Mahmud"});
+    student.push_back({22 , "Rahad"});
+    student.push_back({21 , "Shrabon"});
+
+    for(int i = 0 ; i < 3 ; i++){
+        cout << student[i].second << " is " << student[i].first << " years old.\n";
     }
 
-    cout << "Original array : \n";
-    for(int i = 0 ; i < n ; i++){
-        cout << v[i] << " ";
-    }
-
-    cout << '\n';
-
-    int target;
-    cout << "Which element do you want to remove ?\n";
-    cin >> target;
-    vector<int> w;
-    for(int i = 0 ; i < n ; i++){
-        if(v[i] != target){
-            w.push_back(v[i]);
-        }
-    }
-
-    cout << "After removing " << target << "\n";
-    for(int i = 0 ; i < w.size() ; i++){
-        cout << w[i] << " ";
-    }
     return 0;
 }

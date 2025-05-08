@@ -165,3 +165,73 @@ Which element do you want to remove ?
 After removing 2
 1 3 1
 </pre>
+
+## Pairs
+**Why do we need this?**
+Whenever you need to store two things together, like (name, score) or (x, y) coordinates — pair is your guy.
+Think of it like:
+```cpp
+pair<int, string> p = {1, "Mahmud"}; // Like a mini struct with just two values.
+```
+```cpp
+#include<iostream>
+#include<utility> // For pair
+
+using namespace std;
+int main(){
+    pair<string , int> student;
+
+    student.first = "Mahmud";
+    student.second = 20;
+
+    cout << student.first << " is " << student.second << " years old.\n";
+    return 0;
+}
+```
+<pre>
+Mahmud is 20 years old.
+</pre>
+**Nested pair**
+```cpp
+#include<iostream>
+#include<utility> // For pair
+
+using namespace std;
+int main(){
+    pair<string , pair <int , double>> student; // Pair inside pair
+
+    student.first = "Mahmud";
+    student.second.first = 20;
+    student.second.second = 3.00;
+
+    cout <<  student.first << " is " << student.second.first << " years old . " << "His gpa is : " << student.second.second << '\n';
+    
+    return 0;
+}
+```
+<pre>
+Mahmud is 20 years old . His gpa is : 3
+</pre>
+
+**Pair in vector**
+
+**Practice problem - 01**
+```cpp
+#include<iostream>
+#include<vector>
+
+using namespace std;
+int main(){
+    vector<pair<int , string>> student;
+
+    student.push_back({20 , "Mahmud"});
+    student.push_back({22 , "Rahad"});
+    student.push_back({21 , "Shrabon"});
+
+    for(int i = 0 ; i < 3 ; i++){
+        cout << student[i].second << " is " << student[i].first << " years old.\n";
+    }
+
+    return 0;
+}
+```
