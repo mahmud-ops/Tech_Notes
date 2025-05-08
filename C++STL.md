@@ -50,7 +50,9 @@ int main(){
 }
 ```
 > Enter size : 5
+
 > 1 2 3 4 5
+
 > Sum : 15
 
 **Practice problem - 02**
@@ -84,8 +86,11 @@ int main(){
 }
 ```
 > How many elements do you want to enter ?
+
 > 5
+
 > 1 2 5 3 2
+
 > Max = 5
 
 **⚠️ Tiny Suggestions:**
