@@ -7,16 +7,22 @@
 `array with steroids + memory management for free`
 
 **Methods**
-
-| Method               | What it does                             |
-| -------------------- | ---------------------------------------- |
-| `push_back(x)`       | Add `x` at the end                       |
-| `pop_back()`         | Removes last element                     |
-| `size()`             | Returns number of elements               |
-| `empty()`            | Checks if vector is empty                |
-| `clear()`            | Removes all elements                     |
-| `front()` / `back()` | First / Last element                     |
-| `begin()` / `end()`  | Iterator to first / past-the-end element |
+| Method                            | What it does                                                        |
+| --------------------------------- | ------------------------------------------------------------------- |
+| `push_back(x)`                    | Adds `x` at the end of the vector                                   |
+| `pop_back()`                      | Removes the last element                                            |
+| `size()`                          | Number of elements currently in the vector                          |
+| `empty()`                         | Checks if the vector is empty                                       |
+| `clear()`                         | Deletes all elements from the vector                                |
+| `front()` / `back()`              | Accesses first / last element                                       |
+| `begin()` / `end()`               | Iterators to loop through the vector                                |
+| `insert(pos, val)`                | Inserts `val` at a specific position                                |
+| `erase(pos)` / `erase(start,end)` | Removes element(s) at position or in a range                        |
+| `resize(n)` / `resize(n, val)`    | Changes the vector size, can auto-fill with a value                 |
+| `at(i)`                           | Safe access to element at index `i` (throws error if out of bounds) |
+| `[]`                              | Fast access to element at index `i` (no safety check)               |
+| `assign(n, val)`                  | Replaces all elements with `n` copies of `val`                      |
+| `swap(v2)`                        | Swaps content with another vector                                   |
 
 **Practice problem - 01**
 - Ask the user to enter how many numbers they want to input (say n)
@@ -148,3 +154,14 @@ int main(){
     return 0;
 }
 ```
+<pre>
+How many elements ?
+5
+1 2 3 2 1
+Original array :
+1 2 3 2 1
+Which element do you want to remove ?
+2
+After removing 2
+1 3 1
+</pre>
