@@ -1751,3 +1751,77 @@ console.log(`${hawk.name} is ${hawk.age} years old, his flying speed is ${hawk.f
 > 'Bugs Bunny is 1 years old, his running speed is 25 mph.'
 'Nemo is 2 years old, his swimming speed is 10 mph.'
 'Sky Hunter is 3 years old, his flying speed is 60 mph.'
+
+Now , let's define a method in parnet class and call it through child class
+
+```js
+class Animal {
+    isAlive = true;
+    constructor(name , age){
+        this.name = name;
+        this.age = age;
+    }
+    move(speed){ // Define
+        console.log(`${this.name} can move at the speed of ${speed} mph`);
+    }
+}
+
+
+class Rabit extends Animal {
+    constructor(name , age , runSpeed){
+        super(name , age);
+        this.runSpeed = runSpeed;
+        super.move(this.runSpeed); // Call
+    }
+
+}
+
+class Fish extends Animal {
+    constructor(name , age , swimSpeed){
+        super(name , age); 
+        this.swimSpeed = swimSpeed;
+        super.move(this.swimSpeed);
+    }
+}
+
+class Hawk extends Animal {
+    constructor(name , age , flySpeed){
+        super(name , age); 
+        this.flySpeed = flySpeed;
+        super.move(this.flySpeed);
+    }
+}
+
+const rabit = new Rabit("Bugs Bunny", 1, 25);
+const fish = new Fish("Nemo", 2, 10);
+const hawk = new Hawk("Sky Hunter", 3, 60);
+```
+> 'Bugs Bunny can move at the speed of 25 mph'
+> 'Nemo can move at the speed of 10 mph'
+> 'Sky Hunter can move at the speed of 60 mph'
+
+## Getters and setters
+
+**Getter :** Special method that makes a property readable; 
+**Setter :** Special method that makes a property writable; 
+
+Validate and modify a value when reading/writing a property.
+
+```js
+class rectangle{
+    constructor(width , height){
+        this.width = width;
+        this.height = height;
+    }
+}
+
+const rectangle_1 = new rectangle(-111 , "Apple");
+
+console.log(rectangle_1.width);
+console.log(rectangle_1.height);
+```
+> -111
+'Apple'
+
+Which doesn't make any sense ... let's fix it by using setters and getters.
+
