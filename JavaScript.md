@@ -2008,12 +2008,8 @@ class person{
         }
     }
 // Getters
-    get firsName(){
-        return this._firstName;
-    }
-
-    get lastName(){
-        return this._lastName;
+    get fullName(){
+        return `${this._firstName} ${this._lastName}` 
     }
     
     get age(){
@@ -2023,10 +2019,21 @@ class person{
 
 const person1 = new person("Abdullah","Al Mahmud",21);
 
-console.log(`Name = ${person1.firsName} ${person1.lastName}`);
+console.log(`Name = ${person1.fullName}`);
 console.log(`Age = ${person1.age}`);
 ```
 <pre>
 'Name = Abdullah Al Mahmud'
 'Age = 21'
 </pre>
+---
+**Why Use Getters & Setters:**
+
+* 🔒 **Control access** to properties (no wild data allowed)
+* ✅ **Validate** values before setting (e.g. age must be a number)
+* 🧼 **Cleaner syntax** for accessing computed data (`user.fullName` instead of `user.getFullName()`)
+* 🚫 **Prevent direct modification** of sensitive/internal data (`_balance`, `_password`, etc.)
+* 🔁 **Auto-update related stuff** when one value changes
+* 🪄 **Hide internal logic** while keeping API simple (`obj.prop` feels like a regular variable)
+* ♻️ **Maintain flexibility** — you can switch from a static value to a dynamic one without breaking outside code
+* 📦 **Encapsulation** — class manages its own state like a grown adult

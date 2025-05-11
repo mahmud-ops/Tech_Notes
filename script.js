@@ -32,12 +32,8 @@ class person{
         }
     }
 // Getters
-    get firsName(){
-        return this._firstName;
-    }
-
-    get lastName(){
-        return this._lastName;
+    get fullName(){
+        return `${this._firstName} ${this._lastName}` 
     }
     
     get age(){
@@ -47,5 +43,5 @@ class person{
 
 const person1 = new person("Abdullah","Al Mahmud",21);
 
-console.log(`Name = ${person1.firsName} ${person1.lastName}`);
+console.log(`Name = ${person1.fullName}`);
 console.log(`Age = ${person1.age}`);
