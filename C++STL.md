@@ -235,3 +235,9 @@ int main(){
     return 0;
 }
 ```
+<pre>
+Mahmud is 20 years old.
+Rahad is 22 years old.
+Shrabon is 21 years old.
+</pre>
+

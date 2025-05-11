@@ -1800,7 +1800,7 @@ const hawk = new Hawk("Sky Hunter", 3, 60);
 > 'Nemo can move at the speed of 10 mph'
 > 'Sky Hunter can move at the speed of 60 mph'
 
-## Getters and setters
+## Getters and setters (*doesn't make sense ... yet*)
 
 **Getter :** Special method that makes a property readable; 
 **Setter :** Special method that makes a property writable; 
@@ -1825,3 +1825,94 @@ console.log(rectangle_1.height);
 
 Which doesn't make any sense ... let's fix it by using setters and getters.
 
+```js
+class rectangle{
+    constructor(height , width){
+        this.height = height;
+        this.width = width;
+
+    }
+    getArea(){
+       return this.height * this.width;
+    }
+
+    set width(newWidth){
+        if(newWidth > 0){
+            this._width = newWidth; // _width , here _ represents a private property , When you give your code to other devs , it tells them to not to mess with it.
+        }
+        else{
+            console.error(`The width should be positive`);
+        }
+    }
+
+    set height(newHeight){
+        if(newHeight > 0){
+            this._height = newHeight; // _height , here _ represents a private property , When you give your code to other devs , it tells them to not to mess with it.
+        }
+        else{
+            console.error(`The height should be positive`);
+        }
+    }
+}
+
+const rectangle_1 = new rectangle(200 , 25);
+console.log(`Height = ${rectangle_1.height}`);
+console.log(`width = ${rectangle_1.width}`);
+
+```
+**Output**
+<pre>
+'Height = undefined'
+'width = undefined'
+</pre>
+
+Now it's not showing anything. **This is where getter comes in.😎**
+
+```js
+class rectangle{
+    constructor(height , width){
+        this.height = height;
+        this.width = width;
+
+    }
+    getArea(){
+       return this.height * this.width;
+    }
+
+    set width(newWidth){
+        if(newWidth > 0){
+            this._width = newWidth; // _width , here _ represents a private property , When you give your code to other devs , it tells them to not to mess with it.
+        }
+        else{
+            console.error(`The width should be positive`);
+        }
+    }
+
+    set height(newHeight){
+        if(newHeight > 0){
+            this._height = newHeight; // _height , here _ represents a private property , When you give your code to other devs , it tells them to not to mess with it.
+        }
+        else{
+            console.error(`The height should be positive`);
+        }
+    }
+
+
+    // Getters
+    get width(){
+        return this._width;
+    }
+
+    get height(){
+        return this._height;
+    }
+}
+
+const rectangle_1 = new rectangle(200 , 25);
+console.log(`Height = ${rectangle_1.height}`);
+console.log(`width = ${rectangle_1.width}`);
+```
+<pre>
+'Height = 200'
+'width = 25'
+</pre>
