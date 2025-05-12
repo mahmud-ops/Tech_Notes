@@ -1,6 +1,6 @@
 ## C++ Object oriented Programming
 
-## classes and obejects
+## classes and objects
 
 **Objects** are like the entities in the real world.  
 **Classes** are the blueprints of the objects.

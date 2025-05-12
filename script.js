@@ -1,47 +1,8 @@
-class person{
-    constructor(firsName , lastName , age){
-        this.firsName = firsName;
-        this.lastName = lastName;
-        this.age = age;
-    }
-// Setters
-    set firsName(newFirstName){
-        if(typeof(newFirstName) === 'string' && newFirstName.length > 0){
-            this._firstName = newFirstName;
-        }
-        else{
-            console.error(`Name should be a string.`)
-        }
-    }
+let a = 5;
+let b = 4;
 
-    set lastName(newLastName){
-        if(typeof(newLastName) === 'string' && newLastName.length > 0){
-            this._lastName = newLastName;
-        }
-        else{
-            console.error(`Name should be a string.`);
-        }
-    }
+console.log(`Before swap > a = ${a} and b = ${b}`);
 
-    set age(newAge){
-        if(typeof(newAge) === 'number'){
-            this._age = newAge;
-        }
-        else{
-            console.error(`Age should be a number`);
-        }
-    }
-// Getters
-    get fullName(){
-        return `${this._firstName} ${this._lastName}` 
-    }
-    
-    get age(){
-        return this._age;
-    }
-}
+[a , b] = [b , a];
 
-const person1 = new person("Abdullah","Al Mahmud",21);
-
-console.log(`Name = ${person1.fullName}`);
-console.log(`Age = ${person1.age}`);
+console.log(`Before swap > a = ${a} and b = ${b}`);

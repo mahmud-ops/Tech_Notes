@@ -2039,4 +2039,26 @@ console.log(`Age = ${person1.age}`);
 * 📦 **Encapsulation** — class manages its own state like a grown adult
 
 ## Destructuring
+Extract values from arrays and objects . Then assign them in a variable in a convinient way.
 
+- [] is used to perform **array** destructuring
+- {} is used to perform **object** destructuring
+
+
+**Examples**
+
+**1. Swap values**
+```js
+let a = 5;
+let b = 4;
+
+console.log(`Before swap > a = ${a} and b = ${b}`);
+
+[a , b] = [b , a];
+
+console.log(`Before swap > a = ${a} and b = ${b}`);
+```
+<pre>
+'Before swap > a = 5 and b = 4'
+'Before swap > a = 4 and b = 5'
+</pre>
