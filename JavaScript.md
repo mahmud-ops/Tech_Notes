@@ -2037,3 +2037,6 @@ console.log(`Age = ${person1.age}`);
 * 🪄 **Hide internal logic** while keeping API simple (`obj.prop` feels like a regular variable)
 * ♻️ **Maintain flexibility** — you can switch from a static value to a dynamic one without breaking outside code
 * 📦 **Encapsulation** — class manages its own state like a grown adult
+
+## Destructuring
+
