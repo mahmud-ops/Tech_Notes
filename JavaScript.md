@@ -2062,3 +2062,183 @@ console.log(`Before swap > a = ${a} and b = ${b}`);
 'Before swap > a = 5 and b = 4'
 'Before swap > a = 4 and b = 5'
 </pre>
+
+**2. Swap elements of an array**
+```js
+let colors = ["Red" , "Green" , "Blue" , "Yellow"];
+console.log(`Before swap : ${colors}`);
+
+[colors[0] , colors[2]] = [colors[2] , colors[0]];
+ // Swaps red and blue
+console.log(`After swap : ${colors}`);
+```
+<pre>
+'Before swap : Red,Green,Blue,Yellow'
+'After swap : Blue,Green,Red,Yellow'
+</pre>
+
+**3. Assigning array elements to a variable**
+```js
+let colors = ["Red", "Green", "Blue", "Yellow", "Orange", "Purple", "Pink", "Brown", "Black", "White"];
+ 
+[firstColor , secondColor , thirdColor , ...ExtraColors] = colors;
+// You can use rest parameters to assign them in an array
+
+console.log(thirdColor);
+console.log(firstColor);
+console.log(secondColor);
+console.log(ExtraColors);
+```
+<pre>
+'Blue'
+'Red'
+'Green'
+Array(7) [ 'Yellow', 'Orange', 'Purple', 'Pink', 'Brown', ... ]
+</pre>
+
+**4. Extract values from object**
+```js
+const car_1 = {
+    brand : "Toyota",
+    name : "Mazda",
+    price : 25000,
+}
+const car_2 = {
+    brand: "Honda",
+    name: "Civic",
+    price: 22000,
+}
+
+const car_3 = {
+    brand: "Ford",
+    name: "Mustang",
+    price: 35000,
+}
+
+const {brand , name , price} = car_1;
+console.log(brand)
+console.log(name)
+console.log(price)
+```
+<pre>
+'Toyota'
+'Mazda'
+25000
+</pre>
+
+We can assign custom values iff it's not provided
+```js
+const car_1 = {
+    brand : "Toyota",
+    name : "Mazda",
+    price : 25000,
+}
+const car_2 = {
+    brand: "Honda",
+    name: "Civic",
+    price: 22000,
+}
+
+const car_3 = {
+    brand: "Ford",
+    name: "Mustang", // Price missing
+}
+
+const {brand , name , price = 30000} = car_3; // Assigned price
+console.log(brand)
+console.log(name)
+console.log(price)
+```
+<pre>
+'Ford'
+'Mustang'
+30000
+</pre>
+
+**5. Destructure in function parameters**
+```js
+const car_1 = {
+    brand : "Toyota",
+    name : "Mazda",
+    price : 25000,
+}
+const car_2 = {
+    brand: "Pegani",
+    name: "Zonda-7",
+    price: 80000,
+}
+
+function displayCar({brand , name , price}){
+    console.log(`Name : ${name}`);
+    console.log(`Brand : ${brand}`);
+    console.log(`Price : ${price}`);
+}
+
+displayCar(car_1); // Call
+```
+<pre>
+'Name : Mazda'
+'Brand : Toyota'
+'Price : 25000'
+</pre>
+```js
+displayCar(car_2); // Call
+```
+<pre>
+'Name : Zonda-7'
+'Brand : Pegani'
+'Price : 80000'
+</pre>
+
+## Nested object
+Objects inside an object.
+```js
+const car = {
+    Name : "Pagani zonda cinque",
+    body : {
+        color : "White",
+        material : "Carbotitanium",
+        door : "Swan",
+        frame : "Tubular",
+    }
+}
+
+console.log(`Name : ${car.Name}`);
+console.table(`Name : ${car.body}`);
+console.table(`Color : ${car.body.color}`);
+ 
+```
+**Output**
+'Name : Pagani zonda cinque'
+| **Index** | **Values**       |
+|-----------|------------------|
+| color     | White            |
+| material  | Carbotitanium    |
+| door      | Swan             |
+| frame     | Tubular          |
+
+'Color : White'
+---
+
+You can loop through the properties of a **nested object**
+```js
+const car = {
+    Name : "Pagani zonda cinque",
+    body : {
+        color : "White",
+        material : "Carbotitanium",
+        door : "Swan",
+        frame : "Tubular",
+    }
+}
+
+for(property in car.body){
+    console.log(car.body[property]);
+}
+```
+<pre>
+'White'
+'Carbotitanium'
+'Swan'
+'Tubular'
+</pre>

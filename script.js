@@ -1,8 +1,13 @@
-let a = 5;
-let b = 4;
+const car = {
+    Name : "Pagani zonda cinque",
+    body : {
+        color : "White",
+        material : "Carbotitanium",
+        door : "Swan",
+        frame : "Tubular",
+    }
+}
 
-console.log(`Before swap > a = ${a} and b = ${b}`);
-
-[a , b] = [b , a];
-
-console.log(`Before swap > a = ${a} and b = ${b}`);
+for(property in car.body){
+    console.log(car.body[property]);
+}
