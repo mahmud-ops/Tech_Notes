@@ -2242,3 +2242,83 @@ for(property in car.body){
 'Swan'
 'Tubular'
 </pre>
+
+## Arrays of objects
+```js
+const fruits = [{name: "Apple" , color: "Red" , calorie: 95},
+                {name: "Mango" , color: "Mango" , calorie: 100},
+                {name: "Banana" , color: "White" , calorie: 105},
+]
+
+console.log(fruits[0].name);
+```
+> 'Apple'
+
+**forEach()**
+```js
+const fruits = [{name: "Apple" , color: "Red" , calorie: 95},
+                {name: "Mango" , color: "Mango" , calorie: 100},
+                {name: "Banana" , color: "White" , calorie: 105},
+]
+
+fruits.forEach(fruit => console.log(fruit));
+```
+<pre>
+{ name: 'Apple', color: 'Red', calorie: 95 }
+{ name: 'Mango', color: 'Mango', calorie: 100 }
+{ name: 'Banana', color: 'White', calorie: 105 }
+</pre>
+
+**map()**
+```js
+const fruits = [{name: "Apple" , color: "Red" , calorie: 95},
+                {name: "Mango" , color: "Mango" , calorie: 100},
+                {name: "Banana" , color: "White" , calorie: 105},
+]
+
+const fruitNames = fruits.map(fruit => fruit.name);
+console.log(fruitNames);
+```
+<pre>
+[ 'Apple', 'Mango', 'Banana' ]
+</pre>
+
+**filter() method**
+```js
+const fruits = [{name: "Apple" , color: "Red" , calorie: 95},
+    {name: "Mango" , color: "Yellow" , calorie: 100},
+    {name: "Banana" , color: "Yellow" , calorie: 105},
+    {name: "Orange" , color: "Orange" , calorie: 60},
+]
+
+let yellowFruits = fruits.filter(fruit => fruit.color == "Yellow"); // Used filter() here
+
+yellowFruits = yellowFruits.map(fruit => fruit.name);
+console.log(yellowFruits);
+```
+> [ 'Mango', 'Banana' ]
+
+**reduce() method**
+```js
+const fruits = [{name: "Apple" , color: "Red" , calorie: 95},
+    {name: "Mango" , color: "Yellow" , calorie: 100},
+    {name: "Banana" , color: "Yellow" , calorie: 105},
+    {name: "Orange" , color: "Orange" , calorie: 60},
+]
+
+let maxCalFruit = fruits.reduce((max , fruit) => fruit.calorie > max.calorie ? fruit : max);
+console.log(maxCalFruit)
+```
+> { name: 'Banana', color: 'Yellow', **calorie: 105** }
+
+## Sorting array using sort() method
+- Method used to sort the elements of an array in place.
+- Sorts elements as **strings in lexicographical order**
+- **Lexicographic:** When you mix a string, a number, and a symbol, the whole thing still counts as a string. Lexicographically, everything gets treated like characters, not values. So "a" + 5 + "@" becomes "a5@", and it’s all just one big string of text, not math.
+```js
+const numbers = [1,4,3,2,5,7,6,9,8,10];
+console.log(numbers.sort());
+```
+> [ 1, 10, 2, 3, 4, 5, 6, 7, 8, 9 ]
+
+Why is it sorted like this ? 😕

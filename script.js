@@ -1,13 +1,2 @@
-const car = {
-    Name : "Pagani zonda cinque",
-    body : {
-        color : "White",
-        material : "Carbotitanium",
-        door : "Swan",
-        frame : "Tubular",
-    }
-}
-
-for(property in car.body){
-    console.log(car.body[property]);
-}
+const numbers = [1,4,3,2,5,7,6,9,8,10];
+console.log(numbers.sort());
