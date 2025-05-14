@@ -2321,4 +2321,97 @@ console.log(numbers.sort());
 ```
 > [ 1, 10, 2, 3, 4, 5, 6, 7, 8, 9 ]
 
-Why is it sorted like this ? 😕
+**Why is it sorted like this ? 😕**
+
+It’s treating the numbers like strings, not actual numbers.
+
+10 comes before 2 because as strings, "10" comes before "2"
+(Since "1" is less than "2" in string comparison)
+
+**Sorting in numerical order**
+```js
+const numbers = [1,4,3,2,5,7,6,9,8,10];
+numbers.sort((a , b) => a - b);
+console.log(numbers);
+```
+> [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+**Reverse**
+```js
+const numbers = [1,4,3,2,5,7,6,9,8,10];
+numbers.sort((a , b) => b - a);
+console.log(numbers);
+```
+> [ 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 ]
+
+**How does it work ?**
+The sort() method uses what we call a "comparison function", and the math you write inside controls who gets in line first.
+
+**📥 How a - b works (ascending):**
+- If the result is negative → a comes before b
+- If it’s positive → b comes before a
+- If it’s 0 → they’re equal, order stays
+
+## Shuffling array
+```js
+const numbers = [1,4,3,2,5,7,6,9,8,10];
+console.log(numbers.sort(() => Math.random() - 0.5));
+
+```
+> [ 9, 5, 7, 8, 2, 6, 3, 4, 10, 1 ]
+
+
+It’s basically this logic running in the background:
+
+```js
+for each (a, b) pair in the array:
+    if (Math.random() - 0.5 > 0) {
+        place a after b;
+    } else {
+        place a before b;
+    }
+```
+
+But it's not doing **every** possible pair. Just enough to think it sorted it.
+
+---
+
+**💣 So Why It Works (kinda)?**
+
+Because it does **just enough randomness** to mess up the order.
+But if you're doing:
+
+* Card shuffling?
+* Fair random picking?
+* Generating permutations?
+
+👉 Use **Fisher–Yates**, the king of shuffles.
+
+**Fisher-yates algorithm**
+- Using a dedicated function.
+- It swaps the current element with a random element.
+```js
+const numbers = [1,4,3,2,5,7,6,9,8,10];
+
+shuffle(numbers);
+console.log(numbers);
+
+
+// Function definition
+function shuffle(array){
+    for(let i = array.length - 1 ; i > 0 ; i--){
+        let random = Math.floor(Math.random() * (i+1));
+
+        [array[i] , array[random]] = [array[random] , array[i]];
+    }
+}
+```
+> [ 10, 3, 4, 6, 5, 1, 9, 2, 8, 7 ]
+
+## Date objects
+```js
+const date = new Date(); // Object instance
+console.log(date);
+```
+> new Date('2025-05-14T10:05:34.000Z')
+---
+
