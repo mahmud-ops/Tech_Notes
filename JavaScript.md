@@ -2414,4 +2414,141 @@ console.log(date);
 ```
 > new Date('2025-05-14T10:05:34.000Z')
 ---
+**Printing other stuff of Date , like month , day , year , time** 
+```js
+cconst date = new Date(); // Object instance
+console.log(`Date : ${date.getDate()} / ${date.getMonth() + 1} / ${date.getFullYear()}`);
+// Month + 1 .. why ? --> month works like a array ( 0 - 11 )
+console.log(`Time : ${date.getHours()} : ${date.getMinutes()}`);
+```
+> 'Date : 14 / 5 / 2025'
+> 'Time : 16 : 15'
 
+**Custom date and time**
+```js
+// Date(year , month , date , hour , second)
+const date = new Date(2026 , 11 , 11 , 3 , 35); // Object instance
+console.log(`Date : ${date.getDate()} / ${date.getMonth() + 1} / ${date.getFullYear()}`);
+// Month + 1 .. why ? --> month works like a array ( 0 - 11 )
+console.log(`Time : ${date.getHours()} : ${date.getMinutes()}`);
+```
+> 'Date : 11 / 12 / 2026'
+> 'Time : 3 : 35'
+
+Or do it like this 
+```js
+
+const date = new Date(); // Object instance
+
+date.setDate(12);
+date.setMonth(1);
+date.setFullYear(2012);
+date.setHours(12);
+date.setMinutes(25);
+
+console.log(`Date : ${date.getDate()} / ${date.getMonth() + 1} / ${date.getFullYear()}`);
+// Month + 1 .. why ? --> month works like a array ( 0 - 11 )
+console.log(`Time : ${date.getHours()} : ${date.getMinutes()}`);
+```
+> 'Date : 12 / 2 / 2012'
+> 'Time : 12 : 25'
+
+## Closure
+
+- A **closure** happens when you define a function **inside another function**.
+- The **inner function can access** variables from the **outer function**, even after the outer is done running.
+- It helps you create **private variables** — like stuff that can’t be accessed from outside.
+- Super useful for **keeping state** and is used a lot in frameworks like **React, Vue, and Angular**.
+
+```js
+function outer(){
+    let messege = "Hello world."
+    function inner(){
+        console.log(messege);
+        
+    }
+}
+
+outer();
+```
+> `No output` 😶
+
+A closure in JavaScript is created when a function is defined inside another function, allowing the inner function to access variables from the outer function’s scope. Even after the outer function finishes executing, the inner function retains access to those variables. However, just defining a closure doesn’t do anything unless the inner function is actually called. In the given code, although the closure is properly formed by defining `inner()` inside `outer()`, it never runs because `inner()` is not invoked. That’s why there’s no output — the inner function exists, but it was never told to execute.
+
+```js
+function outer(){
+    let messege = "Hello world."
+    function inner(){
+        console.log(messege);
+        
+    }
+    inner(); // Fixed here.
+} 
+
+outer();
+```
+> 'Hello world.'
+
+**Example - 2**
+```js
+function increase(){
+    let count = 1;
+    count++;
+    console.log(count);
+}
+
+increase();
+increase();
+increase();
+increase();
+increase();
+increase();
+increase();
+```
+> 2
+2
+2
+2
+2
+2
+2
+
+Every single time I call it , it stays the same. Because when we call it , the function reassigns the count value to 1.
+```js
+
+function container(){
+    let count = 1; 
+    function increase(){
+    count++;
+    console.log(count);
+}    
+return {increase}
+}
+
+const counter = container();
+
+counter.increase();
+counter.increase();
+counter.increase();
+counter.increase();
+counter.increase();
+counter.increase();
+counter.increase();
+counter.increase();
+counter.increase();
+counter.increase();
+counter.increase();
+counter.increase();
+```
+> 2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
