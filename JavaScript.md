@@ -2780,3 +2780,6 @@ function clear(){
 * If cleared in time, the alert will not show
 * Logs "Started" to console when Start is clicked
 * Logs "Cancelled" to console when Clear is clicked
+
+## console.time()
+
