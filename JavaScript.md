@@ -2687,10 +2687,10 @@ myAccount.diposit(5);
 
 myAccount.showBalance();
 ```
-```js
+<pre>
 'Name = Mahmud'
 'There is $20 in Mahmud`s account.'
-```
+</pre>
 
 ## setTimeOut()
 
@@ -2703,3 +2703,27 @@ Function in javascript that allows you to schedule the execution of a function a
 setTimeOut(callback , delay);
 ``` 
 **Print `Hello world !` after 3 seconds**
+
+**Method - 1**
+```js
+setTimeout(sayHello , 3000);
+
+function sayHello(){
+    console.log(`Hello world !`);
+}
+```
+**Method - 2**
+```js
+setTimeout(function(){
+    console.log(`Hello world !`)
+}, 3000);
+```
+**Method - 3**
+```js
+setTimeout(() => {
+    console.log(`Hello world !`)
+}, 3000);
+```
+<pre>
+Hello world !    ( Printed after 3 seconds )
+</pre>
