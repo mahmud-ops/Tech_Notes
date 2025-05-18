@@ -2727,3 +2727,56 @@ setTimeout(() => {
 <pre>
 Hello world !    ( Printed after 3 seconds )
 </pre>
+
+**ClearTimeout()**
+
+Can cancel a timeout before it triggers.
+```js
+clearTimeout(timeout_ID);
+```
+```js
+const timeoutID = setTimeout(() => {
+    console.log(`Hello world !`)
+}, 3000);
+
+
+clearTimeout(timeoutID);
+``` 
+> Nothing printed... Cancelled before execution.
+
+**Mini task**
+- Create two buttons (Start , Clear)
+- Start : Starts a timeout function
+- Clear : Cancels before execution
+
+**HTML**
+```html
+<button onclick="start()">Start</button>
+<button onclick="clear()">Clear</button>
+```
+
+**JavaScript**
+```js
+let timeoutID;
+
+function start(){
+    timeoutID = setTimeout(() => window.alert(`Hello`),5000);
+    console.log(`Started`);
+    
+}
+
+function clear(){
+    clearTimeout(timeoutID);
+    console.log(`Cancelled`);
+}
+```
+
+**What does it do ?**
+* Shows two buttons: "Start" and "Clear"
+* Clicking "Start" sets a 5-second timer
+* After 5 seconds, it shows an alert saying "Hello"
+* The timer ID is stored in a variable
+* Clicking "Clear" cancels the timer before it finishes
+* If cleared in time, the alert will not show
+* Logs "Started" to console when Start is clicked
+* Logs "Cancelled" to console when Clear is clicked
