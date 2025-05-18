@@ -2702,4 +2702,4 @@ Function in javascript that allows you to schedule the execution of a function a
 ```js
 setTimeOut(callback , delay);
 ``` 
-**Print `Hello world` after 3 seconds**
+**Print `Hello world !` after 3 seconds**
