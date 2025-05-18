@@ -1,24 +1,22 @@
+function showAccount(Name) {
+    console.log(`Name = ${Name}`);
 
-function container(){
-    let count = 1; 
-    function increase(){
-    count++;
-    console.log(count);
-}    
-return {increase}
+    let balance = 0;
+    function showBalance(){
+        console.log(`There is $${balance} in ${Name}'s account.`);
+    }
+
+    function diposit(money){
+        balance += money;
+    }
+
+    return {showBalance , diposit};
 }
 
-const counter = container();
+const myAccount = showAccount("Mahmud");
+myAccount.diposit(5);
+myAccount.diposit(5);
+myAccount.diposit(5);
+myAccount.diposit(5);
 
-counter.increase();
-counter.increase();
-counter.increase();
-counter.increase();
-counter.increase();
-counter.increase();
-counter.increase();
-counter.increase();
-counter.increase();
-counter.increase();
-counter.increase();
-counter.increase();
+myAccount.showBalance();

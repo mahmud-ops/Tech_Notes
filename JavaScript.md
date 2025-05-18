@@ -2515,30 +2515,39 @@ increase();
 
 Every single time I call it , it stays the same. Because when we call it , the function reassigns the count value to 1.
 ```js
+// This is the outer function — it creates a private variable called 'count'
+function container() {
+    let count = 1; // 'count' is private, only accessible inside 'container'
 
-function container(){
-    let count = 1; 
-    function increase(){
-    count++;
-    console.log(count);
-}    
-return {increase}
+    // This inner function is a closure — it remembers 'count' from the outer scope
+    function increase() {
+        count++; // increase the value of 'count' by 1
+        console.log(count); // show the updated value
+    }
+
+    // We're returning an object with the 'increase' function,
+    // so we can use it outside while still keeping 'count' private
+    return { increase };
 }
 
-const counter = container();
+// Calling 'container()' runs the outer function once and returns the object with 'increase'
+const counter = container(); 
+// Now 'counter.increase' is the inner function — and it still has access to 'count'
 
-counter.increase();
-counter.increase();
-counter.increase();
-counter.increase();
-counter.increase();
-counter.increase();
-counter.increase();
-counter.increase();
-counter.increase();
-counter.increase();
-counter.increase();
-counter.increase();
+// These are the closure magic moments 🪄
+// Every time we call counter.increase(), it updates the same 'count'
+counter.increase(); // 2
+counter.increase(); // 3
+counter.increase(); // 4
+counter.increase(); // 5
+counter.increase(); // 6
+counter.increase(); // 7
+counter.increase(); // 8
+counter.increase(); // 9
+counter.increase(); // 10
+counter.increase(); // 11
+counter.increase(); // 12
+counter.increase(); // 13
 ```
 > 2
 3
@@ -2552,3 +2561,145 @@ counter.increase();
 11
 12
 13
+
+Let's try accessing a private variable.`count`
+```js
+
+function container(){
+    let count = 1; 
+    function increase(){
+    count++;
+    console.log(count);
+}    
+return {increase}
+}
+
+const counter = container();
+console.log(counter.count); // Trying to access
+```
+> Undefined (You can't access a private variable)
+
+**Here'a how you access it.**
+
+You define a function that gets the private variable.
+```js
+
+function container(){
+    let count = 1; 
+    function increase(){
+    count++;
+    console.log(count);
+}    
+
+function getCount(){
+    console.log(count);
+}
+
+return {increase}
+}
+
+const counter = container();
+counter.getCount();
+```
+> counter.getCount is not a function (ERROR).
+
+**Fix**
+```js
+
+function container(){
+    let count = 1; 
+    function increase(){
+    count++;
+    console.log(count);
+}    
+
+function getCount(){
+    console.log(count);
+}
+
+return {increase , getCount} // You gotta return the functions
+}
+
+const counter = container();
+counter.getCount();
+```
+> 1
+
+**Mini project**
+```js
+function createGame(){
+    let score = 0;
+
+    function inceaseScore(inc){
+        score+=inc;
+        console.log(`+ ${inc} pts`);
+    }
+
+    function decreaseScore(dec){
+        score-= dec;
+        console.log(`- ${dec} pts`);
+    }
+
+    function getScore(){
+        console.log(`Score = ${score}`);
+    }
+
+    return {inceaseScore , decreaseScore , getScore};
+}
+
+const myGame = createGame();
+
+myGame.inceaseScore(5);
+myGame.inceaseScore(5);
+myGame.decreaseScore(5);
+myGame.inceaseScore(5);
+myGame.getScore();
+```
+
+> '+ 5 pts'
+> '+ 5 pts'
+> '- 5 pts'
+> '+ 5 pts'
+> 'Score = 10'
+
+**Another example**
+```js
+function showAccount(Name) {
+    console.log(`Name = ${Name}`);
+
+    let balance = 0;
+    function showBalance(){
+        console.log(`There is $${balance} in ${Name}'s account.`);
+    }
+
+    function diposit(money){
+        balance += money;
+    }
+
+    return {showBalance , diposit};
+}
+
+const myAccount = showAccount("Mahmud");
+myAccount.diposit(5);
+myAccount.diposit(5);
+myAccount.diposit(5);
+myAccount.diposit(5);
+
+myAccount.showBalance();
+```
+```js
+'Name = Mahmud'
+'There is $20 in Mahmud`s account.'
+```
+
+## setTimeOut()
+
+Function in javascript that allows you to schedule the execution of a function after an amount of time ( in miliseconds ) 
+
+> Times are approximate , It varies based on the workload of the js runtime environment.
+
+**Basic structure**
+```js
+setTimeOut(callback , delay);
+``` 
+**Print `Hello world` after 3 seconds**
