@@ -2724,6 +2724,6 @@ setTimeout(() => {
     console.log(`Hello world !`)
 }, 3000);
 ```
-<>
+<pre>
 Hello world !    ( Printed after 3 seconds )
-</>
+</pre>
