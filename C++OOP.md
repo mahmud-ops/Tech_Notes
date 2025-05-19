@@ -332,6 +332,65 @@ int main(){
 > Toyota
 
 ---
+**Note on Scope Resolution Operator (`::`) in C++**
+
+The scope resolution operator `::` in C++ is used to **access something that is outside the current scope**. It helps you tell the compiler exactly where to find a variable, function, or class.
+
+---
+
+**Common Uses:**
+
+1. **Access global variable when there's a local one with the same name:**
+
+```cpp
+int x = 10; // global
+
+int main() {
+    int x = 5; // local
+    cout << ::x; // outputs 10 (global x)
+}
+```
+
+2. **Define a class function outside the class:**
+
+```cpp
+class MyClass {
+public:
+    void sayHello(); // only declared here
+};
+
+void MyClass::sayHello() { // defined here using ::
+    cout << "Hello from MyClass";
+}
+```
+
+3. **Access static members of a class:**
+
+```cpp
+class A {
+public:
+    static int count;
+};
+
+int A::count = 0; // define static variable outside using ::
+```
+
+4. **Use namespaces (like std):**
+
+```cpp
+std::cout << "Hey there"; // std is the namespace, cout is inside it
+```
+
+---
+
+**Summary:**
+
+* `::` lets you **be specific** about which version of something you want.
+* It's used with **global variables**, **class definitions**, **static members**, and **namespaces**.
+* Think of it as saying: “Hey, I mean *this* one, not the other one.”
+
+Let me know if you want practice problems on this.
+
 
 There are 3 types of constructors
 1. Non-parameterized constructor.
@@ -447,6 +506,7 @@ Person(string name, int age, string gender) {
 Looks clean, easy to match. You instantly know which param belongs to which member.
 
 **Align with pointer :** Put the `name`(parameter) in the address of the `name`(object).
+
 
 ### Copy constructors:
 
