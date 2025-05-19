@@ -54,7 +54,6 @@ z = Math.sign(x);
 ```
 
 **Project :** Random Number Generator:
-![Output](image.png)
 ```JS
 <!DOCTYPE html>
 <html lang="en">
