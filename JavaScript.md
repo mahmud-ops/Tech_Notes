@@ -2885,7 +2885,7 @@ console.log(number);
 10. Keeps everything responsive and centered inside a styled box.
 
 
-**Formula : A = P(1 + r/n)^nt**
+**Formula : A = P(1 + r)^t**
 
 ![Compound interst calculator screenshot](Images/JS/Comp_interest_calculator.png);
 
