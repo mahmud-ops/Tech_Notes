@@ -2783,3 +2783,27 @@ function clear(){
 
 ## console.time()
 
+Tool that allows you to measure the time it takes for a section of code or process to execute.
+
+Great for identifying performance "bottlenecks"
+
+**Basic format**
+```js
+console.time("label");
+console.timeEnd("label");
+```
+**Application**
+```js
+console.time("test");
+
+for(let i = 0 ; i < 100000 ; i++){
+    // code
+}
+
+console.timeEnd("test");
+```
+> test: 10.162ms  (This shit took approximately 10 miliseconds)
+
+This code shows the execution time from `console.time() to console.timeEnd()` section..
+
+## Formating currency 

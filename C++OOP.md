@@ -723,5 +723,3 @@ Every time that function runs, your system loses a chunk of RAM it can’t use a
 A **memory leak** is like leaving food in the fridge and forgetting about it. You don’t eat it, no one else eats it, it just rots there… forever. 🧀🧂
 
 **Back to shallow copy**
-
-

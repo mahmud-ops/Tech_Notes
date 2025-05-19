@@ -1,12 +1,7 @@
-let timeoutID;
+console.time("test");
 
-function start(){
-    timeoutID = setTimeout(() => window.alert(`Hello`),5000);
-    console.log(`Started`);
-    
+for(let i = 0 ; i < 100000 ; i++){
+    // code
 }
 
-function clear(){
-    clearTimeout(timeoutID);
-    console.log(`Cancelled`);
-}
+console.timeEnd("test");
