@@ -2872,6 +2872,19 @@ console.log(number);
 
 ## Project 5 : Compound interest calculator
 
+1. Takes user input for **principal amount**, **interest rate**, and **number of years**.
+2. Converts the **interest rate** from percentage to decimal.
+3. Uses the **compound interest formula**:
+   $A = P \times (1 + r)^t
+4. Calculates the **future value** based on the input.
+5. Formats the result as **Bangladeshi Taka** using currency formatting.
+6. Displays the formatted result in the `<p id="total">` element.
+7. Applies basic styling with CSS for a clean UI.
+8. Adds a green submit button that changes color on hover.
+9. Shows result instantly when the "Submit" button is clicked.
+10. Keeps everything responsive and centered inside a styled box.
+
+
 **Formula : A = P(1 + r/n)^nt**
 
 ![Compound interst calculator screenshot](Images/JS/Comp_interest_calculator.png);
@@ -2964,5 +2977,47 @@ input{
 
 #submit:hover{
     background-color: hsl(120, 100%, 25%);
+}
+```
+**JavaScript**
+```js
+
+function calculate(){
+    const principal = document.getElementById("principal").value;
+    const rate = document.getElementById("rate").value/100;
+    const year = document.getElementById("year").value;
+
+
+    const result = (principal*Math.pow((1 + rate),year)).toLocaleString(undefined,{style:"currency", currency:"BDT"});
+    document.getElementById("total").textContent = `${result}`;
+}
+```
+
+**It's not done yet , we have fix some things. Such as:**
+- What if someone enters a negetive number ?
+- What if someone enters something that is not a number (NaN) ?
+
+**After adding validation checkers**
+```js
+
+function calculate(){
+    let principal = document.getElementById("principal").value;
+    let rate = document.getElementById("rate").value/100;
+    let year = document.getElementById("year").value;
+
+    // Validation check
+    if (principal < 0 || rate < 0 || year < 0 || isNaN(principal) || isNaN(rate) || isNaN(year)) {
+        window.alert(`Invalid input`);
+
+        document.getElementById("principal").value = " ";
+        document.getElementById("rate").value = " ";
+        document.getElementById("year").value = " ";
+
+        result = 0;
+    }
+
+
+    let result = (principal*Math.pow((1 + rate),year)).toLocaleString(undefined,{style:"currency", currency:"BDT"});
+    document.getElementById("total").textContent = `${result}`;
 }
 ```
