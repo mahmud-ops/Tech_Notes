@@ -2870,3 +2870,99 @@ console.log(number);
 
 > '₹192,345.68'
 
+## Project 5 : Compound interest calculator
+
+**Formula : A = P(1 + r/n)^nt**
+
+![Compound interst calculator screenshot](Images/JS/Comp_interest_calculator.png);
+
+**HTML**
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Compound interest calculator</h1>
+    <div class="container">
+
+        <label for="principal">Principal ammount</label>
+        <input id="principal" type="number">
+
+        <label for="rate">Interest rate</label>
+        <input id="rate" type="text">
+        
+        <label for="year">Year</label>
+        <input id="year" type="text">
+
+        <p id="total">0.00</p>
+
+        <button id="submit" type="button" onclick="calculate()">Submit</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+```
+
+**CSS**
+```css
+body{
+    background-color: gainsboro;
+    font-family: Arial, Helvetica, sans-serif;
+}
+h1{
+    text-align: center;
+    font-weight: bolder;
+}
+
+.container{
+    padding: 20px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    background-color: white;
+    max-width: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: bolder;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px hsla(0, 0%, 0%, 0.389);
+}
+
+input{
+    margin-top: 10px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    font-weight: bolder;
+    font-size: larger;
+}
+
+#submit{
+    background-color: rgb(0, 214, 0);
+    border-radius: 10px;
+    border: none;
+    padding: 10px;
+    font-size: large;
+    font-weight: bolder;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#total{
+    font-size: 2em;
+    color: hsl(120, 100%, 25%);
+}
+
+#submit:hover{
+    background-color: hsl(120, 100%, 25%);
+}
+```

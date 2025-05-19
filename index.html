@@ -8,8 +8,22 @@
 </head>
 <body>
 
-    <button onclick="start()">Start</button>
-    <button onclick="clear()">Clear</button>
+    <h1>Compound interest calculator</h1>
+    <div class="container">
+
+        <label for="principal">Principal ammount</label>
+        <input id="principal" type="number">
+
+        <label for="rate">Interest rate</label>
+        <input id="rate" type="text">
+        
+        <label for="year">Year</label>
+        <input id="year" type="text">
+
+        <p id="total">0.00</p>
+
+        <button id="submit" type="button" onclick="calculate()">Submit</button>
+    </div>
 
     <script src="script.js"></script>
 </body>
