@@ -2807,3 +2807,36 @@ console.timeEnd("test");
 This code shows the execution time from `console.time() to console.timeEnd()` section..
 
 ## Formating currency 
+
+**.toLocaleString()** - Returns a string with a language sensitive representation of a number.
+
+```js
+number.toLocaleString("locale" , {options});
+```
+
+**US english format**
+```js
+let number = 12345.675;
+number = number.toLocaleString("en-US");
+
+console.log(number);
+```
+
+
+In this context:
+
+```js
+let number = 12345.675;
+number = number.toLocaleString("en-US");
+```
+> 123,45.675
+
+`"en-US"` tells JavaScript to format the number using **U.S. English conventions**.
+
+So it will:
+
+* Use **commas** for thousands → `12,345.675`
+* Use **periods** for decimals (instead of commas, like in many European formats)
+* Follow **U.S. style** number grouping and punctuation
+
+Basically, `"en-US"` makes sure the output looks like a regular number in American formatting.

@@ -1,7 +1,4 @@
-console.time("test");
+let number = 12345.675;
+number = number.toLocaleString("en-US");
 
-for(let i = 0 ; i < 100000 ; i++){
-    // code
-}
-
-console.timeEnd("test");
+console.log(number);
