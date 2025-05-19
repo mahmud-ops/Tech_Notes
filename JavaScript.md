@@ -2811,7 +2811,7 @@ This code shows the execution time from `console.time() to console.timeEnd()` se
 **.toLocaleString()** - Returns a string with a language sensitive representation of a number.
 
 ```js
-number.toLocaleString("locale" , {options});
+number.toLocaleString("locale" , {opject});
 ```
 
 **US english format**
@@ -2840,3 +2840,33 @@ So it will:
 * Follow **U.S. style** number grouping and punctuation
 
 Basically, `"en-US"` makes sure the output looks like a regular number in American formatting.
+
+**Indian**
+```js
+let number = 192345.675;
+number = number.toLocaleString("hi-IN");
+
+console.log(number);
+```
+> '1,92,345.675'
+
+**Currency formating (USD)**
+```js
+let number = 192345.675;
+number = number.toLocaleString("en-US" , {style:"currency", currency: "USD"});
+
+console.log(number);
+``` 
+
+> $192,345.68
+
+**Currency formating (INR - indian)**
+```js
+let number = 192345.675;
+number = number.toLocaleString("en-US" , {style:"currency", currency: "INR"});
+
+console.log(number);
+```
+
+> '₹192,345.68'
+
