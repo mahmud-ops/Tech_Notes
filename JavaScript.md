@@ -3050,4 +3050,48 @@ function calculate(){
 </html>
 ```
 
+**CSS**
+```css
+#container{
+    background-position: center;
+    background-image: url("https://i.pinimg.com/736x/11/8d/6b/118d6b80f0f5e9e132b0f9baa0717567.jpg");
+    background-color: black;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    align-items: center;
+}
 
+#clock{
+    backdrop-filter: blur(5px);
+    background-color: rgba(255, 255, 255, 0.093);
+    text-align: center;
+    width: 100%;
+    font-size: 6.5em;
+    color: white;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+```
+**JavaScript**
+```js
+function runClock(){
+    const clock = document.getElementById("clock");
+
+    const now = new Date();
+    let hour = now.getHours().toString().padStart(2,0); // Padstart puts 0 to make the string length 2.
+    const minutes = now.getMinutes().toString().padStart(2,0);
+    const second = now.getSeconds().toString().padStart(2,0);
+    
+    let meridien = hour > 12 ? "PM" :  "AM";
+    hour = hour % 12 || 12;
+    
+
+    let time = `${hour}:${minutes}:${second} ${meridien}`;
+    clock.textContent = time;
+}
+
+runClock();
+setInterval(runClock , 1000); //setInterval calls the function after every 1000ms / 1s.
+```
