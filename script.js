@@ -1,22 +1,18 @@
+function runClock(){
+    const clock = document.getElementById("clock");
 
-function calculate(){
-    let principal = document.getElementById("principal").value;
-    let rate = document.getElementById("rate").value/100;
-    let year = document.getElementById("year").value;
+    const now = new Date();
+    let hour = now.getHours().toString().padStart(2,0); // Padstart puts 0 to make the string length 2.
+    const minutes = now.getMinutes().toString().padStart(2,0);
+    const second = now.getSeconds().toString().padStart(2,0);
+    
+    let meridien = hour > 12 ? "PM" :  "AM";
+    hour = hour % 12 || 12;
+    
 
-    // Validation check
-    if (principal < 0 || rate < 0 || year < 0 || isNaN(principal) || isNaN(rate) || isNaN(year)) {
-        window.alert(`Invalid input`);
-
-        document.getElementById("principal").value = " ";
-        document.getElementById("rate").value = " ";
-        document.getElementById("year").value = " ";
-
-        result = 0;
-    }
-
-
-    let result = (principal*Math.pow((1 + rate),year)).toLocaleString(undefined,{style:"currency", currency:"BDT"});
-    document.getElementById("total").textContent = `${result}`;
+    let time = `${hour}:${minutes}:${second} ${meridien}`;
+    clock.textContent = time;
 }
 
+runClock();
+setInterval(runClock , 1000); //setInterval calls the function after every 1000ms / 1s.

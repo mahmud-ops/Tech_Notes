@@ -3020,3 +3020,12 @@ function calculate(){
     document.getElementById("total").textContent = `${result}`;
 }
 ```
+## Project 6 : Digital clock
+
+**✅ What it does:**
+- Shows the current time on the page
+- Automatically updates every second
+- Formats it to 12-hour time with AM/PM
+- Adds leading zeros to hours, minutes, and seconds if needed
+- Easy to plug into any webpage
+
