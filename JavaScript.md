@@ -3022,10 +3022,32 @@ function calculate(){
 ```
 ## Project 6 : Digital clock
 
+![clock](Images/JS/Clock.png);
+
 **✅ What it does:**
 - Shows the current time on the page
 - Automatically updates every second
 - Formats it to 12-hour time with AM/PM
 - Adds leading zeros to hours, minutes, and seconds if needed
 - Easy to plug into any webpage
+
+**HTML**
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="container">
+        <div id="clock">00:00:00</div>
+    </div>    
+<script src="script.js"></script>
+</body>
+</html>
+```
+
 
