@@ -3135,3 +3135,31 @@ This project is a **fully functional digital stopwatch** built using **HTML, CSS
 * Learning how to handle time and intervals in JS
 * Practicing clean state management (`isRunning`, `elapsedTime`)
 * Adding a real-time component to a frontend portfolio
+
+**HTML**
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    
+    <div class="container">
+        <div id="display">00:00:00:00</div>
+        <div id="button-container">
+            <button id="Start" onclick="start_time()">Start</button>
+            <button id="Stop" onclick="stop_time()">Stop</button>
+            <button id="Reset" onclick="reset_time()">Reset</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+```
