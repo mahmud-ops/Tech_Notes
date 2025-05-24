@@ -3097,11 +3097,8 @@ setInterval(runClock , 1000); //setInterval calls the function after every 1000m
 ```
 
 ## Project 7 : Stopwatch
-Bet! Here's a 🔥 **project description** you can slap onto your portfolio or GitHub readme:
 
----
-
-### ⏱️ JavaScript Stopwatch Project
+![Stopwatch](Images/JS/Stopwatch.png)
 
 This project is a **fully functional digital stopwatch** built using **HTML, CSS, and JavaScript**. It allows users to **start**, **stop**, and **reset** the timer with precision down to **milliseconds**.
 
