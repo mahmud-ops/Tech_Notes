@@ -3279,3 +3279,6 @@ function update(){
     display.textContent = `${hoursString}:${minutesString}:${secondsString}:${miliSecondssString}`;
 }
 ```
+## ES6 modules
+An external file that contains reusable code that can be imported into other js files .
+Write reusable codes for many different file.
