@@ -3163,3 +3163,76 @@ This project is a **fully functional digital stopwatch** built using **HTML, CSS
 </body>
 </html>
 ```
+
+**CSS**
+```css
+body{
+    background-color: rgb(47, 47, 47);
+}
+
+.container{
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    align-items: center;
+    background-color: gray;
+    padding: 20px;
+    margin: 0 auto;
+    border-radius: 10px;
+    max-width: 450px;
+    transition: 0.3s;
+}
+
+.container:hover{
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.755);
+    transform: translate(-2px , -2px);
+}
+
+#display{
+    width: 430px;
+    text-align: center;
+    font-size: 4em;
+    font-family: monospace;  
+    border: solid black 2px;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 20px;
+    color: rgb(255, 255, 255);
+    text-shadow: 0 0 5px red,
+                 0 0 10px red,
+                 0 0 20px rgb(255, 100, 100);
+
+    background-color: rgb(31, 31, 31);
+    animation: glowPulse 1s infinite;
+}
+
+@keyframes glowPulse {
+  0% { text-shadow: 0 0 5px red, 0 0 10px red, 0 0 20px red; }
+  50% { text-shadow: 0 0 10px red, 0 0 20px red, 0 0 30px red; }
+  100% { text-shadow: 0 0 5px red, 0 0 10px red, 0 0 20px red; }
+}
+
+button{
+    aspect-ratio: 16/9;
+    width: 100px;
+    border-radius: 30px;
+    cursor: pointer;
+    color: white;
+    font-weight: bolder;
+}
+button:hover{
+    filter: brightness(0.7);
+}
+
+#Start{
+    background-color: rgb(0, 228, 49);
+}
+
+#Stop{
+    background-color: red;
+}
+
+#Reset{
+    background-color: cornflowerblue;
+}
+```
