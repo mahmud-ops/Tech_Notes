@@ -3095,3 +3095,43 @@ function runClock(){
 runClock();
 setInterval(runClock , 1000); //setInterval calls the function after every 1000ms / 1s.
 ```
+
+## Project 7 : Stopwatch
+Bet! Here's a 🔥 **project description** you can slap onto your portfolio or GitHub readme:
+
+---
+
+### ⏱️ JavaScript Stopwatch Project
+
+This project is a **fully functional digital stopwatch** built using **HTML, CSS, and JavaScript**. It allows users to **start**, **stop**, and **reset** the timer with precision down to **milliseconds**.
+
+**💡 What It Does:**
+
+* Displays elapsed time in the format: `HH:MM:SS:MS`
+* Starts from zero and counts time in real-time
+* Stops the time and freezes the display
+* Resumes from where it left off when restarted
+* Resets everything back to zero when needed
+* Clean UI, responsive, and minimal delay due to 10ms update interval
+
+**🔧 Key Features:**
+
+* `Start` button to begin or resume timing
+* `Stop` button to pause the stopwatch
+* `Reset` button to clear the time
+* Padded time formatting for consistency (e.g., `01:03:09:07`)
+* Prevents bugs like multiple intervals or non-zero resets
+
+**🧠 Concepts Used:**
+
+* DOM manipulation (`getElementById`, `.textContent`)
+* JavaScript timers (`setInterval`, `clearInterval`)
+* Conditional logic to prevent duplicate intervals
+* Time calculations using `Date.now()`
+* String formatting using `padStart()` for aesthetic output
+
+**📌 Perfect For:**
+
+* Learning how to handle time and intervals in JS
+* Practicing clean state management (`isRunning`, `elapsedTime`)
+* Adding a real-time component to a frontend portfolio
