@@ -1,4 +1,7 @@
-import {pi,getArea} from './mathUtil.js';
+setTimeout(() => {
+    console.log("Task-0");
+}, 3000);
 
-let area = getArea(124);
-console.log(`Area = ${area}`);
+console.log("Task-1");
+console.log("Task-2");
+console.log("Task-3");

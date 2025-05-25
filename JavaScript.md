@@ -3360,3 +3360,38 @@ You're importing only what you need, using it directly, and keeping your code **
 
 ## Asynchronus JS
 
+**Sequential Execution:**
+- Executes line by line consecutively in a sequential manner.
+- Code that waits for an operation to complete.
+
+**Asynchronous Execution:**
+- Allows multiple operations to be performed concurrently without waiting.
+- Doesn't block the execution flow and allows the program to continue running (I/O operations, network requests, fetching data).
+- Handled with: Callbacks, Promises, Async/Await.
+
+**Example**
+```js
+setTimeout(() => {
+    console.log("Task-0");
+}, 3000);
+
+console.log("Task-1");
+console.log("Task-2");
+console.log("Task-3");
+```
+If this code followed **strict sequential execution** without any async behavior, the output would just print exactly in the order the lines appear — no delays, no waiting:
+
+```
+Task-0
+Task-1
+Task-2
+Task-3
+```
+**Instead it prints**
+```
+Task-1
+Task-2
+Task-3
+Task-0 (After 3 seconds)
+```
+Because in pure sequential execution, the program would pause and wait for the `setTimeout` task (which takes 3 seconds) to finish before moving on to the next lines. But since `setTimeout` is async, it actually *doesn't* block and lets the other logs run first.
