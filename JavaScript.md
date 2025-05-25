@@ -3279,6 +3279,12 @@ function update(){
     display.textContent = `${hoursString}:${minutesString}:${secondsString}:${miliSecondssString}`;
 }
 ```
-## ES6 modules
-An external file that contains reusable code that can be imported into other js files .
-Write reusable codes for many different file.
+## ES6 Modules (ECMAScript 2015)
+
+* **ES6 modules** allow you to organize JavaScript code into **separate files**.
+* These files can contain **variables**, **functions**, or **classes** that are **reusable** across multiple files or even different projects.
+* You can **export** specific parts of your code from one file and **import** them into another.
+* This makes your code more **organized**, **modular**, and **maintainable**.
+* ES6 modules were officially introduced in the **ECMAScript 2015 (ES6)** update.
+
+
