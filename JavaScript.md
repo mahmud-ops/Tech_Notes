@@ -3395,3 +3395,135 @@ Task-3
 Task-0 (After 3 seconds)
 ```
 Because in pure sequential execution, the program would pause and wait for the `setTimeout` task (which takes 3 seconds) to finish before moving on to the next lines. But since `setTimeout` is async, it actually *doesn't* block and lets the other logs run first.
+
+**But , I want to print the other lines after `Task-0` gets printed after 3 secods**
+```js
+setTimeout(() => {
+    console.log("Task-0");
+    otherTask(); // Will be called after task-0 is printed
+}, 3000);
+
+function otherTask(){
+    console.log("Task-1");
+    console.log("Task-2");
+    console.log("Task-3");
+}
+```
+`wait 3 seconds`
+```
+Task-0
+Task-1
+Task-2
+Task-3
+```
+## Error handeling
+
+- **Error:** An object created to represent a problem that occurs, often related to user input or connection failures.
+- **`try { }`:** Encloses code that might potentially cause an error.
+- **`catch { }`:** Catches and handles any thrown errors from the `try` block.
+- **`finally { }`:** (Optional) Always executes—usually used for cleanup tasks, like closing files, connections, or releasing resources.
+
+```js
+console.log("Program started");
+
+console.lag("Programm running"); // Error : console.lag()
+
+console.log("You've reached the end of the programm");
+```
+
+```
+Program started
+script.js:3  Uncaught TypeError: console.lag is not a function
+    at script.js:3:9
+```
+It couldn't reach the end of the program.
+
+We have to make it overlook the error and reach the end.
+```js
+console.log("Program started");
+try {
+    console.lag("Programm running")              ;
+} 
+catch (error) {
+    console.error(error);
+}
+console.log("You've reached the end of the programm");
+```
+```
+Program started
+
+TypeError: console.lag is not a function
+    at script.js:3:13
+(anonymous) @ script.js:6
+
+script.js:8 You've reached the end of the programm
+```
+- try block = where errors might happen.
+- If an error occurs, catch (error) handles it gracefully.
+- Without the try-catch, your program would’ve crashed at console.lag().
+
+So , the program doesn't crash if it faces an error.
+
+We can also make intentional errors
+```js
+let dividend = Number(window.prompt("Enter dividend:"));
+let divisor = Number(window.prompt("Enter divisor:"));
+
+let result = dividend / divisor ;
+console.log(`Result = ${result}`);
+```
+What if we asign the values as NaN
+
+```
+Result = NaN
+```
+
+It still executes the program. 
+Let's make it an error.
+
+```js
+
+try{
+    let dividend = Number(window.prompt("Enter dividend:"));
+    let divisor = Number(window.prompt("Enter divisor:"));
+
+    if(isNaN(dividend) || isNaN(divisor)){
+        throw new Error("Input must be a number."); // Intentional error
+    }
+
+    let result = dividend / divisor ;
+    
+    console.log(`Result = ${result}`);
+}
+catch(error){
+    console.error(error);
+}
+```
+> script.js:18 
+Error: Input must be a number.
+
+Now let's throw an error if devided by zero.
+```js
+
+try{
+    let dividend = Number(window.prompt("Enter dividend:"));
+    let divisor = Number(window.prompt("Enter divisor:"));
+
+    if(isNaN(dividend) || isNaN(divisor)){
+        throw new Error("Input must be a number.");
+    }
+    if(divisor == 0){
+        throw new Error("You can't divide by 0.") // Error
+    }
+
+    let result = dividend / divisor ;
+    
+    console.log(`Result = ${result}`);
+}
+catch(error){
+    console.error(error);
+}
+```
+> script.js:18  Error: You can't divide by 0
+
+## Project 8 : Calculator
