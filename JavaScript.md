@@ -3287,4 +3287,73 @@ function update(){
 * This makes your code more **organized**, **modular**, and **maintainable**.
 * ES6 modules were officially introduced in the **ECMAScript 2015 (ES6)** update.
 
+**A standard html code**
+```HTML
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script src="script.js"></script>
 
+</body>
+</html>
+```
+`type="module"`
+
+This is the magic line.We're telling the browser:"Yo, this JS file is modern ES6+ module style,so expect import/export, top-level await, and strict vibes."
+
+
+```html
+<script type="module" src="script.js"></script>
+```
+Now we can use multiple JavaScript files to keep our codebase clean, structured, and easy to manage. This modular approach brings several advantages:
+
+* **Better organization**: Code can be divided into logical sections or features, making it easier to read and maintain.
+* **Reusability**: Functions, variables, or classes defined in one file can be reused in others, reducing duplication.
+* **Scalability**: As projects grow, modules make it easier to expand without cluttering a single file.
+* **Improved teamwork**: Developers can work on separate files independently, which helps in team collaboration.
+* **Faster debugging**: Identifying and fixing bugs becomes simpler when code is broken into smaller, focused parts.
+* **Cleaner project structure**: Files are grouped by purpose (e.g., utilities, UI handling, API requests), making the project more professional and easier to navigate.
+
+By using `type="module"`, we enable these features and ensure our JavaScript runs in a more modern, strict, and efficient way.
+
+**Example code**
+
+```js
+// mathUtil.js (Provider modulw / exporting module)
+export const pi = 3.14;
+export let radius;
+export function getArea(radius){
+    return pi * Math.pow(radius,2);
+}
+```
+```js
+// script.js (Consumer module / importing module)
+import {pi,getArea} from './mathUtil.js';
+
+let area = getArea(124);
+console.log(`Area = ${area}`);
+```
+> Area = 48280.64
+
+**What's going on here ?**
+
+In this script, we're using **ES6 module import syntax** to bring in specific functions from another file:
+
+* `import { pi, getArea } from './mathUtil.js';`
+  This line pulls in the `pi` constant and the `getArea` function from a separate file named `mathUtil.js`. These were **exported** from that file, making them available for use here.
+
+* `let area = getArea(124);`
+  We're calling the `getArea` function and passing `124` as the input (most likely a radius or side length, depending on the function's logic), then storing the result in the `area` variable.
+
+* `console.log(`Area = \${area}`);`
+  This line simply prints out the calculated area in a readable format.
+
+**In short:**
+
+You're importing only what you need, using it directly, and keeping your code **modular, clean, and efficient** — just how modern JavaScript likes it.

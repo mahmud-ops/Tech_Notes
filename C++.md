@@ -522,7 +522,7 @@ int *ptr = &num;
 ```
 **DSA:** Essential for data structures like linked lists and trees.
 
-## Null pointers
+## **Null pointers**
 **Null Pointers: A Quick Overview**
 
 A **null pointer** is a special value that a pointer holds to indicate it is not pointing to any valid memory or object. It's like saying, "Hey, I don’t know where to go yet!"
@@ -596,7 +596,7 @@ int main(){
 ```
 *It's not safe to dereference a null pointer*
 
-## Project 1 : Tic Tac Toe
+## **Project 1 : Tic Tac Toe**
 [tutorial](https://youtu.be/-TkoO8Z07hI?t=16037)
 
 **Step 1 : Draw the board**
@@ -1052,7 +1052,7 @@ bool winner(char player , char computer , char *spaces){
         return true;
     }
 ```
-## Dynamic memory 
+## **Dynamic memory** 
 Alright, imagine this:
 
 You're a toddler playing with blocks. You have two toy boxes:
@@ -1168,7 +1168,7 @@ Every time that function runs, your system loses a chunk of RAM it can’t use a
 
 A **memory leak** is like leaving food in the fridge and forgetting about it. You don’t eat it, no one else eats it, it just rots there… forever. 🧀🧂
 
-## Recursion 
+## **Recursion** 
 
 **Recursion** - a programming technique where a function invokes itself from within to break a complex concept into a repeatable single step.
 
@@ -1306,7 +1306,7 @@ factorial(5)
 
 `5 * 4 * 3 * 2 * 1 = 120`
 
-## Stack overflow
+## **Stack overflow**
 
 **Understanding Stack Overflow in Recursion**
 
@@ -1358,7 +1358,7 @@ In this case, each recursive call reduces the value of `steps`, eventually reach
 
 A **stack overflow** is the result of excessive function calls without a proper termination condition. Properly designed recursion ensures that each call progresses towards the base case, preventing the call stack from growing uncontrollably. By ensuring a proper base case and reducing the problem size with each recursive call, we can avoid stack overflow errors and ensure efficient use of system memory.
 
-## Function templates
+## **Function templates**
 - describes what a function looks like.
 - Can be used to generate as many overloaded functions
 - as needed, each using different data types 1    
@@ -1479,7 +1479,7 @@ int main(){
 }
 ```
 > 3.5
-## Structs
+## **Structs**
 - A structure that groups related variables under one name.
 - Structs can contain many different data types (string, integer, float, etc.).
 - Variables in a struct are known as "members".
@@ -1538,7 +1538,7 @@ int main(){
 > Tanvir , EEE 16th batch.
 > Rahad , Civil 16th batch.
 
-## Passing a struct in a function
+## **Passing a struct in a function**
 ```cpp
 struct car
 {
@@ -1679,7 +1679,7 @@ void paintCar(car &car , string color){
 ```
 The address of the car is given to the function and what to work with (`Color`) as parameters. Now the `paintCar()` function will go to the address and work with the color.
 
-## enums ( enumerations )
+## **enums ( enumerations )**
 A user defined data-type that consist of paired named-integers constants.
 > Great , If you have a set of potential options.
 
