@@ -3357,3 +3357,6 @@ In this script, we're using **ES6 module import syntax** to bring in specific fu
 **In short:**
 
 You're importing only what you need, using it directly, and keeping your code **modular, clean, and efficient** — just how modern JavaScript likes it.
+
+## Asynchronus JS
+
