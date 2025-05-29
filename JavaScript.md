@@ -3670,3 +3670,25 @@ function calculate(){
 }
 ```
 **Note:** `eval()` takes a string and treats it like JavaScript code—so `"2 + 3"` becomes `5`.Powerful but risky, since it can run *any* code if not handled safely.
+
+## DOM
+[Video](https://youtu.be/NO5kUNxGIu0)
+
+**The Document Object Model (DOM)** is an object that represents the web page displayed in a browser, providing an API to interact with it. When a web browser loads an HTML document, it constructs the DOM, organizing all elements in a tree-like structure. JavaScript can then access the DOM, allowing dynamic modifications to a web page's content, structure, and style.
+
+**Example**
+
+Change Text of an Element
+```js
+document.getElementById("title").textContent = "Hello, DOM World!";
+```
+Change CSS Style
+```js
+document.querySelector(".box").style.backgroundColor = "lightblue";
+```
+Create and Add a New Element
+```js
+const newPara = document.createElement("p");
+newPara.textContent = "I'm a new paragraph!";
+document.body.appendChild(newPara);
+```
