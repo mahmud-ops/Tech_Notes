@@ -3700,4 +3700,6 @@ They allow you to select one or multiple HTML elements from the DOM (Document Ob
 2. `document.getElementsByClassName()` → HTML COLLECTION  
 3. `document.getElementsByTagName()` → HTML COLLECTION  
 4. `document.querySelector()` → ELEMENT OR NULL  
-5. `document.querySelectorAll()` → NODELIST  
+5. `document.querySelectorAll()` → NODELIST
+  
+[Video](https://youtu.be/FQtjI1PC5Z0)
