@@ -3579,3 +3579,94 @@ catch(error){
 
 **CSS**
 ```css
+#container{
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: black;
+    width: fit-content;
+    border-radius: 20px;
+}
+#solar-panel{
+    align-self: flex-end;
+    margin-bottom: 10px;
+    background-color: rgb(41, 41, 41);
+    height: 20px;
+    width: 80px;
+}
+#solar-panel:hover ~ #display{
+    color: rgba(0, 0, 0, 0);
+}
+#display{
+    transition: color 0.3s;
+    text-align: right;
+    font-family: monospace;
+    font-size: 2em;
+    background-color: rgb(161, 161, 161);
+    margin: 0 auto;
+    width: 230px;
+    height: 50px;
+    margin-bottom: 20px;
+}
+#btn-container{
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4 , 50px);
+    gap: 10px;
+}
+button{
+    aspect-ratio: 1/1;
+    width: 50px;
+    background-color: orange;
+    border: none;
+    border-radius: 50%;
+    margin: 5px;
+    font-weight: bolder;
+    font-size: larger;
+    cursor: pointer;
+}
+#ac{
+    background-color: crimson;
+    color: white;
+}
+.operator{
+    background-color: gray;
+}
+button:hover{
+    filter: brightness(1.2);
+}
+button:active{
+    filter: brightness(0.5);
+}
+```
+
+**JavaScript**
+```js
+const display = document.getElementById("display");
+
+function appendToDisplay(input){
+    display.value += input;
+}
+
+function clearDisplay(){
+    display.value = "";
+}
+
+function calculate(){
+    try {
+         display.value = eval(display.value); // Eval - Evaluates what's on screen
+
+         if(isNaN(display.value)){
+            throw new Error();
+         }
+    } catch (error) {
+        display.value = "Syntax error"
+        setTimeout(() => {
+            display.value = "";
+        }, 1000);
+    }
+}
+```
+**Note:** `eval()` takes a string and treats it like JavaScript code—so `"2 + 3"` becomes `5`.Powerful but risky, since it can run *any* code if not handled safely.
