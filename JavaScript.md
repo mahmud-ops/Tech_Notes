@@ -3527,3 +3527,55 @@ catch(error){
 > script.js:18  Error: You can't divide by 0
 
 ## Project 8 : Calculator
+![Calculator](Images/JS/Calculator.png)
+
+🛠️ Features:
+- Real-time input display 📟
+- Clear button to reset the calculator instantly ♻️
+- Error handling for invalid inputs (shows "Syntax - error" briefly) 🚨
+- Handles operations like:
+- 5 + 3, 9 / 0, 7 * 8 - 2, etc.
+
+**HTML**
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="container">
+        <div id="solar-panel"></div>
+
+        <input type="text" id="display">
+
+        <div id="btn-container">
+            <button onclick="appendToDisplay('1')" id="1">1</button>
+            <button onclick="appendToDisplay('2')" id="2">2</button>
+            <button onclick="appendToDisplay('3')" id="3">3</button>
+            <button onclick="appendToDisplay('+')" class="operator" id="+">+</button>
+            <button onclick="appendToDisplay('4')" id="4">4</button>
+            <button onclick="appendToDisplay('5')" id="5">5</button>
+            <button onclick="appendToDisplay('6')" id="6">6</button>
+            <button onclick="appendToDisplay('-')" class="operator" id="-">-</button>
+            <button onclick="appendToDisplay('7')" id="7">7</button>
+            <button onclick="appendToDisplay('8')" id="8">8</button>
+            <button onclick="appendToDisplay('9')" id="9">9</button>
+            <button onclick="appendToDisplay('/')" class="operator" id="/">/</button>
+            <button onclick="clearDisplay()" id="ac">AC</button>
+            <button onclick="appendToDisplay('.')" class="operator" id=".">.</button>
+            <button onclick="calculate()" class="operator" id="=">=</button>
+            <button onclick="appendToDisplay('*')" class="operator" id="*">*</button>
+        </div>
+        </div>
+    </div>    
+<script src="script.js"></script>
+</body>
+</html>
+```
+
+**CSS**
+```css

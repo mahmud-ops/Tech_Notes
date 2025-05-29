@@ -1,19 +1,24 @@
+const display = document.getElementById("display");
 
-try{
-    let dividend = Number(window.prompt("Enter dividend:"));
-    let divisor = Number(window.prompt("Enter divisor:"));
-
-    if(isNaN(dividend) || isNaN(divisor)){
-        throw new Error("Input must be a number.");
-    }
-    if(divisor == 0){
-        throw new Error("You can't divide by 0.") // Error
-    }
-
-    let result = dividend / divisor ;
-    
-    console.log(`Result = ${result}`);
+function appendToDisplay(input){
+    display.value += input;
 }
-catch(error){
-    console.error(error);
+
+function clearDisplay(){
+    display.value = "";
+}
+
+function calculate(){
+    try {
+         display.value = eval(display.value);
+
+         if(isNaN(display.value)){
+            throw new Error();
+         }
+    } catch (error) {
+        display.value = "Syntax error"
+        setTimeout(() => {
+            display.value = "";
+        }, 1000);
+    }
 }
