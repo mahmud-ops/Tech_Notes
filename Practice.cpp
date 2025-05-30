@@ -1,26 +1,21 @@
 #include<iostream>
-#include<stack>
+#include<vector>
 
 using namespace std;
 int main(){
 
-    stack<char> str;
-    stack<char> str_rev;
+    vector <int> vec_1 = {1,2,3,4,5,6};
 
-    string input;
-    cin >> input;
+    cout << "Element : ";
 
+    vec_1.erase(vec_1.begin() + 4); // + index
 
-    for(char ch : input){
-        str.push(ch);
+    for(int number : vec_1){
+        cout << number << " ";
     }
 
-    while(!str.empty()){
-        str_rev.push(str.top());
-        cout << str_rev.top();
-        str.pop();
-    }
-
+    cout << '\n';
+ 
     
 
     return 0;
