@@ -743,3 +743,47 @@ A **memory leak** is like leaving food in the fridge and forgetting about it. Yo
 **TL;DR:**
 Shallow = same address, shared data 💀
 Deep = new address, cloned data 🧠✅
+
+**Code**
+```cpp
+#include<iostream>
+using namespace std;
+
+class Student {
+
+public:
+    string name;
+    double *cgpaPtr; // Pointer to dynamically allocated CGPA
+
+    Student(string name, double cgpa) {
+        this->name = name;
+        cgpaPtr = new double;      // Allocating memory for CGPA
+        *cgpaPtr = cgpa;           // Storing value in that memory
+    }
+
+    ~Student() {
+        delete cgpaPtr;            // Freeing memory to avoid leaks 💀
+    }
+
+    void display() {
+        cout << "Name : " << name << endl;
+        cout << "CGPA : " << *cgpaPtr << endl;
+    }
+};
+
+int main() {
+
+    Student s1("Mahmud", 3.35);
+    Student s2(s1); // 🚨 Shallow copy: s2.cgpaPtr points to the same memory as s1.cgpaPtr
+
+    s1.display();
+
+    *(s2.cgpaPtr) = 3.45; 
+    // ❗ Modifying s2's CGPA actually changes s1's too
+    // because both cgpaPtr point to the same memory address (shallow copy issue)
+
+    s1.display(); // Value changed unexpectedly due to shared pointer
+
+    return 0;
+}
+```

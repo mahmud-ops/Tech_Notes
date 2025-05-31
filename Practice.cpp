@@ -1,15 +1,12 @@
 #include<iostream>
-#include<string>
 
 using namespace std;
 
 class Student{
     
-    public:
-    
+    public:    
     string name;
     double *cgpaPtr;
-        
 
         Student(string name ,double cgpa){
             this -> name = name;
@@ -17,7 +14,7 @@ class Student{
             *cgpaPtr = cgpa;
         }
 
-        ~Student(){
+        ~ Student(){
             delete cgpaPtr;
         }
 
