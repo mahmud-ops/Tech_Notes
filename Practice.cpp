@@ -14,6 +14,12 @@ class Student{
             *cgpaPtr = cgpa;
         }
 
+        Student(Student &obj){ 
+            this -> name = obj.name;
+            cgpaPtr = new double; // New memory allocated
+            *cgpaPtr = *(obj.cgpaPtr);
+        }
+
         ~ Student(){
             delete cgpaPtr;
         }
@@ -21,6 +27,7 @@ class Student{
         void display(){
             cout << "Name : " << name << endl;
             cout << "CGPA : " << *cgpaPtr << endl;
+            cout << endl;
         }
 };
 

@@ -98,7 +98,7 @@ Error : What is this `Private` thing ?? 🤷‍♂️
 
 ---
 
-## Access modifiers / Specifiers
+### Access modifiers / Specifiers
 
 Struct is public and class is private by default.
 
@@ -452,7 +452,7 @@ student(int age, string hobby , string ethnicity , string height){ // parameteri
 }
 ```
 > Constructor overloading is an example of **Polimorphism** ( We'll discuss about it later )
-### this
+#### this
 
 **this** is a special pointer in C++ that points to the current object.
 > `this -> property` is same as `*(this).property`
@@ -721,9 +721,10 @@ Every time that function runs, your system loses a chunk of RAM it can’t use a
 **TL;DR:**
 
 A **memory leak** is like leaving food in the fridge and forgetting about it. You don’t eat it, no one else eats it, it just rots there… forever. 🧀🧂
+
 ---
 
-### 🔁 Deep Copy vs Shallow Copy (in dynamic memory)
+#### 🔁 Deep Copy vs Shallow Copy (in dynamic memory)
 
 * **Shallow Copy**:
   Copies the **pointer only** → both objects point to the **same memory**.
@@ -787,3 +788,128 @@ int main() {
     return 0;
 }
 ```
+```
+Name : Mahmud
+CGPA : 3.35
+
+Name : Mahmud
+CGPA : 3.45 (cpga changed)
+```
+When we create `s1`, its CGPA is stored in a memory location using dynamic allocation. But when we copy `s1` into `s2` using a shallow copy, both `s1` and `s2` end up pointing to the **same memory address** for the CGPA. So, if we change `s2`'s CGPA, it actually changes the CGPA of `s1` too — because they’re both using the **same memory**. This is exactly the problem with shallow copies when using dynamic memory: different objects accidentally share the same data, which can cause unexpected changes and bugs.
+
+**This is where deep copy comes in**
+
+#### Deep copy
+
+* In **shallow copy**, the original and the copy both point to the **same memory address**.
+  → Changing one affects the other.
+
+* In **deep copy**, the original and the copy each point to **different memory addresses**.
+  → Changing one doesn't affect the other.
+
+**For deep copy we have to make our custom copy constructor first**
+```cpp
+Student(string name ,double cgpa){
+        this -> name = name;
+        cgpaPtr = new double;
+        *cgpaPtr = cgpa;
+    }
+
+// Custom copy consructor (Still shallow copy)
+    Student(Student &obj){ // Pointing to the address of the object created in Student class
+        this -> name = obj.name;
+        this -> cgpaPtr = obj.cgpaPtr;
+    }
+```
+
+To make it deep copy we have to allocate another dynamic memory for the copy.
+```cpp
+Student(string name ,double cgpa){
+            this -> name = name;
+            cgpaPtr = new double;
+            *cgpaPtr = cgpa;
+        }
+
+        Student(Student &obj){ 
+            this -> name = obj.name;
+            cgpaPtr = new double; // New memory allocated
+            *cgpaPtr = *(obj.cgpaPtr); // This points to the new value at the new address of the new object
+        }
+```
+
+**Full code**
+```cpp
+#include<iostream>
+
+using namespace std;
+
+class Student{
+    
+    public:    
+    string name;
+    double *cgpaPtr;
+
+        Student(string name ,double cgpa){
+            this -> name = name;
+            cgpaPtr = new double;
+            *cgpaPtr = cgpa;
+        }
+
+        Student(Student &obj){ 
+            this -> name = obj.name;
+            cgpaPtr = new double; // New memory allocated
+            *cgpaPtr = *(obj.cgpaPtr);
+        }
+
+        ~ Student(){
+            delete cgpaPtr;
+        }
+
+        void display(){
+            cout << "Name : " << name << endl;
+            cout << "CGPA : " << *cgpaPtr << endl;
+            cout << endl;
+        }
+};
+
+int main(){
+
+    Student s1("Mahmud" , 3.35) , s2(s1);
+
+    s1.display();
+    *(s2.cgpaPtr) = 3.45; // Change s2's cgpa
+
+    s1.display();
+
+    return 0;
+}
+```
+```
+Name : Mahmud
+CGPA : 3.35
+
+Name : Mahmud
+CGPA : 3.35 (S1's cgpa stays the same) 🥳
+```
+**S2's cgpa**
+```cpp
+int main(){
+
+    Student s1("Mahmud" , 3.35) , s2(s1);
+
+    s1.display();
+    *(s2.cgpaPtr) = 3.45; // Change s2's cgpa
+
+    s2.display();
+
+    return 0;
+}
+```
+```
+Name : Mahmud
+CGPA : 3.35
+
+Name : Mahmud
+CGPA : 3.45 (S2's cgpa is changed) 🥳
+```
+
