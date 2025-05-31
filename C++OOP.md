@@ -910,6 +910,18 @@ Name : Mahmud
 CGPA : 3.35
 
 Name : Mahmud
-CGPA : 3.45 (S2's cgpa is changed) 🥳
+CGPA : 3.45 (s2's cgpa is changed) 🥳
 ```
 
+## Destructor
+De-allocates a memory
+```cpp
+~class_name(){
+    delete ptr;
+}
+```
+Prevents memory leak
+
+If we allocate a dynamic memory , we must delete it at the end , to prevent memory leak. 
+
+## Inheritence 
