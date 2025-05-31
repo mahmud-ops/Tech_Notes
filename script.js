@@ -1,24 +1,13 @@
-const display = document.getElementById("display");
+let listElement = document.querySelector("li");
+let firstList = document.querySelectorAll("ol")[0];
+let secondList = document.querySelectorAll("ol")[1];
+let thirdList = document.querySelectorAll("ol")[2];
 
-function appendToDisplay(input){
-    display.value += input;
-}
 
-function clearDisplay(){
-    display.value = "";
-}
+listElement.style.backgroundColor = "cyan";
+listElement.nextElementSibling.style.backgroundColor = "yellow";
 
-function calculate(){
-    try {
-         display.value = eval(display.value);
+secondList.firstElementChild.style.backgroundColor = "pink";
+secondList.lastElementChild.style.backgroundColor = "gray";
 
-         if(isNaN(display.value)){
-            throw new Error();
-         }
-    } catch (error) {
-        display.value = "Syntax error"
-        setTimeout(() => {
-            display.value = "";
-        }, 1000);
-    }
-}
+document.querySelectorAll("li")[11].parentElement.style.backgroundColor = "coral";

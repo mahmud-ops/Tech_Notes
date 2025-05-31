@@ -3703,3 +3703,35 @@ They allow you to select one or multiple HTML elements from the DOM (Document Ob
 5. `document.querySelectorAll()` → NODELIST ( Accessed by index )
 
 [Video](https://youtu.be/FQtjI1PC5Z0)
+
+## DOM Navigation
+[Video](https://youtu.be/RKXIMnSwUcg)
+
+The process of navigating through the structure of an HTML document using javascript.
+
+```js
+.firstElementChild();
+.lastElementChild();
+.nextElementSibling();
+.previousElementSibling();
+.parentElement();
+.children();
+```
+**Did some practice with these**
+```js
+let listElement = document.querySelector("li");
+let firstList = document.querySelectorAll("ol")[0];
+let secondList = document.querySelectorAll("ol")[1];
+let thirdList = document.querySelectorAll("ol")[2];
+
+
+listElement.style.backgroundColor = "cyan";
+listElement.nextElementSibling.style.backgroundColor = "yellow";
+
+secondList.firstElementChild.style.backgroundColor = "pink";
+secondList.lastElementChild.style.backgroundColor = "gray";
+
+document.querySelectorAll("li")[11].parentElement.style.backgroundColor = "coral";
+```
+**Output**
+![DOM nav](Images/JS/DOM_Nav.png)
