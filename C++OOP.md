@@ -721,5 +721,25 @@ Every time that function runs, your system loses a chunk of RAM it can’t use a
 **TL;DR:**
 
 A **memory leak** is like leaving food in the fridge and forgetting about it. You don’t eat it, no one else eats it, it just rots there… forever. 🧀🧂
+---
 
-**Back to shallow copy**
+### 🔁 Deep Copy vs Shallow Copy (in dynamic memory)
+
+* **Shallow Copy**:
+  Copies the **pointer only** → both objects point to the **same memory**.
+  Any change in one affects the other.
+
+* **Deep Copy**:
+  Creates a **new memory block** and copies the **actual value** into it.
+  Both objects work independently.
+
+---
+
+> ⚠️ **This difference only matters when you're dealing with dynamic memory (using `new`).**
+> If there’s **no dynamic allocation**, shallow copy usually works just fine.
+
+---
+
+**TL;DR:**
+Shallow = same address, shared data 💀
+Deep = new address, cloned data 🧠✅

@@ -98,8 +98,8 @@ Capacity stays the same because the vector hasn’t reached its limit yet, so no
 
 |Function | What does it do ? | Example |
 |-----|----|---|
-| erase(); | erases the value at the specified position (Not index , Accessed be iterators ) | `vec.erase(vec.begin())` ➡️ Removes the 1st element (1)|
-| insert(); |||
+| erase( ); | erases the value at the specified position (Not index , Accessed be iterators ) | `vec.erase(vec.begin())` ➡️ Removes the 1st element (1)|
+| insert( ); |||
 
 **What if I want to remove `5` ?**
 ```cpp
@@ -110,7 +110,7 @@ using namespace std;
 int main(){
 
     vector <int> vec_1 = {1,2,3,4,5,6};
-
+ 
     cout << "Element : ";
 
     vec_1.erase(vec_1.begin() + 4); // + index
@@ -120,8 +120,6 @@ int main(){
     }
 
     cout << '\n';
- 
-    
 
     return 0;
 }
@@ -129,3 +127,14 @@ int main(){
 |1|2|3|4|6|
 |-|-|-|-|-|
 
+**Now I want to erase from 1 to 4**
+```cpp
+vec_1.erase(vec_1.begin() , vec_1.begin() + 4); // ending range + (index + 1)
+```
+|6|
+|-|
+
+**Empty the array**
+```cpp
+vec_1.erase(vec_1.begin() , vec_1.end()); 
+```

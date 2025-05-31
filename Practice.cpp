@@ -1,22 +1,39 @@
 #include<iostream>
-#include<vector>
+#include<string>
 
 using namespace std;
+
+class Student{
+    
+    public:
+    
+    string name;
+    double *cgpaPtr;
+        
+
+        Student(string name ,double cgpa){
+            this -> name = name;
+            cgpaPtr = new double;
+            *cgpaPtr = cgpa;
+        }
+
+        ~Student(){
+            delete cgpaPtr;
+        }
+
+        void display(){
+            cout << "Name : " << name << endl;
+            cout << "CGPA : " << *cgpaPtr << endl;
+        }
+};
+
 int main(){
 
-    vector <int> vec_1 = {1,2,3,4,5,6};
+    Student s1("Mahmud" , 3.35) , s2(s1);
 
-    cout << "Element : ";
-
-    vec_1.erase(vec_1.begin() + 4); // + index
-
-    for(int number : vec_1){
-        cout << number << " ";
-    }
-
-    cout << '\n';
- 
-    
+    s1.display();
+    *(s2.cgpaPtr) = 3.45;
+    s1.display();
 
     return 0;
 }
