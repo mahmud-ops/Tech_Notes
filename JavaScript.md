@@ -3704,7 +3704,7 @@ They allow you to select one or multiple HTML elements from the DOM (Document Ob
 
 [Video](https://youtu.be/FQtjI1PC5Z0)
 
-## DOM Navigation
+### DOM Navigation
 [Video](https://youtu.be/RKXIMnSwUcg)
 
 The process of navigating through the structure of an HTML document using javascript.
@@ -3736,10 +3736,49 @@ document.querySelectorAll("li")[11].parentElement.style.backgroundColor = "coral
 **Output**
 ![DOM nav](Images/JS/DOM_Nav.png)
 
-## Adding and Removing elements
+### Adding and Removing elements
 **Steps**
 1. Create the element
 2. Add attributes/properties
 3. Append elements to DOM
 - Remove elements from DOM
+```js
+const newH1 = document.createElement("h1"); // Create
+const newH1_2 = document.createElement("h1"); // Create
 
+newH1.textContent = "This is a new element (bottom)"; // Add properties
+newH1_2.textContent = "This is a new element (top)"; // Add properties
+
+document.body.append(newH1); // Append
+document.body.prepend(newH1_2); // Append on top
+
+newH1.style.textAlign = "center"; // style (optional)
+newH1_2.style.textAlign = "center"; // style (optional)
+```
+**Output**
+![Add el](Images/JS/Add_elements_1.png)
+
+**Now append inside the divs**
+```js
+const newElement = document.createElement("h1");
+
+const div = document.getElementById("div-1"); // Selecting div
+
+newElement.textContent = "New element"
+newElement.style.color = "white"
+
+div.append(newElement);
+```
+**Output**
+![Add el 2](Images/JS/Add_elements_2.png)
+
+**Add elements between 2 divs**
+```js
+const newElement = document.createElement("h1");
+
+const div = document.getElementById("div-2"); // Selecting div
+
+newElement.textContent = "New element"
+
+div.parentNode.insertBefore(newElement,div); // Here parentNode is "div-contaier"
+```
