@@ -3735,3 +3735,11 @@ document.querySelectorAll("li")[11].parentElement.style.backgroundColor = "coral
 ```
 **Output**
 ![DOM nav](Images/JS/DOM_Nav.png)
+
+## Adding and Removing elements
+**Steps**
+1. Create the element
+2. Add attributes/properties
+3. Append elements to DOM
+- Remove elements from DOM
+

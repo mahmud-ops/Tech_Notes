@@ -925,3 +925,6 @@ Prevents memory leak
 If we allocate a dynamic memory , we must delete it at the end , to prevent memory leak. 
 
 ## Inheritence 
+When **<font color = "red">properties and member functions</font>** of a **<font color = "yellow">base / parent</font>** class are passed on the **<font color = "cyan">derived / child</font>** class.
+
+

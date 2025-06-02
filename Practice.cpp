@@ -2,42 +2,49 @@
 
 using namespace std;
 
-class Student{
+class person{
+    protected:
+        int classNum;
+    public:
+        person(int classNum){
+            cout << "Parent constructor.\n";
+        }
     
-    public:    
-    string name;
-    double *cgpaPtr;
-
-        Student(string name ,double cgpa){
-            this -> name = name;
-            cgpaPtr = new double;
-            *cgpaPtr = cgpa;
-        }
-
-        Student(Student &obj){ 
-            this -> name = obj.name;
-            cgpaPtr = new double; // New memory allocated
-            *cgpaPtr = *(obj.cgpaPtr);
-        }
-
-        ~ Student(){
-            delete cgpaPtr;
-        }
-
-        void display(){
-            cout << "Name : " << name << endl;
-            cout << "CGPA : " << *cgpaPtr << endl;
-            cout << endl;
-        }
+    void getInfo(){
+        cout << "classNum : " << classNum << endl;
+    }
 };
 
+class student : public person{
+    int roll;
+    string name;
+    
+    public:
+        student(int roll , string name , int classNum): person(classNum){
+            cout << "Child constructor.\n";
+            this -> roll = roll;
+            this -> name = name;
+            this -> classNum = classNum;
+        }
+    
+    void getInfo(){
+        cout << "Name : " << name << endl;
+        cout << "Class : " << classNum << endl;
+        cout << "Roll : " << roll << endl;
+        cout << endl;
+    }
+};
 int main(){
 
-    Student s1("Mahmud" , 3.35) , s2(s1);
+    student s1( 37 , "Mahmud" , 10);
+    student s2( 38 , "Rifat" , 10);
+    student s3( 39 , "Rafi" , 10);
+    student s4( 40 , "Ninad" , 10);
 
-    s1.display();
-    *(s2.cgpaPtr) = 3.45;
-    s1.display();
+    s1.getInfo();
+    s2.getInfo();
+    s3.getInfo();
+    s4.getInfo();
 
     return 0;
 }
