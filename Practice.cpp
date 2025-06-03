@@ -3,41 +3,42 @@
 
 using namespace std;
 
-class person{
+class characteristics_1{
     protected:
         string name;
         int age;
 };
 
-class student : public person{ // student inherits the name and age from person class
+class characteristics_2{
     protected:
         int roll;
+        string research_area;
 };
 
-class gradStudent : public student{ // gradStudent inherits the roll from student class
-    public:
-        string research_area;
+class student : public characteristics_1 , characteristics_2 { // Inherit from characteristics_1 and characteristics_2
+    public: 
+        student(string name , int age , int roll , string research_area){
+            this -> name = name;
+            this -> age = age;
+            this -> roll = roll;
+            this -> research_area = research_area;
 
-    void setValue(string name , int age , int roll , string research_area){
-        this -> name = name;
-        this -> age = age;
-        this -> roll = roll;
-        this -> research_area = research_area;
+            cout << "\n";
+            cout << "Name : " << name << endl;
+            cout << "Age : " << age << endl;
+            cout << "Roll : " << roll << endl;
+            cout << "Research area : " << research_area << endl;
     }
 
-    void display(){
-        cout << "Name : " << name << "\n";
-        cout << "Age : " << age << "\n";
-        cout << "Roll : " << roll << "\n";
-        cout << "Research area : " << research_area << "\n";
+    ~student(){
+        cout << "END.\n";
     }
 };
 
 int main(){
 
-    gradStudent s1;
-    s1.setValue("Mahmud" , 21 , 240137 , "NULL");
-    s1.display();
+    student s1("Mahmud" , 21 , 240137 , "Cybersecurity");
+    student s2("Abdullah" , 21 , 240138 , "Machine learning");
 
     return 0;
 }
