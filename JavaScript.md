@@ -3795,6 +3795,14 @@ parent.insertBefore(newElement, boxes[1]); // Can access by index
 
 **Output**
 ![Add el 3](Images/JS/Add_elements_3.png)
+**Now remove the new element from box 1**
+```js
+const newElement = document.createElement("h1");
+newElement.textContent = "New element"
+newElement.style.color = "white"
+document.getElementById("div-1").append(newElement); 
 
-
-
+document.getElementById("div-1").removeChild(newElement); // Removed element
+```
+**Output**
+![Add el 4](Images/JS/Add_elements_4.png)
