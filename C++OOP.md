@@ -1007,7 +1007,7 @@ Rifat Alam
 Ayon Alam
 Ninad Alam
 ```
-### Mode of inheritence
+### Mode of inheritance
 
 |Derived class |Private Mode       | Protected Mode    | Public Mode       |
 |--------------|-------------------|-------------------|-------------------|
@@ -1016,14 +1016,14 @@ Ninad Alam
 | **Protected**| Private           | Protected         | Protected         |
 | **Public**   | Private           | Protected         | Public            |
 
-### Types of inheritence
-1. **Single inheritence**
+### Types of inheritance
+1. **Single inheritance**
 ```mermaid
 flowchart TD
     A[Parent] -->B[Child]
 ```
 
-2. **Multi level inheritence**
+2. **Multi level inheritance**
 ```mermaid
 flowchart TD
     A[Grandparent] --> B[Parent] --> C[Child]
@@ -1115,4 +1115,11 @@ Name : Mahmud
 Age : 21
 Roll : 240137
 Research area : NULL
+```
+
+3. **Multiple inhertance**
+```mermaid
+flowchart TD
+A[Parent-1] --> C[Child]
+B[Parent-2] --> C
 ```
