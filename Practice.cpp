@@ -1,50 +1,49 @@
 #include<iostream>
+#include<string>
 
 using namespace std;
 
-class person{
+class parentClass{
     protected:
-        int classNum;
+        string parent_surname;
     public:
-        person(int classNum){
+        parentClass(string parent_surname){
             cout << "Parent constructor.\n";
+            this -> parent_surname = parent_surname;
         }
-    
-    void getInfo(){
-        cout << "classNum : " << classNum << endl;
-    }
 };
 
-class student : public person{
-    int roll;
-    string name;
-    
+class childClass : public parentClass {
+        string firstName;
     public:
-        student(int roll , string name , int classNum): person(classNum){
+        childClass(string surName = "Alam"):parentClass(surName){
             cout << "Child constructor.\n";
-            this -> roll = roll;
-            this -> name = name;
-            this -> classNum = classNum;
         }
-    
-    void getInfo(){
-        cout << "Name : " << name << endl;
-        cout << "Class : " << classNum << endl;
-        cout << "Roll : " << roll << endl;
-        cout << endl;
-    }
+
+        void setName(){
+            cout << "Enter first name : \n";
+            cin >> firstName;
+        }
+
+        void showName(){
+            cout << firstName << " " << parent_surname << endl;
+        }
 };
+
 int main(){
 
-    student s1( 37 , "Mahmud" , 10);
-    student s2( 38 , "Rifat" , 10);
-    student s3( 39 , "Rafi" , 10);
-    student s4( 40 , "Ninad" , 10);
+    childClass child_1 , child_2 , child_3 , child_4;
 
-    s1.getInfo();
-    s2.getInfo();
-    s3.getInfo();
-    s4.getInfo();
+    child_1.setName();
+    child_2.setName();
+    child_3.setName();
+    child_4.setName();
+
+
+    child_1.showName();
+    child_2.showName();
+    child_3.showName();
+    child_4.showName();
 
     return 0;
 }

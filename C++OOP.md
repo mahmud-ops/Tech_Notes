@@ -928,3 +928,82 @@ If we allocate a dynamic memory , we must delete it at the end , to prevent memo
 When **<font color = "red">properties and member functions</font>** of a **<font color = "yellow">base / parent</font>** class are passed on the **<font color = "cyan">derived / child</font>** class.
 
 
+```cpp
+#include<iostream>
+#include<string>
+
+using namespace std;
+
+// Base class (parent)
+class parentClass {
+protected:
+    string parent_surname; // Protected so child class can directly access
+public:
+    // Parent constructor that accepts a surname
+    parentClass(string parent_surname) {
+        cout << "Parent constructor.\n";
+        this->parent_surname = parent_surname;
+    }
+};
+
+// childClass inherits publicly from parentClass
+class childClass : public parentClass {
+    string firstName;
+public:
+    // Child constructor calls the parent constructor using initializer list
+    childClass(string surName = "Alam") : parentClass(surName) {
+        cout << "Child constructor.\n";
+    }
+
+    // The child has direct access to parent_surname because it's protected
+    void setName() {
+        cout << "Enter first name : \n";
+        cin >> firstName;
+    }
+
+    // Combines child’s first name with inherited parent surname
+    void showName() {
+        cout << firstName << " " << parent_surname << endl;
+    }
+};
+
+int main() {
+    // Each child object calls the parent constructor during creation
+    childClass child_1, child_2, child_3, child_4;
+
+    child_1.setName();
+    child_2.setName();
+    child_3.setName();
+    child_4.setName();
+
+    child_1.showName();
+    child_2.showName();
+    child_3.showName();
+    child_4.showName();
+
+    return 0;
+}
+```
+**Output**
+```Parent constructor.
+Child constructor.
+Parent constructor.
+Child constructor.
+Parent constructor.
+Child constructor.
+Parent constructor.
+Child constructor.
+Enter first name :
+Mahmud
+Enter first name :
+Rifat
+Enter first name :
+Ayon
+Enter first name :
+Ninad
+
+Mahmud Alam
+Rifat Alam
+Ayon Alam
+Ninad Alam
+```

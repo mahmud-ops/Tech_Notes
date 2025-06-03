@@ -1,7 +1,18 @@
-const newElement = document.createElement("h1");
+function numberLength(value){
+    let digit_count = 0;
 
-const div = document.getElementById("div-2"); // Selecting div
+       if(value == 0){
+            digit_count = 1;
+        }
 
-newElement.textContent = "New element"
+    while(value > 0){
+        value /= 10;
+        value = Math.floor(value);
+        digit_count++;
 
-div.parentNode.insertBefore(newElement,div); // Here parentNode is "div-contaier"
+    }
+    return digit_count;
+}
+
+console.log("Example:");
+console.log(numberLength(23));

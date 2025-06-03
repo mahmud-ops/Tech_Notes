@@ -3776,9 +3776,12 @@ div.append(newElement);
 ```js
 const newElement = document.createElement("h1");
 
-const div = document.getElementById("div-2"); // Selecting div
+const Div2= document.getElementById("div-2"); // Selecting div
 
 newElement.textContent = "New element"
 
-div.parentNode.insertBefore(newElement,div); // Here parentNode is "div-contaier"
+Div2.parentNode.insertBefore(newElement,div); // Here parentNode is "div-contaier"
 ```
+**Output**
+![Add el 3](Images/JS/Add_elements_3.png)
+
