@@ -3782,6 +3782,19 @@ newElement.textContent = "New element"
 
 Div2.parentNode.insertBefore(newElement,div); // Here parentNode is "div-contaier"
 ```
+**or**
+```js
+let boxes = document.querySelectorAll(".box");
+
+let newElement = document.createElement("h1");
+newElement.textContent = "New element";
+
+let parent = document.getElementById("div-container");
+parent.insertBefore(newElement, boxes[1]); // Can access by index
+```
+
 **Output**
 ![Add el 3](Images/JS/Add_elements_3.png)
+
+
 
