@@ -3742,6 +3742,7 @@ document.querySelectorAll("li")[11].parentElement.style.backgroundColor = "coral
 2. Add attributes/properties
 3. Append elements to DOM
 - Remove elements from DOM
+**Example - 1**
 ```js
 const newH1 = document.createElement("h1"); // Create
 const newH1_2 = document.createElement("h1"); // Create
@@ -3806,3 +3807,48 @@ document.getElementById("div-1").removeChild(newElement); // Removed element
 ```
 **Output**
 ![Add el 4](Images/JS/Add_elements_4.png)
+
+**Example - 2 (Ordered list)**
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>     
+    <ol id="fruits">
+        <li id="apple">Apple</li>
+        <li id="orange">Orange</li>
+        <li id="banana">Banana</li>
+    </ol>       
+<script src="script.js"></script>
+</body>
+</html>
+```
+**Add element**
+```js
+let list = document.getElementById("fruits");
+let fruits = document.querySelectorAll("li");
+
+let topElement = document.createElement("li");
+let bottomElement = document.createElement("li");
+let newFruit = document.createElement("li");
+
+
+topElement.textContent = "Pinapple";
+topElement.style.backgroundColor = "yellow"
+
+bottomElement.textContent = "Kiwi";
+bottomElement.style.backgroundColor = "lightgreen"
+
+newFruit.textContent = "Coconut";
+newFruit.style.backgroundColor = "tomato";
+
+list.prepend(topElement) // Pinapple on top
+list.appendChild(bottomElement); // Kiwi at the bottom
+list.insertBefore(newFruit , fruits[1]); // Coconut at before orange
+```
+![List append](Images/JS/Add_elements_in_list_1.png)
