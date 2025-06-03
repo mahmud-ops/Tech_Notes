@@ -3,47 +3,41 @@
 
 using namespace std;
 
-class parentClass{
+class person{
     protected:
-        string parent_surname;
-    public:
-        parentClass(string parent_surname){
-            cout << "Parent constructor.\n";
-            this -> parent_surname = parent_surname;
-        }
+        string name;
+        int age;
 };
 
-class childClass : public parentClass {
-        string firstName;
+class student : public person{ // student inherits the name and age from person class
+    protected:
+        int roll;
+};
+
+class gradStudent : public student{ // gradStudent inherits the roll from student class
     public:
-        childClass(string surName = "Alam"):parentClass(surName){
-            cout << "Child constructor.\n";
-        }
+        string research_area;
 
-        void setName(){
-            cout << "Enter first name : \n";
-            cin >> firstName;
-        }
+    void setValue(string name , int age , int roll , string research_area){
+        this -> name = name;
+        this -> age = age;
+        this -> roll = roll;
+        this -> research_area = research_area;
+    }
 
-        void showName(){
-            cout << firstName << " " << parent_surname << endl;
-        }
+    void display(){
+        cout << "Name : " << name << "\n";
+        cout << "Age : " << age << "\n";
+        cout << "Roll : " << roll << "\n";
+        cout << "Research area : " << research_area << "\n";
+    }
 };
 
 int main(){
 
-    childClass child_1 , child_2 , child_3 , child_4;
-
-    child_1.setName();
-    child_2.setName();
-    child_3.setName();
-    child_4.setName();
-
-
-    child_1.showName();
-    child_2.showName();
-    child_3.showName();
-    child_4.showName();
+    gradStudent s1;
+    s1.setValue("Mahmud" , 21 , 240137 , "NULL");
+    s1.display();
 
     return 0;
 }

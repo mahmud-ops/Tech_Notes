@@ -1007,3 +1007,112 @@ Rifat Alam
 Ayon Alam
 Ninad Alam
 ```
+### Mode of inheritence
+
+|Derived class |Private Mode       | Protected Mode    | Public Mode       |
+|--------------|-------------------|-------------------|-------------------|
+| Base Class   |                   |                   |                   |
+| **Private**  | Not Inherited     | Not Inherited     | Not Inherited     |
+| **Protected**| Private           | Protected         | Protected         |
+| **Public**   | Private           | Protected         | Public            |
+
+### Types of inheritence
+1. **Single inheritence**
+```mermaid
+flowchart TD
+    A[Parent] -->B[Child]
+```
+
+2. **Multi level inheritence**
+```mermaid
+flowchart TD
+    A[Grandparent] --> B[Parent] --> C[Child]
+```
+```cpp
+#include<iostream>
+#include<string>
+
+using namespace std;
+
+class person{
+    protected:
+        string name;
+        int age;
+};
+
+class student : public person{ // student inherits the name and age from person class
+    protected:
+        int roll;
+};
+
+class gradStudent : public student{ // gradStudent inherits the roll from student class
+    public:
+        string research_area;
+};
+
+int main(){
+
+    gradStudent s1;
+
+    s1.name = "Mahmud";
+    s1.age = 21;
+
+    return 0;
+}
+```
+<font color = "red">error: 'std::__cxx11::string person::name' is protected within this context</font>
+
+> Because `protected` members can't be accessed directly from `main()` — only from within derived class methods. 
+
+**Solve : We have to define a public setter function inside `gradStudent` class**
+```cpp
+#include<iostream>
+#include<string>
+
+using namespace std;
+
+class person{
+    protected:
+        string name;
+        int age;
+};
+
+class student : public person{ // student inherits the name and age from person class
+    protected:
+        int roll;
+};
+
+class gradStudent : public student{ // gradStudent inherits the roll from student class
+    public:
+        string research_area;
+
+    void setValue(string name , int age , int roll , string research_area){
+        this -> name = name;
+        this -> age = age;
+        this -> roll = roll;
+        this -> research_area = research_area;
+    }
+
+    void display(){
+        cout << "Name : " << name << "\n";
+        cout << "Age : " << age << "\n";
+        cout << "Roll : " << roll << "\n";
+        cout << "Research area : " << research_area << "\n";
+    }
+};
+
+int main(){
+
+    gradStudent s1;
+    s1.setValue("Mahmud" , 21 , 240137 , "NULL");
+    s1.display();
+
+    return 0;
+}
+```
+```
+Name : Mahmud
+Age : 21
+Roll : 240137
+Research area : NULL
+```

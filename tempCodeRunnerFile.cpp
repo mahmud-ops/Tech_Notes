@@ -1,15 +1,30 @@
 #include<iostream>
-#include<utility> // For pair
+#include<string>
 
 using namespace std;
+
+class person{
+    protected:
+        string name;
+        int age;
+};
+
+class student : public person{ // student inherits the name and age from person class
+    protected:
+        int roll;
+};
+
+class gradStudent : public student{ // gradStudent inherits the roll from student class
+    public:
+        string research_area;
+};
+
 int main(){
-    pair<string , pair <int , double>> student; // Pair inside pair
 
-    student.first = "Mahmud";
-    student.second.first = 20;
-    student.second.second = 3.00;
+    gradStudent s1;
 
-    cout <<  student.first << " is " << student.second.first << " years old . " << "His gpa is : " << student.second.second << '\n';
-    
+    s1.name = "Mahmud";
+    s1.age = 21;
+
     return 0;
 }
