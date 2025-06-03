@@ -1017,13 +1017,18 @@ Ninad Alam
 | **Public**   | Private           | Protected         | Public            |
 
 ### Types of inheritance
-1. **Single inheritance**
+1. Single inheritance
+2. Multi level inheritance
+3. Multiple inheritance
+4. Hierarchial inheritance
+
+#### 1. **Single inheritance**
 ```mermaid
 flowchart TD
     A[Parent] -->B[Child]
 ```
 
-2. **Multi level inheritance**
+#### 2. **Multi level inheritance**
 ```mermaid
 flowchart TD
     A[Grandparent] --> B[Parent] --> C[Child]
@@ -1117,7 +1122,7 @@ Roll : 240137
 Research area : NULL
 ```
 
-3. **Multiple inhertance**
+#### 3. **Multiple inhertance**
 ```mermaid
 flowchart TD
 A[Parent-1] --> C[Child]
@@ -1182,4 +1187,55 @@ Roll : 240138
 Research area : Machine learning
 END.
 END.
+```
+#### 4. **Hierarchial inheritance**
+```mermaid
+flowchart TD
+A[Parent] --> B[Child-1]
+A[Parent] --> C[Child-2]
+```
+```cpp
+#include<iostream>
+#include<string>
+
+using namespace std;
+
+class student{ // Physics and math inherits from student
+    protected:
+        string name;
+};
+
+class physics : public student{
+    public:
+        int marks;
+    void display(string name , int marks){
+        this -> name = name;
+        this -> marks = marks;
+
+        cout << name << " got " << marks << " in physics.\n";
+    }
+};
+
+class math : public student{
+    public:
+        int marks;
+    
+        void display(string name , int marks){
+        this -> name = name;
+        this -> marks = marks;
+
+        cout << name << " got " << marks << " in math.\n";
+    }
+};
+
+int main(){
+
+    physics p1;
+    p1.display("Mahmud" , 64);
+    
+    math m1;
+    m1.display("Mahmud" , 75);
+
+    return 0;
+}
 ```
