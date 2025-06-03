@@ -1021,6 +1021,7 @@ Ninad Alam
 2. Multi level inheritance
 3. Multiple inheritance
 4. Hierarchial inheritance
+5. Hybrid inheritance
 
 #### 1. **Single inheritance**
 ```mermaid
@@ -1238,4 +1239,15 @@ int main(){
 
     return 0;
 }
+```
+#### 5. **Hybrid inheritance**
+```mermaid
+flowchart TD
+A --> B
+A --> C
+C --> D
+C --> E
+C --> F
+A --> F
+E --> F
 ```
