@@ -3852,3 +3852,25 @@ list.appendChild(bottomElement); // Kiwi at the bottom
 list.insertBefore(newFruit , fruits[1]); // Coconut at before orange
 ```
 ![List append](Images/JS/Add_elements_in_list_1.png)
+## Mouse Event
+**Event listener**
+Listen for specific events to create interactive web pages 
+
+**Events :** click , mouseover , mouseout
+
+**Format**
+```js
+target.addEventListener(event , callback);
+```
+
+```js
+let box = document.getElementById("box");
+
+function changeColor(event){
+    event.target.style.backgroundColor = "tomato";
+}
+
+box.addEventListener("click" , changeColor);
+```
+**Output**
+![click](Images/JS/Click_event_listener.png)
