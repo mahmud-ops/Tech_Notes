@@ -1,43 +1,21 @@
 #include<iostream>
-#include<string>
 
 using namespace std;
 
-class student{ // Physics and math inherits from student
-    protected:
-        string name;
-};
-
-class physics : public student{
+class sum{
     public:
-        int marks;
-    void display(string name , int marks){
-        this -> name = name;
-        this -> marks = marks;
-
-        cout << name << " got " << marks << " in physics.\n";
-    }
-};
-
-class math : public student{
-    public:
-        int marks;
-    
-        void display(string name , int marks){
-        this -> name = name;
-        this -> marks = marks;
-
-        cout << name << " got " << marks << " in math.\n";
-    }
+        int add(int a, int b){
+            return (a + b);
+        }
+        int add(int a, int b, int c){
+            return (a + b + c);
+        }
 };
 
 int main(){
-
-    physics p1;
-    p1.display("Mahmud" , 64);
-    
-    math m1;
-    m1.display("Mahmud" , 75);
+    sum s1;
+    cout << s1.add(1,2) << "\n";
+    cout << s1.add(1,2,3) << "\n";
 
     return 0;
 }

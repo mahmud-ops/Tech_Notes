@@ -1251,5 +1251,82 @@ C --> F
 A --> F
 E --> F
 ```
-
 ## Polymorphism
+Polymorphism is the ability of objects to take on <font color = "cyan">different forms</font> or behave in different ways <font color = "cyan">depending on the context</font> in which they are used.
+
+1. Compile time polymorphism
+2. Run time polymorphism
+
+### Compile time polymorphism
+**1. Constructor overloading**
+
+Constructor overloading means having more than one constructor in a class, but each one has different types or numbers of parameters. It lets you create objects in different ways. For example, you can create a `Student` by just giving a name, or give both name and age — both are valid because there are different constructors handling each case. It's like having multiple ways to start the same engine.
+
+```cpp
+#include<iostream>
+
+using namespace std;
+
+class Student{
+    public:
+        Student(){
+            cout << "This is a non-parameterised constructor.\n";
+        }
+
+        Student(string name){
+            cout << "My name is " << name << "\n";
+        }
+
+        Student(string name , int age){
+            cout << "Iam " << name << " , Iam " << age << " years old.\n";
+        }
+
+        ~Student(){}
+
+};
+
+int main(){
+
+    Student s1 , s2("Mahmud") , s3("Mohaimin" , 18);
+
+    return 0;
+}
+```
+```
+This is a non-parameterised constructor.
+My name is Mahmud
+Iam Mohaimin , Iam 18 years old.
+```
+The `Student` class has three constructors that print different messages based on how you create an object: if you create a `Student` with no info, it says “This is a non-parameterised constructor”; if you provide just a name, it prints “My name is \[name]”; and if you give both name and age, it prints “I am \[name], I am \[age] years old.” This shows how the class handles different inputs by running the matching constructor automatically.
+
+**2. Function overloading**
+
+Function overloading is when you have multiple functions with the same name but different types or numbers of inputs (parameters). This way, you can do similar actions in different ways depending on what information you give. For example, a function called `add` could add two numbers if you give two inputs, or add three numbers if you give three inputs—both use the same function name but handle the inputs differently. It’s like having one command with different flavors.
+
+```cpp
+#include<iostream>
+
+using namespace std;
+
+class sum{
+    public:
+        int add(int a, int b){
+            return (a + b);
+        }
+        int add(int a, int b, int c){
+            return (a + b + c);
+        }
+};
+
+int main(){
+    sum s1;
+    cout << s1.add(1,2) << "\n";
+    cout << s1.add(1,2,3) << "\n";
+
+    return 0;
+}
+```
+```
+3
+6
+```
