@@ -1330,3 +1330,12 @@ int main(){
 3
 6
 ```
+**3. Operator overloading**
+[GeeksForGeeks](https://www.geeksforgeeks.org/operator-overloading-cpp/)
+
+### Run time polymorphism
+**1. Function overridng**
+
+Parent and child both contain the same function with different implimentations.
+- The parent class function is called to be overridden
+
