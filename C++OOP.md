@@ -1251,3 +1251,5 @@ C --> F
 A --> F
 E --> F
 ```
+
+## Polymorphism
