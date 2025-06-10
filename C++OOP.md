@@ -1454,3 +1454,101 @@ some methods of abstraction
 - Abstract classes are used to provide a base class from which other classes can be derived.  
 - They cannot be instantiated and are meant to be inherited. (Instance = object)
 - Abstract classes are typically used to define an interface for derived classes.
+```cpp
+#include<iostream>
+using namespace std;
+
+// 🧱 Abstract class: acts like a *blueprint* for all shapes.
+// It says: "Any class that inherits me MUST draw itself!"
+class shapes {
+    virtual void drawShape() = 0; // Pure virtual function → no body, just a rule.
+};
+
+// 🎯 Concrete class: builds the actual shape using the blueprint.
+class circle : public shapes{
+    public:
+        void drawShape(){
+            cout << "Drawing circle.\n";
+        }
+};
+
+// 🎯 Another concrete class using the same blueprint
+class square : public shapes{
+    public:
+        void drawShape(){
+            cout << "Drawing square.\n";
+        }
+};
+
+int main() {
+    square s1;
+    s1.drawShape(); // Output: Drawing square.
+    return 0;
+}
+```
+```
+Drawing square.
+```
+## Static keyword
+- **Static Variables**
+
+  Variables declared as static in a function are created & initialized once for the lifetime of the program.  //in Function
+
+  Static variables in a class are created & initialized once. They are shared by all the objects of the class.  //in Class
+
+- **Static Objects**
+```cpp
+#include<iostream>
+using namespace std;
+
+class firstClass {
+    public:
+    void incX(){
+        int x = 0;
+        cout << x++ << endl;
+    }
+};
+
+int main() {
+    firstClass f1;
+
+    f1.incX();
+    f1.incX();
+    f1.incX();
+    f1.incX();
+    
+   return 0;
+}
+```
+
+A newbie will think the output will be `0 1 2 3` , but it's actually `0 0 0 0`.
+Why ?
+Everytime we call the `incX()` function , it assigns x = 0 in a new address and deletes the previous one.
+```mermaid
+flowchart TD
+    A[incX called] --> B[x initialized to 0 - local scope]
+    B --> C[Print value of x]
+    C --> D[Increment x]
+    D --> E[Function ends]
+    E --> F[x is destroyed]
+    F --> G[incX called again]
+    G --> B
+```
+So , Every single time it prints 0.
+
+This is where `static` comes in.
+```cpp
+class firstClass {
+    public:
+    void incX(){
+        static int x = 0; // Static variable
+        cout << x++ << endl;
+    }
+};
+```
+```
+0
+1
+2
+3
+```

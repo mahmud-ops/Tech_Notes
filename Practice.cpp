@@ -1,29 +1,21 @@
 #include<iostream>
-#include<string>
-
 using namespace std;
 
-class parentClass {
+class firstClass {
     public:
-        virtual void show(){
-            cout << "Parent class.\n";
-        }
+    void incX(){
+        static int x = 0; // Here
+        cout << x++ << endl;
+    }
 };
 
-class childClass : public parentClass {
-    public:
-        void show(){
-            cout << "Child class.\n";
-        }
-};
+int main() {
+    firstClass f1;
 
-int main(){
-
-    parentClass p1;
-    parentClass *ptr; 
-    ptr = &p1; // Parent obj is stored
-
-    ptr->show(); // Q. Which one will be called ?
-
-    return 0;
+    f1.incX();
+    f1.incX();
+    f1.incX();
+    f1.incX();
+    
+   return 0;
 }
