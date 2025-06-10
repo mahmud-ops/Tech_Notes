@@ -3,19 +3,18 @@ using namespace std;
 
 class firstClass {
     public:
-    void incX(){
-        static int x = 0; // Here
-        cout << x++ << endl;
+    firstClass(){
+        cout << "Constructor.\n";
+    }
+    ~firstClass(){
+        cout << "Destructor.\n";
     }
 };
 
 int main() {
-    firstClass f1;
-
-    f1.incX();
-    f1.incX();
-    f1.incX();
-    f1.incX();
-    
+    if(true){
+        static firstClass f1;    
+    }
+    cout << "Program ended.\n";
    return 0;
 }

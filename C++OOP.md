@@ -1490,13 +1490,15 @@ int main() {
 Drawing square.
 ```
 ## Static keyword
-- **Static Variables**
 
-  Variables declared as static in a function are created & initialized once for the lifetime of the program.  //in Function
+* **Static Variables**
 
-  Static variables in a class are created & initialized once. They are shared by all the objects of the class.  //in Class
+  Variables declared as `static` inside a function are created and initialized only once, and they retain their value throughout the program's lifetime.  //in Function
 
-- **Static Objects**
+  Static variables inside a class are also created and initialized only once. They are shared among all objects of the class.  //in Class
+
+* **Static Objects**
+
 ```cpp
 #include<iostream>
 using namespace std;
@@ -1521,9 +1523,12 @@ int main() {
 }
 ```
 
-A newbie will think the output will be `0 1 2 3` , but it's actually `0 0 0 0`.
-Why ?
-Everytime we call the `incX()` function , it assigns x = 0 in a new address and deletes the previous one.
+A beginner might think the output would be `0 1 2 3`, but in reality, it’s `0 0 0 0`.
+
+Why?
+
+Every time the `incX()` function is called, `x` is initialized to 0 at a new memory location, and the previous one gets destroyed.
+
 ```mermaid
 flowchart TD
     A[incX called] --> B[x initialized to 0 - local scope]
@@ -1534,9 +1539,11 @@ flowchart TD
     F --> G[incX called again]
     G --> B
 ```
-So , Every single time it prints 0.
 
-This is where `static` comes in.
+So, it prints `0` every single time.
+
+This is where `static` saves the day.
+
 ```cpp
 class firstClass {
     public:
@@ -1546,9 +1553,62 @@ class firstClass {
     }
 };
 ```
+
 ```
-0
-1
-2
-3
+0  
+1  
+2  
+3  
 ```
+
+Variables declared as `static` inside a function are created and initialized once, and they persist for the **entire lifetime** of the program.  //in Function
+
+```cpp
+#include<iostream>
+using namespace std;
+
+class firstClass {
+    public:
+    firstClass(){
+        cout << "Constructor.\n";
+    }
+    ~firstClass(){
+        cout << "Destructor.\n";
+    }
+};
+
+int main() {
+    if(true){
+        firstClass f1;    
+    }
+    cout << "Program ended.\n";
+   return 0;
+}
+```
+
+```
+Constructor.  
+Destructor.  
+Program ended.
+```
+
+Normally, the destructor is called right after the constructor's job is done.
+But if the object is declared as `static`...
+
+```cpp
+int main() {
+    if(true){
+        static firstClass f1;    
+    }
+    cout << "Program ended.\n";
+   return 0;
+}
+```
+
+```
+Constructor.  
+Program ended.  
+Destructor.
+```
+
+The destructor is now called **after** the entire program ends.
