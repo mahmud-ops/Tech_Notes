@@ -1441,3 +1441,7 @@ parent class
 
 **In short:**
 `virtual` functions let C++ be smart and call the right version based on the real object, but without `virtual`, C++ just calls the parent’s function because it only looks at the pointer type.
+
+## Abstraction
+hiding all unessesary details and showing only the important parts.
+
