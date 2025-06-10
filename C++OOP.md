@@ -1445,3 +1445,12 @@ parent class
 ## Abstraction
 hiding all unessesary details and showing only the important parts.
 
+some methods of abstraction
+- Access specifiers 
+- Access classes
+
+**Abstraction using Abstract Classes**
+
+- Abstract classes are used to provide a base class from which other classes can be derived.  
+- They cannot be instantiated and are meant to be inherited. (Instance = object)
+- Abstract classes are typically used to define an interface for derived classes.
