@@ -1610,5 +1610,4 @@ Constructor.
 Program ended.  
 Destructor.
 ```
-
 The destructor is now called **after** the entire program ends.

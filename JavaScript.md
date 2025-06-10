@@ -3874,3 +3874,32 @@ box.addEventListener("click" , changeColor);
 ```
 **Output**
 ![click](Images/JS/Click_event_listener.png)
+
+## How to hide and show html using js
+```html
+<img src="Images/JS/Stopwatch.png" alt="" height="300px"><br>
+<button id="mybtn">Hide</button>  
+```  
+```js
+let button = document.getElementById("mybtn");
+let img = document.querySelector("img");
+
+button.addEventListener("click" , event => {
+    if(button.textContent == "Hide"){
+        // Button styling
+        button.textContent = "Show";
+        button.style.background = "red";
+
+        // Toggling visibilty of the img
+        img.style.visibility = "hidden";
+    }
+    else{
+        button.textContent = "Hide";
+        button.style.background = "green"
+
+        img.style.visibility = "visible";
+    }
+})
+```
+![Visibilty btn](Images/JS/visibility_toggle.png)
+

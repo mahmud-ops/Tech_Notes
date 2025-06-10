@@ -1,8 +1,19 @@
-let box = document.getElementById("box");
+let button = document.getElementById("mybtn");
+let img = document.querySelector("img");
 
-function changeColor(event){
-    event.target.style.backgroundColor = "tomato";
-    event.target.textContent = "Clicked";
-}
+button.addEventListener("click" , event => {
+    if(button.textContent == "Hide"){
+        // Button styling
+        button.textContent = "Show";
+        button.style.background = "red";
 
-box.addEventListener("click" , changeColor);
+        // Toggling visibilty of the img
+        img.style.visibility = "hidden";
+    }
+    else{
+        button.textContent = "Hide";
+        button.style.background = "green";
+
+        img.style.visibility = "visible";
+    }
+})
