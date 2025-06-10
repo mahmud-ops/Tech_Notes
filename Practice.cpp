@@ -5,25 +5,25 @@ using namespace std;
 
 class parentClass {
     public:
-    void show(){
-        cout << "Parent class.\n";
-    }
+        virtual void show(){
+            cout << "Parent class.\n";
+        }
 };
 
 class childClass : public parentClass {
     public:
-    void show(){
-        cout << "Child class.\n";
-    }
+        void show(){
+            cout << "Child class.\n";
+        }
 };
 
 int main(){
 
     parentClass p1;
-    p1.show();
-    
-    childClass c1;
-    c1.show();
+    parentClass *ptr; 
+    ptr = &p1; // Parent obj is stored
+
+    ptr->show(); // Q. Which one will be called ?
 
     return 0;
 }

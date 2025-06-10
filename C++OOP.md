@@ -1334,6 +1334,9 @@ int main(){
 [GeeksForGeeks](https://www.geeksforgeeks.org/operator-overloading-cpp/)
 
 ### Run time polymorphism
+1. Function overriding.
+2. Virtual function.
+
 **1. Function overridng**
 
 Parent and child both contain the same function with different implimentations.
@@ -1374,3 +1377,67 @@ int main(){
 Parent class.
 Child class.
 ```
+
+**2. Virtual function**
+A virtual function is a member function that you expect to be redefined in derived class.
+- Virtual functions are dynamic in nature
+- Defined by the keyword "vitual" inside a base class and are always declared with a base class and overridden in a child class.
+- A virtual function is called during runtime.
+```cpp
+#include<iostream>
+#include<string>
+
+using namespace std;
+
+class parentClass {
+    public:
+        virtual void show(){
+            cout << "Parent class.\n";
+        }
+};
+
+class childClass : public parentClass {
+    public:
+        void show(){
+            cout << "Child class.\n";
+        }
+};
+
+int main(){
+
+    parentClass *ptr; // 'ptr' is supposed to store the memory address of an object under 'parentClass'
+    childClass c1;
+
+    ptr = &c1; // But 'ptr' is storing the address of c1 , which belongs to childClass.
+    // ➡️ Yes, and it's totally allowed. It’s called: Polymorphism a.k.a. "Treating the child like the parent"
+
+    ptr->show(); // Q. Which one will be called ?
+
+    return 0;
+}
+```
+```
+child class 
+```
+**If we remove `virtual` keyword**
+```
+parent class
+```
+When you use a pointer of the base class type (like `parentClass*`) to point to an object, what happens when you call a function depends on two things: **whether the function is marked `virtual`** and **what kind of object the pointer actually points to**.
+
+* If the function **is virtual**, C++ checks the **real type of the object at runtime** (not just the pointer type). **So if the pointer points to a child object**, the child’s version of the function runs. This is called **runtime polymorphism**.
+* If the function **is not virtual**, C++ decides which function to call based on the **pointer’s type only** at compile time, ignoring the actual object type. So even if the pointer points to a child object, the parent’s version runs.
+* If the pointer points to a **parent object**, whether or not the function is virtual, the parent’s version runs because the object *is* the parent.
+```cpp
+ parentClass p1;
+    parentClass *ptr; 
+    ptr = &p1; // Parent obj is stored
+
+    ptr->show(); // Q. Which one will be called ?
+```
+```
+parent class
+```
+
+**In short:**
+`virtual` functions let C++ be smart and call the right version based on the real object, but without `virtual`, C++ just calls the parent’s function because it only looks at the pointer type.
