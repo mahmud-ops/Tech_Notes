@@ -1,21 +1,29 @@
 #include<iostream>
+#include<string>
 
 using namespace std;
 
-class sum{
+class parentClass {
     public:
-        int add(int a, int b){
-            return (a + b);
-        }
-        int add(int a, int b, int c){
-            return (a + b + c);
-        }
+    void show(){
+        cout << "Parent class.\n";
+    }
+};
+
+class childClass : public parentClass {
+    public:
+    void show(){
+        cout << "Child class.\n";
+    }
 };
 
 int main(){
-    sum s1;
-    cout << s1.add(1,2) << "\n";
-    cout << s1.add(1,2,3) << "\n";
+
+    parentClass p1;
+    p1.show();
+    
+    childClass c1;
+    c1.show();
 
     return 0;
 }

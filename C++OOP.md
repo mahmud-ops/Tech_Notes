@@ -1339,3 +1339,38 @@ int main(){
 Parent and child both contain the same function with different implimentations.
 - The parent class function is called to be overridden
 
+```cpp
+#include<iostream>
+#include<string>
+
+using namespace std;
+
+class parentClass {
+    public:
+    void show(){
+        cout << "Parent class.\n";
+    }
+};
+
+class childClass : public parentClass {
+    public:
+    void show(){ // Same function name , different implimentation
+        cout << "Child class.\n";
+    }
+};
+
+int main(){
+
+    parentClass p1;
+    p1.show();
+    
+    childClass c1;
+    c1.show();
+
+    return 0;
+}
+```
+```
+Parent class.
+Child class.
+```
