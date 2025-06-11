@@ -3877,7 +3877,8 @@ box.addEventListener("click" , changeColor);
 
 ## How to hide and show html using js
 ```html
-<img src="Images/JS/Stopwatch.png" alt="" height="300px"><br>
+<img src="Images/JS/Stopwatch.png" alt="" height="300px">
+<br>
 <button id="mybtn">Hide</button>  
 ```  
 ```js
@@ -3903,3 +3904,24 @@ button.addEventListener("click" , event => {
 ```
 ![Visibilty btn](Images/JS/visibility_toggle.png)
 
+## Nodelist
+- Static collection of HTML elements by (id, class, element)
+- Can be created by using querySelectorAll()
+- Similar to an array, but no (map, filter, reduce)
+- NodeList won't update to automatically reflect changes
+
+[**Video tutotrial**](https://youtu.be/5n3qPKgLEDc?list=PLZPZq0r_RZOO1zkgO4bIdfuLpizCeHYKv)
+Must watch this one
+
+## Classlist
+[**Video tutotrial**](https://youtu.be/62qN2RcpIAE)
+
+methods 
+- add()
+- remove()
+- toggle()
+- replace(old , new)
+- contains() //boolean
+
+## Project : Rock Paper Scissor game
+## Project : Image slider
