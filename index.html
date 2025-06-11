@@ -7,10 +7,34 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="container">
-    <img src="Images/JS/Stopwatch.png" alt="" height="300px"><br>
-    <button id="mybtn">Hide</button>  
+  <h1 class="center">Rock Paper Scissor</h1>
+  <div id="container" class="center">
+    <button id="rock">✊</button>
+    <button id="paper">🤚</button>
+    <button id="scissor">✌️</button>
+
+    <div id="text-container">
+      <div id="userChoice">You :</div>
+      <div id="computerChoice">Computer : </div>
+      <div id="winnerCheck" class="center"></div>
+    </div>
+
+    <div id="scoreBoard">
+      <table class="center" border="1" cellspacing = 0>
+        <tr>
+          <th>Computer</th>
+          <th>User</th>
+        </tr>
+        <tr>
+          <td id="computer_score" style="color: red;">0</td>
+          <td id="user_score" style="color: green;">0</td>
+        </tr>
+      </table>
+
+      <button id="restart">Restart</button>
+    </div>
+
+    <script src="script.js"></script>
   </div>
-<script src="script.js"></script>
 </body>
 </html>

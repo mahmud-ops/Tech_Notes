@@ -3924,4 +3924,120 @@ methods
 - contains() //boolean
 
 ## Project : Rock Paper Scissor game
+![RPS](Images/JS/RPS.png);
+
+🕹️ **Core Features:**
+
+1. **Three-Choice Gameplay**:
+
+   * You click either 🪨 Rock, 📄 Paper, or ✂️ Scissor.
+   * The bot (computer) picks a random choice every round.
+   * Your choice and the bot's are shown on screen.
+
+2. **Winner Checker**:
+
+   * The game checks who won the round based on standard RPS rules:
+
+     * Rock beats Scissor
+     * Paper beats Rock
+     * Scissor beats Paper
+   * It displays either:
+
+     * ✅ "You win"
+     * ❌ "You lose"
+     * ⚖️ "It’s a tie"
+
+3. **Scoreboard**:
+
+   * Keeps track of how many rounds **you** or the **bot** have won.
+   * Auto-increments the score with each round.
+
+4. **Color-Coded Result Display**:
+
+   * Green = You win
+   * Red = You lose
+   * Gray = Tie
+
+5. **Restart Button**:
+
+   * Click to **reset scores** and clear all displayed info.
+   * Great for starting a new session or flexing a clean win streak.
+
+🌐 **Tech Stack Used:**
+
+* **HTML**: For buttons and UI elements
+* **CSS** (assumed): For styling and color feedback
+* **JavaScript**: Handles all the logic and DOM interaction
+```js
+let rock = document.getElementById("rock");
+let paper = document.getElementById("paper");
+let scissor = document.getElementById("scissor");
+
+let userChoice = document.getElementById("userChoice");
+let computerChoice = document.getElementById("computerChoice");
+let result = document.getElementById("winnerCheck");
+
+let UserInput, compterInput;
+let choices = ["Rock", "Paper", "Scissor"];
+
+let computerScore = document.getElementById("computer_score");
+let userScore = document.getElementById("user_score");
+
+let restart = document.getElementById("restart");
+
+// Reusable function
+function playGame(choice) {
+    UserInput = choice;
+    compterInput = choices[Math.floor(Math.random() * 3)];
+    userChoice.textContent = `You : ${UserInput}`;
+    computerChoice.textContent = `Computer : ${compterInput}`;
+
+    if(UserInput == compterInput){
+        result.textContent = "It's a tie"
+    }
+    else{
+        switch (UserInput) {
+            case "Rock":
+                compterInput == "Paper" ? result.textContent = "You lose" : result.textContent = "You win"
+                break;
+
+            case "Paper":
+                compterInput == "Scissor" ? result.textContent = "You lose" : result.textContent = "You win"
+                break;
+
+            case "Scissor":
+                compterInput == "Rock" ? result.textContent = "You lose" : result.textContent = "You win"
+                break;
+        
+        }
+
+    }
+
+    if(result.textContent == "You win"){
+        userScore.textContent++;
+        result.style.color = "green";
+        
+    }
+    else if(result.textContent == "You lose"){
+        computerScore.textContent++;
+        result.style.color = "red";
+    }
+    else{
+        result.style.color = "grey";
+    }
+}
+
+// Button event listeners
+rock.addEventListener("click", () => playGame("Rock"));
+paper.addEventListener("click", () => playGame("Paper"));
+scissor.addEventListener("click", () => playGame("Scissor"));
+
+restart.addEventListener("click" , () => {
+    computerScore.textContent = 0;
+    userScore.textContent = 0;
+    result.textContent = "";
+    userChoice.textContent = "You :"
+    computerChoice.textContent = "Computer :";
+});
+```
 ## Project : Image slider

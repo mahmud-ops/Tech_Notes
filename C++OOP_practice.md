@@ -206,7 +206,7 @@ class Rectangle {
 };
 
 int main() {
-    
+
     Rectangle r1 , r2(10 , 5);
 
     r1.display();
@@ -215,3 +215,114 @@ int main() {
     return 0;
 }
 ```
+
+## 🥇 OOP Practice Problem #4: *Copy Constructor Basics*
+
+**Problem:**
+
+Create a class `Book` with:
+
+- Private members:
+  - `title` (string)
+  - `pages` (int)
+
+- Public:
+  - A **parameterized constructor** to set `title` and `pages`
+  - A **copy constructor** that creates a new `Book` by copying another `Book` object
+  - A method `display()` to show the title and pages
+
+---
+
+**Task:**
+
+In `main()`:
+
+1. Create a `Book` object `b1` with title `"C++ Guide"` and pages `350`
+2. Create another `Book` object `b2` by copying `b1` (using the copy constructor)
+3. Call `display()` on both objects
+
+---
+
+**Rules:**
+
+- Implement the copy constructor explicitly.
+- Don’t use assignment (`=`) to copy objects in `main()`.
+- Focus on how the copy constructor works under the hood.
+
+---
+
+**Objective:**
+
+Understand how to write a copy constructor and why it’s useful.
+```cpp
+#include<iostream>
+using namespace std;
+
+class Book {
+    string title;
+    int pages;
+
+    public:
+        Book(string title , int pages){
+            this->title = title;
+            this->pages = pages;
+        }
+
+        Book(Book &original_obj){ 
+            cout << "Custom copy constructor.\n";
+            this->title = original_obj.title;
+            this->pages = original_obj.pages;
+        }
+
+        void display(){
+            cout << title << " has " << pages << " pages.\n";
+        }
+};
+
+int main() {
+    Book b1("ANSI C", 350) , b2(b1);
+    b1.display();
+    b2.display();
+    return 0;
+}
+```
+## 🥇 OOP Practice Problem #5: *Shallow vs Deep Copy*
+
+**Problem:**
+
+Create a class `Person` with:
+
+- Private members:
+  - `name` (string)
+  - `hobbies` (string pointer)
+
+- Public:
+  - A **constructor** that takes a `string name` and a `string hobby`, and dynamically allocates memory for the hobby.
+  - A **copy constructor**:
+    - Do a **deep copy** so `hobbies` isn’t just pointing to the same memory.
+  - A `display()` method to show the name and hobby.
+
+---
+
+**Task:**
+
+In `main()`:
+
+1. Create a `Person` object `p1` with `"Mahmud"` and `"Coding"`
+2. Create `p2` using copy constructor (copy of `p1`)
+3. Change `p1`'s hobby to `"Gaming"` (manually overwrite pointer value)
+4. Display both objects — see if `p2`'s hobby stayed `"Coding"` or not
+
+---
+
+**Rules:**
+
+- You **must** use dynamic memory for the `hobbies` string.
+- Copy constructor must handle **deep copy**.
+- Avoid memory leaks, use `delete` if needed (optional for now, destructor practice comes later).
+
+---
+
+**Objective:**
+
+Grasp the difference between **shallow copy** and **deep copy**, and how pointers can mess up your day if you don't clone memory properly.
