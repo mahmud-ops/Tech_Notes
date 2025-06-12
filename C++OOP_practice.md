@@ -565,3 +565,75 @@ int main() {
    return 0;
 }
 ```
+
+## 🧠 **Copy Constructor — Quick Definition**
+
+> Special constructor that **copies** an object into a new one.
+
+```cpp
+ClassName(const ClassName &oldObj);
+```
+
+---
+
+### ⚔️ **Shallow Copy (🚫 Bad)**
+
+```cpp
+items = original.items; // Just copying the pointer
+```
+
+* 🧨 Both objects share same memory
+* 🛑 Changing one affects the other
+
+---
+
+### ✅ **Deep Copy (Do this!)**
+
+```cpp
+items = new int[size];  
+for(int i = 0; i < size; i++)
+    items[i] = original.items[i];
+```
+
+* ✔️ New memory
+* ✔️ Each object is independent
+
+---
+
+### 🔁 **Why Same Name (`items`) Works**
+
+* Inside each object, `items` is scoped.
+* Same name ≠ same memory (if deep copy done right)
+
+---
+
+### 💀 Shallow Copy Analogy:
+
+> Sharing 1 toothbrush 🪥 → one brushes, both gag.
+
+### 😎 Deep Copy Analogy:
+
+> Everyone gets their own toothbrush → peace & hygiene ✌️
+
+---
+
+### 🧪 Mini Test Code
+
+```cpp
+Inventory inv1("Mahmud", 3);
+inv1.setItems(0, 100);
+
+Inventory inv2(inv1); // COPY
+
+inv1.setItems(0, 999);
+
+inv1.display(); // 999
+inv2.display(); // 100 (✅ if deep copy)
+```
+
+---
+
+### 🧹 Next Up?
+
+Destructor `~ClassName()` — the cleanup crew.
+
