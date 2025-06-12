@@ -459,4 +459,109 @@ int main() {
     b2.display();
 }
 ```
+## 🥇 OOP Practice Problem #7: *Deep Copy with Arrays*
 
+**Problem:**
+
+Create a class `Inventory` with:
+
+- Private members:
+  - `owner` (string)
+  - `items` (int pointer)
+  - `size` (int)
+
+- Public:
+  - A **constructor** that:
+    - Takes `string owner` and `int sz`
+    - Dynamically allocates an array of size `sz`
+  - A **copy constructor**:
+    - Deep copy the array into new memory
+  - A `setItem(int index, int value)` method to set item values
+  - A `display()` method to show all item values and owner name
+
+---
+
+**Task:**
+
+In `main()`:
+
+1. Create `Inventory inv1("Mahmud", 3)`  
+2. Set items: 100, 200, 300  
+3. Create a copy `inv2` using the copy constructor  
+4. Modify `inv1`'s items to 111, 222, 333  
+5. Display both — see if `inv2` is untouched (deep copy check)
+
+---
+
+**Rules:**
+
+- Must use `new int[size]` to dynamically allocate array
+- Copy constructor must create a **new array** and clone all values
+- No STL arrays or vectors for now — just raw pointer arrays
+
+---
+
+**Objective:**
+
+Get comfy with **deep copy for arrays**, because strings are just the warm-up. This is where you build muscle 💪
+```cpp
+#include<iostream>
+using namespace std;
+
+class Inventory {
+    string owner;
+    int *items;
+    int size;
+
+    public:
+        Inventory(string owner , int sz){
+            this->owner = owner;
+            size = sz;
+            items = new int[sz];
+        }
+
+        Inventory(const Inventory &original){
+            size = original.size;
+            owner = original.owner;
+            items = new int[size];
+
+            for(int i = 0 ; i < size ; i++){
+                items[i] = original.items[i];
+            }
+        }
+
+        void setItems(int index , int value){
+
+            items[index] = value;
+        }
+
+        void display(){
+            cout << "Owner : " << owner << endl;
+            cout << "Size : " << size << endl;
+            for(int i = 0 ; i < size ; i++){
+                cout << items[i] << " ";
+            }
+            cout << '\n';
+            cout << "------------------\n";
+        }
+};
+
+int main() {
+    Inventory inv1("Mahmud",3);
+    
+    inv1.setItems(0,100);
+    inv1.setItems(1,200);
+    inv1.setItems(2,300);
+    
+    Inventory inv2(inv1);
+    
+    inv1.setItems(0,111);
+    inv1.setItems(1,222);
+    inv1.setItems(2,333);
+
+    inv1.display();
+    inv2.display();
+
+   return 0;
+}
+```
