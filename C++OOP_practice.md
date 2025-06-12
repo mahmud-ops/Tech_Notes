@@ -326,3 +326,137 @@ In `main()`:
 **Objective:**
 
 Grasp the difference between **shallow copy** and **deep copy**, and how pointers can mess up your day if you don't clone memory properly.
+```cpp
+#include <iostream>
+using namespace std;
+
+class Person {
+    string name;
+    string *hobbies_ptr;
+
+public:
+    // Constructor
+    Person(string name, string hobby) {
+        this->name = name;
+        hobbies_ptr = new string(hobby); // Deep allocation
+    }
+
+    // Copy Constructor (Deep Copy)
+    Person(const Person &p) {
+        name = p.name;
+        hobbies_ptr = new string(*(p.hobbies_ptr)); // Cloning the actual hobby string
+    }
+
+    // Display Method
+    void display() {
+        cout << "Name: " << name << endl;
+        cout << "Hobby: " << *hobbies_ptr << endl;
+    }
+
+    // Destructor (to prevent memory leaks)
+    ~Person() {
+        delete hobbies_ptr;
+    }
+
+    // Function to change hobby manually
+    void changeHobby(string newHobby) {
+        *hobbies_ptr = newHobby;
+    }
+};
+
+int main() {
+    Person p1("Mahmud", "Coding");
+
+    Person p2 = p1; // Copy constructor triggered here
+
+    p1.changeHobby("Gaming"); // Changing p1's hobby
+
+    cout << "--- p1 ---" << endl;
+    p1.display();
+
+    cout << "--- p2 ---" << endl;
+    p2.display(); // p2 should still say "Coding"!
+
+    return 0;
+}
+```
+## 🥇 OOP Practice Problem #6: *Deep Copy with Integer Pointer*
+
+**Problem:**
+
+Create a class `Box` with:
+
+- Private member:
+  - `content` (an `int` pointer)
+
+- Public:
+  - A **constructor** that takes an `int` and dynamically allocates memory for `content`.
+  - A **copy constructor** that performs a **deep copy**.
+  - A method `setContent(int newVal)` to change the content value.
+  - A method `display()` to print the current content value.
+
+---
+
+**Task:**
+
+In `main()`:
+
+1. Create a `Box` object `b1` with content `100`.
+2. Create `b2` as a copy of `b1` using the copy constructor.
+3. Change `b1`'s content to `200` using `setContent()`.
+4. Display contents of both `b1` and `b2` to verify `b2` still has `100`.
+
+---
+
+**Rules:**
+
+- You **must** use dynamic memory allocation for `content`.
+- Copy constructor must do **deep copy**.
+- Destructor is optional for now but recommended later to avoid memory leaks.
+
+---
+
+**Objective:**
+
+Understand how deep copying pointer data avoids unwanted side effects in copies.
+
+```cpp
+#include<iostream>
+using namespace std;
+
+class Box {
+    int *content;
+    public:
+        Box(){
+            content = new int();
+        }
+
+        Box(const Box &original_obj){
+            content = new int(*(original_obj.content));
+        }
+
+        void setContent(int newVal){
+            *content = newVal;
+        }
+        
+        void display(){
+            cout << *content << endl;
+        }
+
+        ~Box(){
+            delete content;
+        }
+};
+
+int main() {
+    Box b1;
+    b1.setContent(100);
+
+    Box b2(b1);
+    b1.setContent(200);
+
+    b1.display();
+    b2.display();
+}
+```
+

@@ -1,22 +1,37 @@
 #include<iostream>
 using namespace std;
 
-class Person {
-    string name;
-    string *hobbies_ptr;
-
-    public:     
-        Person(string name , string &hobby){
-            this->name = name;
-            string *hobbies_ptr = new string;
+class Box {
+    int *content;
+    public:
+        Box(){
+            content = new int();
         }
 
-        void display(){
+        Box(const Box &original_obj){
+            content = new int(*(original_obj.content));
+        }
 
+        void setContent(int newVal){
+            *content = newVal;
+        }
+        
+        void display(){
+            cout << *content << endl;
+        }
+
+        ~Box(){
+            delete content;
         }
 };
 
 int main() {
+    Box b1;
+    b1.setContent(100);
 
-    return 0;
+    Box b2(b1);
+    b1.setContent(200);
+
+    b1.display();
+    b2.display();
 }
