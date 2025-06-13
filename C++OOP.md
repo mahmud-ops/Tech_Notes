@@ -1617,3 +1617,117 @@ The destructor is now called **after** the entire program ends.
 
 A friend in C++ is a function or class that is given **special access to the private and protected members** of another class without being its member or subclass. Declaring a friend allows controlled external access to class internals while keeping encapsulation intact.
 
+### Problem 1: Friend Function Basics
+
+Create a class `Number` that has:
+
+* A private integer variable `value`.
+* A constructor that sets `value`.
+* A friend function `showValue` that prints the `value` of a `Number` object.
+
+Write the class and the friend function. Then, in `main()`, create a `Number` object with value `42` and call `showValue` on it.
+```cpp
+#include<iostream>
+using namespace std;
+
+class Number {
+    int value;
+    public:
+        Number(int value){
+            this->value = value;
+        }
+        friend void showValue(const Number &obj);
+    };
+
+    void showValue(const Number &obj){
+        cout << "Value : " << obj.value << endl;
+    }
+int main() {
+    Number n1(42);
+    showValue(n1);
+   return 0;
+}
+```
+
+### Problem 2:
+
+Make a class `SecretNumber` with:
+
+* A private integer `secret`.
+* A constructor to set `secret`.
+* A friend function `doubleSecret` that takes a `SecretNumber` object and returns **twice** the value of `secret`.
+
+In `main()`, create a `SecretNumber` object with value 10, call `doubleSecret` on it, and print the result.
+```cpp
+#include<iostream>
+using namespace std;
+
+class SecretNumber {
+    int secret;
+    public:
+    SecretNumber(int secret){
+        this->secret = secret;
+    }
+
+    friend int doubleSecret(const SecretNumber &obj);
+};
+
+int doubleSecret(const SecretNumber &obj){
+    return (obj.secret * 2);
+}
+
+int main() {
+    SecretNumber s1(10);
+    cout << doubleSecret(s1) << endl;
+    return 0;
+}
+```
+### Problem 3:
+
+Create a class `Score` with:
+
+* A private integer `points`.
+* A constructor to initialize `points`.
+* A friend function `addBonus` that takes a `Score` object and an integer `bonus`, adds the bonus to the private `points`, and returns the new total (don’t modify the original object).
+
+In `main()`, make a `Score` object with `50` points, call `addBonus` with bonus `20`, and print the result.
+```cpp
+#include<iostream>
+using namespace std;
+
+class Score {
+    int points;
+    public:
+    Score(int points){
+        this->points = points;
+    }
+
+    friend int addBonus(const Score &obj , int bonus);
+};
+int addBonus(const Score &obj , int bonus){
+    return obj.points + bonus;
+}
+int main() {
+    Score s1(50);
+    cout << addBonus(s1,20) << endl; 
+    return 0;
+}
+```
+### Problem 4:
+
+Create two classes:
+
+**Class: `Player`**
+
+* Private `int score`
+* Constructor to set score
+
+**Class: `Coach`**
+
+* No data members
+* A friend function `boostScore` that takes a `Player` object and returns `score + 10`
+
+> Make `boostScore()` a **friend of Player**, but define it **inside Coach**.
+
+In `main()`, make a `Player` object with score `90`, and use a `Coach` object to call `boostScore()` on it, then print the boosted score.
+
