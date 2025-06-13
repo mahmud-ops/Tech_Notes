@@ -1612,3 +1612,8 @@ Destructor.
 ```
 The destructor is now called **after** the entire program ends.
 [Practice problems](https://github.com/mahmud-ops/Coding_Notes_1/blob/master/C%2B%2BOOP_practice.md)
+
+## Friend keyword (friend class and functions)
+
+A friend in C++ is a function or class that is given **special access to the private and protected members** of another class without being its member or subclass. Declaring a friend allows controlled external access to class internals while keeping encapsulation intact.
+

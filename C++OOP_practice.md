@@ -630,10 +630,7 @@ inv1.setItems(0, 999);
 inv1.display(); // 999
 inv2.display(); // 100 (✅ if deep copy)
 ```
-
 ---
-
 ### 🧹 Next Up?
-
+ 
 Destructor `~ClassName()` — the cleanup crew.
-
