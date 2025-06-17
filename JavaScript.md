@@ -4041,3 +4041,77 @@ restart.addEventListener("click" , () => {
 });
 ```
 ## Project : Image slider
+
+* ✅ **Image Array Handling**
+  Stores all image paths in an array for dynamic access.
+
+* ✅ **Next Button Functionality**
+  On clicking "Next", increments the index `i`, and updates the image source using `image.setAttribute()`.
+
+* ✅ **Previous Button Functionality**
+  On clicking "Prev", decrements the index `i`, and updates the image source accordingly.
+
+* ✅ **Circular Navigation**
+  If `i` goes beyond the array length or below 0, it wraps around (resets to 0 or last index) to create an infinite loop effect.
+
+* ✅ **DOM Element Targeting**
+  Uses `getElementById()` to connect buttons and the image with JS logic.
+
+* ✅ **Dynamic Attribute Updating**
+  Uses `setAttribute("src", ...)` to swap image sources without reloading the page.
+
+* ✅ **State Tracking with Index**
+  Maintains a global index variable `i` to track and control the current image being displayed.
+
+![Image slider](Images/JS/Image_Slider.png)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Image slider</h1>
+  <div id="container">
+    <button id="prev"><</button>
+    <img id="image" src="Images/JS/Add_elements_1.png" alt="">
+    <button id="next">></button>
+  </div>
+<script src="script.js"></script>
+</body>
+</html>
+```
+```js
+let next = document.getElementById("next");
+let prev = document.getElementById("prev");
+let images = [
+    "Images/JS/Add_elements_1.png",
+    "Images/JS/Add_elements_2.png",
+    "Images/JS/Add_elements_3.png",
+    "Images/JS/Add_elements_4.png"
+];
+let img = document.getElementById("image");
+
+let i = 0;
+next.addEventListener("click",()=>{
+    i++;
+    if(i >= images.length){
+        i = 0;
+    }
+    image.setAttribute("src", `${images[i]}`);
+
+});
+
+prev.addEventListener("click",()=>{
+    i--;
+    if(i < 0){
+        i = images.length - 1;
+    }
+    image.setAttribute("src", `${images[i]}`);
+
+});
+```
