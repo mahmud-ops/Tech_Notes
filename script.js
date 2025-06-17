@@ -1,28 +1,51 @@
-let next = document.getElementById("next");
-let prev = document.getElementById("prev");
-let images = [
-    "Images/JS/Add_elements_1.png",
-    "Images/JS/Add_elements_2.png",
-    "Images/JS/Add_elements_3.png",
-    "Images/JS/Add_elements_4.png"
-];
-let img = document.getElementById("image");
+console.log("Start of Callback Hell");
 
-let i = 0;
-next.addEventListener("click",()=>{
-    i++;
-    if(i >= images.length){
-        i = 0;
-    }
-    image.setAttribute("src", `${images[i]}`);
+setTimeout(() => {
+    console.log("Step 1: Connecting to database...");
+    
+    setTimeout(() => {
+        console.log("Step 2: Fetching user data...");
 
-});
+        setTimeout(() => {
+            console.log("Step 3: Authenticating user...");
 
-prev.addEventListener("click",()=>{
-    i--;
-    if(i < 0){
-        i = images.length - 1;
-    }
-    image.setAttribute("src", `${images[i]}`);
+            setTimeout(() => {
+                console.log("Step 4: Fetching user preferences...");
 
-});
+                setTimeout(() => {
+                    console.log("Step 5: Loading dashboard widgets...");
+
+                    setTimeout(() => {
+                        console.log("Step 6: Sending analytics data...");
+
+                        setTimeout(() => {
+                            console.log("Step 7: Fetching latest news feed...");
+
+                            setTimeout(() => {
+                                console.log("Step 8: Rendering news cards...");
+
+                                setTimeout(() => {
+                                    console.log("Step 9: Updating notifications...");
+
+                                    setTimeout(() => {
+                                        console.log("Step 10: Everything is loaded 🎉");
+
+                                    }, 1000);
+
+                                }, 1000);
+
+                            }, 1000);
+
+                        }, 1000);
+
+                    }, 1000);
+
+                }, 1000);
+
+            }, 1000);
+
+        }, 1000);
+
+    }, 1000);
+
+}, 1000);
