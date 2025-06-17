@@ -1611,7 +1611,7 @@ Program ended.
 Destructor.
 ```
 The destructor is now called **after** the entire program ends.
-[Practice problems](https://github.com/mahmud-ops/Coding_Notes_1/blob/master/C%2B%2BOOP_practice.md)
+
 
 ## Friend keyword (friend class and functions)
 
@@ -1759,3 +1759,5 @@ int main() {
 }
 ```
 
+
+[**Practice problems**](https://github.com/mahmud-ops/Coding_Notes_1/blob/master/C%2B%2BOOP_practice.md)
