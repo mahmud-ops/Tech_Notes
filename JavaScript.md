@@ -4166,7 +4166,6 @@ Step 8: Rendering news cards...
 Step 9: Updating notifications...
 Step 10: Everything is loaded 🎉
 ```
-
 ## Promises
 
 A **Promise** is an object that helps you handle tasks that take time — like loading data or waiting for something.
@@ -4186,4 +4185,160 @@ It says:
 new Promise((resolve, reject) => {
   // your async code here
 });
+```
+```js
+function cleanRoom(callback){
+    setTimeout(() => {
+        console.log("Room cleaned.");
+        callback();
+    }, 1000);
+}
+
+function takeOutTrash(callback){
+    setTimeout(() => {
+        console.log("Trash is taken out.");
+        callback();
+    }, 500);
+}
+
+function doHomework(callback){
+    setTimeout(() => {
+        console.log("Homework is done.");
+        callback();
+    }, 1500);
+}
+
+// This leads to a callback hell
+doHomework(() =>{
+    cleanRoom(() =>{
+        takeOutTrash(() =>{
+            console.log("All task are finished.");
+        });
+    });
+});
+```
+```
+'Homework is done.'
+'Room cleaned.'
+'Trash is taken out.'
+'All task are finished.'
+```
+To avoid callback hell , we can use promises.
+```js
+function cleanRoom(callback){
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve("Room cleaned.");
+        }, 1000);
+    })
+    
+}
+
+function takeOutTrash(callback){
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve("Trash is taken out.");
+        }, 500);  
+    })
+}
+
+function doHomework(callback){
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve("Homework is done.");
+        }, 1500);
+        
+    })
+}
+
+//Call by using chaining promises
+
+doHomework() // 1st do homework
+
+    .then(value => {
+    console.log(value) 
+    return cleanRoom() // Then clean room
+    })
+
+    .then(value => {
+        console.log(value)
+        return takeOutTrash() // Then take the trash out
+    })
+    
+    .then(value => {
+        console.log(value)
+        console.log("Finised all task.")
+    })
+    
+    .catch(error => {
+        console.log("Something went wrong",error);
+    })
+```
+
+**Then , whats is the use of `reject` ??**
+
+> This is where the `error` comes in
+```js
+function cleanRoom() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            let roomCleaned = false;
+            if (roomCleaned) {
+                resolve("Room cleaned.");
+            } else {
+                reject("You didn't clean the room."); // Reject
+            }
+        }, 1000);
+    });
+}
+
+function takeOutTrash() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            let trashTakenOut = false;
+            if (trashTakenOut) {
+                resolve("Trash is taken out.");
+            } else {
+                reject("You forgot to take out the trash.");
+            }
+        }, 500);
+    });
+}
+
+function doHomework() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            let homeworkDone = true;
+            if (homeworkDone) {
+                resolve("Homework is done.");
+            } else {
+                reject("You didn’t do your homework.");
+            }
+        }, 1500);
+    });
+}
+
+// Call by using method chaining
+doHomework()
+    .then(value => {
+        console.log(value);
+        return cleanRoom();
+    })
+    .then(value => {
+        console.log(value);
+        return takeOutTrash();
+    })
+    .then(value => {
+        console.log(value);
+        console.log("Finished all tasks.");
+    })
+
+    // Error
+    .catch(error => {
+        console.log("❌ Something went wrong:", error);
+    });
+```
+```
+'Homework is done.'
+[ '❌ Something went wrong:', 'You didn't clean the room.' ]
 ```

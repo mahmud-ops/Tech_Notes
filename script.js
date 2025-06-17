@@ -1,51 +1,58 @@
-console.log("Start of Callback Hell");
-
-setTimeout(() => {
-    console.log("Step 1: Connecting to database...");
-    
-    setTimeout(() => {
-        console.log("Step 2: Fetching user data...");
-
+function cleanRoom() {
+    return new Promise((resolve, reject) => {
         setTimeout(() => {
-            console.log("Step 3: Authenticating user...");
-
-            setTimeout(() => {
-                console.log("Step 4: Fetching user preferences...");
-
-                setTimeout(() => {
-                    console.log("Step 5: Loading dashboard widgets...");
-
-                    setTimeout(() => {
-                        console.log("Step 6: Sending analytics data...");
-
-                        setTimeout(() => {
-                            console.log("Step 7: Fetching latest news feed...");
-
-                            setTimeout(() => {
-                                console.log("Step 8: Rendering news cards...");
-
-                                setTimeout(() => {
-                                    console.log("Step 9: Updating notifications...");
-
-                                    setTimeout(() => {
-                                        console.log("Step 10: Everything is loaded 🎉");
-
-                                    }, 1000);
-
-                                }, 1000);
-
-                            }, 1000);
-
-                        }, 1000);
-
-                    }, 1000);
-
-                }, 1000);
-
-            }, 1000);
-
+            let roomCleaned = false;
+            if (roomCleaned) {
+                resolve("Room cleaned.");
+            } else {
+                reject("You didn't clean the room."); // Reject
+            }
         }, 1000);
+    });
+}
 
-    }, 1000);
+function takeOutTrash() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            let trashTakenOut = false;
+            if (trashTakenOut) {
+                resolve("Trash is taken out.");
+            } else {
+                reject("You forgot to take out the trash.");
+            }
+        }, 500);
+    });
+}
 
-}, 1000);
+function doHomework() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            let homeworkDone = true;
+            if (homeworkDone) {
+                resolve("Homework is done.");
+            } else {
+                reject("You didn’t do your homework.");
+            }
+        }, 1500);
+    });
+}
+
+// Call by using method chaining
+doHomework()
+    .then(value => {
+        console.log(value);
+        return cleanRoom();
+    })
+    .then(value => {
+        console.log(value);
+        return takeOutTrash();
+    })
+    .then(value => {
+        console.log(value);
+        console.log("Finished all tasks.");
+    })
+
+    // Error
+    .catch(error => {
+        console.log("❌ Something went wrong:", error);
+    });
