@@ -4122,55 +4122,35 @@ Situation in JS where callbacks are nested within other callbacks in the degree 
 **Example**
 ```js
 console.log("Start of Callback Hell");
-
 setTimeout(() => {
     console.log("Step 1: Connecting to database...");
-    
     setTimeout(() => {
         console.log("Step 2: Fetching user data...");
-
         setTimeout(() => {
             console.log("Step 3: Authenticating user...");
-
             setTimeout(() => {
                 console.log("Step 4: Fetching user preferences...");
-
                 setTimeout(() => {
                     console.log("Step 5: Loading dashboard widgets...");
-
                     setTimeout(() => {
                         console.log("Step 6: Sending analytics data...");
-
                         setTimeout(() => {
                             console.log("Step 7: Fetching latest news feed...");
-
                             setTimeout(() => {
                                 console.log("Step 8: Rendering news cards...");
-
                                 setTimeout(() => {
                                     console.log("Step 9: Updating notifications...");
-
                                     setTimeout(() => {
                                         console.log("Step 10: Everything is loaded 🎉");
-
                                     }, 1000);
-
                                 }, 1000);
-
                             }, 1000);
-
                         }, 1000);
-
                     }, 1000);
-
                 }, 1000);
-
             }, 1000);
-
         }, 1000);
-
     }, 1000);
-
 }, 1000);
 ```
 ```
@@ -4185,4 +4165,25 @@ Step 7: Fetching latest news feed...
 Step 8: Rendering news cards...
 Step 9: Updating notifications...
 Step 10: Everything is loaded 🎉
+```
+
+## Promises
+
+A **Promise** is an object that helps you handle tasks that take time — like loading data or waiting for something.
+
+It says:
+
+> *“I’ll do this task. If it works, I’ll give you the result. If it fails, I’ll let you know what went wrong.”*
+
+
+**🔄 Promise States:**
+
+* **Pending** – Task is still happening
+* **Resolved** – Task is done successfully
+* **Rejected** – Task failed with an error
+
+```js
+new Promise((resolve, reject) => {
+  // your async code here
+});
 ```
