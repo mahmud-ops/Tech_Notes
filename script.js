@@ -54,5 +54,5 @@ doHomework()
 
     // Error
     .catch(error => {
-        console.log("❌ Something went wrong:", error);
+        console.error("❌ Something went wrong:", error);
     });

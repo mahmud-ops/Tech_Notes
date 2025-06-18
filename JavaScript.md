@@ -4335,10 +4335,20 @@ doHomework()
 
     // Error
     .catch(error => {
-        console.log("❌ Something went wrong:", error);
+        console.error("❌ Something went wrong:", error);
     });
 ```
 ```
 'Homework is done.'
 [ '❌ Something went wrong:', 'You didn't clean the room.' ]
 ```
+
+## Async / Await 
+- Async = makes a function return a promise  
+- Await = makes an async function wait for a promise  
+
+---
+
+- Allows you to write asynchronous code in a synchronous manner  
+- Async doesn't have resolve or reject parameters  
+- Everything after Await is placed in an event queue
