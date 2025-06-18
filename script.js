@@ -1,58 +1,61 @@
-function cleanRoom() {
+function goToUni(){
     return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            let roomCleaned = false;
-            if (roomCleaned) {
-                resolve("Room cleaned.");
-            } else {
-                reject("You didn't clean the room."); // Reject
+    setTimeout(() => {    
+            let wentTOuni = true;
+            if(wentTOuni){
+                resolve("You went to university.");
             }
-        }, 1000);
-    });
+            else{
+                reject("You didn't go to university.");
+            }
+        },3000)
+    })
 }
 
-function takeOutTrash() {
+function goToTuition(){
     return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            let trashTakenOut = false;
-            if (trashTakenOut) {
-                resolve("Trash is taken out.");
-            } else {
-                reject("You forgot to take out the trash.");
+    setTimeout(() => {
+            let wentToTuition = true;
+            if(wentToTuition){
+                resolve("You went to tuition.");
             }
-        }, 500);
-    });
+            else{
+                reject("You didn't go to tuition.");
+            }
+        }, 2000);
+    })
 }
 
-function doHomework() {
+function learnJS(){
     return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            let homeworkDone = true;
-            if (homeworkDone) {
-                resolve("Homework is done.");
-            } else {
-                reject("You didn’t do your homework.");
+    setTimeout(() => {
+        let learnedJS = true;
+            if(learnedJS){
+                resolve("You've learned JS.");
+            } 
+            else{
+                reject("You didn't learn JS.");
             }
         }, 1500);
-    });
+    }) 
 }
 
-// Call by using method chaining
-doHomework()
+goToUni()
     .then(value => {
         console.log(value);
-        return cleanRoom();
-    })
-    .then(value => {
-        console.log(value);
-        return takeOutTrash();
-    })
-    .then(value => {
-        console.log(value);
-        console.log("Finished all tasks.");
+        return goToTuition();
     })
 
-    // Error
+    .then(value => {
+        console.log(value);
+        return learnJS();
+    })
+
+    .then(value => {
+        console.log(value);
+        console.log("All tasks are finished successfully.");
+    })
+
     .catch(error => {
-        console.error("❌ Something went wrong:", error);
-    });
+        console.error(error);
+    })
