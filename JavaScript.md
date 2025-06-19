@@ -4680,7 +4680,7 @@ Useful for keeping users logged in or saving preferences 🔒
 
 Writing a cookie manually
 ```js
-document.cookie = "firstname=Abdullah; expires=sat, 13 may 2028, 12:00:00 UTC";
+document.cookie = "firstname=Abdullah; expires=sat, 13 may 2028, 12:00:00 UTC path=/";
 console.log(document.cookie);
 ```
 Here , this sets firstname as `Abdullah` which expires on 13th may 2028 at 12:00 pm.
@@ -4689,9 +4689,30 @@ firstname=Abdullah
 ```
 What if I change the expiry date to 2021 , (already expired.)
 ```js
-document.cookie = "firstname=Abdullah; expires=sat, 13 may 2021, 12:00:00 UTC";
+document.cookie = "firstname=Abdullah; expires=sat, 13 may 2021, 12:00:00 UTC path=/";
 console.log(document.cookie);
 ```
 ```
 
+```
+**NOTHING**
+
+it's expired
+
+**Setting cookie with function**
+```js
+function setCookie(name , value , daysToLive){
+    const date = new Date();
+    
+    date.setTime(date.getTime() + (daysToLive * 86400 * 1000 /*Converting days into ms*/))
+    let expires = "expires=" + date.toUTCString();
+
+    document.cookie = `${name}=${value}; ${expires}; path=/`
+}
+
+setCookie("email","mahmud123@gmail.com",365);
+console.log(document.cookie);
+```
+```
+email=mahmud123@gmail.com
 ```
