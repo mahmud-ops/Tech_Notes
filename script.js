@@ -1,2 +1,2 @@
-const jsonString = '[{"name":"Spongebob","age":31,"isEmployed":true},{"name":"Patrick","age":34,"isEmployed":false},{"name":"Squidward","age":40,"isEmployed":true}]'
-console.log(JSON.parse(jsonString));
+document.cookie = "firstname=Abdullah; expires=sat, 13 may 2021, 12:00:00 UTC";
+console.log(document.cookie);

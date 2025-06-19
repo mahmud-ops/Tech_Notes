@@ -4552,7 +4552,6 @@ console.log(JSON.stringify(names));
 ```
 '["Spongebob","Patrick","Squidward","Sandy","Mr.Krab"]'
 ```
-For now , I converted a regular array to string. Next time , I'll fetch from a JSON file.
 
 ### Parse
 It converts a string into a JSON object.
@@ -4567,4 +4566,132 @@ console.log(JSON.parse(jsonString));
   { name: 'Patrick', age: 34, isEmployed: false },
   { name: 'Squidward', age: 40, isEmployed: true }
 ]
+```
+For now , I converted a regular array/object to string (vice-versa). Next time , I'll fetch from a JSON file.
+
+**Fetching a json file**
+
+**people.json**
+```json
+[
+    {
+        "name" : "Spongebob",
+        "age" : 31,
+        "isEmployed" : true
+    },
+    {
+        "name" : "Patrick",
+        "age" : 34,
+        "isEmployed" : false
+    },
+    {
+        "name" : "Squidward",
+        "age" : 40,
+        "isEmployed" : true
+    }
+]
+```
+Let's fetch data from `people.json`.
+
+```js
+fetch("people.json")
+    .then(response => response.json())
+    .then(value => console.log(value))
+```
+```
+(3) [{…}, {…}, {…}]
+0: {name: 'Spongebob', age: 31, isEmployed: true}
+1: {name: 'Patrick', age: 34, isEmployed: false}
+2: {name: 'Squidward', age: 40, isEmployed: true}
+length: 3
+```
+**What's Happening :**
+
+I tell JavaScript to *fetch* the file named `"people.json"`.  
+Then, when it gives me the response (like a sealed envelope), I open it using `.json()` so I can read the data inside.  
+After that, I print out the final value in the console to see what’s in the file.
+
+**What's `response`:**
+
+`response` is like a *sealed envelope* that JavaScript gives me after fetching the file.  
+It’s not the actual data — it’s a whole object with things like:
+- status codes
+- headers
+- metadata
+
+To actually get the *real* data (like JSON content), I have to call `.json()` on the `response` to open the envelope and read what’s inside.
+
+You're basically saying:
+> “Hey JS, grab that parcel (people.json), open it, and show me what's inside.”
+
+Tweaking the code 
+```js
+fetch("people.json")
+    .then(response => response.json())
+    
+    .then(value => value.forEach(element => {
+        console.log(element.name);
+        
+    }))
+```
+```
+Spongebob
+Patrick
+Squidward
+```
+
+**In this case, `value` is the entire package, and `element` is each product inside that package."**
+
+## Cookie 🍪
+
+A *small piece of data* stored in the browser, usually to remember stuff like:
+
+* if you're logged in
+* your theme (dark/light)
+* cart items, etc.
+
+**How to set a cookie**
+
+```js
+document.cookie = "username=Mahmud; expires=Fri, 01 Jan 2027 12:00:00 UTC";
+```
+
+This stores `username=Mahmud` in the browser till 2027.
+
+**How to read cookies**
+
+```js
+console.log(document.cookie);
+```
+
+Returns all cookies like a string:
+`"username=Mahmud; color=dark"`
+
+**Things to know**
+
+* Cookies are **sent with every request** (kinda heavy).
+* Max size is small (4KB ish).
+* Not secure unless using HTTPS.
+
+**TL;DR:**
+Cookies = browser memory card 📀
+You set it, browser remembers it
+Useful for keeping users logged in or saving preferences 🔒
+
+Writing a cookie manually
+```js
+document.cookie = "firstname=Abdullah; expires=sat, 13 may 2028, 12:00:00 UTC";
+console.log(document.cookie);
+```
+Here , this sets firstname as `Abdullah` which expires on 13th may 2028 at 12:00 pm.
+```
+firstname=Abdullah
+```
+What if I change the expiry date to 2021 , (already expired.)
+```js
+document.cookie = "firstname=Abdullah; expires=sat, 13 may 2021, 12:00:00 UTC";
+console.log(document.cookie);
+```
+```
+
 ```
