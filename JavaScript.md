@@ -4418,3 +4418,153 @@ goToUni()
 - Async doesn't have resolve or reject parameters  
 - Everything after Await is placed in an event queue
 
+```js
+function goToUni(){
+    return new Promise((resolve, reject) => {
+    setTimeout(() => {    
+            let wentTOuni = true;
+            if(wentTOuni){
+                resolve("You went to university.");
+            }
+            else{
+                reject("You didn't go to university.");
+            }
+        },3000)
+    })
+}
+
+function goToTuition(){
+    return new Promise((resolve, reject) => {
+    setTimeout(() => {
+            let wentToTuition = true;
+            if(wentToTuition){
+                resolve("You went to tuition.");
+            }
+            else{
+                reject("You didn't go to tuition.");
+            }
+        }, 2000);
+    })
+}
+
+function learnJS(){
+    return new Promise((resolve, reject) => {
+    setTimeout(() => {
+        let learnedJS = true;
+            if(learnedJS){
+                resolve("You've learned JS.");
+            } 
+            else{
+                reject("You didn't learn JS.");
+            }
+        }, 1500);
+    }) 
+}
+
+goToUni()
+    .then(value => {
+        console.log(value);
+        return goToTuition();
+    })
+
+    .then(value => {
+        console.log(value);
+        return learnJS();
+    })
+
+    .then(value => {
+        console.log(value);
+        console.log("All tasks are finished successfully.");
+    })
+
+    .catch(error => {
+        console.error(error);
+    })
+```
+
+We can do it with async and await
+
+🔄 Steps to turn your `.then()` chain into `async/await`:
+
+1. **Wrap the whole chain in an `async function`** (e.g., `async function dailyRoutine() {}`)
+
+2. **Use `await` before each function call**, like:
+
+   * `await goToUni()`
+   * `await goToTuition()`
+   * `await learnJS()`
+
+3. **Wrap the whole logic in a `try...catch` block**
+   That way, if any of the Promises reject, it’ll jump straight to `catch`.
+
+
+**Recap:**
+
+* `await` *waits* for the Promise to resolve/reject
+* Cleaner than `.then()` chaining
+* `try...catch` replaces the final `.catch()`
+
+```js
+
+async function tasks(){
+    try{
+        const goToUniResult = await goToUni();
+        console.log(goToUniResult);
+
+        const goToTuitionResult = await goToTuition();
+        console.log(goToTuitionResult);
+
+        const learnJSResult = await learnJS();
+        console.log(learnJSResult);
+    }
+    catch(error){
+        console.log(error);
+    }
+    
+}
+
+tasks();
+```
+```
+'You went to university.'
+'You went to tuition.'
+'You\'ve learned JS.'
+```
+
+## JSON (JavaScript Object Notation)
+
+* A simple, text-based format for storing and sharing data
+* Commonly used to exchange data between a **server** and a **web application**
+* Data is organized as:
+
+  * **Objects**: `{ "key": "value" }`
+  * **Arrays**: `[ "value1", "value2" ]`
+* Looks like JavaScript objects, but used just for data
+* Easy to read, easy to write, and supported by almost every programming language
+* Perfect for sending data over the internet in a clean and structured way
+
+### Stringify
+It converts a json array or object to string.
+```js
+const names = ["Spongebob","Patrick","Squidward","Sandy","Mr.Krab"]
+console.log(JSON.stringify(names));
+```
+```
+'["Spongebob","Patrick","Squidward","Sandy","Mr.Krab"]'
+```
+For now , I converted a regular array to string. Next time , I'll fetch from a JSON file.
+
+### Parse
+It converts a string into a JSON object.
+```js
+const jsonString = '[{"name":"Spongebob","age":31,"isEmployed":true},{"name":"Patrick","age":34,"isEmployed":false},{"name":"Squidward","age":40,"isEmployed":true}]'
+
+console.log(JSON.parse(jsonString));
+```
+```
+[
+  { name: 'Spongebob', age: 31, isEmployed: true },
+  { name: 'Patrick', age: 34, isEmployed: false },
+  { name: 'Squidward', age: 40, isEmployed: true }
+]
+```
