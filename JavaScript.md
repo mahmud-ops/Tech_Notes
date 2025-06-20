@@ -4642,77 +4642,150 @@ Squidward
 
 **In this case, `value` is the entire package, and `element` is each product inside that package."**
 
-## Cookie 🍪
+## **🍪 JavaScript Cookies**
+[Video (CodeWithHarry)](https://youtu.be/sHrwueeeMmY)
 
-A *small piece of data* stored in the browser, usually to remember stuff like:
+Cookies are *small pieces of data* stored in the browser — usually to remember:
 
-* if you're logged in
-* your theme (dark/light)
-* cart items, etc.
+* Whether you're logged in
+* Your theme (dark/light)
+* Shopping cart contents, preferences, etc.
 
-**How to set a cookie**
+---
+
+**How to Set a Cookie (manually)**
 
 ```js
-document.cookie = "username=Mahmud; expires=Fri, 01 Jan 2027 12:00:00 UTC";
+document.cookie = "username=Mahmud; expires=Fri, 01 Jan 2027 12:00:00 UTC; path=/";
 ```
 
-This stores `username=Mahmud` in the browser till 2027.
+This creates a cookie named `username` with the value `Mahmud`, which expires on Jan 1, 2027.
 
-**How to read cookies**
+---
+
+**How to Read Cookies**
 
 ```js
 console.log(document.cookie);
 ```
 
-Returns all cookies like a string:
-`"username=Mahmud; color=dark"`
+Returns a string of all cookies:
 
-**Things to know**
+```
+username=Mahmud; color=dark
+```
 
-* Cookies are **sent with every request** (kinda heavy).
-* Max size is small (4KB ish).
-* Not secure unless using HTTPS.
+---
 
-**TL;DR:**
-Cookies = browser memory card 📀
-You set it, browser remembers it
-Useful for keeping users logged in or saving preferences 🔒
+**Expired Cookies Are Auto-Deleted**
 
-Writing a cookie manually
+If you set the expiry date in the past, the browser deletes the cookie instantly:
+
 ```js
-document.cookie = "firstname=Abdullah; expires=sat, 13 may 2028, 12:00:00 UTC path=/";
+document.cookie = "firstname=Abdullah; expires=Sat, 13 May 2021 12:00:00 UTC; path=/";
 console.log(document.cookie);
 ```
-Here , this sets firstname as `Abdullah` which expires on 13th may 2028 at 12:00 pm.
+
+**Output:**
+
 ```
-firstname=Abdullah
+(nothing – it's expired)
 ```
-What if I change the expiry date to 2021 , (already expired.)
+
+---
+
+**Multiple Cookies Can Coexist**
+
+Cookies with **different names** will be added, not replaced:
+
 ```js
-document.cookie = "firstname=Abdullah; expires=sat, 13 may 2021, 12:00:00 UTC path=/";
+document.cookie = "name=Mahmud; expires=Thu, 01 Jan 2026 12:00:00 UTC; path=/";
+document.cookie = "age=21; expires=Thu, 01 Jan 2026 12:00:00 UTC; path=/";
+
 console.log(document.cookie);
 ```
-```
+
+**Output:**
 
 ```
-**NOTHING**
+name=Mahmud; age=21
+```
 
-it's expired
+But if you set a cookie with the **same name**, it **overwrites** the previous one:
 
-**Setting cookie with function**
 ```js
-function setCookie(name , value , daysToLive){
+document.cookie = "name=Mahmud; expires=Thu, 01 Jan 2026 12:00:00 UTC; path=/";
+document.cookie = "name=Abdullah; expires=Thu, 01 Jan 2026 12:00:00 UTC; path=/";
+
+console.log(document.cookie);
+```
+
+**Output:**
+
+```
+name=Abdullah
+```
+
+---
+
+**Setting Cookies with a Function**
+
+```js
+function setCookie(name, value, daysToLive) {
     const date = new Date();
-    
-    date.setTime(date.getTime() + (daysToLive * 86400 * 1000 /*Converting days into ms*/))
+    date.setTime(date.getTime() + (daysToLive * 86400 * 1000)); // days to ms
     let expires = "expires=" + date.toUTCString();
-
-    document.cookie = `${name}=${value}; ${expires}; path=/`
+    document.cookie = `${name}=${encodeURIComponent(value)}; ${expires}; path=/;`;
 }
 
-setCookie("email","mahmud123@gmail.com",365);
+setCookie("email", "mahmud123@gmail.com", 365);
 console.log(document.cookie);
 ```
+
+**Output:**
+
 ```
-email=mahmud123@gmail.com
+email=mahmud123%40gmail.com
+```
+### encodeURIComponent
+```js
+let key = prompt("Enter key :");
+let value = prompt("Enter value :");
+
+document.cookie = `${key}=${value}`
+console.log(document.cookie)
+```
+If i type `key = name` and `value = Mahmud`
+```
+name=Mahmud
+```
+But , if i write `key = #$@` and `value = mahmud`
+```
+(nothing)
+```
+It doesn't accept special characters.
+
+This is where `encodeURIComponent` comes in.
+```js
+let key = prompt("Enter key :");
+let value = prompt("Enter value :");
+
+document.cookie = `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+console.log(document.cookie)
+```
+
+```
+%23%24%40=mahmud ... ... But this ain't the thing i wanted 😕
+```
+
+**Now we need `decodeURIComponent`**
+```js
+let key = prompt("Enter key :");
+let value = prompt("Enter value :");
+
+document.cookie = `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+console.log(decodeURIComponent(document.cookie))
+```
+```
+#$@=mahmud 😁
 ```
