@@ -4797,3 +4797,241 @@ document.cookie = "age=21; expires=Sun, 01 Jan 2030 12:00:00 UTC; path=/"
 
 console.log(document.cookie);
 ```
+```
+name=mahmud; age=21
+```
+If i delete both lines in the code
+```js
+console.log(document.cookie);
+```
+```
+name=mahmud; age=21
+```
+**Still there...** 
+
+Cookies stick around even after you delete the code that created them because they’re stored **in the browser**, not inside your actual `JavaScript` file. When you set a cookie with a **future expiration date**, the browser holds onto it until that time — **regardless of whether the original script still exists**. So just removing or commenting out the `JavaScript` doesn’t remove the cookie; it’s like deleting the recipe but the cookies are still in the jar. To actually remove them, you need to **explicitly overwrite** them with an **expired date** using something like:
+
+```js
+document.cookie = "name=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+```
+
+…or clear them manually through **browser settings or dev tools**.
+
+**Or we can make a `deleteCookie()` function:**
+```js
+console.log(document.cookie);
+
+function deleteCookie(key){
+    document.cookie = `${key}=; expires=Thu, 01 Jan 1997 12:00:00 UTC; path=/`;
+}
+
+deleteCookie("name");
+
+location.reload(true); // For hard reload
+
+```
+```
+age=21
+```
+`name=Mahmud` cookie is deleted.
+```js
+deleteCookie("age");
+```
+```
+(both gone)
+```
+**How to delete all cookies with a single function**
+```js
+function deleteAllCookie(){
+    document.cookie.split(";").forEach(cookie => {
+        let key = cookie.split("=")[0].trim();
+        document.cookie = `${key}=; expires=Thu, 01 Jan 1997 12:00:00 UTC; path=/`;
+    })
+}
+
+deleteAllCookie();
+```
+```
+```
+Aight Mahmud, let’s walk through your `deleteAllCookie()` like we’re debugging it with a magnifying glass 🔍🍪
+
+---
+
+### 👇 Your code:
+
+```js
+function deleteAllCookie() {
+    document.cookie.split(";").forEach(cookie => {
+        let key = cookie.split("=")[0].trim();
+        document.cookie = `${key}=; expires=Thu, 01 Jan 1997 12:00:00 UTC; path=/`;
+    });
+}
+
+deleteAllCookie();
+```
+
+---
+
+**🧠 Step-by-Step Execution:**
+
+
+**🛠 Step 1: `document.cookie`**
+
+* This gives you all cookies on the site as one long string:
+
+```js
+"name=mahmud; age=21; theme=dark"
+```
+
+---
+
+**🔪 Step 2: `.split(";")`**
+
+* You split the string by `;`, so you get:
+
+```js
+["name=mahmud", " age=21", " theme=dark"]
+```
+
+Each element is now one cookie.
+
+---
+
+**🔁 Step 3: `.forEach(cookie => { ... })`**
+
+* You loop through each cookie one by one.
+
+---
+
+**🍪 Step 4: `cookie.split("=")[0].trim()`**
+
+* For `" age=21"` → `cookie.split("=")` gives `[" age", "21"]`
+* `[0]` grabs `" age"`, then `.trim()` cleans it to `"age"`
+* So now `key = "age"`
+
+---
+
+**💀 Step 5: Overwrite with expired cookie**
+
+```js
+document.cookie = `${key}=; expires=Thu, 01 Jan 1997 12:00:00 UTC; path=/`;
+```
+
+* This sets the `age` cookie to an empty value `=`
+* Sets the expiration date **in the past**
+* Tells the browser: *"Delete this."*
+
+---
+
+🔁 Repeat for `"name"` and `"theme"`
+
+---
+
+**✅ Final Result:**
+
+All cookies listed in `document.cookie` are **cleared** from the browser (if they were set with `path=/`).
+
+## fetch data from an API (Application Programming Interface)
+[Video (BroCode)](https://youtu.be/37vxWr0WgQk)
+- Function used for making HTTP requests to fetch resources. (JSON style data , image , files)
+- Simplifies asynchronus data fetching in javascript and used for interacting with APIs to retrieve and send data asynchronusly over the web.
+- fetch(url),{options}
+
+**We're gonna fetch data from [pokeapi.co](https://pokeapi.co/)**
+> `fetch` is one kind of promise
+```js
+fetch("https://pokeapi.co/api/v2/pokemon/pikachu")
+    .then(response => console.log(response))
+    .catch(error => console.error(error))
+```
+![Response code](Images/JS/pikachu_resCode.png)
+
+this has a status code `200` (ok).
+
+Means : **Request succeeded, data's in the response**
+
+And 404 (Not found) means , **Wrong URL or resource doesn't exist**
+
+> The code above will show a huge object filled with JSON, Blob, and other properties **because `response` is a Response object, not the actual data — to access the JSON data, you need to call `response.json()` first.**
+
+Wanna turn that into a one-liner wisdom bomb?
+
+> `response` ain't the data — it's the envelope. You gotta `.json()` it to read the letter
+```js
+fetch("https://pokeapi.co/api/v2/pokemon/pikachu")
+    .then(response => response.json())
+    .then(data => console.log(data)) // data (object)
+    .catch(error => console.error(error))
+```
+![pikachu json](Images/JS/pikachu_json.png)
+```js
+fetch("https://pokeapi.co/api/v2/pokemon/pikachu")
+    .then(response => response.json())
+    .then(data => {
+        console.log(`Name = ${data.name}`)
+        console.log(`Weight = ${data.weight}`)
+    })
+    .catch(error => console.error(error))
+```
+```
+Name = pikachu
+Weight = 60
+```
+**Error handling**
+
+```js
+fetch("https://pokeapi.co/api/v2/pokemon/pikachu")
+```
+This fetches data about pickachu..What if I write
+
+```js
+fetch("https://pokeapi.co/api/v2/pokemon/spongebob")
+```
+Here , spongebob is not a pokemon , so obviously it doesn't exist in the API site. 
+
+**So, We have to throw an error.**
+```js
+fetch("https://pokeapi.co/api/v2/pokemon/spongebob")
+    .then(response => {
+        if(!response.ok){
+            throw new Error("Could not find the resource.");
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(`Name = ${data.name}`)
+        console.log(`Weight = ${data.weight}`)
+        console.log(`ID = ${data.id}`)
+    })
+    .catch(error => console.error(error))
+```
+```
+Error: Could not find the resource
+```
+**With async and await**
+```js
+async function fetchData(){
+    try {
+        const response = await fetch("https://pokeapi.co/api/v2/pokemon/pikachu");
+        if(!response.ok){
+            throw new Error("Pokemon not found");
+        }
+        
+        const data = await response.json();
+
+        console.log(data.name);
+        console.log(data.weight);
+        console.log(data.id);
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+fetchData();
+```
+```
+pikachu
+60
+25
+```
