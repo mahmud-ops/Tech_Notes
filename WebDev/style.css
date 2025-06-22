@@ -1,0 +1,32 @@
+*{font-family: monospace;}
+#pokemonName{
+    font-size: 1.5em;
+    height: 50px;
+    text-align: center;
+}
+button{
+    height: 52px;
+}
+#card{
+    margin: 50px auto;
+    border: solid 1px;
+    border-radius: 10px;
+    padding: 10px;
+    width: 300px;
+    height: 400px;
+    font-size: 1.2em;
+    justify-content: center;
+    flex-direction: column;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.485);
+    transition: opacity 0.5s ease;
+    opacity: 0;
+}
+#dataContainer{
+    background-color: skyblue;
+    padding: 10px;
+    border-radius: inherit;
+}
+#pokemonImage{
+    margin: auto;
+    width: 80%;
+}

@@ -4,9 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+    <input type="text" placeholder="Enter pokemon name" id="pokemonName"><br>
+    <button id="showImg" onclick="fetchData()">Show image</button>
+
+    <div id="card">
+        <img id="pokemonImage" src="" alt="pokemon sprite">
+        <div id="dataContainer">    
+            <p id="name">Name</p>
+            <p id="weight">Weight</p>
+            <p id="type">Tree type pokemon</p>
+        </div>
+    </div>
+
 <script src="script.js"></script>
 </body>
 </html>

@@ -5016,7 +5016,7 @@ async function fetchData(){
         if(!response.ok){
             throw new Error("Pokemon not found");
         }
-        
+
         const data = await response.json();
 
         console.log(data.name);
@@ -5034,4 +5034,108 @@ fetchData();
 pikachu
 60
 25
+```
+### Mini project : Pokémon Lookup Card .
+
+![Pokemon card](Images/JS/pokemon.png)
+**🔥 What it does:**
+
+* Lets users enter a Pokémon name.
+* Fetches live data from the [PokéAPI](https://pokeapi.co/).
+* Displays:
+
+  * Sprite image
+  * Pokémon name
+  * Weight
+  * Type
+* Smooth fade-out ➜ update ➜ fade-in transition on data change.
+* Handles errors (invalid name or typo) with a clean “Not Found” message.
+* Built with **vanilla JS, HTML, and CSS** — no frameworks, just raw skill.
+
+**Code**
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <input type="text" placeholder="Enter pokemon name" id="pokemonName"><br>
+    <button id="showImg" onclick="fetchData()">Show image</button>
+
+    <div id="card">
+        <img id="pokemonImage" src="" alt="pokemon sprite">
+        <div id="dataContainer">    
+            <p id="name">Name</p>
+            <p id="weight">Weight</p>
+            <p id="type">Tree type pokemon</p>
+        </div>
+    </div>
+
+<script src="script.js"></script>
+</body>
+</html>
+```
+```css
+#card{
+    transition: opacity 0.5s ease;
+    opacity: 0;
+}
+/* This is the main part , there can be more styling*/
+```
+```js
+async function fetchData() {
+    const pokemonName = document.getElementById("pokemonName").value.toLowerCase();
+    const card = document.getElementById("card");
+    const nameEl = document.getElementById("name");
+    const weightEl = document.getElementById("weight");
+    const typeEl = document.getElementById("type");
+    const imgEl = document.getElementById("pokemonImage");
+    const dataContainer = document.getElementById("dataContainer");
+
+    try {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`); // Fetching data from api
+        if (!response.ok) throw new Error("Pokemon not found");
+        const data = await response.json();
+        await console.log(data)
+        
+        // Fade out first
+        card.style.opacity = 0;
+
+        setTimeout(() => {
+            imgEl.style.display = "block";
+            dataContainer.style.backgroundColor = "skyblue";
+            imgEl.src = data.sprites.front_default;
+            nameEl.textContent = `Name : ${capitalize(pokemonName)}`;
+            weightEl.textContent = `Weight : ${data.weight} units`;
+            typeEl.textContent = `${capitalize(data.types[0].type.name)} type pokemon.`;
+
+            card.style.display = "flex";
+            card.style.opacity = 1;
+        }, 300);
+
+    } catch (error) {
+        console.error(error);
+
+        // Fade out first
+        card.style.opacity = 0;
+
+        setTimeout(() => {
+            imgEl.style.display = "none";
+            dataContainer.style.backgroundColor = "pink";
+            nameEl.textContent = "Not Found!";
+            weightEl.textContent = "";
+            typeEl.textContent = "Try another name.";
+            card.style.display = "flex";
+            card.style.opacity = 1;
+        }, 300);
+    }
+}
+
+function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
 ```
