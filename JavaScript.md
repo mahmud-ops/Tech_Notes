@@ -5038,6 +5038,7 @@ pikachu
 ### Mini project : Pokémon Lookup Card .
 
 ![Pokemon card](Images/JS/pokemon.png)
+
 **🔥 What it does:**
 
 * Lets users enter a Pokémon name.
@@ -5053,6 +5054,8 @@ pikachu
 * Built with **vanilla JS, HTML, and CSS** — no frameworks, just raw skill.
 
 **Code**
+
+**HTML**
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -5079,6 +5082,7 @@ pikachu
 </body>
 </html>
 ```
+**CSS**
 ```css
 #card{
     transition: opacity 0.5s ease;
@@ -5086,6 +5090,7 @@ pikachu
 }
 /* This is the main part , there can be more styling*/
 ```
+**JavaScript**
 ```js
 async function fetchData() {
     const pokemonName = document.getElementById("pokemonName").value.toLowerCase();
@@ -5138,4 +5143,5 @@ async function fetchData() {
 function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
+Abdullah AL mAhmud
 ```
