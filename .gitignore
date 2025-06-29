@@ -4,3 +4,6 @@
 *.html
 *.css
 *.js
+*.txt
+*.json
+*.ts
