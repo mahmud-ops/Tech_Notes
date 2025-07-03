@@ -7,13 +7,20 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependency directories
 node_modules
+
+# Build output
 dist
 dist-ssr
+
+# Local environment
 *.local
+.env
+.env.*
 
 # Editor directories and files
-.vscode/*
+.vscode/
 !.vscode/extensions.json
 .idea
 .DS_Store
@@ -22,3 +29,36 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+*.swp
+
+# OS system junk
+Thumbs.db
+.Trashes
+$RECYCLE.BIN/
+
+# Cache files
+.eslintcache
+.stylelintcache
+
+# Backup & temp files
+*.tmp
+*.bak
+*.old
+
+# Dev container stuff (like Codespaces)
+.devcontainer/
+
+# Allow markdown & image assets
+!*.md
+!*.png
+!*.jpg
+!*.jpeg
+!*.gif
+!*.webp
+!*.svg
+!*.bmp
+!*.ico
+
+# Optional: Uncomment if you want to allow PDFs or docs
+!*.pdf
+!*.docx
