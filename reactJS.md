@@ -706,3 +706,284 @@ What if we want to create a list of something else , like colors. We're not gonn
 When i change the items to colors , the heading will also change
 
 To do all these , there's a typescript feature called interface. 
+```js
+import { useState } from "react";
+
+let array = ["Apple", "Banana", "Pineapple", "Orange","kiwi"];
+interface ListGroupProps {
+  items : string[];
+  heading : string;
+}
+function ListGroup() {
+  // -1 is the initial state (index -1)
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  
+  return array.length === 0 ? (
+    <p>No item found</p>
+  ) : (
+    <>
+      <h1>List</h1>
+      <ul className="list-group">
+        {array.map((item, index) => {
+          return (
+            <li
+              className={
+                selectedIndex === index
+                  ? "list-group-item active"
+                  : "list-group-item"
+              }
+              key={item}
+              onClick={() => {
+                setSelectedIndex(index); // Call
+              }}
+            >
+              {item}
+            </li>
+          );
+        })}
+      </ul>
+    </>
+  );
+}
+
+export default ListGroup;
+```
+Alright, here’s the explanation for just the `interface` part in your code.
+
+---
+
+**TypeScript Interface: ListGroupProps**
+
+```ts
+interface ListGroupProps {
+  items: string[];
+  heading: string;
+}
+```
+
+*Purpose*
+
+* This interface defines the shape (structure) of the props expected by a component named `ListGroup`.
+* It’s a contract that ensures type safety when the component is used.
+
+*Fields*
+
+* `items: string[]`
+  Expects an array of strings. This would typically be the list items to render (e.g., fruits).
+
+* `heading: string`
+  Expects a string. Used for displaying a heading or title above the list.
+
+---
+
+**Issue in Current Code**
+
+* The `ListGroupProps` interface is defined, but not actually used.
+* The component `ListGroup` does **not** take any props currently. It's using a hardcoded `array` and `h1` instead.
+
+---
+
+**Expected Usage**
+
+Here’s how it *should* be used:
+
+```ts
+function ListGroup({ items, heading }: ListGroupProps) {
+  // now use `items` instead of `array`
+}
+```
+
+* This would allow the list content and heading to be dynamic and passed from a parent component.
+
+If i write these parameters in the function and check on App.tsx If you write the parameters like this:
+
+```ts
+function ListGroup(prop: ListGroupProps) {
+```
+
+...and then check in `App.tsx`, you'll **access the props using `prop.items` and `prop.heading`**, not directly as `items` and `heading`.
+So if you wrote the JSX like this inside the component:
+
+```tsx
+<h1>{heading}</h1>
+```
+
+**It will throw an error, because `heading` is not defined in the current scope. You'd have to write:**
+
+```tsx
+<h1>{prop.heading}</h1>
+```
+
+OR
+
+You can destructure the props inside the parameter like this instead:
+
+```ts
+function ListGroup({ items, heading }: ListGroupProps) {
+```
+
+This way, you can access `items` and `heading` directly without the `prop.` prefix.
+
+Let me know if you wanna see the `App.tsx` example to complete the whole usage chain.
+```js
+import { useState } from "react";
+
+interface ListGroupProps {
+  item : string[];
+  heading : string;
+}
+
+function ListGroup({item,heading}: ListGroupProps) {
+  // -1 is the initial state (index -1)
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  
+  return item.length === 0 ? (
+    <p>No item found</p>
+  ) : (
+    <>
+      <h1>{heading}</h1>
+      <ul className="list-group">
+        {item.map((item, index) => {
+          return (
+            <li
+              className={
+                selectedIndex === index
+                  ? "list-group-item active"
+                  : "list-group-item"
+              }
+              key={item}
+              onClick={() => {
+                setSelectedIndex(index); // Call
+              }}
+            >
+              {item}
+            </li>
+          );
+        })}
+      </ul>
+    </>
+  );
+}
+
+export default ListGroup;
+```
+**Moved the array from listGroup.tsx to App.tsx**
+**App.tsx**
+```js
+import ListGroup from "./Components/listGroup"
+
+function App() {
+    let array = ["Apple", "Banana", "Pineapple", "Orange","kiwi"]; // Here
+
+    return <div><ListGroup item={array} heading="Fruits"/></div>
+}
+
+export default App; 
+```
+You're leveraging **props and typing** in a way that makes `ListGroup` **reusable** with any string array. Let’s break down exactly how and why this works:
+
+---
+
+**Why `item: string[]` makes the component reusable**
+
+* Your interface:
+
+  ```ts
+  interface ListGroupProps {
+    item: string[];
+    heading: string;
+  }
+  ```
+
+  says:
+  *“Hey, this component accepts any array of strings and a string heading.”*
+
+* So you can pass in:
+
+  ```ts
+  let cars = ["Toyota", "BMW", "Tesla"];
+  ...
+  <ListGroup item={cars} heading="Car Brands" />
+  ```
+
+* Or:
+
+  ```ts
+  let languages = ["Python", "C++", "Rust"];
+  ...
+  <ListGroup item={languages} heading="Languages I Fear" />
+  ```
+
+---
+
+**In short:**
+
+* `item={array}` in `App.tsx` just passes a variable.
+* That variable can be **any array of strings**.
+* As long as you pass it to a prop named `item`, you're good.
+
+---
+
+**Optional Tip**
+
+If you want to make it even more flexible in the future (e.g., list of numbers, or objects), you could make the component generic — but for now, for string-based lists, you're doing it perfectly.
+
+Let me know if you wanna see how to make it support objects or more complex data types.
+
+**We could import the array instead of bringing it in App.tsx**
+```ts
+import { useState } from "react";
+
+interface ListGroupProps {
+  item : string[];
+  heading : string;
+}
+
+let array = ["Apple", "Banana", "Pineapple", "Orange","kiwi"];  // Array (Global)
+
+function ListGroup({item,heading}: ListGroupProps) {
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  
+  return item.length === 0 ? (
+    <p>No item found</p>
+  ) : (
+    <>
+      <h1>{heading}</h1>
+      <ul className="list-group">
+        {item.map((item, index) => {
+          return (
+            <li
+              className={
+                selectedIndex === index
+                  ? "list-group-item active"
+                  : "list-group-item"
+              }
+              key={item}
+              onClick={() => {
+                setSelectedIndex(index); // Call
+              }}
+            >
+              {item}
+            </li>
+          );
+        })}
+      </ul>
+    </>
+  );
+}
+
+export default ListGroup;
+export {array} 
+```
+```ts
+import ListGroup from "./Components/listGroup"
+import { array } from "./Components/listGroup";
+
+function App() {
+    return <div><ListGroup item={array} heading="Fruits"/></div>
+}
+
+export default App; // So , it can be used somewhere else.
+```
+![IMG](Images/JS/React/dataProp.png)
+

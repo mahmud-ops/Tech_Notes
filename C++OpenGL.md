@@ -136,15 +136,14 @@ while (!glfwWindowShouldClose(mywindow))
 `glfwPollEvents();` - It checks for input/events like **keyboard presses, mouse moves, window resizing, etc**., and updates GLFW’s internal state.
 
 ```cpp
+// Rendering stuff
+glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+glClear(GL_COLOR_BUFFER_BIT);
+glfwSwapBuffers(mywindow);
+
 while (!glfwWindowShouldClose(mywindow))
 {
     glfwPollEvents();
-
-    // Rendering stuff
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    glfwSwapBuffers(mywindow);
 }
 ```
 `glClearColor(0.2f, 0.3f, 0.3f, 1.0f);` - Set Background color
@@ -152,5 +151,159 @@ while (!glfwWindowShouldClose(mywindow))
 
 If you skip this line, each new frame will draw on top of the old one, which can cause weird visual junk (aka “artifact soup”).
 
+**Viewport**
+
+`glViewport(x, y, width, height);` tells OpenGL:
+
+> “Hey, draw everything in this rectangle starting from `(x, y)` with this `width` and `height` inside the window.”
+
+* `(x, y)` is usually `(0, 0)` — bottom-left corner of the window.
+* `width` and `height` are in pixels.
+
+---
+
+**Why care about it?**
+
+If you resize your window and don’t update the viewport, your rendered scene will look squished or only show part of it.
+
+---
+
+**Where to set it?**
+
+Usually inside a **framebuffer size callback** or right after window creation:
+
+```cpp
+// Outside (Before) main()
+void framebuffer_size_callback(GLFWwindow* myWindow, int width, int height) {
+    glViewport(0, 0, width, height);
+}
+```
+
+Then tell GLFW to call it when window resizes:
+(After gladGLLoader)
+```cpp
+glfwSetFramebufferSizeCallback(myWindow, framebuffer_size_callback);
+```
+
+And set viewport initially:
+
+```cpp
+glViewport(0, 0, 800, 800);
+```
+
+**Quick recap:**
+
+* Always update viewport when window size changes.
+* Default is `glViewport(0, 0, windowWidth, windowHeight);`
+
 **All done. Now run the code and you'll see a 800 x 800 teal window**
 ![Image](Images/cpp/openGLwindow.png)
+
+**Full code**
+```cpp
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include <iostream>
+
+using namespace std;
+
+void framebuffer_size_callback(GLFWwindow *mywindow,int width , int height){
+    glViewport(0,0,width,height);
+}
+
+int main(){
+
+    if (!glfwInit()) {
+        cout << "Failed to initialize GLFW" << endl;
+        return -1;
+    }
+    
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    
+    
+    GLFWwindow *mywindow = glfwCreateWindow(800,800,"Mahmud-ops",NULL,NULL);
+
+    
+    if(mywindow == NULL){
+        cout << "Failed to create window.\n";
+        glfwTerminate();
+        return -1;
+    }
+    
+    glfwMakeContextCurrent(mywindow);
+    
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+        cout << "Failed to initialize GLAD" << endl;
+        return -1;
+    }
+    
+    glViewport(0,0,800,800);
+    glfwSetFramebufferSizeCallback(mywindow, framebuffer_size_callback);
+
+    // Rendering stuff
+    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glfwSwapBuffers(mywindow);
+
+    // Main game loop
+    while (!glfwWindowShouldClose(mywindow))
+    {
+        glfwPollEvents();
+    }
+    
+    glfwDestroyWindow(mywindow);
+
+    glfwTerminate();
+    return 0;
+}
+```
+## Buffer
+Sure thing, here’s your clean Markdown note on **buffer** without any `#` headings, just bold ones:
+
+---
+
+**What is a Buffer?**
+
+In computer graphics and programming, a **buffer** is a reserved block of memory used to store data temporarily while it is being transferred or processed.
+
+---
+
+**Types of Buffers in OpenGL**
+
+* **Frame Buffer:**
+  Stores the final image that will be displayed on the screen. It holds color, depth, and stencil information.
+
+* **Color Buffer:**
+  Part of the framebuffer that stores pixel colors.
+
+* **Depth Buffer:**
+  Keeps track of the distance of pixels from the camera to handle overlapping objects correctly (so closer objects cover farther ones).
+
+* **Stencil Buffer:**
+  Used for masking certain parts of the rendering, allowing complex image effects.
+
+* **Vertex Buffer:**
+  Stores vertex data (positions, colors, normals) used by the GPU for drawing shapes.
+
+* **Pixel Buffer:**
+  Holds pixel data temporarily for tasks like asynchronous image uploads or downloads.
+
+---
+
+**Why Buffers Matter**
+
+* Buffers help manage data flow efficiently between CPU and GPU.
+* They allow smooth rendering by keeping data ready for the graphics pipeline.
+* Updating buffers properly is key for animations, real-time graphics, and avoiding flickering.
+
+---
+
+**In short:**
+A buffer = memory space to hold data temporarily while your program or GPU processes it.
+
+## Drawing triangle
+OpenGL’s whole rendering game is built around triangles because they’re the simplest shape that can represent any surface in 3D space. By breaking down complex models into a bunch of tiny triangles (called tessellation), OpenGL can easily calculate how light hits them, how to shade them, and where to draw them on screen. Triangles always stay flat and never warp like quads or other polygons might, which keeps the math clean and the graphics glitch-free. So basically, no matter how wild your 3D model is, under the hood it’s just a squad of triangles getting painted pixel by pixel. That’s the magic sauce behind smooth, realistic graphics in OpenGL.
+
+ 
