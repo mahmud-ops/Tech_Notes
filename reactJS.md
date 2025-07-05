@@ -987,3 +987,10 @@ export default App; // So , it can be used somewhere else.
 ```
 ![IMG](Images/JS/React/dataProp.png)
 
+### Props vs State
+| **Feature**           | **PROPS**                                                                 | **STATE**                                                                |
+| --------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| **Definition**        | Props are external data passed *into* a component from its parent.        | State is internal data *managed* by the component itself.                |
+| **Analogy**           | Think of props like **function parameters** — they come from the outside. | Think of state like **local variables** — controlled and updated within. |
+| **Mutability**        | Props are **read-only** — the child component cannot change them.         | State is **mutable** — it can be updated using hooks like `useState()`.  |
+| **Trigger Re-render** | Yes — if parent props change, the component **re-renders**.               | Yes — updating state using its setter **re-renders** the component.      |
