@@ -1,8 +1,9 @@
-import ListGroup from "./Components/listGroup"
-import { array } from "./Components/listGroup";
+import Alert from "./Components/Alert"
 
-function App() {
-    return <div><ListGroup item={array} heading="Fruits"/></div>
+const App = () => {
+  return (
+    <div className="alert alert-danger"><Alert/></div>
+  )
 }
 
-export default App; // So , it can be used somewhere else.
+export default App

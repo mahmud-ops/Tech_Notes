@@ -1,15 +1,16 @@
 import { useState } from "react";
 
 interface ListGroupProps {
-  item : string[];
-  heading : string;
+  item: string[];
+  heading: string;
+  onSelect: (item: string) => void;
 }
 
-let array = ["Apple", "Banana", "Pineapple", "Orange","kiwi"];  // Array (Global)
+let array = ["Apple", "Banana", "Pineapple", "Orange", "kiwi"]; // Array (Global)
 
-function ListGroup({item,heading}: ListGroupProps) {
+function ListGroup({ item, heading, onSelect }: ListGroupProps) {
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  
+
   return item.length === 0 ? (
     <p>No item found</p>
   ) : (
@@ -26,7 +27,8 @@ function ListGroup({item,heading}: ListGroupProps) {
               }
               key={item}
               onClick={() => {
-                setSelectedIndex(index); // Call
+                setSelectedIndex(index);
+                onSelect(item);
               }}
             >
               {item}
@@ -39,4 +41,4 @@ function ListGroup({item,heading}: ListGroupProps) {
 }
 
 export default ListGroup;
-export {array} 
+export { array };

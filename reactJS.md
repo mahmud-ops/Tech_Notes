@@ -986,6 +986,48 @@ function App() {
 export default App; // So , it can be used somewhere else.
 ```
 ![IMG](Images/JS/React/dataProp.png)
+### Passing function via props
+The list items highlight when we click on them, This time they should call a function when we select them , Like each item should return it's name to the console.
+
+```ts
+interface ListGroupProps {
+  item : string[];
+  heading : string;
+  onSelect : (item : string) => void;
+}
+```
+`(item: string) => void` is the standard way to type a **function that takes a string and returns nothing** — super common in React with TypeScript when passing callbacks like `onClick`, `onChange`, etc.
+
+Don't forget to pass the `onSelect` prop as a parameter:
+```ts
+function ListGroup({item,heading,onSelect}: ListGroupProps) {
+```
+We have to call the function in `onClick` in the listgroup component
+```ts
+key={item}
+onClick={() => {
+  setSelectedIndex(index); 
+  onSelect(item);
+}}
+```
+Now , in the App.tsx we have to define the function , we can write an inline function like this :
+```ts
+return <div><ListGroup item={array} heading="Fruits" onSelect={(array) => console.l(array)}/></div>
+```
+OR, Define a seperate funtion function and pass it in:
+```ts
+import ListGroup from "./Components/listGroup"
+import { array } from "./Components/listGroup";
+
+let handleSelect = (array:string) => console.log(array)
+
+
+function App() {
+    return <div><ListGroup item={array} heading="Fruits" onSelect={handleSelect}/></div>
+}
+
+export default App; // So , it can be used somewhere else.
+``` 
 
 ### Props vs State
 | **Feature**           | **PROPS**                                                                 | **STATE**                                                                |
@@ -994,3 +1036,32 @@ export default App; // So , it can be used somewhere else.
 | **Analogy**           | Think of props like **function parameters** — they come from the outside. | Think of state like **local variables** — controlled and updated within. |
 | **Mutability**        | Props are **read-only** — the child component cannot change them.         | State is **mutable** — it can be updated using hooks like `useState()`.  |
 | **Trigger Re-render** | Yes — if parent props change, the component **re-renders**.               | Yes — updating state using its setter **re-renders** the component.      |
+
+### Passing children
+**Recommended extension : ES7+ React/Redux/React-Native snippets**
+
+Create a new component `Alert.tsx` and define the function:
+![imd](Images/JS/React/alertTSXopn.png)
+```ts
+export const Alert = () => {
+  return (
+    <div>Alert</div>
+  )
+}
+```
+You can generate it by just typing `rafce` (Snippet)
+> A feature of the extension (ES7+ React/Redux/React-Native snippets)
+
+**App.tsx**
+```ts
+import Alert from "./Components/Alert"
+
+const App = () => {
+  return (
+    <div className="alert alert-danger"><Alert/></div>
+  )
+}
+
+export default App
+```
+![Image](Images/JS/React/alertReact.png)
