@@ -5144,3 +5144,6 @@ function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
 ```
+## Doubt solve
+### Asynchronus js 
+**Link : FreeCodeCamp**[https://youtu.be/ZYb_ZU8LNxs](https://youtu.be/ZYb_ZU8LNxs)

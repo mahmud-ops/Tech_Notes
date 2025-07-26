@@ -1189,6 +1189,17 @@ Research area : Machine learning
 END.
 END.
 ```
+##### **3.1 Diamond problem**
+```mermaid
+flowchart TD
+A[Parent] --> B[Child-1]
+A[Parent] --> C[Child-2]
+B --> D[Grandchild] 
+C --> D[Grandchild] 
+```
+**Problem**
+
+
 #### 4. **Hierarchial inheritance**
 ```mermaid
 flowchart TD
