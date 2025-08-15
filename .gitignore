@@ -1,15 +1,5 @@
-# Ignore everything
-*
-
-# Allow markdown files
-!*.md
-
-# Allow images
-!*.png
-!*.jpg
-!*.jpeg
-!*.gif
-!*.svg
-
-# Keep .gitignore itself
-!.gitignore
+*html
+*css
+*js
+*jsx
+*c
