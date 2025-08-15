@@ -361,5 +361,5 @@ Style in `index.css` ( We're gonna delete everything and start from fresh )
 }
 ```
 
-![Card2](Images/JS/React/Card_2.png)
+![Card2](/Images/JS/React/Card_2.png)
 
