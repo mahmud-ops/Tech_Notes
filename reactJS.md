@@ -313,13 +313,13 @@ import it and done
 # Card component
 Open file `Components/Card.jsx`
 
-Include the picture in `Components` folder
+Include the picture in `assets` folder
 
 > In react , we write `className` instead of `class`.
 
 **Card.jsx**
 ```jsx
-import profilePic from '../Components/pfp.jpg'
+import profilePic from '../assets/pfp.jpg'
 
 function Card() {
     return (
@@ -341,4 +341,25 @@ Import in `App.jsx`
 ![Card](Images/JS/React/Card_1.png)
 
 Needs some styling.
+
+Style in `index.css` ( We're gonna delete everything and start from fresh )
+
+**index.css**
+```css
+.card{
+  border: solid 1px;
+  border-radius: 10px;
+  width: 300px;
+  padding: 10px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.413);
+  margin: 10px auto;
+}
+
+.image{
+  width: inherit;
+  border-radius: 10px;
+}
+```
+
+![Card2](Images/JS/React/Card_2.png)
 
