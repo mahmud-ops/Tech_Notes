@@ -1,5 +1,6 @@
 **React JS (by Bro code)**
 
+<i style = "color:red">A specific amount of images got deleted due to some technical error, sorry for the inconvenience </i>
 ---
 **Video link : [https://youtu.be/CgkZ7MvWUAA](https://youtu.be/CgkZ7MvWUAA)**
 
@@ -361,7 +362,7 @@ Style in `index.css` ( We're gonna delete everything and start from fresh )
 }
 ```
 
-![Card2](./Images/JS/React/Card_2.png)
+![Card2](Images/JS/React/Card_2.png)
 
 # Styling react components ( With css )
 
