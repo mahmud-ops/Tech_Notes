@@ -363,3 +363,13 @@ Style in `index.css` ( We're gonna delete everything and start from fresh )
 
 ![Card2](./Images/JS/React/Card_2.png)
 
+# Styling react components ( With css )
+
+Not including external framework (like Tailwind / Bootstrap)
+
+1. External (style in `index.css`)
+2. Modules ( Creating a dedicated stylesheet for a component )
+3. Inline
+
+## Modules 
+
