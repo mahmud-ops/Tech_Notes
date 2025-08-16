@@ -372,4 +372,46 @@ Not including external framework (like Tailwind / Bootstrap)
 3. Inline
 
 ## Modules 
+- Open a folder `Components/Button/`
+- Inside it open `Button.jsx` and `Button.module.css`
 
+**Button.jsx**
+```jsx
+import styles from './Button.module.css' // CSS file as a module
+
+function Button() {
+    return (
+        // styles.class_name
+        <button className={styles.button}>Click me</button>
+    );
+}
+
+export default Button;
+```
+**Button.module.css**
+```css
+.button{
+    border: none;
+    padding: 10px;
+    background-color: cornflowerblue;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+}
+```
+
+**App.jsx**
+```jsx
+import Button from "./Components/Button/Button.jsx";
+
+function App() {
+    return (
+      <>
+        <Button/>
+      </>
+    );
+}
+
+export default App;
+```
+![button](Images/JS/React/button.png)
