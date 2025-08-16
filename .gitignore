@@ -1,6 +1,6 @@
-*html
-*css
-*js
-*jsx
-*c
-*cpp
+*.html
+*.js
+*.css
+*.jsx
+*.c
+*.cpp
