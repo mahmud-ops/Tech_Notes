@@ -1,10 +1,11 @@
 **React JS (by Bro code)**
 
 <i style = "color:red">A specific amount of images got deleted due to some technical error, sorry for the inconvenience </i>
+
 ---
 **Video link : [https://youtu.be/CgkZ7MvWUAA](https://youtu.be/CgkZ7MvWUAA)**
 
-Preqs : HTML , CSS , JS
+Pre reqs : HTML , CSS , JS
 
 # Environment setup and Introduction
 1. Install `Node.js`
@@ -416,3 +417,140 @@ function App() {
 export default App;
 ```
 ![button](Images/JS/React/button.png)
+
+## Inline
+
+Delete the `Button.module.css` file. We won't need it anymore.
+
+Work on `Button.jsx` (Make a `styles` object)
+
+**Button.jsx**
+```jsx
+
+function Button() {
+    const styles = {
+        border: "none",
+        padding: "10px",
+        backgroundColor: "cornflowerblue",
+        color: "white",
+        fontWeight: "bold",
+        borderRadius: "5px"
+    }
+
+    return (
+        <button style={styles}>Click me</button>
+    );
+}
+
+export default Button;
+```
+**Output : A blue button**
+
+# Props
+
+- Read only properties that are shared between components
+- A parent component can send data to a child component
+```jsx
+<component key = value>
+```
+
+Open file `Components/Student.jsx`
+
+```jsx
+function Student(prop) { // Kinda works like class (OOP).
+    return (
+        <div>
+            <p>Name : {prop.name} </p>
+            <p>Age : {prop.age} </p>
+            <p>Department : {prop.dept} </p>
+        </div>
+    );
+}
+
+export default Student;
+```
+
+**App.jsx**
+```jsx
+import Student from "./Components/Student.jsx";
+
+function App() {
+    return (
+      <>
+        <Student name = "Mahmud" age = '21' dept = "CSE"/>
+      </>
+    );
+}
+
+export default App;
+```
+![prop_1](Images/JS/React/prop_1.png)
+
+## propTypes
+
+A mechanism that ensures that the passed value is of the correct datatype. ( Mainly used for debugging purpose )
+
+```
+age : propType.number
+```
+
+*Will learn later*
+
+## Default props
+
+Default values for props , incase they're not passed from the parent component.
+
+*Will learn later*
+
+
+# Conditional rendering
+
+Rendering something on DOM based on a condition.
+
+Open folder `Components/UserGreeting.jsx` 
+**UserGreeting.jsx**
+```jsx
+function UserGreeting(props) {
+    if(props.isLoggedIn){
+        return (
+            <h1>Welcome {props.userName}</h1>
+        );
+    }
+    else{
+        return(
+            <h1>Please log in</h1>
+        );
+    }
+}
+
+export default UserGreeting;
+```
+
+**App.jsx**
+```jsx
+import UserGreeting from "./Components/UserGreeting.jsx"
+
+function App() {
+  return (
+    <>
+      <UserGreeting isLoggedIn={true} userName="Mahmud" />
+    </>
+  );
+}
+
+export default App
+```
+**Output : It's obvious 😒**
+
+***Even better , use ternary operator***
+```jsx
+function UserGreeting(props) {
+  return (
+    <>
+    {props.isLoggedIn ? <h1>Welcome {props.userName}</h1> : <h1>Please log in</h1>}
+    </>
+  );
+}
+
+export default UserGreeting;
+```

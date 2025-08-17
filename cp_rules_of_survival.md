@@ -3,4 +3,3 @@ This section is where I jot down quick takeaways from each Codeforces problem I 
 
 ## [Find The Array](https://codeforces.com/problemset/problem/1550/A)
 - If a problem gives you sums and maxes, just think how to place those numbers—no complicated array stuff. Here, all I needed was to spot the pattern and use simple math like root and ceiling to build the answer logically.
-
