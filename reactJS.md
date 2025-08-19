@@ -490,17 +490,22 @@ export default App;
 
 A mechanism that ensures that the passed value is of the correct datatype. ( Mainly used for debugging purpose )
 
+If you can't find the file `prop-types` in the node module.
+
+```
+npm install prop-types
+```
 ```
 age : propType.number
 ```
 
-*Will learn later*
+*Irrelevent after version 19+*
 
 ## Default props
 
 Default values for props , incase they're not passed from the parent component.
 
-*Will learn later*
+*Irrelevent after version 19+*
 
 
 # Conditional rendering
@@ -554,3 +559,266 @@ function UserGreeting(props) {
 
 export default UserGreeting;
 ```
+
+# Rendering list
+Iam gonna make an array of fruits and render them
+
+folder : `Components/List.jsx`
+```jsx
+function List(){
+    const fruits = ["apple" , "orange" , "banana" , "pinapple" , "mango"];
+    return (<ul>{fruits}</ul>);
+}
+
+export default List;
+```
+**Output**
+```
+appleorangebananapinapplemango
+```
+😑😑😑
+
+We have to `map` each element of the array as a list item.
+```jsx
+function List(){
+    const fruits = ["apple" , "orange" , "banana" , "pinapple" , "mango"];
+    
+    // Fix
+    const listItems = fruits.map( fruit => {return <li>{fruit}</li>})
+    
+    return (<ul>{listItems}</ul>);
+}
+
+export default List;
+```
+**Output**
+
+> - apple
+> - orange
+> - banana
+> - pinapple
+> - mango
+
+## Array of objects
+```jsx
+function List(){
+
+    const students = [
+        {Name:"Mahmud",Dept:"CSE"},
+        {Name:"Tanvir",Dept:"EEE"},
+        {Name:"Rahad",Dept:"CE"},
+        {Name:"Ahnaf",Dept:"EECE"},
+    ]
+
+    const listItems = students.map( student => {return <li>{student.Name} - {student.Dept} </li>})
+    return (<ul>{listItems}</ul>);
+}
+
+export default List;
+```
+**Output**
+![arr_obj](Images/JS/React/Array_of_obj.png)
+
+But , Checkout devtools (inspect)
+```
+List.jsx:10 
+ Each child in a list should have a unique "key" prop.
+
+Check the render method of `List`. See https://react.dev/link/warning-keys for more information.
+```
+
+React throws that warning because when you render lists, it needs a **unique `key` prop** on each item to track changes efficiently. Without keys, React can misidentify items when the list updates. The fix is to give each `<li>` a stable identifier (like an `id` or array index if no better option).
+
+```jsx
+function List(){
+
+    const students = [
+        {Key:1,Name:"Mahmud",Dept:"CSE"},
+        {Key:2,Name:"Tanvir",Dept:"EEE"},
+        {Key:3,Name:"Rahad",Dept:"CE"},
+        {Key:4,Name:"Ahnaf",Dept:"EECE"},
+    ]
+
+    const listItems = students.map( student => {return <li key={student.Key}>{student.Name} - {student.Dept} </li>})
+    return (<ul>{listItems}</ul>);
+}
+
+export default List;
+```
+> No error
+
+## Sorting
+**List.jsx**
+```jsx
+function List(){
+
+    const students = [
+        {Key:1,GPA:3.44,Name:"Mahmud",Dept:"CSE"},
+        {Key:2,GPA:3.45,Name:"Tanvir",Dept:"EEE"},
+        {Key:3,GPA:3.35,Name:"Rahad",Dept:"CE"},
+        {Key:4,GPA:3.34,Name:"Ahnaf",Dept:"EECE"},
+    ]
+
+    const listItems = students.map( student => {return <li key={student.Key}>{student.Name} - {student.Dept} (GPA : {student.GPA})</li>})
+    return (<ul>{listItems}</ul>);
+}
+
+export default List;
+```
+**Output**
+- Mahmud - CSE (GPA : 3.44)
+- Tanvir - EEE (GPA : 3.45)
+- Rahad - CE (GPA : 3.35)
+- Ahnaf - EECE (GPA : 3.34)
+
+**Alphabetical sort**
+
+```jsx
+function List(){
+
+    const students = [
+        {Key:1,GPA:3.44,Name:"Mahmud",Dept:"CSE"},
+        {Key:2,GPA:3.45,Name:"Tanvir",Dept:"EEE"},
+        {Key:3,GPA:3.35,Name:"Rahad",Dept:"CE"},
+        {Key:4,GPA:3.34,Name:"Ahnaf",Dept:"EECE"},
+    ]
+
+    //sort
+    students.sort((a,b) => a.Name.localeCompare(b.Name));
+
+    const listItems = students.map( student => {return <li key={student.Key}>{student.Name} - {student.Dept} (GPA : {student.GPA})</li>})
+    return (<ul>{listItems}</ul>);
+}
+
+export default List;
+```
+**Output**
+- Ahnaf - EECE (GPA : 3.34)
+- Mahmud - CSE (GPA : 3.44)
+- Rahad - CE (GPA : 3.35)
+- Tanvir - EEE (GPA : 3.45)
+
+**Reverse aphabetical**
+```jsx
+students.sort((a,b) => b.Name.localeCompare(a.Name));
+```
+
+**Numerical (By GPA)**
+```jsx
+students.sort((a,b) => a.GPA - b.GPA);
+```
+
+**Reverse numerical (By GPA)**
+```jsx
+students.sort((a,b) => b.GPA - a.GPA);
+```
+## Filtering by GPA
+```jsx
+function List() {
+    const students = [
+        {Key:1, GPA:3.44, Name:"Mahmud", Dept:"CSE"},
+        {Key:2, GPA:3.45, Name:"Tanvir", Dept:"EEE"},
+        {Key:3, GPA:3.35, Name:"Rahad", Dept:"CE"},
+        {Key:4, GPA:3.34, Name:"Ahnaf", Dept:"EECE"},
+        {Key:5, GPA:3.80, Name:"Sabbir", Dept:"CSE"},
+        {Key:6, GPA:2.95, Name:"Nayeem", Dept:"EEE"},
+        {Key:7, GPA:1.85, Name:"Rafi", Dept:"CE"},
+        {Key:8, GPA:3.10, Name:"Sami", Dept:"EECE"},
+        {Key:9, GPA:2.50, Name:"Imran", Dept:"CSE"},
+        {Key:10, GPA:3.65, Name:"Jahid", Dept:"EEE"},
+        {Key:11, GPA:1.95, Name:"Rakib", Dept:"CE"},
+        {Key:12, GPA:2.20, Name:"Shakil", Dept:"EECE"},
+        {Key:13, GPA:3.00, Name:"Tareq", Dept:"CSE"},
+        {Key:14, GPA:2.75, Name:"Farhan", Dept:"EEE"},
+        {Key:15, GPA:1.60, Name:"Hasan", Dept:"CE"}
+    ];
+
+    // Filter students with GPA < 3
+    const lowGPAStudents = students.filter(student => student.GPA < 3);
+
+    // Sort ascending by GPA
+    const sorted = lowGPAStudents.sort((a, b) => a.GPA - b.GPA);
+
+    // Map to JSX elements
+    const listItems = sorted.map(student => (
+        <li key={student.Key}>
+            {student.Name} ({student.GPA})
+        </li>
+    ));
+
+    return <ul>{listItems}</ul>;
+}
+
+export default List;
+```
+**Output**
+
+- Hasan (1.6)
+- Rafi (1.85)
+- Rakib (1.95)
+- Shakil (2.2)
+- Imran (2.5)
+- Farhan (2.75)
+- Nayeem (2.95)
+
+## Setting up category
+```jsx
+function List({ category}) { // gotta set catagory as parameter
+  const students = [
+    { Key: 1, GPA: 3.44, Name: "Mahmud", Dept: "CSE" },
+    { Key: 2, GPA: 3.45, Name: "Tanvir", Dept: "EEE" },
+    { Key: 3, GPA: 3.35, Name: "Rahad", Dept: "CE" },
+    { Key: 4, GPA: 3.34, Name: "Ahnaf", Dept: "EECE" },
+    { Key: 5, GPA: 3.8, Name: "Sabbir", Dept: "CSE" },
+    { Key: 6, GPA: 2.95, Name: "Nayeem", Dept: "EEE" },
+    { Key: 7, GPA: 1.85, Name: "Rafi", Dept: "CE" },
+    { Key: 8, GPA: 3.1, Name: "Sami", Dept: "EECE" },
+    { Key: 9, GPA: 2.5, Name: "Imran", Dept: "CSE" },
+    { Key: 10, GPA: 3.65, Name: "Jahid", Dept: "EEE" },
+    { Key: 11, GPA: 1.95, Name: "Rakib", Dept: "CE" },
+    { Key: 12, GPA: 2.2, Name: "Shakil", Dept: "EECE" },
+    { Key: 13, GPA: 3.0, Name: "Tareq", Dept: "CSE" },
+    { Key: 14, GPA: 2.75, Name: "Farhan", Dept: "EEE" },
+    { Key: 15, GPA: 1.6, Name: "Hasan", Dept: "CE" },
+  ];
+
+  // Filter students with GPA < 3
+  const lowGPAStudents = students.filter((student) => student.GPA < 3);
+
+  // Sort ascending by GPA
+  const sorted = lowGPAStudents.sort((a, b) => a.GPA - b.GPA);
+
+  // Map to JSX elements
+  const listItems = sorted.map((student) => (
+    <li key={student.Key}>
+      {student.Name} ({student.GPA})
+    </li>
+  ));
+
+
+// Here
+  return (
+    <> 
+      <h1>{category}</h1>
+      <ul>{listItems}</ul>
+    </>
+  );
+}
+
+export default List;
+```
+**App.jsx**
+```jsx
+import List from './Components/List'
+
+function App() {
+    return (
+      <>
+      <List category ="Low gpa students"/>
+      </>
+    );
+}
+
+export default App;
+```
+![cat](Images/JS/React/catagory.png)
