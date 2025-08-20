@@ -822,3 +822,9 @@ function App() {
 export default App;
 ```
 ![cat](Images/JS/React/catagory.png)
+
+# Click event
+
+An interaction when a user clicks on a specific element . 
+- We can respond to clicks by passing a callback to the `onClick` event handler.
+
