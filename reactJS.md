@@ -823,6 +823,135 @@ export default App;
 ```
 ![cat](Images/JS/React/catagory.png)
 
+**Applied the knowledge**
+
+This code :
+
+* Defines a `List` component that receives `items` and `category` as props, maps over `items`, and renders each item as a bullet point in a list.
+* Displays a heading above the list showing the category name.
+* In `App.jsx`, it defines the `fruits` array and passes it along with the category `"Fruits"` to the `List` component.
+* Renders a list of fruits (Apple, Mango, Orange, Banana) with a heading `"Fruits"` on the page.
+
+Basically, it displays a titled list of items dynamically.
+
+**App.jsx**
+```jsx
+import List from "./Lists";
+import { fruits , vegetables , snacks} from "./Lists";
+
+function App() {
+  return (
+    <div className="flex flex-wrap justify-center">
+      <div className="w-64">
+        <List items={fruits} category="Fruits" />
+      </div>
+      <div className="w-64">
+        <List items={vegetables} category="Vegetables" />
+      </div>
+      <div className="w-64">
+        <List items={snacks} category="Snacks" />
+      </div>
+    </div>
+  );
+}
+
+export default App;
+
+```
+
+**List.jsx** 
+```jsx
+export const fruits = [
+  { id: 1, name: "Apple" },
+  { id: 2, name: "Mango" },
+  { id: 3, name: "Orange" },
+  { id: 4, name: "Banana" },
+];
+
+export const vegetables = [
+  { id: 5, name: "Tomato" },
+  { id: 6, name: "Okra" },
+  { id: 7, name: "Gourd" },
+  { id: 8, name: "Banana" },
+];
+
+export const snacks = [
+  { id: 9, name: "Chips" },
+  { id: 10, name: "Cookies" },
+  { id: 11, name: "Popcorn" },
+  { id: 12, name: "Nuts" },
+];
+
+function List({ items, category }) {
+  const listItems = items.map(item => (
+    <li key={item.id}>{item.name}</li>
+  ));
+
+  return (
+    <div className="bg-orange-200 shadow-md p-4 rounded m-3">
+      <h2 className="text-xl font-bold mb-2 text-slate-800">{category}</h2>
+      <ul className="list-disc pl-5">
+        {listItems}
+      </ul>
+    </div>
+  );
+}
+
+export default List;
+```
+
+**Output**
+![list_applied](Images/JS/React/List_render.png)
+
+### Adding conditional rendering.
+
+```jsx
+export const fruits = [
+  { id: 1, name: "Apple" },
+  { id: 2, name: "Mango" },
+  { id: 3, name: "Orange" },
+  { id: 4, name: "Banana" },
+];
+
+export const vegetables = [
+ // No item
+];
+
+export const snacks = [
+  { id: 9, name: "Chips" },
+  { id: 10, name: "Cookies" },
+  { id: 11, name: "Popcorn" },
+  { id: 12, name: "Nuts" },
+];
+
+function List({ items, category }) {
+  const listItems = items.map(item => (
+    <li key={item.id}>{item.name}</li>
+  ));
+
+return (
+  <div className="bg-orange-200 shadow-md p-4 rounded m-3">
+    <h2 className="text-xl font-bold mb-2 text-slate-800">{category}</h2>
+    <ul className="list-disc pl-5">
+
+    {/* Conditional rendering */}
+      {items.length > 0 
+        ? items.map(item => <li key={item.id}>{item.name}</li>)
+        : <li>No item available</li>
+      }
+
+    </ul>
+  </div>
+);
+
+}
+
+export default List;
+```
+**Output**
+
+![Condional](Images/JS/React/List_render_con.png)
+
 # Click event
 
 An interaction when a user clicks on a specific element . 
