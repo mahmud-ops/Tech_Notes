@@ -823,6 +823,8 @@ export default App;
 ```
 ![cat](Images/JS/React/catagory.png)
 
+*<p style = "color : cyan"> I just installed tailwind </p>*
+
 **Applied the knowledge**
 
 This code :
@@ -952,6 +954,13 @@ export default List;
 
 ![Condional](Images/JS/React/List_render_con.png)
 
+**We can also use && for conditional rendering**
+- In this case , if `false` it'll return null.. Not *No item available*
+```jsx
+  {items.length > 0 
+        && items.map(item => <li key={item.id}>{item.name}</li>)
+    }
+```
 # Click event
 
 An interaction when a user clicks on a specific element . 
