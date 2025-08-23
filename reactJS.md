@@ -3,21 +3,25 @@
 <i style = "color:red">A specific amount of images got deleted due to some technical error, sorry for the inconvenience </i>
 
 ---
+
 **Video link : [https://youtu.be/CgkZ7MvWUAA](https://youtu.be/CgkZ7MvWUAA)**
 
 Pre reqs : HTML , CSS , JS
 
 # Environment setup and Introduction
+
 1. Install `Node.js`
 
 ![Node.js](Images/JS/React/NodeJS_download.png)
 
 2. Open project folder in vs code.
-3. Go to terminal , write 
+3. Go to terminal , write
+
 ```cmd
 npm create vite@latest
 ```
-- Install vite 
+
+- Install vite
 - Name project
 - Choose framework : React
 - Choose languge : JavaScript
@@ -25,15 +29,20 @@ npm create vite@latest
 ![Node.js](Images/JS/React/NodeJS_download_cont.png)
 
 4. Open the project folder in terminal
-5. write command 
+5. write command
+
 ```cmd
 npm run dev
 ```
+
 5. Click the localhost link
+
 ```
 http://localhost:5173/
 ```
+
 **Setup successful**
+
 ```
 react_project/
 ├─ public/
@@ -61,7 +70,7 @@ First things first , delete the whole sample code in `App.jsx`.
 - We're gonna make a `Components` folder to keep our other components.
 
 ```
-src/  
+src/
   ├─ Components/ --- ( Some function based components )
   │  └─ header.jsx
   │  └─ component_1.jsx
@@ -74,16 +83,18 @@ src/
   ├─ index.css
   └─ main.jsx
 ```
+
 **Basic setup**
 
 These are function based components
 
-* A function-based component is a simple JavaScript function.
-* It returns JSX (what you want to show on screen).
-* Use hooks like `useState` for data and `useEffect` for side tasks.
-* It’s the most common and easy way to make components in React.
+- A function-based component is a simple JavaScript function.
+- It returns JSX (what you want to show on screen).
+- Use hooks like `useState` for data and `useEffect` for side tasks.
+- It’s the most common and easy way to make components in React.
 
 **App.jsx**
+
 ```jsx
 function App() {
   return (/* component */);
@@ -93,10 +104,9 @@ export default App;
 ```
 
 **Header.jsx**
+
 ```jsx
-function Header() {
-    
-}
+function Header() {}
 
 export default Header;
 ```
@@ -104,31 +114,32 @@ export default Header;
 # Start coding
 
 ## Header component
+
 `App.jsx` is the root folder , we're gonna import other components here.
 
 **App.jsx**
+
 ```jsx
 // src/App.jsx
 
 // 1. We import the 'Header' component from a separate file.
 // This is how we bring in other building blocks (components) to use here.
 // './' means the current directory.
-import Header from './Components/Header.jsx'
+import Header from "./Components/Header.jsx";
 
 // 2. This is a functional component named 'App'.
 // In React, a component is a reusable piece of UI (like a button, a form, or a whole page).
 // 'App' is a common name for the main or root component of an application.
 function App() {
-    
-    // 3. The 'return' statement is where we define what the component renders.
-    // The code inside the parentheses is JSX (JavaScript XML), a syntax extension for JavaScript.
-    // It looks like HTML but allows us to use JavaScript logic and components.
-    return (
-      // 4. Here, we are rendering our 'Header' component.
-      // This is how we use a component we imported.
-      // Think of it like a custom HTML tag.
-      <Header/>
-    );
+  // 3. The 'return' statement is where we define what the component renders.
+  // The code inside the parentheses is JSX (JavaScript XML), a syntax extension for JavaScript.
+  // It looks like HTML but allows us to use JavaScript logic and components.
+  return (
+    // 4. Here, we are rendering our 'Header' component.
+    // This is how we use a component we imported.
+    // Think of it like a custom HTML tag.
+    <Header />
+  );
 }
 
 // 5. We 'export' the 'App' component so it can be used in other files,
@@ -136,61 +147,63 @@ function App() {
 // 'default' means it's the primary thing this file exports.
 export default App;
 ```
+
 ```jsx
-import Header from './Components/Header.jsx'
+import Header from "./Components/Header.jsx";
 function App() {
-    return (
-      <Header/>
-    );
+  return <Header />;
 }
 
 export default App;
 ```
+
 **Components/Header.jsx**
+
 ```jsx
 function Header() {
-    return (
-        <header>
-            <h1>Mahmud</h1>
-        </header>
-    );
+  return (
+    <header>
+      <h1>Mahmud</h1>
+    </header>
+  );
 }
 
 export default Header;
 ```
+
 **Output**
 ![image](Images/JS/React/Header_component_1.png)
 
-***Congrats 🎉 , you just made a react component***
+**_Congrats 🎉 , you just made a react component_**
 
 **Let's tweak the header component even more . like , making a navigation bar**
 
 ```jsx
 function Header() {
-    return (
-        <header>
-            <h1>My website</h1>
+  return (
+    <header>
+      <h1>My website</h1>
 
-            <nav>
-                <ul>
-                    <a href="">
-                        <li>Home</li>
-                    </a>
-                    <a href="">
-                        <li>About</li>
-                    </a>
-                    <a href="">
-                        <li>Services</li>
-                    </a>
-                    <a href="">
-                        <li>Contact</li>
-                    </a>
-                </ul>
-            </nav>
+      <nav>
+        <ul>
+          <a href="">
+            <li>Home</li>
+          </a>
+          <a href="">
+            <li>About</li>
+          </a>
+          <a href="">
+            <li>Services</li>
+          </a>
+          <a href="">
+            <li>Contact</li>
+          </a>
+        </ul>
+      </nav>
 
-            <hr />
-        </header>
-    );
+      <hr />
+    </header>
+  );
 }
 
 export default Header;
@@ -199,29 +212,29 @@ export default Header;
 we don't have to make any edits in the `App.jsx` file , we're gonna just import `Header` from `./Components/Header.jsx`
 
 ```jsx
-import Header from './Components/Header.jsx'
+import Header from "./Components/Header.jsx";
 function App() {
-    return (
-      <Header/>
-    );
+  return <Header />;
 }
 
 export default App;
 ```
+
 ![Header](Images/JS/React/Header_component_2.png)
 
 There's some pre-made stylings in the `index.css` file.
 
 ## Footer component
+
 Open another component file , `./Components/Footer.jsx`
 
 ```jsx
 function Footer() {
-    return (
-        <footer>
-            <p>&copy my website</p>
-        </footer>
-    );
+  return (
+    <footer>
+      <p>&copy my website</p>
+    </footer>
+  );
 }
 
 export default Footer;
@@ -242,6 +255,7 @@ function App() {
 
 export default App;
 ```
+
 import and return footer... This should work , right 😕 ?
 
 Not really
@@ -250,16 +264,16 @@ Not really
 > Adjacent JSX elements must be wrapped in an enclosing tag.
 
 ```jsx
-import Header from './Components/Header.jsx'
-import Footer from './Components/Footer.jsx'
+import Header from "./Components/Header.jsx";
+import Footer from "./Components/Footer.jsx";
 function App() {
-    return (
-      // Just wrap it with an empty tag
-      <> 
-        <Header/>
-        <Footer/>
-      </>
-    );
+  return (
+    // Just wrap it with an empty tag
+    <>
+      <Header />
+      <Footer />
+    </>
+  );
 }
 
 export default App;
@@ -268,17 +282,19 @@ export default App;
 Add a `date` object in the footer
 
 use `{}` for js code in a component
+
 ```jsx
 function Footer() {
-    return (
-        <footer>
-            <p>&copy; {new Date().getFullYear()} my website</p>
-        </footer>
-    );
+  return (
+    <footer>
+      <p>&copy; {new Date().getFullYear()} my website</p>
+    </footer>
+  );
 }
 
 export default Footer;
 ```
+
 ![footer](Images/JS/React/Footer_component_1.png)
 
 ## Using JS variables and methods
@@ -287,20 +303,18 @@ Create a `Food` component
 
 ```jsx
 function Food() {
+  const food1 = "Banana";
+  const food2 = "Orange";
+  const food3 = "Mango";
 
-    const food1 = "Banana";
-    const food2 = "Orange";
-    const food3 = "Mango";
-
-    return (
-
-        <ul>
-            <li>Apple</li>
-            <li>{food1}</li>
-            <li>{food2.toUpperCase()}</li>
-            <li>{food3.toLocaleLowerCase()}</li>
-        </ul>
-    );
+  return (
+    <ul>
+      <li>Apple</li>
+      <li>{food1}</li>
+      <li>{food2.toUpperCase()}</li>
+      <li>{food3.toLocaleLowerCase()}</li>
+    </ul>
+  );
 }
 
 export default Food;
@@ -310,9 +324,10 @@ import it and done
 
 ![Food](Images/JS/React/Food_component_1.png)
 
-***We can reuse , rearrange our components as we like.***
+**_We can reuse , rearrange our components as we like._**
 
 # Card component
+
 Open file `Components/Card.jsx`
 
 Include the picture in `assets` folder
@@ -320,19 +335,24 @@ Include the picture in `assets` folder
 > In react , we write `className` instead of `class`.
 
 **Card.jsx**
+
 ```jsx
-import profilePic from '../assets/pfp.jpg'
+import profilePic from "../assets/pfp.jpg";
 
 function Card() {
-    return (
-        <>
-            <div className="card">
-                <img height = '200px' src={profilePic} alt="card_image" />
-                <h2>Mahmud</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat quibusdam adipisci cumque necessitatibus doloremque molestias nemo neque deleniti esse dicta.</p>
-            </div>
-        </>
-    );
+  return (
+    <>
+      <div className="card">
+        <img height="200px" src={profilePic} alt="card_image" />
+        <h2>Mahmud</h2>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat
+          quibusdam adipisci cumque necessitatibus doloremque molestias nemo
+          neque deleniti esse dicta.
+        </p>
+      </div>
+    </>
+  );
 }
 
 export default Card;
@@ -347,8 +367,9 @@ Needs some styling.
 Style in `index.css` ( We're gonna delete everything and start from fresh )
 
 **index.css**
+
 ```css
-.card{
+.card {
   border: solid 1px;
   border-radius: 10px;
   width: 300px;
@@ -357,7 +378,7 @@ Style in `index.css` ( We're gonna delete everything and start from fresh )
   margin: 10px auto;
 }
 
-.image{
+.image {
   width: inherit;
   border-radius: 10px;
 }
@@ -373,49 +394,55 @@ Not including external framework (like Tailwind / Bootstrap)
 2. Modules ( Creating a dedicated stylesheet for a component )
 3. Inline
 
-## Modules 
+## Modules
+
 - Open a folder `Components/Button/`
 - Inside it open `Button.jsx` and `Button.module.css`
 
 **Button.jsx**
+
 ```jsx
-import styles from './Button.module.css' // CSS file as a module
+import styles from "./Button.module.css"; // CSS file as a module
 
 function Button() {
-    return (
-        // styles.class_name
-        <button className={styles.button}>Click me</button>
-    );
+  return (
+    // styles.class_name
+    <button className={styles.button}>Click me</button>
+  );
 }
 
 export default Button;
 ```
+
 **Button.module.css**
+
 ```css
-.button{
-    border: none;
-    padding: 10px;
-    background-color: cornflowerblue;
-    color: white;
-    font-weight: bold;
-    border-radius: 5px;
+.button {
+  border: none;
+  padding: 10px;
+  background-color: cornflowerblue;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
 }
 ```
 
 **App.jsx**
+
 ```jsx
 import Button from "./Components/Button/Button.jsx";
 
 function App() {
-    return (
-      <>
-        <Button/>
-      </>
-    );
+  return (
+    <>
+      <Button />
+    </>
+  );
 }
 
 export default App;
 ```
+
 ![button](Images/JS/React/button.png)
 
 ## Inline
@@ -425,31 +452,31 @@ Delete the `Button.module.css` file. We won't need it anymore.
 Work on `Button.jsx` (Make a `styles` object)
 
 **Button.jsx**
+
 ```jsx
-
 function Button() {
-    const styles = {
-        border: "none",
-        padding: "10px",
-        backgroundColor: "cornflowerblue",
-        color: "white",
-        fontWeight: "bold",
-        borderRadius: "5px"
-    }
+  const styles = {
+    border: "none",
+    padding: "10px",
+    backgroundColor: "cornflowerblue",
+    color: "white",
+    fontWeight: "bold",
+    borderRadius: "5px",
+  };
 
-    return (
-        <button style={styles}>Click me</button>
-    );
+  return <button style={styles}>Click me</button>;
 }
 
 export default Button;
 ```
+
 **Output : A blue button**
 
 # Props
 
 - Read only properties that are shared between components
 - A parent component can send data to a child component
+
 ```jsx
 <component key = value>
 ```
@@ -457,33 +484,36 @@ export default Button;
 Open file `Components/Student.jsx`
 
 ```jsx
-function Student(prop) { // Kinda works like class (OOP).
-    return (
-        <div>
-            <p>Name : {prop.name} </p>
-            <p>Age : {prop.age} </p>
-            <p>Department : {prop.dept} </p>
-        </div>
-    );
+function Student(prop) {
+  // Kinda works like class (OOP).
+  return (
+    <div>
+      <p>Name : {prop.name} </p>
+      <p>Age : {prop.age} </p>
+      <p>Department : {prop.dept} </p>
+    </div>
+  );
 }
 
 export default Student;
 ```
 
 **App.jsx**
+
 ```jsx
 import Student from "./Components/Student.jsx";
 
 function App() {
-    return (
-      <>
-        <Student name = "Mahmud" age = '21' dept = "CSE"/>
-      </>
-    );
+  return (
+    <>
+      <Student name="Mahmud" age="21" dept="CSE" />
+    </>
+  );
 }
 
 export default App;
 ```
+
 ![prop_1](Images/JS/React/prop_1.png)
 
 ## propTypes
@@ -495,45 +525,42 @@ If you can't find the file `prop-types` in the node module.
 ```
 npm install prop-types
 ```
+
 ```
 age : propType.number
 ```
 
-*Irrelevent after version 19+*
+_Irrelevent after version 19+_
 
 ## Default props
 
 Default values for props , incase they're not passed from the parent component.
 
-*Irrelevent after version 19+*
-
+_Irrelevent after version 19+_
 
 # Conditional rendering
 
 Rendering something on DOM based on a condition.
 
-Open folder `Components/UserGreeting.jsx` 
+Open folder `Components/UserGreeting.jsx`
 **UserGreeting.jsx**
+
 ```jsx
 function UserGreeting(props) {
-    if(props.isLoggedIn){
-        return (
-            <h1>Welcome {props.userName}</h1>
-        );
-    }
-    else{
-        return(
-            <h1>Please log in</h1>
-        );
-    }
+  if (props.isLoggedIn) {
+    return <h1>Welcome {props.userName}</h1>;
+  } else {
+    return <h1>Please log in</h1>;
+  }
 }
 
 export default UserGreeting;
 ```
 
 **App.jsx**
+
 ```jsx
-import UserGreeting from "./Components/UserGreeting.jsx"
+import UserGreeting from "./Components/UserGreeting.jsx";
 
 function App() {
   return (
@@ -543,16 +570,22 @@ function App() {
   );
 }
 
-export default App
+export default App;
 ```
+
 **Output : It's obvious 😒**
 
-***Even better , use ternary operator***
+**_Even better , use ternary operator_**
+
 ```jsx
 function UserGreeting(props) {
   return (
     <>
-    {props.isLoggedIn ? <h1>Welcome {props.userName}</h1> : <h1>Please log in</h1>}
+      {props.isLoggedIn ? (
+        <h1>Welcome {props.userName}</h1>
+      ) : (
+        <h1>Please log in</h1>
+      )}
     </>
   );
 }
@@ -561,36 +594,45 @@ export default UserGreeting;
 ```
 
 # Rendering list
+
 Iam gonna make an array of fruits and render them
 
 folder : `Components/List.jsx`
+
 ```jsx
-function List(){
-    const fruits = ["apple" , "orange" , "banana" , "pinapple" , "mango"];
-    return (<ul>{fruits}</ul>);
+function List() {
+  const fruits = ["apple", "orange", "banana", "pinapple", "mango"];
+  return <ul>{fruits}</ul>;
 }
 
 export default List;
 ```
+
 **Output**
+
 ```
 appleorangebananapinapplemango
 ```
+
 😑😑😑
 
 We have to `map` each element of the array as a list item.
+
 ```jsx
-function List(){
-    const fruits = ["apple" , "orange" , "banana" , "pinapple" , "mango"];
-    
-    // Fix
-    const listItems = fruits.map( fruit => {return <li>{fruit}</li>})
-    
-    return (<ul>{listItems}</ul>);
+function List() {
+  const fruits = ["apple", "orange", "banana", "pinapple", "mango"];
+
+  // Fix
+  const listItems = fruits.map((fruit) => {
+    return <li>{fruit}</li>;
+  });
+
+  return <ul>{listItems}</ul>;
 }
 
 export default List;
 ```
+
 **Output**
 
 > - apple
@@ -600,28 +642,36 @@ export default List;
 > - mango
 
 ## Array of objects
+
 ```jsx
-function List(){
+function List() {
+  const students = [
+    { Name: "Mahmud", Dept: "CSE" },
+    { Name: "Tanvir", Dept: "EEE" },
+    { Name: "Rahad", Dept: "CE" },
+    { Name: "Ahnaf", Dept: "EECE" },
+  ];
 
-    const students = [
-        {Name:"Mahmud",Dept:"CSE"},
-        {Name:"Tanvir",Dept:"EEE"},
-        {Name:"Rahad",Dept:"CE"},
-        {Name:"Ahnaf",Dept:"EECE"},
-    ]
-
-    const listItems = students.map( student => {return <li>{student.Name} - {student.Dept} </li>})
-    return (<ul>{listItems}</ul>);
+  const listItems = students.map((student) => {
+    return (
+      <li>
+        {student.Name} - {student.Dept}{" "}
+      </li>
+    );
+  });
+  return <ul>{listItems}</ul>;
 }
 
 export default List;
 ```
+
 **Output**
 ![arr_obj](Images/JS/React/Array_of_obj.png)
 
 But , Checkout devtools (inspect)
+
 ```
-List.jsx:10 
+List.jsx:10
  Each child in a list should have a unique "key" prop.
 
 Check the render method of `List`. See https://react.dev/link/warning-keys for more information.
@@ -630,42 +680,57 @@ Check the render method of `List`. See https://react.dev/link/warning-keys for m
 React throws that warning because when you render lists, it needs a **unique `key` prop** on each item to track changes efficiently. Without keys, React can misidentify items when the list updates. The fix is to give each `<li>` a stable identifier (like an `id` or array index if no better option).
 
 ```jsx
-function List(){
+function List() {
+  const students = [
+    { Key: 1, Name: "Mahmud", Dept: "CSE" },
+    { Key: 2, Name: "Tanvir", Dept: "EEE" },
+    { Key: 3, Name: "Rahad", Dept: "CE" },
+    { Key: 4, Name: "Ahnaf", Dept: "EECE" },
+  ];
 
-    const students = [
-        {Key:1,Name:"Mahmud",Dept:"CSE"},
-        {Key:2,Name:"Tanvir",Dept:"EEE"},
-        {Key:3,Name:"Rahad",Dept:"CE"},
-        {Key:4,Name:"Ahnaf",Dept:"EECE"},
-    ]
-
-    const listItems = students.map( student => {return <li key={student.Key}>{student.Name} - {student.Dept} </li>})
-    return (<ul>{listItems}</ul>);
+  const listItems = students.map((student) => {
+    return (
+      <li key={student.Key}>
+        {student.Name} - {student.Dept}{" "}
+      </li>
+    );
+  });
+  return <ul>{listItems}</ul>;
 }
 
 export default List;
 ```
+
 > No error
 
 ## Sorting
+
 **List.jsx**
+
 ```jsx
-function List(){
+function List() {
+  const students = [
+    { Key: 1, GPA: 3.44, Name: "Mahmud", Dept: "CSE" },
+    { Key: 2, GPA: 3.45, Name: "Tanvir", Dept: "EEE" },
+    { Key: 3, GPA: 3.35, Name: "Rahad", Dept: "CE" },
+    { Key: 4, GPA: 3.34, Name: "Ahnaf", Dept: "EECE" },
+  ];
 
-    const students = [
-        {Key:1,GPA:3.44,Name:"Mahmud",Dept:"CSE"},
-        {Key:2,GPA:3.45,Name:"Tanvir",Dept:"EEE"},
-        {Key:3,GPA:3.35,Name:"Rahad",Dept:"CE"},
-        {Key:4,GPA:3.34,Name:"Ahnaf",Dept:"EECE"},
-    ]
-
-    const listItems = students.map( student => {return <li key={student.Key}>{student.Name} - {student.Dept} (GPA : {student.GPA})</li>})
-    return (<ul>{listItems}</ul>);
+  const listItems = students.map((student) => {
+    return (
+      <li key={student.Key}>
+        {student.Name} - {student.Dept} (GPA : {student.GPA})
+      </li>
+    );
+  });
+  return <ul>{listItems}</ul>;
 }
 
 export default List;
 ```
+
 **Output**
+
 - Mahmud - CSE (GPA : 3.44)
 - Tanvir - EEE (GPA : 3.45)
 - Rahad - CE (GPA : 3.35)
@@ -674,96 +739,59 @@ export default List;
 **Alphabetical sort**
 
 ```jsx
-function List(){
+function List() {
+  const students = [
+    { Key: 1, GPA: 3.44, Name: "Mahmud", Dept: "CSE" },
+    { Key: 2, GPA: 3.45, Name: "Tanvir", Dept: "EEE" },
+    { Key: 3, GPA: 3.35, Name: "Rahad", Dept: "CE" },
+    { Key: 4, GPA: 3.34, Name: "Ahnaf", Dept: "EECE" },
+  ];
 
-    const students = [
-        {Key:1,GPA:3.44,Name:"Mahmud",Dept:"CSE"},
-        {Key:2,GPA:3.45,Name:"Tanvir",Dept:"EEE"},
-        {Key:3,GPA:3.35,Name:"Rahad",Dept:"CE"},
-        {Key:4,GPA:3.34,Name:"Ahnaf",Dept:"EECE"},
-    ]
+  //sort
+  students.sort((a, b) => a.Name.localeCompare(b.Name));
 
-    //sort
-    students.sort((a,b) => a.Name.localeCompare(b.Name));
-
-    const listItems = students.map( student => {return <li key={student.Key}>{student.Name} - {student.Dept} (GPA : {student.GPA})</li>})
-    return (<ul>{listItems}</ul>);
+  const listItems = students.map((student) => {
+    return (
+      <li key={student.Key}>
+        {student.Name} - {student.Dept} (GPA : {student.GPA})
+      </li>
+    );
+  });
+  return <ul>{listItems}</ul>;
 }
 
 export default List;
 ```
+
 **Output**
+
 - Ahnaf - EECE (GPA : 3.34)
 - Mahmud - CSE (GPA : 3.44)
 - Rahad - CE (GPA : 3.35)
 - Tanvir - EEE (GPA : 3.45)
 
 **Reverse aphabetical**
+
 ```jsx
-students.sort((a,b) => b.Name.localeCompare(a.Name));
+students.sort((a, b) => b.Name.localeCompare(a.Name));
 ```
 
 **Numerical (By GPA)**
+
 ```jsx
-students.sort((a,b) => a.GPA - b.GPA);
+students.sort((a, b) => a.GPA - b.GPA);
 ```
 
 **Reverse numerical (By GPA)**
+
 ```jsx
-students.sort((a,b) => b.GPA - a.GPA);
+students.sort((a, b) => b.GPA - a.GPA);
 ```
+
 ## Filtering by GPA
+
 ```jsx
 function List() {
-    const students = [
-        {Key:1, GPA:3.44, Name:"Mahmud", Dept:"CSE"},
-        {Key:2, GPA:3.45, Name:"Tanvir", Dept:"EEE"},
-        {Key:3, GPA:3.35, Name:"Rahad", Dept:"CE"},
-        {Key:4, GPA:3.34, Name:"Ahnaf", Dept:"EECE"},
-        {Key:5, GPA:3.80, Name:"Sabbir", Dept:"CSE"},
-        {Key:6, GPA:2.95, Name:"Nayeem", Dept:"EEE"},
-        {Key:7, GPA:1.85, Name:"Rafi", Dept:"CE"},
-        {Key:8, GPA:3.10, Name:"Sami", Dept:"EECE"},
-        {Key:9, GPA:2.50, Name:"Imran", Dept:"CSE"},
-        {Key:10, GPA:3.65, Name:"Jahid", Dept:"EEE"},
-        {Key:11, GPA:1.95, Name:"Rakib", Dept:"CE"},
-        {Key:12, GPA:2.20, Name:"Shakil", Dept:"EECE"},
-        {Key:13, GPA:3.00, Name:"Tareq", Dept:"CSE"},
-        {Key:14, GPA:2.75, Name:"Farhan", Dept:"EEE"},
-        {Key:15, GPA:1.60, Name:"Hasan", Dept:"CE"}
-    ];
-
-    // Filter students with GPA < 3
-    const lowGPAStudents = students.filter(student => student.GPA < 3);
-
-    // Sort ascending by GPA
-    const sorted = lowGPAStudents.sort((a, b) => a.GPA - b.GPA);
-
-    // Map to JSX elements
-    const listItems = sorted.map(student => (
-        <li key={student.Key}>
-            {student.Name} ({student.GPA})
-        </li>
-    ));
-
-    return <ul>{listItems}</ul>;
-}
-
-export default List;
-```
-**Output**
-
-- Hasan (1.6)
-- Rafi (1.85)
-- Rakib (1.95)
-- Shakil (2.2)
-- Imran (2.5)
-- Farhan (2.75)
-- Nayeem (2.95)
-
-## Setting up category
-```jsx
-function List({ category}) { // gotta set catagory as parameter
   const students = [
     { Key: 1, GPA: 3.44, Name: "Mahmud", Dept: "CSE" },
     { Key: 2, GPA: 3.45, Name: "Tanvir", Dept: "EEE" },
@@ -795,10 +823,61 @@ function List({ category}) { // gotta set catagory as parameter
     </li>
   ));
 
+  return <ul>{listItems}</ul>;
+}
 
-// Here
+export default List;
+```
+
+**Output**
+
+- Hasan (1.6)
+- Rafi (1.85)
+- Rakib (1.95)
+- Shakil (2.2)
+- Imran (2.5)
+- Farhan (2.75)
+- Nayeem (2.95)
+
+## Setting up category
+
+```jsx
+function List({ category }) {
+  // gotta set catagory as parameter
+  const students = [
+    { Key: 1, GPA: 3.44, Name: "Mahmud", Dept: "CSE" },
+    { Key: 2, GPA: 3.45, Name: "Tanvir", Dept: "EEE" },
+    { Key: 3, GPA: 3.35, Name: "Rahad", Dept: "CE" },
+    { Key: 4, GPA: 3.34, Name: "Ahnaf", Dept: "EECE" },
+    { Key: 5, GPA: 3.8, Name: "Sabbir", Dept: "CSE" },
+    { Key: 6, GPA: 2.95, Name: "Nayeem", Dept: "EEE" },
+    { Key: 7, GPA: 1.85, Name: "Rafi", Dept: "CE" },
+    { Key: 8, GPA: 3.1, Name: "Sami", Dept: "EECE" },
+    { Key: 9, GPA: 2.5, Name: "Imran", Dept: "CSE" },
+    { Key: 10, GPA: 3.65, Name: "Jahid", Dept: "EEE" },
+    { Key: 11, GPA: 1.95, Name: "Rakib", Dept: "CE" },
+    { Key: 12, GPA: 2.2, Name: "Shakil", Dept: "EECE" },
+    { Key: 13, GPA: 3.0, Name: "Tareq", Dept: "CSE" },
+    { Key: 14, GPA: 2.75, Name: "Farhan", Dept: "EEE" },
+    { Key: 15, GPA: 1.6, Name: "Hasan", Dept: "CE" },
+  ];
+
+  // Filter students with GPA < 3
+  const lowGPAStudents = students.filter((student) => student.GPA < 3);
+
+  // Sort ascending by GPA
+  const sorted = lowGPAStudents.sort((a, b) => a.GPA - b.GPA);
+
+  // Map to JSX elements
+  const listItems = sorted.map((student) => (
+    <li key={student.Key}>
+      {student.Name} ({student.GPA})
+    </li>
+  ));
+
+  // Here
   return (
-    <> 
+    <>
       <h1>{category}</h1>
       <ul>{listItems}</ul>
     </>
@@ -807,39 +886,43 @@ function List({ category}) { // gotta set catagory as parameter
 
 export default List;
 ```
+
 **App.jsx**
+
 ```jsx
-import List from './Components/List'
+import List from "./Components/List";
 
 function App() {
-    return (
-      <>
-      <List category ="Low gpa students"/>
-      </>
-    );
+  return (
+    <>
+      <List category="Low gpa students" />
+    </>
+  );
 }
 
 export default App;
 ```
+
 ![cat](Images/JS/React/catagory.png)
 
-*<p style = "color : cyan"> I just installed tailwind </p>*
+_<p style = "color : cyan"> I just installed tailwind </p>_
 
 **Applied the knowledge**
 
 This code :
 
-* Defines a `List` component that receives `items` and `category` as props, maps over `items`, and renders each item as a bullet point in a list.
-* Displays a heading above the list showing the category name.
-* In `App.jsx`, it defines the `fruits` array and passes it along with the category `"Fruits"` to the `List` component.
-* Renders a list of fruits (Apple, Mango, Orange, Banana) with a heading `"Fruits"` on the page.
+- Defines a `List` component that receives `items` and `category` as props, maps over `items`, and renders each item as a bullet point in a list.
+- Displays a heading above the list showing the category name.
+- In `App.jsx`, it defines the `fruits` array and passes it along with the category `"Fruits"` to the `List` component.
+- Renders a list of fruits (Apple, Mango, Orange, Banana) with a heading `"Fruits"` on the page.
 
 Basically, it displays a titled list of items dynamically.
 
 **App.jsx**
+
 ```jsx
 import List from "./Lists";
-import { fruits , vegetables , snacks} from "./Lists";
+import { fruits, vegetables, snacks } from "./Lists";
 
 function App() {
   return (
@@ -858,10 +941,10 @@ function App() {
 }
 
 export default App;
-
 ```
 
-**List.jsx** 
+**List.jsx**
+
 ```jsx
 export const fruits = [
   { id: 1, name: "Apple" },
@@ -885,16 +968,12 @@ export const snacks = [
 ];
 
 function List({ items, category }) {
-  const listItems = items.map(item => (
-    <li key={item.id}>{item.name}</li>
-  ));
+  const listItems = items.map((item) => <li key={item.id}>{item.name}</li>);
 
   return (
     <div className="bg-orange-200 shadow-md p-4 rounded m-3">
       <h2 className="text-xl font-bold mb-2 text-slate-800">{category}</h2>
-      <ul className="list-disc pl-5">
-        {listItems}
-      </ul>
+      <ul className="list-disc pl-5">{listItems}</ul>
     </div>
   );
 }
@@ -916,7 +995,7 @@ export const fruits = [
 ];
 
 export const vegetables = [
- // No item
+  // No item
 ];
 
 export const snacks = [
@@ -927,42 +1006,185 @@ export const snacks = [
 ];
 
 function List({ items, category }) {
-  const listItems = items.map(item => (
-    <li key={item.id}>{item.name}</li>
-  ));
+  const listItems = items.map((item) => <li key={item.id}>{item.name}</li>);
 
-return (
-  <div className="bg-orange-200 shadow-md p-4 rounded m-3">
-    <h2 className="text-xl font-bold mb-2 text-slate-800">{category}</h2>
-    <ul className="list-disc pl-5">
-
-    {/* Conditional rendering */}
-      {items.length > 0 
-        ? items.map(item => <li key={item.id}>{item.name}</li>)
-        : <li>No item available</li>
-      }
-
-    </ul>
-  </div>
-);
-
+  return (
+    <div className="bg-orange-200 shadow-md p-4 rounded m-3">
+      <h2 className="text-xl font-bold mb-2 text-slate-800">{category}</h2>
+      <ul className="list-disc pl-5">
+        {/* Conditional rendering */}
+        {items.length > 0 ? (
+          items.map((item) => <li key={item.id}>{item.name}</li>)
+        ) : (
+          <li>No item available</li>
+        )}
+      </ul>
+    </div>
+  );
 }
 
 export default List;
 ```
+
 **Output**
 
 ![Condional](Images/JS/React/List_render_con.png)
 
 **We can also use && for conditional rendering**
-- In this case , if `false` it'll return null.. Not *No item available*
+
+- In this case , if `false` it'll return null.. Not _No item available_
+
 ```jsx
-  {items.length > 0 
-        && items.map(item => <li key={item.id}>{item.name}</li>)
-    }
+{
+  items.length > 0 && items.map((item) => <li key={item.id}>{item.name}</li>);
+}
 ```
+
 # Click event
 
-An interaction when a user clicks on a specific element . 
+An interaction when a user clicks on a specific element .
+
 - We can respond to clicks by passing a callback to the `onClick` event handler.
 
+```jsx
+export default function Button() {
+  const handleClick = (name) => {
+    console.log(`${name} stop clicking me`);
+  };
+
+  return (
+    <button
+      onClick={handleClick("Bro")}
+      className="bg-blue-400 hover:bg-blue-500 transition-colors p-2 rounded-md m-2"
+    >
+      Click me
+    </button>
+  );
+}
+```
+
+It's supposed to log `Bro, stop clicking me` **after we click the button**. BUT
+
+> It logs the text anyway, **before we click**... why?
+
+Because when you put the arguments in parentheses in the `onClick` function, like this:
+
+```jsx
+{
+  handleClick("Bro");
+}
+```
+
+it **invokes immediately**.
+
+**Solution**
+
+Put an arrow function in it.
+
+```jsx
+{
+  () => handleClick("Bro");
+}
+```
+
+```jsx
+export default function Button() {
+  const handleClick = (name) => {
+    console.log(`${name} stop clicking me`);
+  };
+
+  return (
+    <button
+      onClick={() => handleClick("Bro")}
+      className="bg-blue-400 hover:bg-blue-500 transition-colors p-2 rounded-md m-2"
+    >
+      Click me
+    </button>
+  );
+}
+```
+
+**Something extra**
+
+```jsx
+export default function Button() {
+  let count = 0;
+  const handleClick = (name) => {
+    if (count < 3) {
+      count++;
+      console.log(`You've clicked ${count} times`);
+    } else {
+      console.log(`${name} stop clicking me.`);
+    }
+  };
+
+  return (
+    <button
+      onClick={() => handleClick("Bro")}
+      className="bg-blue-400 hover:bg-blue-500 transition-colors p-2 rounded-md m-2"
+    >
+      Click me
+    </button>
+  );
+}
+```
+## Event handler
+
+In React JS, **event handlers** are functions that run in response to user actions like clicks, typing, or mouse movements. Unlike plain HTML, you attach them using **camelCase** syntax (e.g., `onClick`, `onChange`) and pass a **function reference**, not the result of a function call. For example:
+
+```jsx
+<button onClick={(e) => handleClick(e)}>Click Me</button>
+```
+
+Here, `handleClick` runs only when the button is clicked. If you write `handleClick()`, it runs immediately when the component renders. Event handlers in React can also take **arguments** using arrow functions, and they work seamlessly with the component’s **state and props** to update UI dynamically.
+
+React’s approach ensures predictable updates and avoids direct DOM manipulation, keeping your UI in sync with the app state.
+
+```jsx
+export default function Button(){
+    const handleClick = (e) => console.log(e);
+    return(<button onClick={(e) => handleClick(e)} className="bg-blue-400 hover:bg-blue-500 transition-colors p-2 rounded-md m-2">Click me</button>);
+}
+```
+**Console**
+```
+SyntheticBaseEvent {_reactName: 'onClick', _targetInst: null, type: 'click', nativeEvent: PointerEvent, target: button.bg-blue-400.hover:bg-blue-500.transition-colors.p-2.rounded-md.m-2, …}
+```
+Here’s a beginner-friendly note on that:
+
+In React, events like clicks or typing don’t give you the **native browser event** directly. Instead, React wraps it in a **`SyntheticEvent`**. This is an object that behaves like the normal DOM event but works the same across all browsers. For example, when you log a click event:
+
+```jsx
+const handleClick = (e) => {
+    console.log(e);
+};
+<button onClick={handleClick}>Click Me</button>
+```
+
+You’ll see something like:
+
+```
+SyntheticBaseEvent {_reactName: 'onClick', type: 'click', nativeEvent: PointerEvent, target: button, …}
+```
+
+* `type` → the event type (`click`, `change`, etc.)
+* `target` → the element that triggered the event
+* `nativeEvent` → the original browser event wrapped by React
+
+You can use all normal event properties (like `e.target.value`), and React handles cross-browser quirks for you.
+
+In the generated object , there's a key named `target`.Let's use that. In target, there's `textContent`.
+
+```jsx
+export default function Button(){
+    const handleClick = (e) => {
+        e.target.textContent = 'Ouch 🤕'
+
+    };
+    return(<button onClick={(e) => handleClick(e)} className="bg-blue-400 hover:bg-blue-500 transition-colors p-2 rounded-md m-2">Click me</button>);
+}
+```
+```mermaid
+flowchart LR
+    A[Click me] --click--> B[Ouch 🤕]
+```
