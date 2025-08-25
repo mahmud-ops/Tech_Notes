@@ -1188,3 +1188,9 @@ export default function Button(){
 flowchart LR
     A[Click me] --click--> B[Ouch 🤕]
 ```
+
+# React hooks
+Special function that allows functional components to use react features without writing class components (available after react v16.8)
+
+Examples : `useState` , `useEffect` , `useContext` , `useRecducer` and more.
+
