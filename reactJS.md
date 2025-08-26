@@ -1128,6 +1128,7 @@ export default function Button() {
   );
 }
 ```
+
 ## Event handler
 
 In React JS, **event handlers** are functions that run in response to user actions like clicks, typing, or mouse movements. Unlike plain HTML, you attach them using **camelCase** syntax (e.g., `onClick`, `onChange`) and pass a **function reference**, not the result of a function call. For example:
@@ -1141,24 +1142,34 @@ Here, `handleClick` runs only when the button is clicked. If you write `handleCl
 React’s approach ensures predictable updates and avoids direct DOM manipulation, keeping your UI in sync with the app state.
 
 ```jsx
-export default function Button(){
-    const handleClick = (e) => console.log(e);
-    return(<button onClick={(e) => handleClick(e)} className="bg-blue-400 hover:bg-blue-500 transition-colors p-2 rounded-md m-2">Click me</button>);
+export default function Button() {
+  const handleClick = (e) => console.log(e);
+  return (
+    <button
+      onClick={(e) => handleClick(e)}
+      className="bg-blue-400 hover:bg-blue-500 transition-colors p-2 rounded-md m-2"
+    >
+      Click me
+    </button>
+  );
 }
 ```
+
 **Console**
+
 ```
 SyntheticBaseEvent {_reactName: 'onClick', _targetInst: null, type: 'click', nativeEvent: PointerEvent, target: button.bg-blue-400.hover:bg-blue-500.transition-colors.p-2.rounded-md.m-2, …}
 ```
+
 Here’s a beginner-friendly note on that:
 
 In React, events like clicks or typing don’t give you the **native browser event** directly. Instead, React wraps it in a **`SyntheticEvent`**. This is an object that behaves like the normal DOM event but works the same across all browsers. For example, when you log a click event:
 
 ```jsx
 const handleClick = (e) => {
-    console.log(e);
+  console.log(e);
 };
-<button onClick={handleClick}>Click Me</button>
+<button onClick={handleClick}>Click Me</button>;
 ```
 
 You’ll see something like:
@@ -1167,30 +1178,277 @@ You’ll see something like:
 SyntheticBaseEvent {_reactName: 'onClick', type: 'click', nativeEvent: PointerEvent, target: button, …}
 ```
 
-* `type` → the event type (`click`, `change`, etc.)
-* `target` → the element that triggered the event
-* `nativeEvent` → the original browser event wrapped by React
+- `type` → the event type (`click`, `change`, etc.)
+- `target` → the element that triggered the event
+- `nativeEvent` → the original browser event wrapped by React
 
 You can use all normal event properties (like `e.target.value`), and React handles cross-browser quirks for you.
 
 In the generated object , there's a key named `target`.Let's use that. In target, there's `textContent`.
 
 ```jsx
-export default function Button(){
-    const handleClick = (e) => {
-        e.target.textContent = 'Ouch 🤕'
-
-    };
-    return(<button onClick={(e) => handleClick(e)} className="bg-blue-400 hover:bg-blue-500 transition-colors p-2 rounded-md m-2">Click me</button>);
+export default function Button() {
+  const handleClick = (e) => {
+    e.target.textContent = "Ouch 🤕";
+  };
+  return (
+    <button
+      onClick={(e) => handleClick(e)}
+      className="bg-blue-400 hover:bg-blue-500 transition-colors p-2 rounded-md m-2"
+    >
+      Click me
+    </button>
+  );
 }
 ```
+
 ```mermaid
 flowchart LR
     A[Click me] --click--> B[Ouch 🤕]
 ```
 
 # React hooks
+
 Special function that allows functional components to use react features without writing class components (available after react v16.8)
 
 Examples : `useState` , `useEffect` , `useContext` , `useRecducer` and more.
 
+- [useState](./reactJS.md/#usestate)
+
+# useState
+
+A react hook that allows the creation of a stateful variable and a setter function to update it's value in the virtual DOM.
+
+```
+[name,setName]
+```
+
+```jsx
+import React, { useState } from "react"; // gotta import `useState`
+
+export default function Button() {
+  // [name] holds the state value, [setName] is the setter function
+  const [name, setName] = useState(); // useState initializes state
+
+  function handleClick() {
+    setName("Mahmud");
+  }
+
+  return (
+    <div className="m-4">
+      <p>Name : {name}</p>
+      <button className="bg-blue-400 p-3 rounded-md m-3" onClick={handleClick}>
+        Set name
+      </button>
+    </div>
+  );
+}
+```
+**Output**
+
+*after pressing the `Set name` button*
+
+![img](Images/JS/React/state_1.png)
+
+What it we want to keep a default value first , before pressing the button.
+```jsx
+  const [name,setName] = useState("Default");
+```
+
+
+**Here’s a clean breakdown of how **`useState`** works:**
+
+---
+
+* `useState` is a React Hook that lets you add state to functional components.
+* It returns **an array with two values**:
+
+  * The **state value** (current data).
+  * The **setter function** (used to update the state).
+* When the setter function is called, React schedules a **re-render** of the component.
+* Each call to `useState` creates its **own independent piece of state**.
+* You can pass an **initial value** (e.g., `useState("")`) to define the starting state.
+* State updates are **asynchronous** and React batches them for performance.
+* On re-render, the state value persists — it doesn’t reset unless you explicitly change it.
+
+**Age increament button**
+
+A simple button , that increases count.
+
+```jsx
+import { useState } from "react";
+
+export default function Button(){
+  const [age,increaseAge] = useState(0);
+
+  const handleClick = () => {
+    increaseAge(age + 1);
+  }
+
+  return (
+    <div className="bg-green-300 rounded-lg m-3 p-4 align-middle">
+      <p>Age : {age}</p>
+      <button onClick={handleClick} className="bg-black hover:bg-opacity-90 text-white p-2 rounded-lg mt-4">Age ++</button>
+    </div>
+  );
+}
+```
+
+## Toggle status
+Here’s a concise intro note you can use for that example:
+
+---
+
+**Intro:**
+This example demonstrates how to use React’s `useState` hook to **toggle a button’s text and style dynamically**. By storing the button’s status in state (`clickState`), we can conditionally render both the **label** and the **CSS class** whenever the button is clicked. This is a common pattern in React for creating **interactive, state-driven UI elements**.
+
+```jsx
+import { useState } from "react";
+
+export default function Button(){
+
+  const [clickState,setState] = useState(true);
+  
+  const set_state = () => {
+      setState(!clickState);
+  }
+
+  return(
+    <div>
+      <button onClick={set_state} className={clickState ? "btn" : "btn_2"}>{clickState ? "Click me":"Clicked"}</button>
+    </div>   
+  );
+}
+```
+**Output**
+
+Button text and style toggle between `"Click me"`/`btn` and `"Clicked"`/`btn_2` on each click.
+
+```mermaid
+flowchart LR
+
+A[Click me] --> B[Clicked]
+B --> A
+```
+
+> **Task** : Make a mini project With an increament, decreament and a reset button.
+
+## onChange event handler
+
+`onChange` is an event in React (and HTML) that triggers a function whenever the value of an input, textarea, or select element changes. It’s used to capture and respond to user input in real time.
+
+**Example**
+
+This React component `Form` renders an input field and a paragraph. The key part is the `onChange` handler on the input:
+
+* `onChange={handleTextChange}` listens for any change in the input field.
+* Whenever the user types a number, `handleTextChange` is called with the event `e`.
+* Inside `handleTextChange`, `changeText(e.target.value)` updates the component state `text` with the current input value.
+* Because `text` is used both as the input’s `value` and inside the `<p>`, typing instantly updates the paragraph to match what’s typed.
+
+In short: **`onChange` keeps the input and the paragraph in sync by updating state every time the user types.**
+
+```jsx
+import { useState } from "react";
+
+export default function Form() {
+
+    const [text,changeText] = useState();
+
+    const handleTextChange = (e) => {
+        changeText(e.target.value)
+    }
+
+  return (
+    <div>
+        <p className="m-4 bg-red-300 inline-block">{text}</p><br />
+        <input value={text} onChange={handleTextChange} className="border-solid m-3 p-4 bg-green-200" type="number" />
+    </div>
+  );
+}
+```
+**Output**
+![img](Images/JS/React/change_1.png)
+
+*Whatever I type in the `input` bar , it's gets typed in `<p>`*
+
+### Mini project : Order invoice generator
+
+This component is a **live invoice form**:
+
+* Lets the user enter **name, address**, choose **delivery method** (radio), and **payment method** (dropdown).
+* All inputs update the **invoice preview below in real-time**.
+* Fully controlled React state ensures the invoice always shows what’s typed/selected.
+
+
+```jsx
+import { useState } from "react";
+
+export default function Invoice() {
+  const [name, setName] = useState();
+  const [address, setAddress] = useState();
+  const [delivery, setDelivery] = useState();
+  const [payment, setPayment] = useState();
+
+  return (
+    <div className="bg-blue-200 m-4 p-3 rounded-lg">
+      <label htmlFor="Name">
+        Name :
+        <input
+          onChange={(e) => setName(e.target.value)}
+          value={name}
+          className="rounded-lg ml-2 ps-2"
+          type="text"
+        />
+      </label>
+      <br />
+      <br />
+      <label htmlFor="Address">Address : </label>
+      <br />
+      <textarea
+        onChange={(e) => setAddress(e.target.value)}
+        className="rounded-lg ml-2 ps-2"
+      />
+      <br />
+      <hr />
+      <input
+        type="radio"
+        name="delivery"
+        value="Pickup"
+        checked={delivery === "Pickup"}
+        onChange={(e) => setDelivery(e.target.value)}
+      />{" "}
+      Pickup <br />
+      <input
+        type="radio"
+        name="delivery"
+        value="Home delivery"
+        checked={delivery === "Home delivery"}
+        onChange={(e) => setDelivery(e.target.value)}
+      />
+      Home delivery <br />
+      <br />
+      <select
+        name="payment"
+        value={payment}
+        onChange={(e) => setPayment(e.target.value)}
+      >
+        <option value="Cash on delivery">Cash on delivery</option>
+        <option value="Bkash">Bkash</option>
+        <option value="Nagad">Nagad</option>
+        <option value="Card">Card</option>
+      </select>
+      <hr />
+      <div className="p-2 m-3 bg-orange-300 rounded-lg">
+        <h1 className="text-4xl">Invoice</h1>
+        <hr className="my-3 p-[1px] bg-black" />
+        <p>Name: {name}</p>
+        <p className="text-wrap">Address: {address}</p>
+        <p>Delivery: {delivery}</p>
+        <p>Payment method: {payment}</p>
+      </div>
+    </div>
+  );
+}
+```
+![img](Images/JS/React/invoice.png)
