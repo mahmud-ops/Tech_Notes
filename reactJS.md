@@ -1452,3 +1452,143 @@ export default function Invoice() {
 }
 ```
 ![img](Images/JS/React/invoice.png)
+
+## Updater function 
+
+A function passed as an argument to `setState` (like `setCount`) is called an **updater function**. Instead of giving React the next value directly, you give it a function that receives the **previous state** (`prev`) and returns the new state. This ensures the update always uses the latest state value, even if multiple updates are batched together.
+
+**Example:**
+
+```js
+setCount(prev => prev + 1);
+```
+Here, `prev => prev + 1` is the updater function.
+
+[Video Link ](https://youtu.be/nbAaUpNDhRY?list=PLZPZq0r_RZOMQArzyI32mVndGBZ3D99XQ)
+
+**Just made a basic counter**
+```jsx
+import { useState } from "react";
+
+export default function Counter(){
+    
+    const[count,setCount] = useState(0)
+    
+    const increament = () => {
+        setCount(count + 1);
+    }
+
+    const decreament = () => {
+        setCount(count - 1);
+    }
+
+    const reset = () => {
+        setCount(0);
+    }
+
+    return(
+        <div className="w-fit mx-auto">
+            <h1 className="text-center text-5xl font-extrabold">{count}</h1>
+            <button className="btn" onClick={decreament}>-</button>
+            <button className="btn" onClick={reset}>Reset</button>
+            <button className="btn" onClick={increament}>+</button>
+        </div>
+    );
+}
+```
+![img](Images/JS/React/Count_1.png)
+
+It icreases by 1. Now if we call `secCount(count + 1)` **3 times** in the `increament` function , it's supposed to increase by 3 , right ?? 
+
+**Not really.**
+
+When you call `setCount(count + 1)` multiple times in the same function, React doesn’t instantly update `count` after each call—it batches state updates for performance. That means every call still uses the old `count` value instead of the new one, so even if you write it three times, the result is just `+1` instead of `+3`. To fix this, you use the functional form `setCount(prev => prev + 1)`, which always works with the latest state and makes multiple updates behave as expected.
+
+The right way is to use the functional updater form of `setCount`, which ensures each update works on the latest state instead of the stale one. This way, multiple updates in a row actually stack up properly. Here’s how it works step by step:
+
+* Write `setCount(prev => prev + 1)` instead of `setCount(count + 1)`.
+* On the first call, `prev` is the current `count`.
+* React updates `count` behind the scenes but gives the next call the new value of `prev`.
+* Each subsequent call adds `+1` to the most recent state, so the increments accumulate correctly.
+* This guarantees that three calls will result in `+3`, not just `+1`.
+
+```jsx
+    const increament = () => {
+        setCount(prev => prev + 1);
+        setCount(prev => prev + 1);
+        setCount(prev => prev + 1);
+    }
+
+    const decreament = () => {
+        setCount(prev => prev - 1);
+        setCount(prev => prev - 1);
+        setCount(prev => prev - 1);
+    }
+
+    const reset = () => {
+        setCount(0);
+    }
+```
+**Workflow**
+```mermaid
+flowchart LR
+
+A[Initial count = 0] --> B["setCount(prev => prev + 1)"]
+B --> C["prev = 0 → new = 1"]
+C --> D["setCount(prev => prev + 1)"]
+D --> E["prev = 1 → new = 2"]
+E --> F["setCount(prev => prev + 1)"]
+F --> G["prev = 2 → new = 3"]
+G --> H[Final count = 3]
+
+```
+
+## Updating onject state
+```jsx
+import { useState } from "react";
+
+export default function Obj(){
+
+    const [car,setCar] = useState({
+        year: 2025,
+        make: "Ford",
+        name: "Mustang"
+    });
+
+    const handleYear = () => {
+        setCar({year : 2026});
+    }
+
+    return (
+        <div className="p-4">
+            <p>I have a {car.year} {car.make} {car.name}</p>
+            <input onChange={handleYear} className="bg-gray-300 block m-2 p-2" type="number" value={car.year}/>
+            <input className="bg-gray-300 block m-2 p-2" type="text" value={car.make}/>
+            <input className="bg-gray-300 block m-2 p-2" type="text" value={car.name}/>
+        </div>
+    );
+}
+```
+![img](Images/JS/React/obj_state.png)
+
+If i change the year 
+
+![img](Images/JS/React/obj_state_1.png)
+
+The rest of text is missing.
+
+**Why ?**
+
+When you do `setCar({ year: 2026 })`, React **replaces the entire `car` object** with the new one, instead of merging it with the existing properties. That’s why the other fields (`make` and `name`) disappear — they’re not included in the new object. To preserve them, you need to **spread the existing object** like `setCar({ ...car, year: 2026 })`, which keeps all old properties and updates only the one you want.
+
+**Solution**
+
+The solution is to use the **spread operator** to keep the existing properties while updating the one you want. For example, `setCar({ ...car, year: 2026 })` creates a new object with all the old fields intact and updates only `year`. For handling multiple inputs dynamically, you can use a single change handler with `setCar(prev => ({ ...prev, [name]: value }))`, where `name` matches the property, ensuring every field updates correctly without losing the others.
+
+```jsx
+const handleYear = () => {
+        setCar({...car,year : 2026});
+}
+```
+
+![img](Images/JS/React/obj_state_2.png)
