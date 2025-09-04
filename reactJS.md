@@ -1543,7 +1543,7 @@ G --> H[Final count = 3]
 
 ```
 
-## Updating onject state
+## Updating object state
 ```jsx
 import { useState } from "react";
 
@@ -1592,3 +1592,41 @@ const handleYear = () => {
 ```
 
 ![img](Images/JS/React/obj_state_2.png)
+
+```jsx
+import { useState } from "react";
+
+export default function Obj(){
+
+    const [car,setCar] = useState({
+        year: 2025,
+        make: "Ford",
+        name: "Mustang"
+    });
+
+    const handleYear = (e) => {
+        setCar(c => ({...c,year : e.target.value}));
+    }
+    const handleMake = (e) => {
+        setCar(c => ({...c,make : e.target.value}));
+    }
+    const handleName = (e) => {
+        setCar(c => ({...c,name : e.target.value}));
+    }
+
+    return (
+        <div className="p-4">
+            <p>I have a {car.year} {car.make} {car.name}</p>
+            <input onChange={handleYear} className="bg-gray-300 block m-2 p-2" type="number" value={car.year}/>
+            <input onChange={handleMake} className="bg-gray-300 block m-2 p-2" type="text" value={car.make}/>
+            <input onChange={handleName} className="bg-gray-300 block m-2 p-2" type="text" value={car.name}/>
+        </div>
+    );
+}
+```
+
+![img](Images/JS/React/obj_state_3.png)
+
+## Update array state
+
+SOmething like a to do list
