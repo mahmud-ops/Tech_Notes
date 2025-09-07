@@ -1629,4 +1629,152 @@ export default function Obj(){
 
 ## Update array state
 
-SOmething like a to do list
+Something like a to do list
+
+**Step 1 : Array rendering**
+```jsx
+import { useState } from "react";
+
+export default function List() {
+  const [fruits, setFruit] = useState(["Apple", "Orange", "Banana"]);
+
+  return (
+    <div>
+      <h1>List of Fruits</h1>
+      <ul>
+        {fruits.map((fruit, index) => (
+          <li key={index}>{fruit}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+```
+
+**Step 2 : Taking input**
+An input section and a button for adding the value.
+
+```jsx
+import { useState } from "react";
+
+export default function List() {
+  const [fruits, setFruit] = useState(["Apple", "Orange", "Banana"]);
+
+  function handleAddFruit() { // Add function
+    const fruitInput = document.getElementById("fruitInput").value;
+    document.getElementById("fruitInput").value = "";
+
+    setFruit([...fruits, fruitInput]);
+  }
+
+  return (
+    <div>
+      <h1>Fruits List</h1>
+      <ul>
+        {fruits.map((fruit, index) => (
+          <li key={index}>{fruit}</li>
+        ))}
+      </ul>
+
+    // input section
+      <div>
+        <input id="fruitInput" type="text" placeholder="Enter fruit" />
+        <button onClick={handleAddFruit}>Add</button>
+      </div>
+    </div>
+  );
+}
+```
+
+**Step 3 : Add delete function**
+
+When we'll click on a list item , it should be deleted.
+
+```jsx
+import { useState } from "react";
+
+export default function List() {
+  const [fruits, setFruit] = useState(["Apple", "Orange", "Banana"]);
+
+  function handleAddFruit() {
+    const fruitInput = document.getElementById("fruitInput").value;
+    document.getElementById("fruitInput").value = "";
+
+    setFruit([...fruits, fruitInput]);
+  }
+
+  function deleteFruit(index) { // Delete function
+    setFruit(fruits.filter((_, i) => i != index));
+  }
+
+  return (
+    <div>
+      <h1>Fruits List</h1>
+      <ul>
+        {fruits.map((fruit, index) => (
+          <li key={index} onClick={() => deleteFruit(index)}> // Calling delete function
+            {fruit}
+          </li>
+        ))}
+      </ul>
+
+      <div>
+        <input id="fruitInput" type="text" placeholder="Enter fruit" />
+        <button onClick={handleAddFruit}>Add</button>
+      </div>
+    </div>
+  );
+}
+```
+Your delete function is:
+
+```javascript
+function deleteFruit(index) {
+  setFruit(fruits.filter((_, i) => i != index));
+}
+```
+
+Here’s what’s happening in the `deleteFruit` function **step by step**:
+
+1. **`fruits.filter(...)`**
+
+   * `filter` goes through every element in the `fruits` array.
+   * It takes a **callback** `(element, i) => condition` where:
+
+     * `element` is the current fruit (we don’t use it, so `_` is used).
+     * `i` is the index of that element.
+
+2. **`i != index`**
+
+   * `index` is the fruit you clicked on (passed to `deleteFruit`).
+   * The condition `i != index` means: “keep all fruits **except** the one at this index.”
+
+3. **`setFruit(...)`**
+
+   * `filter` returns a **new array** with that fruit removed.
+   * `setFruit` updates the state with this new array, which automatically re-renders your list without that fruit.
+
+**Example:**
+
+```javascript
+fruits = ["Apple", "Orange", "Banana"];
+deleteFruit(1); // index 1 is "Orange"
+fruits.filter((_, i) => i != 1) // ["Apple", "Banana"]
+```
+
+So after clicking "Orange", your list becomes:
+
+```
+Apple
+Banana
+```
+
+Basically: **filter out the item you want to delete and update the state**.
+
+
+**Output (Added some tailwind styling)**
+
+![image](Images/JS/React/List_render_2.png)
+
+## Update the state of an `Array of objects`
+
