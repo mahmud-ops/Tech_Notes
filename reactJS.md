@@ -1,5 +1,12 @@
 **React JS (by Bro code)**
 
+
+I won't make the mini projects , i'll just provide the yt tutorial.
+
+I'll just use the knowledge and make a bunch big projects on my own.
+
+* [To do list](#project--to-do-list)
+
 <i style = "color:red">A specific amount of images got deleted due to some technical error, sorry for the inconvenience </i>
 
 ---
@@ -1778,3 +1785,117 @@ Basically: **filter out the item you want to delete and update the state**.
 
 ## Update the state of an `Array of objects`
 
+Here’s a focused breakdown highlighting **React state and delete logic**:
+
+* **Imports `useState`** from React to manage component state.
+* **Defines `Car` component** for managing a list of cars.
+* **State variables**:
+
+  * `cars` → array of car objects.
+  * `carYear`, `carMake`, `carModel` → store current input values.
+* **`handleCarChange` function**:
+
+  * Creates a new car object `{year, make, model}`.
+  * Adds it to the `cars` state using `setCars([...cars, newCar])`.
+  * Resets input fields.
+* **Input change handlers** (`handleYearChange`, `handleMakeChange`, `handleModelChange`):
+
+  * Update respective state when user types in inputs.
+* **`deleteCar` function**:
+
+  * Removes a car from `cars` by index using `filter`.
+  * Triggered when a car `<li>` is clicked.
+* **JSX rendering**:
+
+  * Displays a list of cars from `cars` state.
+  * Each car can be clicked to delete it.
+  * Provides inputs and a button to add a new car to the state.
+
+```jsx
+import { useState } from "react";
+
+export default function Car(){
+
+    const[cars,setCars] = useState([]);
+    const[carYear,setYear] = useState(new Date().getFullYear());
+    const[carMake,setMake] = useState();
+    const[carModel,setModel] = useState();
+    
+    function handleCarChange(){
+        let newCar = {
+            year : carYear,
+            make : carMake,
+            model : carModel
+        }
+
+        setCars(c => [...c,newCar]);
+
+        document.getElementById("year").value = new Date().getFullYear();
+        document.getElementById("make").value = "";
+        document.getElementById("model").value = "";
+    }
+    function handleYearChange(event){
+        setYear(event.target.value);
+    }
+    function handleMakeChange(event){
+        setMake(event.target.value);
+    }
+    function handleModelChange(event){
+        setModel(event.target.value);
+    }
+
+    function deleteCar(i) {
+        setCars(prevCars => prevCars.filter((_, index) => index !== i));
+    }
+
+
+    return(
+        <div>
+            <h1>List of Cars</h1>
+            <ul>
+                {
+                    cars.map((car,index) => 
+                        <li onClick={() => deleteCar(index)} className="shadow-lg bg-white m-1 p-2 rounded-lg hover:bg-red-100 cursor-pointer" key={index}>
+                            {car.year} {car.make} {car.model}
+                        </li>
+                    )
+                }
+            </ul>
+
+            <div className="bg-blue-200">
+                <input id="year" onChange={handleYearChange} className="m-1 p-1" type="number" placeholder="Enter year" value={carYear}/><br />
+                <input id="make" onChange={handleMakeChange} className="m-1 p-1" type="text" placeholder="Enter Make"/><br />
+                <input id="model" onChange={handleModelChange} className="m-1 p-1" type="text" placeholder="Enter Model"/><br />
+
+                <button onClick={handleCarChange} className="m-1 p-2 rounded-lg bg-yellow-300 hover:bg-yellow-400 text-black font-bold">Add</button>
+            </div>
+        </div>
+    );
+}
+```
+
+![obj](Images/JS/React/obj_state_4.png)
+
+# Project : To do list
+
+[Youtube tutorial](https://www.youtube.com/watch?v=9wiWzu_tRB0&list=PLZPZq0r_RZOMQArzyI32mVndGBZ3D99XQ&index=15&pp=iAQB)
+
+# useEffect() hook
+
+*useEffect() = React Hook that tells React DO SOME CODE WHEN (pick one):
+  *This component re-renders
+  *This component mounts
+  *The state of a value
+
+useEffect(function, [dependencies])
+
+1. useEffect(() => {})                 // Runs after every re-render
+2. useEffect(() => {}, [])             // Runs only on mount
+3. useEffect(() => {}, [value])        // Runs on mount + when value changes
+
+USES
+*1 Event Listeners
+*2 DOM manipulation
+*3 Subscriptions (real-time updates)
+*4 Fetching Data from an API
+*5 Clean up when a component unmounts
