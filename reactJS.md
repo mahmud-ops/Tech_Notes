@@ -1899,3 +1899,193 @@ USES
 3. Subscriptions (real-time updates)
 4. Fetching Data from an API
 5. Clean up when a component unmounts
+
+## Running after every re-render
+
+We won't need to add `dependencies`
+
+```jsx
+useEffect(function);
+```
+
+**Application**
+
+Made a basic counter program.. 
+```jsx
+import { useState } from "react";
+
+export default function Count(){
+    
+    const [count,setCount] = useState(0);
+    
+    function handleAdd(){
+        setCount(count+1);
+    }
+
+    function handleReset(){
+        setCount(0);
+    }
+
+    function handleSub(){
+        setCount(count-1);
+    }
+
+
+    return(
+        <div>
+            <h1 className="text-5xl text-center">{count}</h1>
+
+            <div className="mx-auto w-fit">
+                <button onClick={handleSub}>Subtract</button>
+                <button onClick={handleReset}>Reset</button>
+                <button onClick={handleAdd}>Add</button>
+            </div>
+        </div>
+    );
+}
+```
+
+![1](Images/JS/React/useEffect_1.png)
+
+Here, the title is **Vite + React**, I want it to change with the number , when the number re-renders.
+
+```jsx
+useEffect(() => {
+  document.title = `Count : ${count}`
+})
+```
+
+![2](Images/JS/React/useEffect_2.png)
+
+## Run only on mount
+
+We need to add the section for dependecies but keep it empty.
+
+```jsx
+useEffect(function,[/*dependencies (empty)*/])
+```
+In React.js, “run on only mount” usually refers to code (like a function or effect) that should run only once when the component is first rendered — not again on updates or re-renders.
+
+How to do it:
+
+You use `useEffect()` with an empty dependency array:
+
+```jsx
+import { useEffect } from 'react';
+
+useEffect(() => {
+  // This runs only once, on mount
+  console.log('Component mounted');
+}, []);
+```
+
+Why it's useful:
+- Fetching data once
+- Setting up event listeners
+- Starting animations or timers
+
+If you add dependencies in the array, it’ll re-run when they change — so keeping it empty means "run on mount only."
+
+```jsx
+import { useEffect, useState } from "react";
+
+export default function Count(){
+    
+    const [count,setCount] = useState(0);
+    
+    useEffect(() => {
+        document.title = `Count : ${count}`
+    },[])
+
+    function handleAdd(){
+        setCount(count+1);
+    }
+
+    function handleReset(){
+        setCount(0);
+    }
+
+    function handleSub(){
+        setCount(count-1);
+    }
+
+
+    return(
+        <div>
+            <h1 className="text-5xl text-center">{count}</h1>
+
+            <div className="mx-auto w-fit">
+                <button onClick={handleSub}>Subtract</button>
+                <button onClick={handleReset}>Reset</button>
+                <button onClick={handleAdd}>Add</button>
+            </div>
+        </div>
+    );
+}
+```
+Here , the title got updated only once , only on mount.
+
+![Image](Images/JS/React/useEffect_3.png)
+
+## Run on mount and when value changes
+```jsx
+useEffect(function,[value]);
+```
+```jsx
+import { useEffect, useState } from "react";
+
+export default function Count(){
+    
+    const [count,setCount] = useState(0);
+    const [color,setColor] = useState("black");
+    
+    useEffect(() => {
+        document.title = `Count : ${count} | Color : ${color}`;
+    },[count, color]);
+
+    function handleAdd(){
+        setCount(count+1);
+    }
+
+    function handleReset(){
+        setCount(0);
+    }
+
+    function handleSub(){
+        setCount(count-1);
+    }
+
+    function handleColor(){
+        // simple toggle example
+        setColor(c => c === "red" ? "blue" : "red");
+    }
+
+    return(
+        <div>
+            <h1 className="text-5xl text-center" style={{color: color}}>
+                {count}
+            </h1>
+
+            <div className="mx-auto w-fit space-x-2">
+                <button onClick={handleSub}>Subtract</button>
+                <button onClick={handleReset}>Reset</button>
+                <button onClick={handleAdd}>Add</button>
+            </div>
+
+            <div className="flex mt-4">
+                <button className="mx-auto" onClick={handleColor}>
+                    Change color
+                </button>
+            </div>
+        </div>
+    );
+}
+```
+
+![img](Images/JS/React/useEffect_4.png)
+
+Here the text in the title changes with respect to the values passed in `useEffect`.
+
+**Experiment**
+
+Title changes with respect to the width and height of the display
