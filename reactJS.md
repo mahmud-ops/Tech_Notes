@@ -1,3 +1,6 @@
+There's an advanced version , with bigger projects 
+[link](jasdfla)
+
 **React JS (by Bro code)**
 
 
@@ -6,6 +9,7 @@ I won't make the mini projects , i'll just provide the yt tutorial.
 I'll just use the knowledge and make a bunch big projects on my own.
 
 * [To do list](#project--to-do-list)
+* [Digital clock](#project--digital-clock)
 
 <i style = "color:red">A specific amount of images got deleted due to some technical error, sorry for the inconvenience </i>
 
@@ -2089,3 +2093,318 @@ Here the text in the title changes with respect to the values passed in `useEffe
 **Experiment**
 
 Title changes with respect to the width and height of the display
+
+```jsx
+import { useState, useEffect } from "react";
+
+export default function Size() {
+
+  const[height,setHeight] = useState(window.innerHeight);
+  const[width,setWuidth] = useState(window.innerWidth);
+
+  function handleRisize(){
+      setWuidth(window.innerWidth);
+      setHeight(window.innerHeight);
+  }
+
+  useEffect(() => {
+    window.addEventListener("resize",handleRisize);
+  },[]);
+
+  return (
+    <div>
+      <h1>Height : {height}px</h1>
+      <h1>Width : {width}px</h1>
+    </div>
+  );
+}
+```
+
+**Why should we use useEffect , why not `event listener` ?**
+
+Let's use event listener...
+
+```jsx
+  function handleRisize(){
+      setWuidth(window.innerWidth);
+      setHeight(window.innerHeight);
+
+      console.log("Event Listener Added"); // Log messege
+  }
+
+  window.addEventListener("resize",handleRisize);
+```
+
+*Changed screen size a little bit.*
+
+![image](Images/js/React/useEffect_5.png)
+
+This takes up so much space in the ram.
+
+**Now, let's use `useEffect`**
+
+This calls the event only once on every re-render.
+
+```jsx
+function handleRisize() {
+  setWuidth(window.innerWidth);
+  setHeight(window.innerHeight);
+}
+
+useEffect(() => {
+  window.addEventListener("resize", handleRisize);
+  console.log("Event Listener Added"); // Log.
+}, []);
+```
+
+![img](Images/JS/React/useEffect_6.png)
+
+*Much better ☺️*
+
+**Wait.. We gotta clean up the event after we unmount the component**
+
+```jsx
+useEffect(() => {
+    window.addEventListener("resize", handleRisize);
+    console.log("Event Listener Added"); // Log.
+
+
+    // Clean up
+    return () => {
+      window.removeEventListener("resize",handleRisize);
+      console.log("Event listener removed");
+    }
+  }, []);
+```
+
+# Project : Digital clock
+
+# useContext() hook
+
+Let’s create a component inside another component, which will be inside another component, and that one inside yet another component.
+
+```
+component 1 > component 2 > component 3 > component 4
+```
+
+**App.jsx**
+```jsx
+import Component_1 from "./component_1";
+
+export default function App(){
+  return (
+    <Component_1/>
+  );
+}
+```
+
+**Component_1.jsx**
+```jsx
+import Component_2 from "./component_2";
+
+export default function Component_1() {
+  return (
+    <div class="max-w-md mx-auto p-4 bg-white/90 border-2 border-gray-300 rounded-2xl shadow-md">
+        <h1 class="text-xl font-semibold">Component 1</h1>
+        <Component_2/>
+    </div>
+  );
+}
+```
+
+**component_2.jsx**
+```jsx
+import Component_3 from "./component_3";
+
+export default function Component_2() {
+  return (
+    <div class="max-w-md mx-auto p-4 bg-white/90 border-2 border-gray-300 rounded-2xl shadow-md">
+        <h1 class="text-xl font-semibold">Component 2</h1>
+        <Component_3/>
+    </div>
+  );
+}
+```
+
+Repeat similarly...
+
+![context_1](Images/JS/React/context_1.png)
+
+
+Now add prop in comp-1 and then pass it to comp-4...
+
+* in component_1 you create state `user` and pass it to component_2 using `user={user}`
+* component_2 receives it as `props.user` and passes it further to component_3 with `user={props.user}`
+* component_3 receives it as `props.user` and passes it further to component_4 with `user={props.user}`
+* component_4 finally uses `props.user` to render "Bye Mahmud"
+* this pattern is called **`prop drilling`**: one piece of data (`user`) is passed through multiple layers until the component that needs it consumes it
+
+```jsx
+// 1
+import { useState } from "react";
+import Component_2 from "./component_2";
+
+
+export default function Component_1() {
+  const [user,setUser] = useState("Mahmud");
+  return (
+    <div class="max-w-md mx-auto p-4 bg-white/90 border-2 border-gray-300 rounded-2xl shadow-md">
+        <h1 class="text-xl font-semibold">Component 1</h1>
+        <h2>{`Hello ${user}`}</h2>
+        <Component_2 user = {user}/>
+    </div>
+  );
+}
+
+
+// 2
+import Component_3 from "./component_3";
+
+export default function Component_2(props) {
+  return (
+    <div class="max-w-md mx-auto p-4 bg-white/90 border-2 border-gray-300 rounded-2xl shadow-md">
+        <h1 class="text-xl font-semibold">Component 2</h1>
+        <Component_3 user = {props.user}/>
+    </div>
+  );
+}
+
+
+// 3
+import Component_4 from "./component_4";
+
+export default function Component_3(props) {
+  return (
+    <div class="max-w-md mx-auto p-4 bg-white/90 border-2 border-gray-300 rounded-2xl shadow-md">
+      <h1 class="text-xl font-semibold">Component 3</h1>
+      <Component_4 user = {props.user}/>
+    </div>
+  );
+}
+
+
+// 4
+export default function Component_4(props) {
+  return (
+    <div class="max-w-md mx-auto p-4 bg-white/90 border-2 border-gray-300 rounded-2xl shadow-md">
+      <h1 class="text-xl font-semibold">Component 4</h1>
+      <h2>{`Bye ${props.user}`}</h2>
+    </div>
+  );
+}
+```
+
+![context_2](Images/JS/React/context_2.png)
+
+* **if you remove the prop in one middle component** (say component_2 doesn’t forward `user`), then component_3 won’t receive it
+* since component_3 relies on `props.user` to pass it down to component_4, both component_3 and component_4 will get `undefined` instead of `"Mahmud"`
+* result → the final render in component_4 would show `Bye undefined`
+* so, unless you pass it at every step, the value won’t reach the deepest child
+* this is exactly why state managers (context, redux, zustand) are often used → to avoid manually drilling props through layers
+
+**So, we're gonna use `context` to avoid manually drilling props through layers.**
+
+`useContext()` = React Hook that allows you to share values
+
+between multiple levels of components
+
+without passing props through each level
+
+PROVIDER COMPONENT (It'll be `component_1` in this case)
+
+```jsx
+1. import {createContext} from 'react';
+2. export const MyContext = createContext();
+3. <MyContext.Provider value={value}>
+     <Child />
+   </MyContext.Provider>
+```
+
+CONSUMER COMPONENTS (It'll be `component_4` in this case)
+
+```jsx
+1. import React, { useContext } from 'react';
+   import { MyContext } from './ComponentA';
+2. const value = useContext(MyContext);
+```
+
+**Code**
+
+```jsx
+// 1
+import { createContext, useState } from "react";
+import Component_2 from "./component_2";
+
+// Create a context with default value "Mahmud"
+// This context will be used by all nested components to access the 'user' value
+export const myContext = createContext("Mahmud");
+
+export default function Component_1() {
+  const [user,setUser] = useState("Mahmud"); // State that we want to share via context
+  return (
+    <div class="max-w-md mx-auto p-4 bg-white/90 border-2 border-gray-300 rounded-2xl shadow-md">
+        <h1 class="text-xl font-semibold">Component 1</h1>
+        <h2>{`Hello ${user}`}</h2>
+
+        {/* Provider wraps child components to give them access to 'user' via context */}
+        <myContext.Provider value={user}>
+          <Component_2 /> {/* Component_2 and all its descendants can now consume 'user' */}
+        </myContext.Provider>
+    </div>
+  );
+}
+
+
+// 2
+import { useContext } from "react";
+import { myContext } from "./component_1";
+import Component_3 from "./component_3";
+
+export default function Component_2() { // don't need to pass 'props' anymore
+  // useContext reads the nearest Provider above in the tree and returns its 'value'
+  const user = useContext(myContext); 
+  return (
+    <div class="max-w-md mx-auto p-4 bg-white/90 border-2 border-gray-300 rounded-2xl shadow-md">
+        <h1 class="text-xl font-semibold">Component 2</h1>
+        <p>User in Component 2: {user}</p> {/* Displays value from context */}
+        <Component_3 /> {/* Component_3 can also consume the same context */}
+    </div>
+  );
+}
+
+
+// 3
+import { useContext } from "react";
+import { myContext } from "./component_1";
+import Component_4 from "./component_4";
+
+export default function Component_3() {
+  const user = useContext(myContext); // Still gets the same 'user' from Component_1's Provider
+  return (
+    <div class="max-w-md mx-auto p-4 bg-white/90 border-2 border-gray-300 rounded-2xl shadow-md">
+      <h1 class="text-xl font-semibold">Component 3</h1>
+      <p>User in Component 3: {user}</p> {/* Same value as Component_2 */}
+      <Component_4 /> {/* Component_4 also consumes context */}
+    </div>
+  );
+}
+
+
+// 4
+import { useContext } from "react";
+import { myContext } from "./component_1";
+
+export default function Component_4() {
+  const user = useContext(myContext); // Still reading the same context value
+  return (
+    <div class="max-w-md mx-auto p-4 bg-white/90 border-2 border-gray-300 rounded-2xl shadow-md">
+      <h1 class="text-xl font-semibold">Component 4</h1>
+      <h2>{`Bye ${user}`}</h2> {/* Can use context anywhere inside Provider */}
+    </div>
+  );
+}
+
+```
+
+![Context_3](Images/JS/React/context_3.png)
+
