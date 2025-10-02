@@ -2409,7 +2409,3 @@ export default function Component_4() {
 
 ![Context_3](Images/JS/React/context_3.png)
 
-=======
-Title changes with respect to the width and height of the displayBadge test commit
-Second PR for badge
->>>>>>> refs/remotes/origin/master
