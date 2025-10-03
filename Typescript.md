@@ -162,8 +162,6 @@ tsc -w
 
 This watches files and re-compiles automatically.
 
----
-
 **⚡ Quick sanity check flow:**
 
 ```bash
@@ -253,11 +251,6 @@ function logMessage(message: string): void {
 
 Here, `void` indicates the function does not return any value.
 
-Got it — here’s the continuation in the same **.md style** with no fluff, straight explanations, fixed spellings, and minimal clean code.
-
----
-
-````md
 ## Optional and default parameter
 In TypeScript, function parameters can be marked as optional with `?` or given default values. This makes functions more flexible while maintaining type safety.
 
@@ -342,7 +335,7 @@ function throwError(message: string): never {
 function infiniteLoop(): never {
   while (true) {}
 }
-````
+```
 
 `void` means no return, while `never` means the function does not even complete normally.
 
@@ -516,3 +509,212 @@ btn.addEventListener("click", (event: MouseEvent) => {
 ```
 
 Built-in interfaces expose the properties and methods available on these objects, ensuring proper usage and autocomplete support.
+
+# Interface vs Type aliases
+
+1. Declaration syntax 
+
+Interfaces are declared using the `interface` keyword, while type aliases use the `type` keyword. Interfaces are best for describing object shapes, and type aliases can describe objects, primitives, unions, intersections, and more.
+
+```ts
+interface User {
+  id: number
+  name: string
+}
+
+type UserAlias = {
+  id: number
+  name: string
+}
+```
+2. Extensibility
+
+   Interfaces are extendable, meaning they can be reopened and merged. Type aliases cannot be reopened once defined, but they can use intersections to achieve a similar effect.
+
+```ts
+interface Person {
+  name: string
+}
+interface Person {
+  age: number
+}
+let p: Person = { name: "Mahmud", age: 20 }
+
+type Employee = { id: number }
+// type Employee = { role: string } // error, redeclaration not allowed
+type Staff = Employee & { role: string }
+```
+
+3. Compatibility
+
+   Both interfaces and type aliases are compatible with structural typing in TypeScript. However, interfaces are more natural for defining contracts in large systems, while type aliases shine for unions and complex combinations.
+
+```ts
+interface Point { x: number; y: number }
+type PointAlias = { x: number; y: number }
+
+let a: Point = { x: 1, y: 2 }
+let b: PointAlias = { x: 3, y: 4 }
+```
+
+Both are interchangeable in most object cases.
+
+4. Readability and style
+
+   Interfaces are more readable and intuitive for defining shapes of objects and classes. Type aliases are concise and flexible for advanced cases like unions or tuples. Team conventions often decide which one to prefer.
+
+```ts
+interface Shape {
+  draw(): void
+}
+
+type Result = "success" | "failure"
+```
+
+**Conclusion**
+
+Interfaces are the go-to for describing object contracts, especially in modular development and OOP-style designs. Type aliases are better for complex combinations, unions, intersections, and cases beyond objects. Both tools overlap, and the choice often depends on readability and team standards.
+
+since I already have a C++ OOP note in this repo, I’ll explain the **TypeScript class concepts** with direct parallels to C++ so you can map them quickly. Code snippets will be minimal but clear.
+
+# Class
+
+**C++ OOP repo ⇒ [C++OOP.md](./C++OOP.md)**
+
+In TypeScript, classes work similarly to C++: they define blueprints for creating objects with properties and methods. The syntax is closer to modern JavaScript but supports type safety and OOP features.
+
+```ts
+class User {
+  name: string
+  constructor(name: string) {
+    this.name = name
+  }
+  greet(): void {
+    console.log(`Hello ${this.name}`)
+  }
+}
+let u = new User("Mahmud")
+u.greet()
+```
+
+## Access modifiers
+
+Like C++, TypeScript supports `public`, `private`, and `protected`. By default, members are `public`.
+
+```ts
+class Person {
+  public name: string
+  private age: number
+  protected role: string
+
+  constructor(name: string, age: number, role: string) {
+    this.name = name
+    this.age = age
+    this.role = role
+  }
+}
+```
+
+* `public`: accessible everywhere (default).
+* `private`: accessible only inside the class. (similar to C++ `private`).
+* `protected`: accessible inside the class and its subclasses. (like C++ `protected`).
+
+## Class accessors / getters and setters
+
+Like C++ getters/setters, TypeScript uses `get` and `set`. They look like properties but actually call functions.
+
+```ts
+class Account {
+  private _balance: number = 0
+
+  get balance(): number {
+    return this._balance
+  }
+
+  set balance(amount: number) {
+    if (amount >= 0) this._balance = amount
+  }
+}
+let acc = new Account()
+acc.balance = 100
+console.log(acc.balance)
+```
+
+Same concept as `getBalance()` and `setBalance()` in C++, but more property-like.
+
+## Class static members
+
+Static members in TypeScript work like C++ `static` variables and methods. They belong to the class, not the instance.
+
+```ts
+class MathHelper {
+  static PI: number = 3.1416
+  static square(n: number): number {
+    return n * n
+  }
+}
+console.log(MathHelper.PI)
+console.log(MathHelper.square(5))
+```
+
+No need to create objects, just call with the class name (like C++).
+
+## Class implement interface
+
+Like C++ classes implementing abstract base classes, in TypeScript you use `implements` for interfaces.
+
+```ts
+interface Drawable {
+  draw(): void
+}
+
+class Circle implements Drawable {
+  draw(): void {
+    console.log("Drawing circle")
+  }
+}
+```
+
+C++ equivalent would be inheriting from a pure virtual class.
+
+## Abstract classes and members
+
+Similar to C++ abstract base classes with pure virtual functions. Cannot be instantiated directly.
+
+```ts
+abstract class Shape {
+  abstract area(): number
+}
+
+class Square extends Shape {
+  constructor(private side: number) { super() }
+  area(): number {
+    return this.side * this.side
+  }
+}
+```
+
+If a subclass doesn’t implement the abstract method, it will give an error.
+
+## Polymorphism and method overriding
+
+Polymorphism works like in C++. Subclasses can override parent class methods, and calls are resolved based on the object instance.
+
+```ts
+class Animal {
+  speak(): void {
+    console.log("Generic sound")
+  }
+}
+
+class Dog extends Animal {
+  speak(): void {
+    console.log("Bark")
+  }
+}
+
+let a: Animal = new Dog()
+a.speak() // Bark
+```
+
+This is runtime polymorphism, same as overriding virtual methods in C++.
