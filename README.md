@@ -16,3 +16,4 @@ A collection of my technical and academic notes in Markdown.
 - [Typscript.md](./Typescript.md)
 - [cp_rules_of_survival.md](./cp_rules_of_survival.md)  
 - [reactJS.md](./reactJS.md) 
+- [react_with_TS.md](./React_with_TS.md)

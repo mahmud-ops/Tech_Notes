@@ -2409,3 +2409,4 @@ export default function Component_4() {
 
 ![Context_3](Images/JS/React/context_3.png)
 
+Now.. proceed to advanced note : **[React JS with typescript (By Mosh)](./React_with_TS.md)**

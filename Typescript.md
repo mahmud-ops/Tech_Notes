@@ -729,7 +729,7 @@ function identity<T>(value: T): T {
 
 console.log(identity<string>("hello"))
 console.log(identity<number>(101))
-````
+```
 
 Instead of writing separate functions for each type, generics let you use one flexible function.
 
@@ -815,4 +815,4 @@ Another syntax:
 let length = (<string>someValue).length
 ```
 
-Use type assertions when you know more than the compiler about the type, but be cautious since misuse can break safety. 
+Use type assertions when you know more than the compiler about the type, but be cautious since misuse can break safety.
