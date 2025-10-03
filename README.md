@@ -12,6 +12,7 @@ A collection of my technical and academic notes in Markdown.
 - [C++STL.md](./C++STL.md)   
 - [Golang.md](./Golang.md)   
 - [How_to_write_,md_files.md](./How_to_write_,md_files.md)  
-- [JavaScript.md](./JavaScript.md)    
+- [JavaScript.md](./JavaScript.md)
+- [Typscript.md](./Typescript.md)
 - [cp_rules_of_survival.md](./cp_rules_of_survival.md)  
 - [reactJS.md](./reactJS.md) 
