@@ -718,3 +718,101 @@ a.speak() // Bark
 ```
 
 This is runtime polymorphism, same as overriding virtual methods in C++.
+
+# Generics
+Generics in TypeScript are similar to C++ templates. They allow writing reusable code that works with different types without sacrificing type safety.
+
+```ts
+function identity<T>(value: T): T {
+  return value
+}
+
+console.log(identity<string>("hello"))
+console.log(identity<number>(101))
+````
+
+Instead of writing separate functions for each type, generics let you use one flexible function.
+
+## Generics multiple types
+
+Functions or classes can accept multiple type parameters. Like C++ templates with multiple arguments.
+
+```ts
+function pair<T, U>(first: T, second: U): [T, U] {
+  return [first, second]
+}
+
+let p = pair<string, number>("Mahmud", 20)
+console.log(p) // ["Mahmud", 20]
+```
+
+This allows strong typing even when combining different data types.
+
+## Generic classes
+
+Generic classes are similar to C++ template classes. They work with multiple types but remain type-safe.
+
+```ts
+class Box<T> {
+  private value: T
+  constructor(value: T) {
+    this.value = value
+  }
+  getValue(): T {
+    return this.value
+  }
+}
+
+let numBox = new Box<number>(100)
+let strBox = new Box<string>("Mahmud")
+
+console.log(numBox.getValue())
+console.log(strBox.getValue())
+```
+
+The class can store any type while ensuring correctness.
+
+## Generics and interfaces
+
+Interfaces can use generics just like classes. This helps define flexible contracts.
+
+```ts
+interface Repository<T> {
+  add(item: T): void
+  getAll(): T[]
+}
+
+class MemoryRepo<T> implements Repository<T> {
+  private items: T[] = []
+  add(item: T): void {
+    this.items.push(item)
+  }
+  getAll(): T[] {
+    return this.items
+  }
+}
+
+let repo = new MemoryRepo<string>()
+repo.add("Mahmud")
+repo.add("Nabiha")
+console.log(repo.getAll())
+```
+
+This is like a generic C++ interface using pure virtual template methods.
+
+## Type assertion
+
+Type assertions tell the compiler to treat a value as a specific type. Similar to C++ casting, but only checked at compile time (no runtime changes).
+
+```ts
+let someValue: unknown = "Mahmud"
+let strLength: number = (someValue as string).length
+```
+
+Another syntax:
+
+```ts
+let length = (<string>someValue).length
+```
+
+Use type assertions when you know more than the compiler about the type, but be cautious since misuse can break safety. 
