@@ -49,3 +49,258 @@ export default App;
 ```
 ![icon2](Images/JS/React/card_icon_2.png)
 
+# Managing component state
+skipped some stuff : [Check skipped parts](./reactJS.md/#usestate)
+
+## State Hook
+
+`useState` lets a component **store and manage dynamic data** that persists across re-renders, like counters, form inputs, or fetched data.
+
+```javascript
+const [count, setCount] = useState(0);
+```
+
+
+
+## Asynchronous Updates
+
+React **updates state asynchronously**, meaning changes are **queued and applied before the next render**, not instantly.
+
+```javascript
+setCount(count + 1);  // Queued update
+console.log(count);   // Might still log old value
+```
+
+
+
+## State Storage
+
+State is **stored outside the component function**, so React can **remember it between renders**.
+
+
+## Top-Level Hook Usage
+
+Hooks **must be used at the top level** of the component. You **cannot call them inside loops, conditions, or nested functions** because React relies on the **order of hook calls** to maintain state.
+
+```javascript
+function Counter() {
+  const [count, setCount] = useState(0); // ✅ top-level
+
+  return (
+    <button onClick={() => setCount(count + 1)}>{count}</button>
+  );
+}
+```
+
+# Best Practices for State
+
+## Avoid Redundant State Variables
+
+Only store in state what **truly needs to trigger a re-render**. Avoid duplicating values that can be derived from existing state or props. Storing redundant data not only wastes memory but can also lead to inconsistencies and bugs.
+
+**Example – Wrong:**
+
+```javascript
+const [firstName, setFirstName] = useState('John');
+const [fullName, setFullName] = useState('John Doe'); // redundant
+```
+
+Here, `fullName` can be computed from `firstName` and `lastName`. Storing it separately is unnecessary.
+
+**Example – Right:**
+
+```javascript
+const [firstName, setFirstName] = useState('John');
+const [lastName, setLastName] = useState('Doe');
+
+// fullName can be derived
+const fullName = `${firstName} ${lastName}`;
+```
+
+This way, you keep your state minimal, reduce bugs, and ensure easier maintenance.
+
+---
+
+## Group Related Variables Inside an Object
+
+When you have multiple related state variables, combine them into a **single object**. This makes state management easier, especially when updating multiple properties together.
+
+**Example – Wrong:**
+
+```javascript
+const [name, setName] = useState('');
+const [email, setEmail] = useState('');
+const [password, setPassword] = useState('');
+```
+
+Updating related fields separately can become repetitive and messy.
+
+**Example – Right:**
+
+```javascript
+const [form, setForm] = useState({ name: '', email: '', password: '' });
+
+// Update only the name
+setForm({ ...form, name: 'John' });
+
+// Update multiple fields together
+setForm({ ...form, email: 'john@example.com', password: '123456' });
+```
+
+Using a single object also makes it easier to pass the entire state around to components or functions.
+
+---
+
+## Avoid Deeply Nested Structures
+
+Deeply nested state objects make updates **complex, error-prone, and harder to debug**. Flatten your state whenever possible.
+
+**Example – Wrong:**
+
+```javascript
+const [user, setUser] = useState({
+  profile: { firstName: '', lastName: '', address: { city: '', country: '' } }
+});
+
+// Updating city
+setUser({
+  ...user,
+  profile: { 
+    ...user.profile, 
+    address: { ...user.profile.address, city: 'New York' } 
+  }
+});
+```
+
+This approach is verbose, repetitive, and can easily lead to mistakes.
+
+**Example – Right:**
+
+```javascript
+const [user, setUser] = useState({
+  firstName: '',
+  lastName: '',
+  city: '',
+  country: ''
+});
+
+// Updating city
+setUser({ ...user, city: 'New York' });
+```
+
+Flattening the state structure simplifies updates, reduces errors, and improves readability.
+
+# Updating objects
+
+![img](Images/JS/React/obj_state_5.png)
+
+```tsx
+import { useState } from "react";
+
+export default function Car() {
+  const [car, setCar] = useState({
+    name: "Bugatti",
+    price: 36000,
+    speed: 300,
+  });
+
+  function handleClick() {
+    let newSpeed = car.speed - 1;
+    setCar({...car,speed : newSpeed});
+  }
+
+  return (
+    <>
+      <h1 className="text-4xl font-extrabold">{car.name}</h1>
+      <p>{car.price} USD</p>
+      <p>{car.speed} mph</p>
+      <button onClick={handleClick} className="btn m-4">
+          Decrease speed
+      </button>
+    </>
+  );
+}
+```
+**Explanation**
+
+You’re building a small React component that shows a **car’s details** — its name, price, and speed. When you click the button, the car’s **speed decreases by 1** using the `useState` hook.
+
+---
+
+**Step 1 – Importing `useState`**
+
+```js
+import { useState } from "react";
+```
+
+`useState` lets your component **remember data between renders**. Without it, values would reset every time the page updates.
+
+---
+
+**Step 2 – Setting up the state**
+
+```js
+const [car, setCar] = useState({
+  name: "Bugatti",
+  price: 36000,
+  speed: 300,
+});
+```
+
+* **car** → the current state object that holds all the car info.
+* **setCar** → the function that updates this state.
+* The object inside `useState()` is the **initial data**.
+
+At the beginning, the value of `car` is
+`{ name: "Bugatti", price: 36000, speed: 300 }`.
+
+---
+
+**Step 3 – Updating speed on click**
+
+```js
+function handleClick() {
+  let newSpeed = car.speed - 1;
+  setCar({ ...car, speed: newSpeed });
+}
+```
+
+Here’s what’s happening:
+
+* `car.speed - 1` reduces the current speed by one.
+* `{ ...car }` copies all the existing key-value pairs from the car object.
+* `speed: newSpeed` replaces only the speed value.
+
+After one click, the new state becomes
+`{ name: "Bugatti", price: 36000, speed: 299 }`.
+All other properties stay the same because of the spread operator.
+
+---
+
+**Step 4 – Displaying the state**
+
+```jsx
+<h1>{car.name}</h1>
+<p>{car.price} USD</p>
+<p>{car.speed} mph</p>
+```
+
+Each time the state updates, React **automatically re-renders** and shows the new data on the screen.
+
+---
+
+**Step 5 – The button**
+
+```jsx
+<button onClick={handleClick}>Decrease speed</button>
+```
+
+When the button is clicked, React calls `handleClick`, updates the state with `setCar`, and triggers a re-render with the new speed.
+
+---
+
+**Key takeaway:**
+In React, when your state is an object, using `{ ...car, property: newValue }` ensures that only the changed property updates while the rest remain intact.
+
+Without spreading, something like `setCar({ speed: 250 })` would delete the other properties (`name` and `price`).
+Using the spread operator keeps everything else safe while changing just what you need.
