@@ -304,3 +304,412 @@ In React, when your state is an object, using `{ ...car, property: newValue }` e
 
 Without spreading, something like `setCar({ speed: 250 })` would delete the other properties (`name` and `price`).
 Using the spread operator keeps everything else safe while changing just what you need.
+
+## Updating nested objects
+
+````md
+**React useState and Nested Object Updates 🚗**  
+---
+
+**1. State Initialization (The car Object)**  
+The component initializes its state with **useState**, where **car** is a nested object.  
+
+**JavaScript**
+```js
+const [car, setCar] = useState({
+  brand: { // <- Nested Object
+    make: "Pagani",
+    name: "zonda-7"
+  },
+  color: "Black" // <- Top-level property
+});
+````
+
+* **car:** Holds the current state.
+* **setCar:** Updates the state and triggers re-rendering.
+
+---
+
+**2. Updating Nested State Immutably**
+The **changeCar** function shows how to correctly update both **top-level** and **nested** properties without mutating the original state.
+React state must always be replaced with a **new object**, or it won’t detect the change.
+
+**JavaScript**
+
+```js
+function changeCar(){
+  setCar({
+    // 1. Copy all properties from the current 'car' state
+    ...car, 
+    
+    // 2. Update the top-level property 'color'
+    color: car.color === "Black" ? "Red" : "Black",
+    
+    // 3. Re-create the nested 'brand' object 
+    //    so React detects the change.
+    brand: {
+      make: car.brand.make === "Pagani" ? "Bugatti" : "Pagani",
+      name: car.brand.name === "Chiron" ? "Zonda-7" : "Chiron"
+    }
+  });
+}
+```
+
+**Key Concept: The Spreading Rule 💡**
+When updating a nested property, spread every level of the object hierarchy to maintain immutability.
+
+Example: updating **brand.make** safely
+
+```js
+setCar({
+  ...car,                // Create new car object
+  brand: {
+    ...car.brand,        // Create new brand object (safe for partial updates)
+    make: newValue
+  }
+});
+```
+
+---
+
+**3. Using the Ternary Operator for Toggling**
+The **ternary operator**
+*(condition ? valueIfTrue : valueIfFalse)*
+simplifies binary state switches.
+
+| **Property** | **Condition**               | **If True** | **If False** |
+| ------------ | --------------------------- | ----------- | ------------ |
+| color        | car.color === "Black"       | "Red"       | "Black"      |
+| brand.make   | car.brand.make === "Pagani" | "Bugatti"   | "Pagani"     |
+
+This approach keeps the update logic clean and minimal.
+
+
+**4. Component Structure**
+The component displays the car’s **make**, **name**, and **color**, along with a button that calls **changeCar()**.
+When clicked, React re-renders the component with updated state — showing how **state changes instantly reflect in the UI**.
+
+**Final code**
+```tsx
+import { useState } from "react";
+
+export default function Car(){
+   
+  const [car, setCar] = useState({
+    brand: {
+      make: "Pagani",
+      name: "zonda-7"
+    },
+    color: "Black"
+  });
+
+
+  function changeCar(){
+    setCar({
+      ...car,
+      color: car.color === "Black" ? "Red" : "Black",
+      brand: {
+        make:car.brand.make === "Pagani" ? "Bugatti" : "Pagani",
+        name:car.brand.name === "Chiron" ? "Zonda-7" : ""
+      }
+    });
+  }
+
+  return (
+    <>
+      <div className="m-4">
+        <h1 className="font-extrabold">{car.brand.make + " " +car.brand.name}</h1>
+        <p>{"Color: " + car.color}</p>
+      </div>
+      <button className="btn" onClick={changeCar}>Change</button>
+    </>
+  );
+}
+```
+
+# Updating array
+
+**Here's an example code , updating an array**
+Hope you'll get it..
+
+```jsx
+import { useState } from "react";
+
+export default function Array() {
+  const [cars, setCars] = useState(["Honda", "Ford"]);
+  const [newCar, setNewCar] = useState("");
+
+  function handleClick() {
+    if (newCar.trim() === "") return; // ignore empty
+    setCars([...cars, newCar]);
+    setNewCar(""); // reset input
+  }
+
+  return (
+    <>
+      <div className="flex gap-2 mb-4">
+        <input
+          type="text"
+          value={newCar}
+          onChange={(e) => setNewCar(e.target.value)}
+          className="input border p-2 rounded w-full"
+          placeholder="Enter a car name..."
+        />
+        <button
+          className="button bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
+          onClick={handleClick}
+        >
+          Add
+        </button>
+      </div>
+
+      <ul className="list space-y-2">
+        {cars.map((car, index) => (
+          <li
+            key={index}
+            className="p-2 rounded bg-gray-100 hover:bg-gray-200 transition-colors duration-200 text-center"
+          >
+            {car}
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
+```
+
+![arrObj](Images/JS/React/array_state.png)
+
+# Updating array of objects
+
+There will be a button, and when we click it, the object will update.
+
+We have to make the bug with `id: 1` **Fixed**
+
+```jsx
+import { useState } from "react";
+
+export default function Array() {
+
+    const [bug,setbug] = useState([
+        {id: 1,title: "Bug 1",fixed: false},
+        {id: 2,title: "Bug 2",fixed: false}
+    ]);
+
+    function handleClick(){
+        
+        // map the bug array to find which bug has id 1 and then fix it.
+        setbug(
+            bug.map(bug => bug.id === 1 ? {...bug,fixed : true} : bug)
+        );
+    }
+
+  return (
+    <div className="p-4">
+        <p>{bug[0].title} {bug[0].fixed === true ? "is fixed" : "is not fixed"}</p>
+        <p>{bug[1].title} {bug[1].fixed === true ? "is fixed" : "is not fixed"}</p>
+        <button className="button" onClick={handleClick}>Click me</button>      
+    </div>
+  );
+}
+```
+![img](Images/JS/React/bug_1.png)
+
+# Simplifying update logic with `immer`
+
+If you know **C++ OOP**, you’ll get this quick.
+
+## Setup
+
+```bash
+npm i immer@latest
+```
+
+## **What is Immer?**
+
+**Immer** is a small library that makes updating **immutable state** in React **super easy**.
+
+In React, state should **never be mutated directly**:
+
+```javascript
+const [person, setPerson] = useState({ name: "Alice", age: 25 });
+
+// ❌ Bad: directly mutating
+person.age = 26;
+setPerson(person);
+```
+
+This is like changing a private member of an object **without going through proper setters** — React might not detect it, and your component won’t re-render correctly.
+
+**Immer** lets you write code that **looks like mutation** but under the hood keeps it immutable.
+
+---
+
+## **Basic Usage**
+
+```javascript
+import { useState } from "react";
+import produce from "immer";
+
+export default function App() {
+  const [person, setPerson] = useState({ name: "Alice", age: 25 });
+
+  function incrementAge() {
+    setPerson(
+      produce(person, draft => {
+        draft.age += 1; // looks like mutation
+      })
+    );
+  }
+
+  return (
+    <>
+      <p>{person.name} is {person.age} years old.</p>
+      <button onClick={incrementAge}>Birthday</button>
+    </>
+  );
+}
+```
+
+* **produce()** gives you a **draft object**.
+* You can change it like normal (**draft.age += 1**).
+* Immer produces a **new immutable object** for React automatically.
+
+---
+
+## **Why it’s dope**
+
+1. **No deep spread hell:**
+   Updating nested objects without Immer:
+
+   ```javascript
+   setPerson({
+     ...person,
+     address: {
+       ...person.address,
+       city: "London"
+     }
+   });
+   ```
+
+   With Immer:
+
+   ```javascript
+   setPerson(produce(person, draft => {
+     draft.address.city = "London";
+   }));
+   ```
+
+2. **Safe & clean:** No accidental mutation bugs.
+
+3. **Feels like OOP:** You “mutate” the object directly, but it’s safe.
+
+**Immer gives you a “draft” object that looks and behaves like the original object. You can mutate it freely.**
+
+1. Import `produce` (function) from `immer`
+
+```js
+import { useState } from "react";
+import { produce } from "immer";
+
+export default function Array() {
+
+    const [bug,setbug] = useState([
+        {id: 1,title: "Bug 1",fixed: false},
+        {id: 2,title: "Bug 2",fixed: false}
+    ]);
+
+    function handleClick(){
+        
+
+        setbug(
+            // bug.map(bug => bug.id === 1 ? {...bug,fixed : true} : bug)
+            // instead of map, use produce now
+
+            produce(draft => { // draft is a proxy object that records the changes we're gonna apply to the "bugs" array
+                const bug = draft.find(bug => bug.id === 1);
+                if(bug){
+                    bug.fixed = true;
+                }
+            })
+        );
+    }
+
+  return (
+    <div className="p-4">
+        <p>{bug[0].title} {bug[0].fixed === true ? "is fixed" : "is not fixed"}</p>
+        <p>{bug[1].title} {bug[1].fixed === true ? "is fixed" : "is not fixed"}</p>
+        <button className="button" onClick={handleClick}>Click me</button>      
+    </div>
+  );
+}
+
+```
+
+**Doubt solve**
+```js
+  const bug = draft.find(bug => bug.id === 1);
+  
+  if(bug){
+      bug.fixed = true;
+  }
+```
+
+👉 **Find the first object inside `draft` whose `id` is 1.**
+
+Let’s break it down:
+
+```js
+const bug = draft.find(bug => bug.id === 1);
+```
+
+* **`draft`** → It’s an array (copy of bug objects). 
+
+```js
+  const draft = [
+    { id: 1, title: "Bug 1", fixed: false },
+    { id: 2, title: "Bug 2", fixed: false }
+  ];
+```
+
+* **`.find()`** → A built-in JS array method that loops through the array and returns **the first element** that matches a condition.
+
+* **`bug => bug.id === 1`** → This is an **arrow function** used as the condition.
+  It says: “check if the current element’s `id` is 1”.
+
+So it returns the **first object** with `id` = 1.
+
+Example output:
+
+```js
+const bug = { id: 1, title: "Bug 1", fixed: false };
+```
+
+If no match is found, `.find()` returns **undefined**.
+
+# Sharing state between components
+
+- React components are **isolated** by default; state in one does not affect another automatically.  
+- To share state between two components:  
+  - **Lift state up** to the closest common parent.  
+  - Parent holds the state and passes it down via **props**.  
+  - Comp 1 can **update the state**, and Comp 2 can **react to changes**.  
+- For distant or complex components, use:  
+  - **React Context**  
+  - **State management libraries** like Redux  
+
+```mermaid
+flowchart LR
+    Parent[Common Parent Component]
+    Comp1[Component 1]
+    Comp2[Component 2]
+    
+    Parent -->|passes state via props| Comp1
+    Parent -->|passes state via props| Comp2
+    Comp1 -->|triggers state update| Parent
+```
+
+
+This shows how **lifting state up** works visually, and the bullets summarize the key ideas.  
+
+If you want, I can make a **slightly fancier flowchart** showing **Context API usage** too. Do you want me to do that?
