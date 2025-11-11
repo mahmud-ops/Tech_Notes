@@ -1262,3 +1262,573 @@ Object { name: "sdf", age: "2" }
 ```
 
 > **Caution:** write the object creation inside the click handler function so it reads the current values.
+
+## Managing forms with react hook form
+
+Using traditional React hooks like `useState` and `useRef` for forms means manually handling every value, validation, and error — which gets messy fast as the form grows. React Hook Form simplifies this by managing all of that internally using refs under the hood, giving you cleaner code, faster performance, and built-in validation without extra state juggling.
+
+**Key differences:**
+
+* `useState` re-renders on every keystroke → slower in large forms
+* `useRef` skips re-renders but gives no validation or error tracking
+* `react-hook-form` combines both: ref-level speed + smart state handling
+* Built-in validation, schema (Zod/Yup) support, and cleaner syntax
+* Less boilerplate, easier integration with UI libraries, and fewer bugs
+
+**First install `react-hook-form`**
+```sh
+npm i react-hook-form@latest
+```
+
+**Then**
+```js
+import {useForm} from "react-hook-form";
+```
+
+`useForm()` is the main hook from react-hook-form, and it returns an **object** packed with *tools to manage your entire form* , from input registration to validation and submission.
+
+**Let's log the object**
+```js
+import { useForm } from "react-hook-form";
+
+export const Form = () => {
+
+  const form = useForm();
+
+  function handleClick(e: React.FormEvent){
+    e.preventDefault();
+    console.log(form); // log
+    
+  }
+
+  return (
+    <form onSubmit={handleClick}>
+      // ... code ...
+    </form>
+  );
+};
+```
+**log**
+
+```js
+Object { control: {…}, subscribe: subscribe(props2), trigger: async trigger(name, options), register: register(name, options), handleSubmit: handleSubmit(onValid, onInvalid), watch: watch(name, defaultValue), setValue: setValue(name, value, options), getValues: getValues(fieldNames, config), reset: reset(formValues, keepStateOptions), resetField: resetField(name, options)
+, … }
+​
+clearErrors: function clearErrors(name)​
+control: Object { register: register(name, options), unregister: unregister(name, options), getFieldState: getFieldState(name, formState)
+, … }
+​
+formState: Object { defaultValues: Getter, … }
+​
+getFieldState: function getFieldState(name, formState)​
+getValues: function getValues(fieldNames, config)​
+handleSubmit: function handleSubmit(onValid, onInvalid)​
+register: function register(name, options)​
+reset: function reset(formValues, keepStateOptions)​
+resetField: function resetField(name, options)​
+setError: function setError(name, error, options)​
+setFocus: function setFocus(name, options)​
+setValue: function setValue(name, value, options)​
+subscribe: function subscribe(props2)​
+trigger: async function trigger(name, options)​
+unregister: function unregister(name, options)​
+watch: function watch(name, defaultValue)​
+<prototype>: Object { … }
+```
+
+We can see , there's multiple functions...
+
+Let's use these (destructure em)
+
+```js
+register: function register(name, options)​
+handleSubmit: function handleSubmit(onValid, onInvalid)​
+```
+
+```js
+  const {register} = useForm(); // destructuring assignment
+
+  function handleClick(e: React.FormEvent){
+    e.preventDefault();
+    console.log(register('name'));
+  }
+```
+
+**Log**
+```js
+Object { name: "name", onChange: async onChange(event), onBlur: async onChange(event), ref: ref(ref)
+ }
+​
+name: "name"
+​
+onBlur: async function onChange(event)​
+onChange: async function onChange(event)​
+ref: function ref(ref)
+```
+
+Now, we don't need these anymore:
+
+* `handleClick` function
+* `useState` hook
+* `useRef` hook
+
+We just have to
+
+* call `useForm()` → it gives a form object that manages state internally
+* destructure `{ register, handleSubmit }` from that object
+* use `{...register("name")}` and `{...register("age")}` to link inputs to the form
+* wrap the submit function with `handleSubmit((data) => console.log(data))`
+
+**Why wrap it:**
+`handleSubmit` takes your callback and only runs it **after** form validation + data collection.
+Without it, `console.log(data)` wouldn’t have access to the gathered input values — React Hook Form wouldn’t know when to collect or verify them.
+So `handleSubmit` basically acts as the form’s **controller**, executing your function only when the form is valid.
+
+**Final code**
+```js
+import { useForm } from "react-hook-form";
+
+export const Form = () => {
+
+  // Step 1: call useForm() → gives form object to manage state automatically
+  const { register, handleSubmit } = useForm(); // destructure register & handleSubmit
+
+  return (
+    <form 
+      // Step 3: wrap submit callback with handleSubmit → gathers data + validates before running
+      onSubmit={handleSubmit((data) => console.log(data))} 
+      className="flex flex-col items-start m-5 p-5 border border-black rounded-lg"
+    >
+      <div>
+        <label htmlFor="name">Name</label>
+        <input
+          // Step 2: link input to form state using register
+          {...register("name")} 
+          className="border border-black rounded-lg m-3 p-2"
+          type="text"
+          id="name"
+        />
+      </div>
+      <div>
+        <label htmlFor="age">Age</label>
+        <input
+          // Step 2: link input to form state using register
+          {...register("age")} 
+          className="border border-black rounded-lg m-3 p-2"
+          type="number"
+          id="age"
+        />
+      </div>
+      <button 
+        type="submit" 
+        className="bg-blue-400 rounded-lg p-2 m-2"
+      >
+        Submit
+      </button>
+    </form>
+  );
+};
+```
+![img](Images/JS/React/hookForm.png)
+
+## Applying validation
+Suppose , the user enters a name, the name must be `3 characters long`
+
+This is where data validation comes in...
+
+We're gonna use `formState` for it..
+```js
+formState: Object { defaultValues: Getter, … }
+```
+
+
+`formState` is also an object in `useForm` that returns another object of differnt functions
+
+```js
+const {register,handleSubmit,formState} = useForm(); // destructuring assignment
+```
+
+Let's log this object..
+```js
+  const {register,handleSubmit,formState} = useForm(); // destructuring assignment
+  console.log(formState);
+```
+
+**Log**
+
+```js
+Object { defaultValues: Getter, … }
+​defaultValues: ​
+dirtyFields: 
+​disabled: 
+errors: 
+isDirty: 
+isLoading: 
+isReady: 
+isSubmitSuccessful: 
+isSubmitted: 
+isSubmitting: 
+isValid: 
+isValidating: 
+submitCount: 
+touchedFields: 
+validatingFields: 
+```
+
+💡 Basically, this object gives you everything about the state of your form—like whether a field has changed, has errors, or is being submitted—so you can react to it in your UI.
+
+**Use em like this**
+```js
+{...register("name",{/*validation rules*/})}  
+```
+
+> Here, you connect your input field to React Hook Form. `"name"` is the **name of your field**, and inside `{}` you put your **validation rules** like required, minLength, pattern, etc. The `...` spreads all the props (`onChange`, `onBlur`, `ref`) so the form can track it automatically.
+
+```js
+  <input
+    {...register("name",{required:true,minLength:3})} // validation rules
+    type="text"
+    id="name"
+  />
+```
+
+Let's enter nothing and submit..
+
+**Log**
+```js
+Object { name: {…} }
+​
+name: Object { type: "required", message: "", ref: input#name.border.border-black.rounded-lg.m-3.p-2
+ }
+```
+
+Let's enter 1 character
+
+**Log**
+```js
+Object { name: {…} }
+​
+name: Object { type: "minLength", message: "", ref: input#name.border.border-black.rounded-lg.m-3.p-2
+ }
+​
+```
+
+So, name is required and it must be atleast 3 char long...
+
+Now, let's add some messege on the UI
+
+```js
+<input
+  {...register("name",{required:true,minLength:3})}
+  className="border border-black rounded-lg m-3 p-2"
+  type="text"
+  id="name"
+/>
+{
+  // gotta implement conditional rendering.. here we need to access the "errors" object from formState 
+  <p className="text-red-500 font-mono">Name is required</p>
+}
+```
+```js
+formState.errors <p className="text-red-500 font-mono">Name is required</p>
+```
+
+This will lead to an error..
+
+We have to destructure the `formState` and grab the `erros` property in a method called nested destructuring first.
+
+```js
+const {register,handleSubmit,formState:{errors}} = useForm(); // nested destructuring
+```
+
+**Final snippet**
+```js
+<div>
+  <label htmlFor="name">Name</label>
+  <input
+    {...register("name",{required:true,minLength:3})}
+    className="border border-black rounded-lg m-3 p-2"
+    type="text"
+    id="name"
+  />
+
+  {
+    // conditional rendering
+    errors.name?.type == 'required' ? <p className="text-red-500 font-mono">Name is required</p> : null
+  }
+  {
+    // conditional rendering
+    errors.name?.type == 'minLength' && <p className="text-red-500 font-mono">Name must be atleast 3 characters long</p>
+  }
+</div>
+```
+
+![img](Images/JS/React/validation.png)
+
+**A short recap**
+
+Both patterns are used for conditional rendering:
+
+```jsx
+condition ? <IfTrue /> : null
+```
+
+and
+
+```jsx
+condition && <IfTrue />
+```
+
+They’re mostly equivalent when you **only want to render something if the condition is true**.
+
+### **Refining code**
+
+When we do this...
+
+```js
+errors.name?.type == 'required' ? <p className="text-red-500 font-mono">Name is required</p> : null
+```
+
+the `.name?` doesn't appear in the auto completion box (or intellisense) , to make it appear we can make a custom interface and define the types.
+
+like this
+
+```js
+import { useForm } from "react-hook-form";
+
+interface FormData{ // interface
+  name: string
+  age: number
+}
+
+export const Form = () => {
+
+  const {register,handleSubmit,formState:{errors}} = useForm<FormData>(); // passing the interface
+
+// ... rest of the code
+
+```
+
+Now they appear.. 😁
+
+![img](Images/JS/React/intellisense.png)
+
+## Schema base validation with `zod`
+
+> Zod allows you to **define and enforce schemas for your data**, keeping all validation rules in one place. Without Zod, rules are **scattered across your code**, requiring you to manually check each field with repetitive `if` statements, which is tedious and error-prone.
+
+**[Official documentation](https://zod.dev/)**
+
+```bash
+npm install zod
+```
+
+```js
+import {z} from 'zod';
+```
+
+**Added validation rules inside a single object**
+```js
+import { useForm } from "react-hook-form";
+import {z} from 'zod';
+
+const schema = z.object({ // object
+  name: z.string().min(3),
+  age: z.number().min(13)
+})
+
+interface FormData{ // We can replace it with - type FormData = z.infer<typeof schema>`.
+
+  name: string
+  age: number
+}
+
+export const Form = () => {
+
+// ... the rest
+```
+
+We can replace the manual interface with Zod’s inferred type:
+
+* Use `z.infer<typeof schema>` to auto-generate the TypeScript type.
+* Keeps type in sync with the schema—no manual updates needed.
+* Reduces errors when schema changes.
+* Cleaner and more maintainable code.
+
+**Now when you hover on it, TypeScript will show the correct type automatically, based on the Zod schema.**
+
+![img](Images/JS/React/schema.png)
+
+**Now,**
+
+install..
+
+```bash
+npm i @hookform/resolvers
+```
+That’s a package that **connects Zod (or other schema libraries) with React Hook Form**.
+
+Basically:
+
+* React Hook Form handles form state and validation.
+* Zod defines validation rules.
+* `@hookform/resolvers` lets RHF understand Zod schemas directly.
+
+**Final code after**
+
+- adding resolver , schema type
+
+```js
+import { useForm } from "react-hook-form";
+import { z } from 'zod';
+import { zodResolver } from "@hookform/resolvers/zod";
+
+
+// schema with coercion for age
+const schema = z.object({
+  name: z.string().min(3, "Name must be at least 3 characters long"),
+  age: z.coerce.number().min(13, "Must be 13 years old or higher")
+});
+
+// TypeScript type inferred from schema
+type InputData = z.input<typeof schema>;
+
+export const Form = () => {
+  const { register, handleSubmit, formState: { errors } } = useForm<InputData>({
+    resolver: zodResolver(schema) // connect Zod with RHF (react-hook-form)
+  });
+
+  return (
+    <form 
+      onSubmit={handleSubmit((data) => console.log(data))}
+      className="flex flex-col items-start m-5 p-5 border border-black rounded-lg"
+    >
+      <div>
+        <label htmlFor="name">Name</label>
+        <input
+          {...register("name")} // removed manual validation rules 😄
+          className="border border-black rounded-lg m-3 p-2"
+          type="text"
+          id="name"
+        />
+        {errors.name && <p className="text-red-500 font-mono">{errors.name.message}</p>}
+      </div>
+
+      <div>
+        <label htmlFor="age">Age</label>
+        <input
+          {...register("age")}
+          type="number"
+          className="border border-black rounded-lg m-3 p-2"
+          id="age"
+        />
+        {errors.age && <p className="text-red-500 font-mono">{errors.age.message}</p>}
+      </div>
+
+      <button type="submit" className="bg-blue-400 rounded-lg p-2 m-2">
+        Submit
+      </button>
+    </form>
+  );
+};
+```
+
+## Disabling the submit button
+
+Include `isValid` property where `formState` is destructured.
+
+```js
+
+export const Form = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid }, // `isValid` returns a boolean value..
+  } = useForm<InputData>({
+    resolver: zodResolver(schema), 
+  });
+
+```
+
+**Button**
+```js
+<button 
+  disabled = {!isValid} // here
+  type="submit" 
+  className="bg-blue-400 rounded-lg p-2 m-2"
+>
+    Submit
+</button>
+```
+
+**Done**
+
+Now, the form **won’t submit unless a valid data is entered**.
+
+**Final code**
+```js
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+// schema with coercion for age
+const schema = z.object({
+  name: z.string().min(3, "Name must be at least 3 characters long"),
+  age: z.coerce.number().min(13, "Must be 13 years old or higher"),
+});
+
+// TypeScript type inferred from schema
+type InputData = z.input<typeof schema>;
+
+export const Form = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<InputData>({
+    resolver: zodResolver(schema), // connect Zod with RHF
+  });
+
+  return (
+    <form
+      onSubmit={handleSubmit((data) => console.log(data))}
+      className="flex flex-col items-start m-5 p-5 border border-black rounded-lg"
+    >
+      <div>
+        <label htmlFor="name">Name</label>
+        <input
+          {...register("name")}
+          className="border border-black rounded-lg m-3 p-2"
+          type="text"
+          id="name"
+        />
+        {errors.name && (
+          <p className="text-red-500 font-mono">{errors.name.message}</p>
+        )}
+      </div>
+
+      <div>
+        <label htmlFor="age">Age</label>
+        <input
+          {...register("age")}
+          type="number"
+          className="border border-black rounded-lg m-3 p-2"
+          id="age"
+        />
+        {errors.age && (
+          <p className="text-red-500 font-mono">{errors.age.message}</p>
+        )}
+      </div>
+
+      <button disabled = {!isValid} type="submit" className="bg-blue-400 rounded-lg p-2 m-2">
+        Submit
+      </button>
+    </form>
+  );
+};
+```
+
+## Project: Expense tracker
+
+**Source code:**
+**Live preview:**
