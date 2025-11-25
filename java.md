@@ -1,7 +1,14 @@
 Since I already have prior experience with C, C++, and JavaScript, I’m not starting Java from zero. Many core programming concepts like variables, loops, functions, memory basics, and OOP fundamentals are already familiar to me. So while learning Java, I’ll focus mainly on the syntax differences, Java-specific rules, and the unique ecosystem (JVM, packages, exceptions, collections, etc.). I’ll skip overly basic topics in my notes and only document what’s new, important, or different from what I already know.
 
 **Skipped these**
-
+* Basic datatype and variables
+* Printf
+* if-else
+* string methods (Chatgpt em when needed)
+* Ternery operation
+* Switch
+* Loops 
+* Array
 
 # Basic I/O
 
@@ -137,4 +144,147 @@ false
 Iam Mahmud
 Iam 21 years old
 ```
+
+# Random number
+
+To generate a random number from 1 to 6..
+
+```java
+import java.util.Random; // must import
+
+public class App {
+    public static void main( String[] args ) throws Exception {
+
+        Random random = new Random();
+
+        int number = random.nextInt(1,7); // this can be any datatype (e.g. float, boolean, char etc)
+
+        System.out.println(number);
+    }
+}
+```
+# Math class
+
+**1. Basic**
+
+* `Math.abs(x)` – absolute value
+* `Math.max(a, b)` – bigger number
+* `Math.min(a, b)` – smaller number
+
+**2. Power & Roots**
+* `Math.pow(a, b)` – a^b
+* `Math.sqrt(x)` – square root
+
+**3. Rounding**
+
+* `Math.round(x)` – round to nearest int/long
+* `Math.ceil(x)` – round up
+* `Math.floor(x)` – round down
+
+**4. Trigonometry**
+
+* `Math.sin(x)` – sine (radians)
+* `Math.cos(x)` – cosine (radians)
+* `Math.tan(x)` – tangent (radians)
+* `Math.toRadians(deg)` – degrees → radians
+* `Math.toDegrees(rad)` – radians → degrees
+
+**5. Random**
+
+* `Math.random()` – double between 0.0–1.0
+
+**6. Sign**
+
+* `Math.signum(x)` – -1, 0, or 1
+
+Basically, **abs, max/min, pow, sqrt, round/ceil/floor, sin/cos/tan, random** cover like 90% of practical uses.
+
+# Enhanced switch
+
+This is a regular switch..
+
+```java
+public class App{
+    public static void main(String[] args) throws Exception {
+
+        String day = "Monday";
+        switch (day) {
+            case "Saturday":
+                    System.out.println("It's a weekday");
+                break;
+            case "Sunday":
+                    System.out.println("It's a weekday");
+                break;
+            case "Monday":
+                    System.out.println("It's a weekday");
+                break;
+            case "Tuesday":
+                    System.out.println("It's a weekday");
+                break;
+            case "Wednesday":
+                    System.out.println("It's a weekday");
+                break;
+            case "Thursday":
+                    System.out.println("It's a weekend");
+                break;
+            case "Friday":
+                    System.out.println("It's a weekend");
+                break;
+        }
+    }
+}
+```
+
+**Enhanced switches**
+```java
+public class App {
+    public static void main(String[] args) {
+
+        String day = "Monday";
+
+        switch (day) {
+            case "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday" -> System.out.println("It's a weekday");
+            case "Thursday", "Friday" -> System.out.println("It's a weekend");
+            default -> System.out.println("Invalid day");
+        }
+    }
+}
+```
+
+# Method
+
+known as function in some languages...
+
+```java
+import java.util.Scanner;
+
+public class App {
+    public static void main(String[] args) throws Exception {
+        Scanner scanner = new Scanner(System.in); 
+
+        int x = scanner.nextInt();
+        int y = scanner.nextInt();
+        
+        scanner.close();
+
+        System.out.println("Sum = " + add(x,y) /*Method call*/ );
+    }
+
+    int add (int a, int b){ // Method definition
+        return a+b;
+    }
+}
+```
+
+**Error**
+```
+Cannot make a static reference to the non-static method add(int, int) from the type App
+```
+
+```java
+static int add (int a, int b){ // Method definition
+    return a+b;
+}
+```
+Other languages (like C/C++) don’t force everything inside a strict class/object structure. In Java, main lives in a static world. Objects don’t exist yet, so Java won’t let you call a normal (instance) method without actually creating an object. Java is obsessed with OOP rules — if a method belongs to an object, you must make the object first.
 
