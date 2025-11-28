@@ -1106,14 +1106,11 @@ import { useRef } from "react";
 
 // step 3:
 export const Form = () => {
-  
   // step 1
-  const nameRef = (useRef < HTMLInputElement) | (null > null); 
+  const nameRef = (useRef < HTMLInputElement) | (null > null);
   // Storing the reference object in the `nameRef` variable
   // intial value is generally taken `null`
 
-  
-  
   function handleClick(e: React.FormEvent) {
     e.preventDefault();
     if (nameRef.current != null) {
@@ -1121,8 +1118,6 @@ export const Form = () => {
     }
   }
 
-  
-  
   return (
     <form onSubmit={handleClick}>
       <div>
@@ -1149,33 +1144,35 @@ export const Form = () => {
   );
 };
 ```
+
 Now let's do the same for age
+
 ```js
-import { useRef} from "react";
+import { useRef } from "react";
 
 // step 3:
 export const Form = () => {
-  function handleClick(e: React.FormEvent){
+  function handleClick(e: React.FormEvent) {
     e.preventDefault();
-    
-    if(nameRef.current != null){
+
+    if (nameRef.current != null) {
       console.log(nameRef.current.value);
     }
 
-    if(ageRef.current != null){
+    if (ageRef.current != null) {
       console.log(ageRef.current.value);
     }
   }
   // step 1
-  const nameRef = useRef<HTMLInputElement | null>(null) // Storing the reference object in the `nameRef` variable
-  const ageRef = useRef<HTMLInputElement | null>(null)
+  const nameRef = (useRef < HTMLInputElement) | (null > null); // Storing the reference object in the `nameRef` variable
+  const ageRef = (useRef < HTMLInputElement) | (null > null);
 
   return (
     <form onSubmit={handleClick}>
       <div>
         <label htmlFor="name">Name</label>
         <input
-          ref = {nameRef} // step 2: store value from here.
+          ref={nameRef} // step 2: store value from here.
           className="border border-black rounded-lg m-3 p-2"
           type="text"
           id="name"
@@ -1184,49 +1181,52 @@ export const Form = () => {
       <div>
         <label htmlFor="age">Age</label>
         <input
-          ref = {ageRef}
+          ref={ageRef}
           className="border border-black rounded-lg m-3 p-2"
           type="number"
           id="age"
         />
       </div>
-      <button type="submit" className="bg-blue-400 rounded-lg p-2 m-2">Submit</button>
+      <button type="submit" className="bg-blue-400 rounded-lg p-2 m-2">
+        Submit
+      </button>
     </form>
   );
 };
 ```
+
 > Mahmud
 > 21
 
 ## Now, Return an object instead of raw value
 
 Previously we printed value.. Let's return it as an object
+
 ```js
 const person = {
   name: nameRef.current?.value,
-  age: ageRef.current?.value 
-}
+  age: ageRef.current?.value,
+};
 ```
 
 ```js
-import { useRef} from "react";
+import { useRef } from "react";
 
 export const Form = () => {
+  const nameRef = (useRef < HTMLInputElement) | (null > null); // Storing the reference object in the `nameRef` variable
+  const ageRef = (useRef < HTMLInputElement) | (null > null);
 
-  const nameRef = useRef<HTMLInputElement | null>(null) // Storing the reference object in the `nameRef` variable
-  const ageRef = useRef<HTMLInputElement | null>(null)
-  
-  function handleClick(e: React.FormEvent){
+  function handleClick(e: React.FormEvent) {
     e.preventDefault();
-    
+
     // Made a person object and put the ref value in it
     const person = {
       name: nameRef.current?.value,
-      age: ageRef.current?.value 
-    }
+      age: ageRef.current?.value,
+    };
 
-    if(nameRef.current != null && ageRef.current != null){
-        console.log(person)
+    if (nameRef.current != null && ageRef.current != null) {
+      console.log(person);
     }
   }
 
@@ -1235,7 +1235,7 @@ export const Form = () => {
       <div>
         <label htmlFor="name">Name</label>
         <input
-          ref = {nameRef} // step 2: store value from here.
+          ref={nameRef} // step 2: store value from here.
           className="border border-black rounded-lg m-3 p-2"
           type="text"
           id="name"
@@ -1244,19 +1244,22 @@ export const Form = () => {
       <div>
         <label htmlFor="age">Age</label>
         <input
-          ref = {ageRef}
+          ref={ageRef}
           className="border border-black rounded-lg m-3 p-2"
           type="number"
           id="age"
         />
       </div>
-      <button type="submit" className="bg-blue-400 rounded-lg p-2 m-2">Submit</button>
+      <button type="submit" className="bg-blue-400 rounded-lg p-2 m-2">
+        Submit
+      </button>
     </form>
   );
 };
 ```
 
 **Output**
+
 ```js
 Object { name: "sdf", age: "2" }
 ```
@@ -1269,45 +1272,43 @@ Using traditional React hooks like `useState` and `useRef` for forms means manua
 
 **Key differences:**
 
-* `useState` re-renders on every keystroke → slower in large forms
-* `useRef` skips re-renders but gives no validation or error tracking
-* `react-hook-form` combines both: ref-level speed + smart state handling
-* Built-in validation, schema (Zod/Yup) support, and cleaner syntax
-* Less boilerplate, easier integration with UI libraries, and fewer bugs
+- `useState` re-renders on every keystroke → slower in large forms
+- `useRef` skips re-renders but gives no validation or error tracking
+- `react-hook-form` combines both: ref-level speed + smart state handling
+- Built-in validation, schema (Zod/Yup) support, and cleaner syntax
+- Less boilerplate, easier integration with UI libraries, and fewer bugs
 
 **First install `react-hook-form`**
+
 ```sh
 npm i react-hook-form@latest
 ```
 
 **Then**
+
 ```js
-import {useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 ```
 
-`useForm()` is the main hook from react-hook-form, and it returns an **object** packed with *tools to manage your entire form* , from input registration to validation and submission.
+`useForm()` is the main hook from react-hook-form, and it returns an **object** packed with _tools to manage your entire form_ , from input registration to validation and submission.
 
 **Let's log the object**
+
 ```js
 import { useForm } from "react-hook-form";
 
 export const Form = () => {
-
   const form = useForm();
 
-  function handleClick(e: React.FormEvent){
+  function handleClick(e: React.FormEvent) {
     e.preventDefault();
     console.log(form); // log
-    
   }
 
-  return (
-    <form onSubmit={handleClick}>
-      // ... code ...
-    </form>
-  );
+  return <form onSubmit={handleClick}>// ... code ...</form>;
 };
 ```
+
 **log**
 
 ```js
@@ -1346,15 +1347,16 @@ handleSubmit: function handleSubmit(onValid, onInvalid)​
 ```
 
 ```js
-  const {register} = useForm(); // destructuring assignment
+const { register } = useForm(); // destructuring assignment
 
-  function handleClick(e: React.FormEvent){
-    e.preventDefault();
-    console.log(register('name'));
-  }
+function handleClick(e: React.FormEvent) {
+  e.preventDefault();
+  console.log(register("name"));
+}
 ```
 
 **Log**
+
 ```js
 Object { name: "name", onChange: async onChange(event), onBlur: async onChange(event), ref: ref(ref)
  }
@@ -1368,16 +1370,16 @@ ref: function ref(ref)
 
 Now, we don't need these anymore:
 
-* `handleClick` function
-* `useState` hook
-* `useRef` hook
+- `handleClick` function
+- `useState` hook
+- `useRef` hook
 
 We just have to
 
-* call `useForm()` → it gives a form object that manages state internally
-* destructure `{ register, handleSubmit }` from that object
-* use `{...register("name")}` and `{...register("age")}` to link inputs to the form
-* wrap the submit function with `handleSubmit((data) => console.log(data))`
+- call `useForm()` → it gives a form object that manages state internally
+- destructure `{ register, handleSubmit }` from that object
+- use `{...register("name")}` and `{...register("age")}` to link inputs to the form
+- wrap the submit function with `handleSubmit((data) => console.log(data))`
 
 **Why wrap it:**
 `handleSubmit` takes your callback and only runs it **after** form validation + data collection.
@@ -1385,25 +1387,25 @@ Without it, `console.log(data)` wouldn’t have access to the gathered input val
 So `handleSubmit` basically acts as the form’s **controller**, executing your function only when the form is valid.
 
 **Final code**
+
 ```js
 import { useForm } from "react-hook-form";
 
 export const Form = () => {
-
   // Step 1: call useForm() → gives form object to manage state automatically
   const { register, handleSubmit } = useForm(); // destructure register & handleSubmit
 
   return (
-    <form 
+    <form
       // Step 3: wrap submit callback with handleSubmit → gathers data + validates before running
-      onSubmit={handleSubmit((data) => console.log(data))} 
+      onSubmit={handleSubmit((data) => console.log(data))}
       className="flex flex-col items-start m-5 p-5 border border-black rounded-lg"
     >
       <div>
         <label htmlFor="name">Name</label>
         <input
           // Step 2: link input to form state using register
-          {...register("name")} 
+          {...register("name")}
           className="border border-black rounded-lg m-3 p-2"
           type="text"
           id="name"
@@ -1413,45 +1415,45 @@ export const Form = () => {
         <label htmlFor="age">Age</label>
         <input
           // Step 2: link input to form state using register
-          {...register("age")} 
+          {...register("age")}
           className="border border-black rounded-lg m-3 p-2"
           type="number"
           id="age"
         />
       </div>
-      <button 
-        type="submit" 
-        className="bg-blue-400 rounded-lg p-2 m-2"
-      >
+      <button type="submit" className="bg-blue-400 rounded-lg p-2 m-2">
         Submit
       </button>
     </form>
   );
 };
 ```
+
 ![img](Images/JS/React/hookForm.png)
 
 ## Applying validation
+
 Suppose , the user enters a name, the name must be `3 characters long`
 
 This is where data validation comes in...
 
 We're gonna use `formState` for it..
+
 ```js
 formState: Object { defaultValues: Getter, … }
 ```
 
-
 `formState` is also an object in `useForm` that returns another object of differnt functions
 
 ```js
-const {register,handleSubmit,formState} = useForm(); // destructuring assignment
+const { register, handleSubmit, formState } = useForm(); // destructuring assignment
 ```
 
 Let's log this object..
+
 ```js
-  const {register,handleSubmit,formState} = useForm(); // destructuring assignment
-  console.log(formState);
+const { register, handleSubmit, formState } = useForm(); // destructuring assignment
+console.log(formState);
 ```
 
 **Log**
@@ -1459,42 +1461,44 @@ Let's log this object..
 ```js
 Object { defaultValues: Getter, … }
 ​defaultValues: ​
-dirtyFields: 
-​disabled: 
-errors: 
-isDirty: 
-isLoading: 
-isReady: 
-isSubmitSuccessful: 
-isSubmitted: 
-isSubmitting: 
-isValid: 
-isValidating: 
-submitCount: 
-touchedFields: 
-validatingFields: 
+dirtyFields:
+​disabled:
+errors:
+isDirty:
+isLoading:
+isReady:
+isSubmitSuccessful:
+isSubmitted:
+isSubmitting:
+isValid:
+isValidating:
+submitCount:
+touchedFields:
+validatingFields:
 ```
 
 💡 Basically, this object gives you everything about the state of your form—like whether a field has changed, has errors, or is being submitted—so you can react to it in your UI.
 
 **Use em like this**
+
 ```js
-{...register("name",{/*validation rules*/})}  
+{...register("name",{/*validation rules*/})}
 ```
 
 > Here, you connect your input field to React Hook Form. `"name"` is the **name of your field**, and inside `{}` you put your **validation rules** like required, minLength, pattern, etc. The `...` spreads all the props (`onChange`, `onBlur`, `ref`) so the form can track it automatically.
 
 ```js
-  <input
-    {...register("name",{required:true,minLength:3})} // validation rules
-    type="text"
-    id="name"
-  />
+<input
+  {...register("name", { required: true, minLength: 3 })} // validation rules
+  type="text"
+  id="name"
+/>
 ```
 
 Let's enter nothing and submit..
 
 **Log**
+
 ```js
 Object { name: {…} }
 ​
@@ -1505,6 +1509,7 @@ name: Object { type: "required", message: "", ref: input#name.border.border-blac
 Let's enter 1 character
 
 **Log**
+
 ```js
 Object { name: {…} }
 ​
@@ -1519,16 +1524,17 @@ Now, let's add some messege on the UI
 
 ```js
 <input
-  {...register("name",{required:true,minLength:3})}
+  {...register("name", { required: true, minLength: 3 })}
   className="border border-black rounded-lg m-3 p-2"
   type="text"
   id="name"
-/>
+/>;
 {
-  // gotta implement conditional rendering.. here we need to access the "errors" object from formState 
-  <p className="text-red-500 font-mono">Name is required</p>
+  // gotta implement conditional rendering.. here we need to access the "errors" object from formState
+  <p className="text-red-500 font-mono">Name is required</p>;
 }
 ```
+
 ```js
 formState.errors <p className="text-red-500 font-mono">Name is required</p>
 ```
@@ -1538,15 +1544,20 @@ This will lead to an error..
 We have to destructure the `formState` and grab the `erros` property in a method called nested destructuring first.
 
 ```js
-const {register,handleSubmit,formState:{errors}} = useForm(); // nested destructuring
+const {
+  register,
+  handleSubmit,
+  formState: { errors },
+} = useForm(); // nested destructuring
 ```
 
 **Final snippet**
+
 ```js
 <div>
   <label htmlFor="name">Name</label>
   <input
-    {...register("name",{required:true,minLength:3})}
+    {...register("name", { required: true, minLength: 3 })}
     className="border border-black rounded-lg m-3 p-2"
     type="text"
     id="name"
@@ -1554,11 +1565,17 @@ const {register,handleSubmit,formState:{errors}} = useForm(); // nested destruct
 
   {
     // conditional rendering
-    errors.name?.type == 'required' ? <p className="text-red-500 font-mono">Name is required</p> : null
+    errors.name?.type == "required" ? (
+      <p className="text-red-500 font-mono">Name is required</p>
+    ) : null
   }
   {
     // conditional rendering
-    errors.name?.type == 'minLength' && <p className="text-red-500 font-mono">Name must be atleast 3 characters long</p>
+    errors.name?.type == "minLength" && (
+      <p className="text-red-500 font-mono">
+        Name must be atleast 3 characters long
+      </p>
+    )
   }
 </div>
 ```
@@ -1570,13 +1587,13 @@ const {register,handleSubmit,formState:{errors}} = useForm(); // nested destruct
 Both patterns are used for conditional rendering:
 
 ```jsx
-condition ? <IfTrue /> : null
+condition ? <IfTrue /> : null;
 ```
 
 and
 
 ```jsx
-condition && <IfTrue />
+condition && <IfTrue />;
 ```
 
 They’re mostly equivalent when you **only want to render something if the condition is true**.
@@ -1586,7 +1603,9 @@ They’re mostly equivalent when you **only want to render something if the cond
 When we do this...
 
 ```js
-errors.name?.type == 'required' ? <p className="text-red-500 font-mono">Name is required</p> : null
+errors.name?.type == "required" ? (
+  <p className="text-red-500 font-mono">Name is required</p>
+) : null;
 ```
 
 the `.name?` doesn't appear in the auto completion box (or intellisense) , to make it appear we can make a custom interface and define the types.
@@ -1624,10 +1643,11 @@ npm install zod
 ```
 
 ```js
-import {z} from 'zod';
+import { z } from "zod";
 ```
 
 **Added validation rules inside a single object**
+
 ```js
 import { useForm } from "react-hook-form";
 import {z} from 'zod';
@@ -1650,10 +1670,10 @@ export const Form = () => {
 
 We can replace the manual interface with Zod’s inferred type:
 
-* Use `z.infer<typeof schema>` to auto-generate the TypeScript type.
-* Keeps type in sync with the schema—no manual updates needed.
-* Reduces errors when schema changes.
-* Cleaner and more maintainable code.
+- Use `z.infer<typeof schema>` to auto-generate the TypeScript type.
+- Keeps type in sync with the schema—no manual updates needed.
+- Reduces errors when schema changes.
+- Cleaner and more maintainable code.
 
 **Now when you hover on it, TypeScript will show the correct type automatically, based on the Zod schema.**
 
@@ -1666,13 +1686,14 @@ install..
 ```bash
 npm i @hookform/resolvers
 ```
+
 That’s a package that **connects Zod (or other schema libraries) with React Hook Form**.
 
 Basically:
 
-* React Hook Form handles form state and validation.
-* Zod defines validation rules.
-* `@hookform/resolvers` lets RHF understand Zod schemas directly.
+- React Hook Form handles form state and validation.
+- Zod defines validation rules.
+- `@hookform/resolvers` lets RHF understand Zod schemas directly.
 
 **Final code after**
 
@@ -1680,26 +1701,31 @@ Basically:
 
 ```js
 import { useForm } from "react-hook-form";
-import { z } from 'zod';
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 
 // schema with coercion for age
 const schema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters long"),
-  age: z.coerce.number().min(13, "Must be 13 years old or higher")
+  age: z.coerce.number().min(13, "Must be 13 years old or higher"),
 });
 
 // TypeScript type inferred from schema
 type InputData = z.input<typeof schema>;
 
 export const Form = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm<InputData>({
-    resolver: zodResolver(schema) // connect Zod with RHF (react-hook-form)
-  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm <
+  InputData >
+  {
+    resolver: zodResolver(schema), // connect Zod with RHF (react-hook-form)
+  };
 
   return (
-    <form 
+    <form
       onSubmit={handleSubmit((data) => console.log(data))}
       className="flex flex-col items-start m-5 p-5 border border-black rounded-lg"
     >
@@ -1711,7 +1737,9 @@ export const Form = () => {
           type="text"
           id="name"
         />
-        {errors.name && <p className="text-red-500 font-mono">{errors.name.message}</p>}
+        {errors.name && (
+          <p className="text-red-500 font-mono">{errors.name.message}</p>
+        )}
       </div>
 
       <div>
@@ -1722,7 +1750,9 @@ export const Form = () => {
           className="border border-black rounded-lg m-3 p-2"
           id="age"
         />
-        {errors.age && <p className="text-red-500 font-mono">{errors.age.message}</p>}
+        {errors.age && (
+          <p className="text-red-500 font-mono">{errors.age.message}</p>
+        )}
       </div>
 
       <button type="submit" className="bg-blue-400 rounded-lg p-2 m-2">
@@ -1745,19 +1775,20 @@ export const Form = () => {
     handleSubmit,
     formState: { errors, isValid }, // `isValid` returns a boolean value..
   } = useForm<InputData>({
-    resolver: zodResolver(schema), 
+    resolver: zodResolver(schema),
   });
 
 ```
 
 **Button**
+
 ```js
-<button 
-  disabled = {!isValid} // here
-  type="submit" 
+<button
+  disabled={!isValid} // here
+  type="submit"
   className="bg-blue-400 rounded-lg p-2 m-2"
 >
-    Submit
+  Submit
 </button>
 ```
 
@@ -1766,6 +1797,7 @@ export const Form = () => {
 Now, the form **won’t submit unless a valid data is entered**.
 
 **Final code**
+
 ```js
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -1785,9 +1817,11 @@ export const Form = () => {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<InputData>({
+  } = useForm <
+  InputData >
+  {
     resolver: zodResolver(schema), // connect Zod with RHF
-  });
+  };
 
   return (
     <form
@@ -1820,7 +1854,11 @@ export const Form = () => {
         )}
       </div>
 
-      <button disabled = {!isValid} type="submit" className="bg-blue-400 rounded-lg p-2 m-2">
+      <button
+        disabled={!isValid}
+        type="submit"
+        className="bg-blue-400 rounded-lg p-2 m-2"
+      >
         Submit
       </button>
     </form>
@@ -1833,3 +1871,488 @@ export const Form = () => {
 **Source code:** [https://github.com/mahmud-ops/Expense_tracker](https://github.com/mahmud-ops/Expense_tracker)
 
 **Live preview:** [https://expense-tracker-kohl-two-64.vercel.app/](https://expense-tracker-kohl-two-64.vercel.app/)
+
+# Connecting with backend
+
+## Understanding the `effect` hook
+
+- **Purpose of Effect Hook**:
+
+  - React components should be pure functions: no side effects and same output for same input.
+  - Some operations (like accessing local storage, calling servers, or manipulating DOM) are side effects and don’t belong in the render phase.
+  - `useEffect` allows running such code **after a component renders**, keeping the component “pure.”
+
+- **Example: Focusing an Input Field**
+
+  1. Use `useRef` to create a reference to the input element.
+  2. Attach the ref to the input.
+  3. Inside `useEffect`, check if the ref exists and call `.focus()`—this modifies the DOM, a side effect.
+
+- **Key Points About `useEffect`**:
+
+  - Runs after every render by default.
+  - Can be used multiple times for different tasks (e.g., focusing input, changing document title).
+  - Must be called at the **top level** of the component, not inside loops or conditionals.
+
+- **Benefits**:
+
+  - Separates side effects from render logic.
+  - Lets React manage DOM updates and external interactions cleanly.
+
+**What does "pure" mean here ?**
+
+If your component is doing something “outside” React while rendering (DOM changes, API calls, timers, local storage), it’s impure. Wrap it in useEffect to keep your component pure.
+
+A pure function is a function that:
+
+Always returns the same output for the same input
+
+```js
+function add(a, b) {
+  return a + b; // always same result for same a and b
+}
+```
+
+Has no side effects (doesn’t change anything outside itself)
+
+- Doesn’t modify global variables
+- Doesn’t change the DOM
+- Doesn’t call APIs or write to localStorage
+- Example of impure function:
+
+```js
+let counter = 0;
+
+function increment() {
+  counter++; // changes something outside
+  return counter;
+}
+```
+
+Even if you call increment() multiple times, output changes because it modifies counter outside the function → impure.
+
+**Pure React components**
+
+A React component is considered pure if:
+
+- For the same props and state, it always renders the same JSX
+- Doesn’t directly manipulate DOM or do API calls during render
+
+Impure things like focusing an input, changing the document title, or fetching data should happen after render, which is why we use useEffect.
+
+```js
+import { useRef } from "react";
+
+const App = () => {
+  const ref = useRef < HTMLInputElement > null;
+
+  return <input ref={ref} type="text" className="border-2 w-[90%] m-3" />;
+};
+
+export default App;
+```
+
+**Explanation**
+
+- `useRef` = a **pointer container object**.
+- `ref.current` = the **actual pointer**.
+- Initially: `ref.current = null` → points to nothing.
+- After render: `ref.current` points to the **real `<input>` DOM object**.
+- Updating or reading `ref.current` **doesn’t trigger a re-render**.
+- In the code, the ref is attached but **not used yet**, so `ref.current` exists but isn’t accessed.
+
+Basically: it’s a **way to hold a direct pointer to a DOM element**, like raw memory access in C/C++.
+
+Now, adding this line in the code,
+
+```js
+if (ref.current) ref.current.focus();
+```
+
+This focuses on the input element.. this doesn't have anything to do with the actuall `App` componet, **It's a sideeffect**. We have to take it in a `useEffect` hook to make the `App` component pure.
+
+```js
+import { useEffect, useRef } from "react";
+
+const App = () => {
+  const ref = useRef < HTMLInputElement > null;
+
+  // side effects : Doesn't have connection with the actual function.
+  useEffect(() => {
+    if (ref.current) ref.current.focus();
+    // We can start writing in the input right after rendering.. It gets selected automatically.
+  });
+
+  useEffect(() => {
+    document.title = "Effect hook";
+  });
+
+  return <input ref={ref} type="text" className="border-2 w-[90%] m-3" />;
+};
+
+export default App;
+```
+
+## Effect dependencies
+
+`useEffect` is basically a **hook that acts like a function pointer you give to React**, telling it: “Hey, run this function after you finish drawing the component.”
+
+- **Why we need it:** Some stuff can’t happen while the component is rendering, like fetching data from a server, updating the DOM manually, or timers. If you do it directly in the render, you’ll mess up the flow.
+
+- **What it does:** Think of it like a **callback function** that React calls after the component has finished its render cycle.
+
+- **How it works:**
+
+  1. You pass a **function** to `useEffect`. React will call it after render.
+  2. By default, it runs **every render**. If inside that function you update a state, it triggers another render → infinite loop.
+  3. To control it, you pass a **dependencies array**:
+
+     - Empty array `[]` → run only once, like `componentDidMount`.
+     - `[stateOrProp]` → run only when this variable changes, like a **dirty flag**.
+
+Basically, `useEffect` = **pointer to a post-render function** + **rules on when to re-call it**.
+
+**Code: Create a new component and add initialise an empty array and then put some value in it after rendering (`useEffect`)**
+
+```js
+import { useEffect, useState } from "react";
+
+const ProductList = () => {
+  const [products, setProducts] = useState([]);
+
+  setProducts(["Apple", "Mango", "Banana", "Pinapple"]);
+
+  return (
+    <>
+      <ol>
+        {products.map((product) => (
+          <li>{product}</li>
+        ))}
+      </ol>
+    </>
+  );
+};
+
+export default ProductList;
+```
+
+This is supposed to put the new products in the array.. right ? 🙃.. **Not really.**
+
+> Error: Type 'string' is not assignable to type 'never'.
+
+TS sees your initial state `useState([])` as **empty array of nothing**, so it infers element type = `never`.
+Then you shove strings in → TS: “Bro, that’s not _never_.”
+Fix: tell it the type:
+
+```js
+const [products, setProducts] = useState<string[]>([]); // gotta set the type to `string` explicitly.
+```
+
+**Now, let's set the array after re-rendering.. (useEffect)**
+
+```js
+import { useEffect, useState } from "react";
+
+const ProductList = () => {
+  const [products, setProducts] = useState<string[]>([]);
+
+  useEffect(() => {
+    setProducts(["Apple", "Mango", "Banana", "Pinapple"]);
+  })
+
+  return (
+    <>
+      <ol>
+        {products.map((product) => (
+          <li>{product}</li>
+        ))}
+      </ol>
+    </>
+  );
+};
+
+export default ProductList;
+```
+
+> **My device is lagging now.. ☠**
+
+Without `[]`, `useEffect` runs **after every render**.
+Since it sets state → causes **another** render → infinite loop → lag.
+
+```js
+import { useEffect, useState } from "react";
+
+const ProductList = () => {
+  const [products, setProducts] = useState<string[]>([]);
+
+  useEffect(() => {
+    setProducts(["Apple", "Mango", "Banana", "Pinapple"]);
+  },[/*We'll add more dependencies in here later on ...*/]) // forgot the Square bracket '[]'.
+
+  return (
+    <>
+      <ol>
+        {products.map((product,index) => (
+          <li key={index}>{product}</li>
+        ))}
+      </ol>
+    </>
+  );
+};
+
+export default ProductList;
+```
+
+**Issue solved**
+
+**New code: We're gonna use the dependecy section now.. `[]`**
+
+```js
+import { useEffect, useState } from "react";
+
+const ProductList = () => {
+  const categories: string[] = [
+    "Clothing",
+    "Electronics",
+    "Foods",
+    "Stationaries",
+  ];
+  const [selected, setSelected] = useState("");
+
+  useEffect(() => {
+    if (selected) console.log("Selected category: ", selected);
+  }, [selected]);
+
+  return (
+    <>
+      <select
+        className="m-3 p-3"
+        onChange={(event) => setSelected(event.target.value)}
+      >
+        {categories.map((item, index) => (
+          <option value={item} key={index}>
+            {item}
+          </option>
+        ))}
+      </select>
+    </>
+  );
+};
+
+export default ProductList;
+```
+
+**Output**
+![effdep](Images/JS/React/Effect_deps_1.png)
+
+**Logged when the selected category changes**
+
+```js
+useEffect(() => {
+  if (selected) console.log("Selected category: ", selected);
+}, [selected /*Dependency*/]);
+```
+
+## Effect Clean up
+
+Cleanup in `useEffect` exists so you don’t leave a bunch of “open tabs” in the background , like active subscriptions, event listeners, intervals, or server connections , after a component is removed or re-rendered. If you don’t clean those up, they keep running, leak memory, duplicate requests, or cause weird bugs. Cleanup is just you undoing whatever side effect you started, making sure your app doesn’t turn into a glitchy resource-eating monster.
+
+> React’s version of destructors.
+
+**Code**
+```js
+import { useEffect } from "react";
+
+const connect = () => console.log("Connected");
+const disconnect = () => console.log("Disconnected");
+
+const App = () => {
+
+  useEffect(() => {
+    connect();
+    return () => disconnect(); // clean up
+  })
+
+
+  return (
+    <div>App</div>
+  )
+}
+
+export default App
+```
+
+## Fetching data
+
+React needs a way to pull data from servers. We can use the native `fetch()` API, but **Axios** is usually preferred because it auto-parses JSON, has cleaner syntax, and handles errors better. When we call a server, it’s not instant; that’s an async operation. So these functions return a promise: basically a placeholder for a future value. A promise has a `.then()` method that runs when the response arrives so we can use the returned data. To practice this without building our own backend, we can use JSONPlaceholder, a free fake API with endpoints like `/users`, `/posts`, and `/comments` that let us test real server interactions while learning.
+
+1. Install axios
+
+```
+npm i axios
+```
+
+2. Get api key from **[jsonplaceholder](https://jsonplaceholder.typicode.com/)**
+
+3. fetch api via axios
+```js
+import axios from "axios"
+import { useEffect, useState } from "react"
+
+const App = () => {
+
+  useEffect(() => {
+    axios.get('https://jsonplaceholder.typicode.com/users')
+      .then(response => console.log(response.data[0].name /*Leanne Graham*/))
+  },[]) 
+
+  return (
+    <div>App</div>
+  )
+}
+
+export default App
+```
+
+**Doubt solve**
+
+**`response`**
+
+When Axios finishes talking to the server, it gives us an object with the result. We call that object `response`.
+
+It looks roughly like:
+
+```js
+{
+  data: [...],    // the actual JSON from the server
+  status: 200,    // success code
+  headers: {...}, // metadata
+  ...
+}
+```
+
+We name the parameter `response` so we can access all that stuff.
+If we wrote `res` or `banana` instead, it would work the same — it’s just a variable name.
+
+**`.then()`**
+
+`axios.get()` doesn’t give results instantly. It returns a **Promise**.
+`.then()` is how we *use the result later* when the promise is fulfilled.
+
+Think of a promise like ordering food:
+
+* You place the order → Axios sends request
+* You wait → async
+* Food arrives → Promise resolves
+* `.then()` is the callback that runs when the food arrives
+
+So this:
+
+```js
+.then(response => console.log(response.data[0]))
+```
+
+means:
+
+> “When the server replies, take the response and log the first user.”
+
+---
+
+TL;DR:
+
+* **response** = server’s reply object
+* **then** = “run this code after the async data is ready”
+
+**Creating an array of objects of the users**
+
+```js
+import axios from "axios"
+import { useEffect, useState } from "react"
+
+const App = () => {
+
+  const [users,setUsers] = useState([]);
+
+  useEffect(() => {
+    axios.get('https://jsonplaceholder.typicode.com/users')
+      .then(response => setUsers(response.data))
+  },[])
+
+  return (
+    <div>
+      <ul>
+        {
+          users.map(user => (
+            <li key={user.name}>{user.id}. {user.name} ({user.username})</li>
+          ))
+        }
+      </ul>
+    </div>
+  )
+}
+
+export default App
+```
+
+> **Error:** Property 'name/id/username' does not exist on type 'never'.
+
+TypeScript is freaking out because `useState([])` gives it zero clues about what the array will contain, so it assumes the array holds `never`
+
+We have to define an interface of **what a user object looks like** (its id, name, username, etc.) and tell TypeScript that our `users` state will store an array of those user objects, so it stops assuming the array is `never` and allows us to safely access those properties.
+
+```js
+import axios from "axios";
+import { useEffect, useState } from "react";
+
+interface User {
+  name: string;
+  id: number;
+  email: string;
+}
+
+const styles = {
+  table: "w-full border-collapse",
+  th: "border-b border-gray-500 text-left p-2 bg-gray-800 text-white",
+  td: "border-b border-gray-400 p-2",
+  row: "hover:bg-gray-200 transition",
+};
+
+const App = () => {
+  const [users, setUsers] = useState<User[]>([]);
+
+  useEffect(() => {
+    axios
+      .get("https://jsonplaceholder.typicode.com/users")
+      .then((response) => setUsers(response.data));
+  }, []);
+
+  return (
+    <div className="p-6">
+      <table className={styles.table}>
+        <thead>
+          <tr>
+            <th className={styles.th}>ID</th>
+            <th className={styles.th}>Name</th>
+            <th className={styles.th}>Email</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {users.map((user) => (
+            <tr key={user.id} className={styles.row}>
+              <td className={styles.td}>{user.id}</td>
+              <td className={styles.td}>{user.name}</td>
+              <td className={styles.td}>{user.email}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default App;
+```
+
+**Output**
+![axios_table](Images/JS/React/axios_1.png)
