@@ -2356,3 +2356,63 @@ export default App;
 
 **Output**
 ![axios_table](Images/JS/React/axios_1.png)
+
+## Understanding HTTP request
+
+**HTTP Requests with Axios — Quick Notes**
+
+Axios → sends **HTTP requests** to a server
+HTTP → protocol for transferring data over the internet
+
+When Axios `.get()` runs:
+
+* Browser sends a **request** to server
+* Server sends a **response** back
+* Response includes **data** like JSON
+
+HTTP message structure:
+
+* **Headers** → metadata (URL, status code, content type, etc.)
+* **Body** → actual data (e.g., array of objects)
+
+DevTools Network tab shows:
+
+* Request URL
+* Request method (GET)
+* Status code (200 = success)
+* Response time + size
+* Response data (formatted JSON)
+
+Strict mode in React may trigger double requests (development only)
+
+That’s basically what Axios does under the hood.
+
+```mermaid
+flowchart LR
+
+    A["Axios.get(URL)"] --> B["Create HTTP Request"]
+    B --> C["Add Request Headers<br/>Example: Accept, Content-Type"]
+    C --> D["Send Request to Server"]
+    D --> E["Server Receives Request"]
+    E --> F{"Valid Request?"}
+    
+    F -- Yes --> G["Server Fetches Data from DB or Files"]
+    G --> H["Server Creates Response Body<br/>Example: JSON Array"]
+    H --> I["Server Adds Response Headers<br/>Example: Status, Content-Type"]
+    I --> J["Send HTTP Response"]
+
+    J --> K["Browser Receives Response"]
+    K --> L{"Status Code 200?"}
+
+    L -- Yes --> M["Parse Response Body as JSON"]
+    M --> N["Axios Resolves Promise"]
+    N --> O["setState() Updates UI"]
+    O --> P["Re-render Components"]
+
+    L -- No --> Q["Axios Rejects Promise"]
+    Q --> R["Handle Error<br/>show toast/log/etc."]
+
+    F -- No --> S["Send Error Response<br/>400/404/500"]
+    S --> K
+
+```
