@@ -2636,4 +2636,4 @@ Put the whole thing in a `try-catch` method
 
 ## Cancelling a fetch request
 
-Previously we learned [`effect cleanup`](./React_with_TS.md/#connecting-with-backend/##Effect-Clean-up)
+Previously we learned [`effect cleanup`](./React_with_TS.md/#effect-clean-up)
