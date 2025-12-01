@@ -2416,3 +2416,224 @@ flowchart LR
     S --> K
 
 ```
+
+> Go to **Inspect > Network** to see the full HTTP request and response details — headers, status codes, payloads, and timing — so you know exactly what your Axios call is doing.
+
+## Handling errors
+
+`.catch()` method will catch the errors while fetching data from the api 
+
+```js
+useEffect(() => {
+  axios
+    .get("https://jsonplaceholder.typicode.com/users")
+    .then((response) => setUsers(response.data))
+    .catch((err) => console.log(err.message));
+}, []);
+```
+
+**Rendering the error message**
+
+```js
+import axios from "axios";
+import { useEffect, useState } from "react";
+
+interface User {
+  name: string;
+  id: number;
+  email: string;
+}
+
+const styles = {
+  table: "w-full border-collapse",
+  th: "border-b border-gray-500 text-left p-2 bg-gray-800 text-white",
+  td: "border-b border-gray-400 p-2",
+  row: "hover:bg-gray-200 transition",
+};
+
+const App = () => {
+  const [users, setUsers] = useState<User[]>([]);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    axios
+      .get("https://jsonplaceholder.typicode.com/users")
+      .then((response) => setUsers(response.data))
+      .catch((err) => setError(err.message));
+  }, []);
+
+  return (
+    <div className="p-6">
+      <table className={styles.table}>
+        <thead>
+          <tr>
+            <th className={styles.th}>ID</th>
+            <th className={styles.th}>Name</th>
+            <th className={styles.th}>Email</th>
+          </tr>
+        </thead>
+
+        {/* rendering error message */}
+        {error && <p className="text-red-500 bg-red-200 p-3 m-4 rounded-lg text-center">{error}</p>}
+
+        <tbody>
+          {users.map((user) => (
+            <tr key={user.id} className={styles.row}>
+              <td className={styles.td}>{user.id}</td>
+              <td className={styles.td}>{user.name}</td>
+              <td className={styles.td}>{user.email}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default App;
+```
+
+## Working with `async` and `await`
+
+Now , we're gonna fetch data from an api with `async` and `await`..
+
+Previously we saw this:
+- The `get` method returns a promise
+- Now, if this promise is resolved, we'll get a response object..
+
+But , if something goes wrong
+- we get an error.
+
+```mermaid
+flowchart LR
+
+A[get] --> B[promise] --> C{status code 200 ?} 
+C -- yes --> D[Response object]
+C -- no --> E[Error]
+```
+
+Async/await is basically just a cleaner, less-annoying way to handle promises. Instead of chaining `.then()` for success and `.catch()` for failure, you write code that *looks* synchronous — but under the hood it’s still promises doing the work. `await` literally pauses inside an `async` function until the promise settles. If it resolves, you get the value. If it rejects, the error gets thrown and you catch it like normal errors.
+
+**Key differences**
+
+* `.then()` → callbacks chain; messy if long sequences
+* `await` → pauses execution inside `async`; code reads top-to-bottom like normal
+* `.catch()` handles rejected promises
+* `try/catch` handles rejections + any sync errors in async code
+* Logic flow is easier to trace, especially with multiple async steps
+
+If you’re dealing with more than one async call, async/await is just way less headache.
+
+```mermaid
+flowchart LR
+
+A[async function call] --> B[awai promise]
+B --> C[promise returned]
+C --> D{Resolved?}
+
+D -- yes --> E[Response object]
+D -- no --> F[Error thrown]
+
+E --> G[Process data]
+F --> H[Catch error]
+```
+
+So, we can put the await keyword before the promise to get the result..
+
+```js
+useEffect(() => {
+  const response = await axios
+    .get("https://jsonplaceholder.typicode.com/users")
+}, []);
+```
+
+> Error: 'await' expressions are only allowed within async functions and at the top levels of modules.
+
+So, we put it in an `async` function
+
+```js
+// just turn it into...
+const function_name = () => {
+  // code..
+}
+```
+
+**This**
+
+```js
+const function_name = async () => {
+  const response_object = await promise;
+}
+```
+
+**Code after correction**
+
+```js
+useEffect(() => {
+  const getUserData = async () => {
+    const response = await axios.get("https://jsonplaceholder.typicode.com/users");
+
+    setUsers(response.data);
+};
+
+  getUserData();
+}, []);
+```
+We can do **multiple awaits** in one async function.
+That’s the whole flex of async/await — we can chain async steps *without* callback hell.
+
+Example:
+
+```js
+useEffect(() => {
+  const getUserData = async () => {
+    const res1 = await axios.get("https://jsonplaceholder.typicode.com/users");
+    const res2 = await axios.get("https://jsonplaceholder.typicode.com/posts");
+
+    setUsers(res1.data);
+    setPosts(res2.data);
+  };
+
+  getUserData();
+}, []);
+```
+
+So the missing word is:
+
+> **multiple `await` calls**
+
+Each `await` will pause until its promise resolves or throws an error.
+Cleaner than `.then().then().then()` chains — and your brain doesn’t melt reading it.
+
+### Handling error
+
+Put the whole thing in a `try-catch` method
+
+```js
+ useEffect(() => {
+    const getUserData = async () => {
+
+
+      try {
+        const response = await axios.get(
+          "https://jsonplaceholder.typicode.com/users"
+        );
+        setUsers(response.data);
+      } 
+      catch (error) {
+        setError((error as AxiosError).message); /* import axios, { AxiosError } from "axios"*/
+      }
+
+
+
+    };
+
+    getUserData();
+  }, []);
+```
+
+`.then()`,`.catch` method seems cleaner.. 😑
+
+## Cancelling a fetch request
+
+Previously we learned [`effect cleanup`](./React_with_TS.md/#connecting-with-backend/##Effect-Clean-up)
