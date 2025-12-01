@@ -2637,3 +2637,115 @@ Put the whole thing in a `try-catch` method
 ## Cancelling a fetch request
 
 Previously we learned [`effect cleanup`](./React_with_TS.md/#effect-clean-up)
+
+We cancel a fetch request mainly to **avoid unnecessary work and potential bugs**. In React (or any frontend framework), this is super important because components can unmount while a request is still running. If the request finishes **after the component is gone**, and we try to update state, we get a **memory leak warning**.
+
+Other reasons:
+
+* **Performance:** No point keeping network traffic going if the result won’t be used.
+* **Avoid race conditions:** If multiple requests happen in quick succession, an old request finishing later might overwrite newer data.
+* **User experience:** Cancelling outdated requests can make wer app feel snappier.
+
+In React, we often handle this with **AbortController** or by checking a `mounted` flag inside `useEffect`.
+
+### Using AbortController
+
+`AbortController` is an object.
+
+It has two main properties/methods:
+
+- signal → a property you pass to fetch (or axios) so the request knows it can be aborted.
+- abort() → a method you call to actually cancel the request.
+
+`AbortController` is a **built-in browser API** that lets you **cancel a fetch request** (or any other async task that supports it). Basically, you create a controller, pass its `signal` to the fetch, and then call `abort()` when you want to cancel it.
+
+**Key points:**
+
+* `controller.signal` → tells fetch which request can be aborted
+* `controller.abort()` → stops the fetch
+* Use it in `useEffect` cleanup to **prevent memory leaks**
+
+```js
+useEffect(() => {
+
+      const controller = new AbortController();
+        axios.get<User[]>("https://jsonplaceholder.typicode.com/users", { signal: controller.signal /* It links the fetch request to the controller so calling controller.abort() can cancel that request. */})
+        .then(res => setUsers(res.data))
+        .catch(err => setError(err.message));
+
+        return () => controller.abort(); // cleanup
+    },[]
+  )
+```
+![can](Images/JS/React/Canceled.png)
+
+> What's that `Canceled` thing on top ?
+
+It means the fetch request was intentionally stopped using `AbortController`...
+
+Looks bad.. gotta remove it. Since that `Canceled` text is an error , we can remove it by tweaking the `.catch()` method.
+
+```js
+.catch(err => {
+  if(err instanceof CanceledError) return;  
+  else setError(err.message)
+});
+```
+
+It basically says:
+
+> “If the error is a canceled request, do nothing; otherwise, save the error message.”
+
+![axios_table](Images/JS/React/axios_1.png)
+
+Now, let's look at the networt tab (in devtools > XHR)
+
+![net](Images/JS/React/NetworkTab.png)
+
+The request cancellation pattern **prevents memory leaks and race conditions** by stopping network calls when UI components unmount.
+
+It also ensures **accurate error handling**, as genuine failures are displayed while expected cancellations are silently ignored.
+
+## Showing a loading indicator..
+
+We're gonna take a boolean value (ex: isLoading) and then render it if it's true... **SIMPLE**
+
+```js
+const [isLoading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    setLoading(true); // initially ... loading
+
+    axios
+      .get<User[]>("https://jsonplaceholder.typicode.com/users", {
+        signal: controller.signal,
+      })
+
+      .then((res) => {
+        setUsers(res.data);
+
+        setLoading(false); // if fetched ... stop loading
+      })
+      .catch((err) => {
+        if (err instanceof CanceledError) return;
+        else setError(err.message);
+
+        setLoading(false);
+      });
+
+    return () => controller.abort(); 
+  }, []);
+
+  return (
+    <>
+      // ... ... ... other code
+        // rendering loading spinner
+        {isLoading && (
+          < Loader/> // imported component 
+        )}
+    </>
+  )
+```
+
