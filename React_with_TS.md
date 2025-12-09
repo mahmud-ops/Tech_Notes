@@ -2748,4 +2748,225 @@ const [isLoading, setLoading] = useState(false);
     </>
   )
 ```
+## Deleting data
+
+First we should add a delete button next to every data..
+
+```js
+{users.map((user) => (
+  <tr key={user.id} className={styles.row}>
+    <td className={styles.td}>{user.name}</td>
+    <td><button onClick = {() => deleteUser()} className={styles.button}>Delete</button></td>
+  </tr>
+))}
+```
+
+Now, we gotta actually delete the data.. 
+there's 2 ways to delete :
+1. Optimistic update
+2. Pessimistic update
+
+| Feature                | **Optimistic Update**                                 | **Pessimistic Update**                              |
+| ---------------------- | ----------------------------------------------------- | --------------------------------------------------- |
+| **Default Assumption** | The server call *will succeed*                        | The server call *might fail*                        |
+| **When UI Updates**    | **Immediately**, before server response               | **After** server response                           |
+| **User Experience**    | Fast, snappy, feels instant                           | Slower, blocked until server replies                |
+| **Risk**               | UI may show wrong state if server fails               | No mismatch — UI always correct                     |
+| **Error Handling**     | Needs rollback (undo the optimistic change)           | Simple — UI updates only on success                 |
+| **Use Case**           | Apps where speed matters (feeds, likes, todo updates) | Critical operations (payments, destructive actions) |
+| **Complexity**         | Higher (maintain previous state, handle failures)     | Lower (straightforward flow)                        |
+| **Network Dependence** | More tolerant (UI doesn’t wait)                       | Highly dependent on latency                         |
+
+I prefer the optimistic update in this case...
+
+```js
+const originalUsers = [...users];
+  
+  const deleteUser = (user: User) => {
+    setUsers(users.filter(u => u.id != user.id)); // Delete from UI
+
+    // Delete from backend
+    axios.delete("https://jsonplaceholder.typicode.com/users/" + user.id)
+      
+    // if error , show error message + rollback
+    .catch( err => {
+      setError(err.message);
+      setUsers(originalUsers);
+    })
+}
+```
+## Creating data
+
+Optimistic update...
+
+```js
+  const addUser = () => {
+    const newUser = {id: 0, name: "Mahmud"};
+    setUsers([newUser,...users]);
+
+    axios.post('https://jsonplaceholder.typicode.com/users/',newUser)
+      .then(response => setUsers([response.data,...users]))
+      .catch(error => {
+        setError(error.message);
+        setUsers(originalUsers);
+      });
+    }
+```
+
+Now use this function to any button or wherever needed...
+
+## Updating data
+
+> use `axios.patch()`
+
+## Extracting a Reusable API client
+
+**What’s Being Improved**
+
+* The app’s code had the same backend URL duplicated in multiple places.
+* This is messy and hard to maintain.
+
+**Solution: Create a Central API Client**
+
+* A new `services` folder is created.
+* Inside it, a file called `api-client.ts` is added.
+* An Axios instance is created there using `axios.create()`.
+
+**Base Configuration**
+
+* The backend base URL is set once in the Axios config.
+* Only the common part of the URL is used (not `/users`) so it stays reusable.
+* Optional headers (like API keys) can be added if needed, but they’re removed here since not required.
+
+**Cleaner Imports**
+
+* Axios is removed from the App component.
+* Instead, the custom `apiClient` is imported from `services/api-client`.
+
+**Handling Cancelled Requests**
+
+* `CanceledError` is imported inside `api-client.ts`.
+* It is then exported and reused in the App component.
+
+**Replacing Axios Everywhere**
+
+* All old `axios.get`, `axios.post`, `axios.delete`, and `axios.patch` calls are replaced with:
+
+  * `apiClient.get`
+  * `apiClient.post`
+  * `apiClient.delete`
+  * `apiClient.patch`
+
+**Final Benefit**
+
+* No more repeated base URLs.
+* Cleaner, more maintainable code.
+* Any future backend call just uses the same API client.
+
+**Services/api_client**
+
+```js
+import { CanceledError } from "axios";
+import axios from "axios";
+
+export default axios.create({
+    baseURL: "https://jsonplaceholder.typicode.com"
+})
+
+export {CanceledError} 
+```
+
+**Replaced `axios(url)` with `apiClient`**
+```js
+apiClient
+  .get<User[]>("/users", {
+    signal: controller.signal,
+  })
+
+
+apiClient.post('/users/',newUser)
+  .then(response => setUsers([response.data,...users]))
+  .catch(error => {
+    setError(error.message);
+    setUsers(originalUsers);
+  });
+}
+
+//... and other api calls
+```
+
+## Extracting the user services
+
+**Problem with the Component**
+
+* Handles too much: HTTP requests, endpoints, request methods, and canceling requests.
+* Mixes responsibilities: should only handle UI and user interactions.
+
+**Solution / What We’re Going to Do**
+
+* Move all HTTP logic into a separate `UserService`.
+* `UserService` will have methods for:
+
+  * Getting all users
+  * Creating a user
+  * Updating a user
+  * Deleting a user
+
+
+
+* Hide implementation details like abort controllers; the 
+component just calls the service.
+* Component now only handles rendering UI, showing loading/errors, and interacting with users.
+
+**Benefits**
+
+* Cleaner, modular code.
+* Better separation of concerns.
+* HTTP logic is reusable across the app.
+
+**Code part**
+
+**File: Services/ user_services.ts**
+
+```js
+
+import apiClient from "./api_client"
+
+class UserServices {
+    // in this class there's gonna be methods for the CRUD (Create, Read, Update, and Delete) operations
+}
+
+export default new UserServices();
+```
+
+**We'll move some parts of the code in the userService file**
+
+```js
+
+interface User { // move
+  name: string;
+  id: number;
+}
+```
+
+```js
+apiClient.post('/users/',newUser)
+  .then(response => setUsers([response.data,...users]))
+  .catch(error => {
+    setError(error.message);
+    setUsers(originalUsers);
+  });
+}
+```
+
+```js
+const controller = new AbortController(); // move
+
+setLoading(true); 
+
+apiClient
+  .get<User[]>("/users", { // move
+    signal: controller.signal,
+  })
+```
 
