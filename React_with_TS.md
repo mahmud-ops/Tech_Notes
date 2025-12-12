@@ -2970,3 +2970,360 @@ apiClient
   })
 ```
 
+**After replacement**
+```js
+useEffect(() => {
+  setLoading(true); 
+
+    const {request,cancel} = user_services.getAllUser();
+    request
+    .then((res) => {
+      setUsers(res.data);
+
+      setLoading(false); 
+    })
+    .catch((err) => {
+      if (err instanceof CanceledError) return;
+      else setError(err.message);
+
+      setLoading(false);
+    });
+
+    return () => cancel();
+
+}, []);
+```
+
+Now our effect hook knows nothing about making http requests.. it's seperately handled in the `Services/user_services.ts` file.
+
+
+**Extracting the user service from this..**
+```js
+const deleteUser = (user: User) => {
+  setUsers(users.filter(u => u.id != user.id)); 
+
+  // Should be handled seperately
+  apiClient.delete("/users/" + user.id)
+    
+    .catch( err => {
+      setError(err.message);
+      setUsers(originalUsers);
+    })
+}
+```
+
+**Replaced**
+
+```js
+//Service/user_services.ts
+import apiClient from "./api_client"
+
+export interface User { 
+  name: string;
+  id: number;
+}
+
+class UserServices {
+    getAllUser(){
+    const controller = new AbortController(); 
+            
+        const request = apiClient.get<User[]>("/users", { 
+        signal: controller.signal,
+      })
+
+      return ({request,cancel: () => controller.abort()});
+    }
+
+    // handled here
+    deleteUser(id:number){
+          return apiClient.delete("/users/" + id)
+    }
+
+}
+
+export default new UserServices();
+```
+```js
+// App.tsx
+
+const deleteUser = (user: User) => {
+  setUsers(users.filter(u => u.id != user.id)); 
+
+  // Handled seperately 
+  user_services.deleteUser(user.id)
+    .catch( err => {
+      setError(err.message);
+      setUsers(originalUsers);
+    })
+}
+```
+
+**Now this**
+```js
+const addUser = () => {
+  const newUser = {id: 0, name: "Mahmud"};
+  setUsers([newUser,...users]);
+
+  apiClient.post('/users/',newUser)
+    .then(response => setUsers([response.data,...users]))
+    .catch(error => {
+      setError(error.message);
+      setUsers(originalUsers);
+    });
+}
+```
+
+```js
+// Services/user_service.ts
+addUser(newUser:String){
+  return apiClient.post('/users/',newUser)
+}
+
+// App.tsx
+const addUser = () => {
+const newUser = {id: 0, name: "Mahmud"};
+setUsers([newUser,...users]);
+
+// Handled seperately
+user_services.addUser(newUser.name)
+  .then(response => setUsers([response.data,...users]))
+  .catch(error => {
+    setError(error.message);
+    setUsers(originalUsers);
+  });
+}
+```
+
+All clear, now `App.tsx` doesn't care about **how HTTP requests are made, how controllers or signals work, or any API endpoint details—it just calls methods from the service and handles state/UI updates.**
+
+**Final code after some cleanup**
+```js
+
+// App.tsx
+
+import { CanceledError } from "axios";
+import { useEffect, useState } from "react";
+import Loader from "./Components/Loader";
+import { styles } from "./Components/Style";
+import user_services, {type User} from "../Services/user_services"
+
+
+const App = () => {
+  const [users, setUsers] = useState<User[]>([]);
+  const [error, setError] = useState("");
+  const [isLoading, setLoading] = useState(false);
+  const originalUsers = [...users];
+  
+  const addUser = () => {
+    const newUser = {id: 0, name: "Mahmud"};
+    setUsers([newUser,...users]);
+
+    // Handled seperately
+    user_services.addUser(newUser.name)
+      .then(response => setUsers([response.data,...users]))
+      .catch(error => {
+        setError(error.message);
+        setUsers(originalUsers);
+      });
+    }
+
+  const deleteUser = (user: User) => {
+    setUsers(users.filter(u => u.id != user.id)); // Delete from UI
+
+    // Delete from backend
+    user_services.deleteUser(user.id)
+      // if error , show error message + rollback
+      .catch( err => {
+        setError(err.message);
+        setUsers(originalUsers);
+      })
+  }
+
+  useEffect(() => {
+    setLoading(true); 
+
+      const {request,cancel} = user_services.getAllUser();
+      request
+      .then((res) => {
+        setUsers(res.data);
+
+        setLoading(false); 
+      })
+      .catch((err) => {
+        if (err instanceof CanceledError) return;
+        else setError(err.message);
+
+        setLoading(false);
+      });
+
+      return () => cancel();
+
+  }, []);
+
+  return (
+    <div className="p-6">
+      <table className={styles.table}>
+        
+        {error && (
+          <p className="text-red-500 bg-red-200 p-3 m-4 rounded-lg text-center">
+            {error}
+          </p>
+        )}
+
+
+        <div className="my-4 flex justify-center">
+        {(
+          isLoading &&
+          < Loader/>
+        )}
+        </div>
+
+        <div className="bg-yellow-200 w-fit p-5 rounded-lg">       
+          <button onClick={() => addUser()} type="submit" className={styles.button_2}>Add</button>  
+        </div>
+        
+
+        <tbody>
+          {users.map((user) => (
+            <tr key={user.id} className={styles.row}>
+              <td className={styles.td}>{user.name}</td>
+              <td><button onClick={() => deleteUser(user)} className={styles.button}>Delete</button></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default App;
+
+
+// Services/user_services.ts
+
+import apiClient from "./api_client"
+
+export interface User { 
+  name: string;
+  id: number;
+}
+
+class UserServices {
+    getAllUser(){
+    const controller = new AbortController(); 
+            
+        const request = apiClient.get<User[]>("/users", { 
+        signal: controller.signal,
+      })
+
+      return ({request,cancel: () => controller.abort()});
+    }
+
+    deleteUser(id:number){
+          return apiClient.delete("/users/" + id)
+    }
+
+    addUser(newUser:String){
+      return apiClient.post('/users/',newUser)
+    }
+
+}
+
+export default new UserServices;
+```
+
+## Creating a generic HTTP service
+
+In our current setup, `UserServices` is tightly coupled to the `User` type and the `/users` endpoint. Every time we need a service for a new entity, like posts or products, we end up duplicating almost identical CRUD methods (`getAllUser`, `addUser`, `deleteUser`), and even in `App.tsx`, we have to handle users specifically, passing `User` objects and hardcoding endpoints.
+
+And that’s where the **generic HTTP service** comes in. It lets us write a **reusable, type-safe service** that works for any entity. The benefits are:
+
+* **Single reusable class:** One service handles CRUD for any entity using a generic type parameter `T`.
+* **Endpoint flexibility:** Pass the endpoint dynamically when creating an instance instead of hardcoding it.
+* **Type safety:** TypeScript ensures the entities have required properties (like `id`) while keeping methods generic.
+* **Cleaner components:** Components like `App.tsx` only handle UI logic without worrying about repeated CRUD boilerplate.
+* **Easier maintenance:** Changes to HTTP logic only happen in one place, reducing errors and duplication.
+
+This approach keeps the code DRY, scalable, and easy to extend to new entities.
+
+1. Open file `Services/http_services.ts`
+2. Copy the whole code from  `Services/user_services.ts` and paste it in `Services/http_services.ts`.
+
+**Initial look (We're gonna turn it into generic http service)**
+
+```js
+import apiClient from "./api_client"
+
+// we won't need this , cuz it's gonna be type independent.
+export interface User { 
+  name: string;
+  id: number;
+}
+
+class UserServices {
+    getAllUser(){
+    const controller = new AbortController(); 
+            
+        const request = apiClient.get<User[]>("/users", { 
+        signal: controller.signal,
+      })
+
+      return ({request,cancel: () => controller.abort()});
+    }
+
+    deleteUser(id:number){
+          return apiClient.delete("/users/" + id)
+    }
+
+    addUser(newUser:String){
+      return apiClient.post('/users/',newUser)
+    }
+
+}
+
+export default new UserServices;
+```
+**Start**
+```js
+class UserServices<T> {
+  // what does "T" mean ??
+    getAllUser(){
+    const controller = new AbortController(); 
+            
+        const request = apiClient.get<T[]>("/users", { 
+        signal: controller.signal,
+      })
+    }
+
+    // .... code
+}
+```
+
+### Generic type parameter
+
+`T` here is a **generic type parameter**. Think of it as a placeholder for whatever type of entity your service will handle.
+
+In your `UserServices<T>` class:
+
+```ts
+class HttpService<T> {
+    getAllUser() {
+        const request = apiClient.get<T[]>("/users");
+    }
+}
+```
+
+* `T` could be `User`, `Post`, `Product`, or any other type you define.
+* When you **instantiate** the class, you specify the type:
+
+```ts
+const userService = new UserServices<User>();
+const postService = new UserServices<Post>();
+```
+
+* Inside the class, `T[]` means “an array of whatever type `T` is.” So `apiClient.get<T[]>` tells TypeScript: “This request will return an array of `T` objects.”
+
+Basically, `T` lets your service class **stay generic and reusable** without being tied to one specific type like `User`.
+
+If you want, I can show how to **replace all `/users` references with a generic endpoint** too, so the whole class works for any entity. Do you want me to do that?
+
