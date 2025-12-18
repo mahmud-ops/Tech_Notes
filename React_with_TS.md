@@ -3412,6 +3412,7 @@ export interface User {
   id: number;
 }
 
+// we can delete all these now.. and replace em with our generic service
 class UserServices {
     getAllUser(){
     const controller = new AbortController(); 
@@ -3435,3 +3436,310 @@ class UserServices {
 
 export default new UserServices;
 ```
+
+**user_services.ts**
+```js
+
+// clean 😎
+import create from "./http_services"
+
+export interface User { 
+  name: string;
+  id: number;
+}
+
+export default new create("/users");
+```
+
+Now, in `App.tsx` we have to replace all direct calls to `UserServices` methods (`getAllUser`, `addUser`, `deleteUser`) with calls to our new generic service instance (`getAll`, `add`, `delete`) from `create("/users")`.
+
+**App.tsx**
+
+```js
+// replaced addUser with add
+user_services.add(newUser.name)
+  .then(response => setUsers([response.data,...users]))
+  .catch(error => {
+    setError(error.message);
+    setUsers(originalUsers);
+  });
+}
+
+// replaced deleteUser with delete
+user_services.delete(user.id)
+  .catch( err => {
+    setError(err.message);
+    setUsers(originalUsers);
+  })
+
+// ... and so on..
+```
+
+**Wait, now there's an error**
+
+```js
+useEffect(() => {
+  setLoading(true); 
+
+    const {request,cancel} = user_services.getAll();
+    request
+    .then((res) => {
+      setUsers(res.data); // error here
+
+      setLoading(false); 
+    })
+    .catch((err) => {
+      if (err instanceof CanceledError) return;
+      else setError(err.message);
+
+      setLoading(false);
+    });
+
+    return () => cancel();
+
+}, []);
+```
+
+> Argument of type 'unknown[]' is not assignable to parameter of type 'SetStateAction<User[]>'.
+>  Type 'unknown[]' is not assignable to type 'User[]'.
+>    Type 'unknown' is not assignable to type 'User'.ts(2345)
+
+
+**Fix:** Whenever your service is *generic*, always tell it the type when calling it, e.g., <User>. Otherwise, TS defaults to unknown.
+
+```js
+const {request,cancel} = user_services.getAll<User>(); // always tell it the type when calling it (e.g. <User>)
+request
+.then((res) => {
+  setUsers(res.data);
+```
+
+**All done**
+
+## Creating a custom data fetching hook
+
+What if tomorrow your app grows…
+and suddenly **another component** needs the same users data?
+A dropdown. A modal. A dashboard widget.
+
+Now what?
+
+You rewrite the same three states again: `data`, `error`, `loading`.
+You write the same `useEffect`.
+You wire the same API call.
+Again. And again. And again.
+
+At this point, copy-paste isn’t convenience — it’s a **maintenance crisis**. One small bug fix means updating logic in multiple places. Miss one, and boom… inconsistent behavior.
+
+This is exactly where **custom hooks** step in.
+
+A custom hook is just a **regular function** that bundles reusable logic. Instead of scattering the same state and side-effect code across components, we extract it once and reuse it everywhere. This keeps components clean, logic centralized, and the codebase actually DRY — not the pretend kind.
+
+So far, our app works fine. But the moment we need the **same data-fetching logic in more than one component**, things start to get messy and repetitive. Custom hooks solve this by letting us move shared state and effects into a single, reusable abstraction.
+
+Let’s fix the mess by extracting our user-fetching logic into a custom hook and reuse it wherever we need it.
+
+1. Open a folder `src/hooks`
+2. Inside hooks , let's open `useUsers.ts` (A custom hook, Every hook starts with `use` , that's why it's named like this)
+
+**Now, In App.tsx**
+
+```js
+import { CanceledError } from "axios";
+import { useEffect, useState } from "react";
+import Loader from "./Components/Loader";
+import { styles } from "./Components/Style";
+import user_services, {type User} from "../Services/user_services"
+
+
+const App = () => {
+
+  // We can take all these and put em in useUsers.ts and use them as a hook.
+
+  // from here 👇
+  const [users, setUsers] = useState<User[]>([]);
+  const [error, setError] = useState("");
+  const [isLoading, setLoading] = useState(false);
+  const originalUsers = [...users];
+  
+  const addUser = () => {
+    const newUser = {id: 0, name: "Mahmud"};
+    setUsers([newUser,...users]);
+
+    user_services.add(newUser.name)
+      .then(response => setUsers([response.data,...users]))
+      .catch(error => {
+        setError(error.message);
+        setUsers(originalUsers);
+      });
+    }
+
+// .... more code 
+
+        setLoading(false); 
+      })
+      .catch((err) => {
+        if (err instanceof CanceledError) return;
+        else setError(err.message);
+
+        setLoading(false);
+      });
+
+      return () => cancel();
+
+  }, []);
+
+// to here 👆
+  return (
+    <div className="p-6">
+
+    
+    //  ... ... .. code
+
+export default App;
+```
+
+**useUsers.ts**
+```js
+
+// everything from App.tsx
+import { useEffect, useState } from "react";
+import type { User } from "../../Services/user_services";
+import user_services from "../../Services/user_services";
+import { CanceledError } from "axios";
+
+
+const useUsers = () => {
+
+    const [users, setUsers] = useState<User[]>([]);
+    const [error, setError] = useState("");
+    const [isLoading, setLoading] = useState(false);
+    const originalUsers = [...users];
+  
+  const addUser = () => {
+    const newUser = {id: 0, name: "Mahmud"};
+    setUsers([newUser,...users]);
+
+    user_services.add(newUser.name)
+      .then(response => setUsers([response.data,...users]))
+      .catch(error => {
+        setError(error.message);
+        setUsers(originalUsers);
+      });
+    }
+
+  const deleteUser = (user: User) => {
+    setUsers(users.filter(u => u.id != user.id)); // Delete from UI
+
+    // Delete from backend
+    user_services.delete(user.id)
+      // if error , show error message + rollback
+      .catch( err => {
+        setError(err.message);
+        setUsers(originalUsers);
+      })
+  }
+
+  useEffect(() => {
+    setLoading(true); 
+
+      const {request,cancel} = user_services.getAll<User>();
+      request
+      .then((res) => {
+        setUsers(res.data);
+
+        setLoading(false); 
+      })
+      .catch((err) => {
+        if (err instanceof CanceledError) return;
+        else setError(err.message);
+
+        setLoading(false);
+      });
+
+      return () => cancel();
+
+  }, []);
+
+
+  return {users, error, isLoading, setUsers, setError, addUser, deleteUser} 
+  // return all the methods from here
+}
+
+export default useUsers;
+```
+
+Now, we can use this hook in `App.tsx`
+
+**App.tsx**
+
+```js
+import Loader from "./Components/Loader";
+import { styles } from "./Components/Style";
+import useUsers from "./hooks/useUsers";
+
+
+const App = () => {
+ 
+  // Everything replaced with a single hook 😎
+  const{users, error, isLoading, addUser, deleteUser} = useUsers(); 
+
+  return (
+    <div className="p-6">
+      <table className={styles.table}>
+        
+        {error && (
+          <p className="text-red-500 bg-red-200 p-3 m-4 rounded-lg text-center">
+            {error}
+          </p>
+        )}
+
+
+        <div className="my-4 flex justify-center">
+        {(
+          isLoading &&
+          < Loader/>
+        )}
+        </div>
+
+        <div className="bg-yellow-200 w-fit p-5 rounded-lg">       
+          <button onClick={() => addUser()} type="submit" className={styles.button_2}>Add</button>  
+        </div>
+        
+
+        <tbody>
+          {users.map((user) => (
+            <tr key={user.id} className={styles.row}>
+              <td className={styles.td}>{user.name}</td>
+              <td><button onClick={() => deleteUser(user)} className={styles.button}>Delete</button></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default App;
+```
+
+## Summary
+
+**Terms**
+
+* Axios → HTTP client
+* Front-end → Sends HTTP requests
+* Back-end → Handles HTTP requests & sends responses
+* Effect Hook → Used for side effects
+* HTTP Response → Data returned from the server
+* Side Effects → Operations outside rendering (data fetch, DOM update, etc.)
+
+**Summary**
+
+* We use the effect hook to perform side effects, such as fetching data or updating the DOM.
+* The effect hook takes a function that performs the side effect and an optional dependency array. Whenever the dependencies change, the effect hook runs again.
+* To clean up resources created by the effect hook, we can return a cleanup function that runs when the component unmounts or when dependencies change.
+* React is a front-end library, but real applications also require a back-end server to handle business logic, data storage, and other functionality.
+* Communication between the front-end and back-end happens over HTTP. The front-end sends an HTTP request, and the back-end responds with an HTTP response.
+* Each HTTP request and response includes a header and a body. The header contains metadata (content type, status code, etc.), while the body carries the actual data.
+
