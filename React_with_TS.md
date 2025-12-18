@@ -3306,7 +3306,7 @@ class UserServices<T> {
 In your `UserServices<T>` class:
 
 ```ts
-class HttpService<T> {
+class  <T> {
     getAllUser() {
         const request = apiClient.get<T[]>("/users");
     }
@@ -3325,5 +3325,113 @@ const postService = new UserServices<Post>();
 
 Basically, `T` lets your service class **stay generic and reusable** without being tied to one specific type like `User`.
 
-If you want, I can show how to **replace all `/users` references with a generic endpoint** too, so the whole class works for any entity. Do you want me to do that?
 
+```js
+import apiClient from "./api_client"
+
+
+// We fixed the class to accept an endpoint
+class HttpServices {
+  endpoint: String;
+
+  constructor (endpoint: String){ // same as c++ oop constructor
+    this.endpoint = endpoint;
+  }
+
+  
+    getAll<T> (){
+
+
+      const controller = new AbortController(); 
+      const request = apiClient.get<T[]>("/users", { 
+        signal: controller.signal,
+      })
+
+      return ({request,cancel: () => controller.abort()});
+    }
+
+    deleteUser(id:number){
+          return apiClient.delete("/users/" + id)
+    }
+
+    addUser(newUser:String){
+      return apiClient.post('/users/',newUser)
+    }
+
+}
+
+export default new HttpServices;
+```
+
+**We fixed the class to accept an endpoint when creating the service. Now, we have to replace all hardcoded URLs (`"/users"`) in the methods with `this.endpoint` so the class actually uses the endpoint we pass.**
+
+**Replaced + Did some cleanup and modifications**
+
+```js
+import apiClient from "./api_client";
+
+class HttpServices<T> {
+  endpoint: string;
+
+  constructor(endpoint: string) {
+    this.endpoint = endpoint;
+  }
+
+  getAll() {
+    const controller = new AbortController();
+    const request = apiClient.get<T[]>(this.endpoint, { signal: controller.signal });
+    return { request, cancel: () => controller.abort() };
+  }
+  
+  add(entity: T) { // replaced params to make it generic . Not limited to one type
+    return apiClient.post(this.endpoint, entity);
+  }
+
+  update(id: number | string, entity: T) { // replaced params to make it generic . Not limited to one type
+    return apiClient.put(`${this.endpoint}/${id}`, entity);
+  }
+
+  delete(id: number | string) { // replaced params to make it generic . Not limited to one type
+    return apiClient.delete(`${this.endpoint}/${id}`);
+  }
+}
+
+export default HttpServices;
+```
+
+**We're done making a generic http service component, now we can use it anywhere we want.. #DRY**
+
+**Let's use it on `user_services.ts`**
+
+**`user_services.ts`**
+```js
+import apiClient from "./api_client"
+
+export interface User { 
+  name: string;
+  id: number;
+}
+
+class UserServices {
+    getAllUser(){
+    const controller = new AbortController(); 
+            
+        const request = apiClient.get<User[]>("/users", { 
+        signal: controller.signal,
+      })
+
+      return ({request,cancel: () => controller.abort()});
+    }
+
+    deleteUser(id:number){
+          return apiClient.delete("/users/" + id)
+    }
+
+    addUser(newUser:String){
+      return apiClient.post('/users/',newUser)
+    }
+
+}
+
+export default new UserServices;
+```
