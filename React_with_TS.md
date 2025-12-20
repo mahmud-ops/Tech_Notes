@@ -3743,3 +3743,22 @@ export default App;
 * Communication between the front-end and back-end happens over HTTP. The front-end sends an HTTP request, and the back-end responds with an HTTP response.
 * Each HTTP request and response includes a header and a body. The header contains metadata (content type, status code, etc.), while the body carries the actual data.
 
+# Project : Game hub 
+
+## Project Overview: Video Game Discovery App
+
+In this hands-on project, you will consolidate everything you’ve learned by building a professional video game discovery application inspired by the popular **RAWG platform**. Rather than focusing on heavy upfront design, this module adopts a pragmatic, "code-first" approach where you will build features incrementally and refactor as you go. This iterative process is designed to mimic real-world development, giving you practical experience in creating a modern, responsive user interface with a focus on usability and clean code.
+
+### Key Features & Learning Objectives
+
+* **Theming:** Implement a toggle to switch seamlessly between **Dark and Light modes**.
+* **Search & Discovery:** Build a robust search bar and filtering system to find games by **genre or platform** (e.g., PC, PlayStation, Xbox).
+* **User Experience:** Integrate **loading skeletons** to enhance perceived performance while data is being fetched.
+* **Data Organization:** Add **sorting capabilities** to allow users to organize game lists based on specific criteria.
+* **Refactoring:** Learn to improve your implementation and structure through a continuous, evolutionary coding process.
+
+![screenshot](Images/JS/React/null)
+
+**Github repo:** 
+
+**Live:** 
