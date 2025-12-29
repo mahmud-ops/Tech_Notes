@@ -3762,3 +3762,16 @@ In this hands-on project, you will consolidate everything you’ve learned by bu
 **Github repo:** [https://github.com/mahmud-ops/GameHub](https://github.com/mahmud-ops/GameHub)
 
 **Live:** [https://game-hub-three-zeta-86.vercel.app/](https://game-hub-three-zeta-86.vercel.app/)
+
+# Next : Part 2
+
+[Click here](./React_with_TS_2.md) to proceed
+
+**This part of the course levels up your React + TypeScript skills by moving beyond basics into real-world, production-grade patterns.** You’ll focus on performance, scalability, and structure while extending the GameHub project into something that actually feels like a professional web app—the kind you’d confidently put in a portfolio.
+
+* **Intermediate React concepts**: data fetching, caching, and state management
+* **Performance upgrades**: caching strategies and infinite scrolling
+* **Routing & structure**: multi-page flow using React Router
+* **Real project evolution**: extending the existing GameHub app
+* **Outcome-focused**: build a robust, scalable app ready to showcase to employers or clients
+
