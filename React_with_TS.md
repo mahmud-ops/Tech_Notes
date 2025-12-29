@@ -3757,8 +3757,8 @@ In this hands-on project, you will consolidate everything you’ve learned by bu
 * **Data Organization:** Add **sorting capabilities** to allow users to organize game lists based on specific criteria.
 * **Refactoring:** Learn to improve your implementation and structure through a continuous, evolutionary coding process.
 
-![screenshot](Images/JS/React/null)
+![screenshot](Images/JS/React/GameHub.png)
 
-**Github repo:** 
+**Github repo:** [https://github.com/mahmud-ops/GameHub](https://github.com/mahmud-ops/GameHub)
 
-**Live:** 
+**Live:** [https://game-hub-three-zeta-86.vercel.app/](https://game-hub-three-zeta-86.vercel.app/)
