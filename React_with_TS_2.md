@@ -418,3 +418,349 @@ const useTodos = () => {
 There is a component that fetches posts from the backend (**JSONPlaceholder**) using **`useState`** and **`useEffect`**.
 
 👉 Your task is to replace that logic by creating a **custom hook that fetches posts using React Query**, eliminating the need for manual state and effect hooks.
+
+### Solution
+
+`usePosts.ts`
+```js
+import { useQuery } from "@tanstack/react-query"
+import axios from "axios"
+
+interface Post {
+    userId: number
+    id: number
+    title: string
+    body: string
+}
+
+const usePosts = () => {
+    
+    const fetchPosts = () => 
+        axios
+    .get('https://jsonplaceholder.typicode.com/posts')
+            .then(res => res.data)
+
+    return useQuery<Post[],Error>({
+        queryKey: ['posts'],
+        queryFn: fetchPosts
+    })
+
+}
+
+export default usePosts
+```
+
+## Parameterised queries
+
+Here we’re going to **parameterize queries** so they can fetch data dynamically based on input, and then **filter posts by user** to only show posts belonging to a specific user.
+
+`usePosts.ts`
+```js
+    
+    const fetchPosts = () => 
+        axios
+    .get('https://jsonplaceholder.typicode.com/posts')
+            .then(res => res.data)
+
+    return useQuery<Post[],Error>({
+        queryKey: ['posts'], // we're gonna work here 
+        queryFn: fetchPosts
+    })
+
+}
+```
+
+`postList.tsx`
+
+```js
+const [userId, setUserId] = useState<number>();
+    const { data: posts, error, isLoading } = usePosts(userId); // current userId as argument
+    
+    if (isLoading) return <Text>Loading...</Text>;
+    if (error instanceof Error) return <Text>{error.message}</Text>;
+  return (
+    <>
+      <Select
+        placeholder="Select user"
+        onChange={(e) => setUserId(parseInt(e.target.value))}
+        value={userId} // this value is being passed as the argument
+      >
+        <option value="1">User 1</option>
+        <option value="2">User 2</option>
+        <option value="3">User 3</option>
+      </Select>
+```
+
+### Query Key Hierarchy When Using Parameters
+
+In React Query, a query key follows a **hierarchical** structure when parameters are included. This hierarchy is intentional and is used to **organize cached data** in a predictable and scalable way.
+
+```js
+const usePosts = (userId: number | undefined) => { // userId as parameter
+    
+    const fetchPosts = () =>
+        axios
+    .get('https://jsonplaceholder.typicode.com/posts', {
+        params: { userId } // url: https://jsonplaceholder.typicode.com/posts?userId=1
+    })
+            .then(res => res.data)
+
+    return useQuery<Post[],Error>({
+        queryKey: ['users',userId,'posts'], // hierarchical (url : /user/1/posts , for id = 1)
+        queryFn: fetchPosts
+    })
+
+}
+```
+
+Done, Now we can filter posts by user
+
+![param_query](Images/JS/React/query_params.png)
+
+### Parameterised Queries – Wrap up
+
+* We began with a **static posts query** that always fetched all posts, regardless of user selection. This meant the data was fixed and not responsive to user input.
+
+* We introduced a **`userId` state** in the UI, allowing the user to select a specific user from a dropdown. This state became the source of truth for which posts should be displayed.
+
+* The selected `userId` was then **passed as an argument to the `usePosts` hook**, turning the hook into a dynamic, reusable data-fetching function instead of a hardcoded one.
+
+* Inside the hook, we used `userId` to **parameterize the API request**, ensuring that only posts belonging to the selected user are fetched from the server rather than filtering on the client side.
+
+* We updated the **query key to include `userId`**, forming a hierarchical structure. This allows React Query to cache posts separately for each user while keeping them logically grouped.
+
+* Because the query key changes when `userId` changes, **React Query automatically refetches the data**, eliminating the need for manual refetch logic.
+
+Overall, this approach makes the data flow predictable, keeps the cache well-organized, and allows the UI to react instantly to user selection while only fetching the data it actually needs.
+
+### Cached Data and Instant Switching
+
+* Once posts for a specific user are fetched, React Query **stores them in the cache** under their hierarchical query key.
+* When the user switches to another previously selected user, **no new API request is made**; React Query retrieves the data directly from the cache.
+* This makes **moving between users instant**, providing a smooth and responsive experience.
+* The hierarchical query key ensures that each user’s posts are **cached separately**, so switching users does not overwrite other cached data.
+* This caching strategy improves performance, reduces unnecessary network requests, and makes the app feel faster and more efficient.
+
+## Paginated queries
+
+**PostList.tsx**
+
+Define page state and page size
+
+```js
+
+const PostList = () => {
+    
+    const pageSize = 10 // each page will have 10 posts
+    const [page, setPage] = useState(1);
+
+// .... .... ....
+
+}
+```
+
+**usePosts.ts**
+
+* Defined the pagination query structure
+
+```ts
+interface postQuery {
+  page: number
+  pageSize: number
+}
+```
+
+* Passed pagination data into the hook
+
+```ts
+const usePosts = (query: postQuery) => {
+```
+
+* Calculated the starting index for pagination
+
+```ts
+_start: (query.page - 1) * query.pageSize
+```
+
+* Limited the number of posts per request
+
+```ts
+_limit: query.pageSize
+```
+
+* Sent pagination values as URL parameters
+
+```ts
+params: {
+  _start: (query.page - 1) * query.pageSize,
+  _limit: query.pageSize
+}
+```
+
+* Used pagination data in the query key
+
+```ts
+queryKey: ["posts", query]
+```
+
+* Returned paginated data through React Query
+
+```ts
+return useQuery<Post[], Error>({
+  queryKey: ["posts", query],
+  queryFn: fetchPosts
+})
+```
+
+**Final code**
+
+```js
+interface postQuery {
+    page: number
+    pageSize: number
+}
+
+const usePosts = (query: postQuery) => { 
+    
+    const fetchPosts = () =>
+        axios.get('https://jsonplaceholder.typicode.com/posts', {
+        params: { 
+            _start: (query.page - 1) * query.pageSize, 
+            _limit: query.pageSize
+         } // url: https://jsonplaceholder.typicode.com/posts?_start=0&_limit=10
+    })
+    .then(res => res.data)
+
+    return useQuery<Post[],Error>({
+        queryKey:  ['posts', query],
+        queryFn: fetchPosts
+    })
+
+}
+```
+
+This will show 1st 10 posts.. now , we're gonna implement pagination buttons
+
+```js
+<ButtonGroup variant={"outline"} colorScheme="blue">
+  <Button disabled={page === 1} onClick={() => setPage(page - 1)}>
+    Previous
+  </Button>
+  <Button onClick={() => setPage(page + 1)}>Next</Button>
+</ButtonGroup>
+```
+
+## Infinite queries
+
+* With `useInfiniteQuery`, we **don’t need to track page numbers manually**—React Query handles pagination internally.
+* We can remove any `page` state or related logic from our component.
+* `pageParam` is automatically passed to the query function by React Query for each fetch.
+* Use `pageParam` to calculate offsets, cursors, or anything else needed to fetch the next page of data.
+* `getNextPageParam` tells React Query what the **next `pageParam`** should be, or `undefined` if there are no more pages.
+
+Example bullet:
+
+* **Initial fetch:** `pageParam = 1`
+* **Next fetch:** `getNextPageParam` returns `2` → React Query calls query function with `pageParam = 2`
+
+First,
+
+**usePosts.ts**
+
+1. **Remove manual page state**
+
+```ts
+interface postQuery {
+    pageSize: number
+    // removed page: number
+}
+```
+
+* We no longer track `page` in state.
+* React Query handles the page cursor internally using `pageParam`.
+
+---
+
+2. **Use `pageParam` in query function**
+
+```ts
+const fetchPosts = ({ pageParam = 1 }: QueryFunctionContext) =>
+    axios
+        .get('https://jsonplaceholder.typicode.com/posts', {
+            params: { 
+                _start: (pageParam as number - 1) * query.pageSize, 
+                _limit: query.pageSize
+            } 
+        })
+        .then(res => res.data)
+```
+
+* `pageParam` defaults to `1` (initial page).
+* Calculated `_start` based on `pageParam`.
+* No reference to external `page` state anymore.
+
+---
+
+3. **Set up `useInfiniteQuery`**
+
+```ts
+return useInfiniteQuery<Post[], Error>({
+    queryKey: ['posts', query],
+    queryFn: fetchPosts,
+    keepPreviousData: true,
+    getNextPageParam: (lastPage, allPages) => {
+        return lastPage.length > 0 ? allPages.length + 1 : undefined;
+    }
+})
+
+// lastPage = posts from last fetch, allPages = [[page1], [page2], ...]
+// if lastPage has items, next page = allPages.length + 1
+
+```
+
+* `queryKey` now only depends on `query` object.
+* `getNextPageParam` calculates next page automatically:
+
+  * If `lastPage` has items → next page = `allPages.length + 1`
+  * Else → `undefined` (stops fetching)
+---
+
+✅ **Special changes we made**:
+
+* Removed manual `page` state from `postQuery`.
+* Used `pageParam` instead of `query.page`.
+* Defaulted `pageParam = 1`.
+* `getNextPageParam` handles next page logic automatically.
+* Query function fully self-contained; React Query handles pagination internally.
+
+## Mutations (Mutating Data)
+
+Up to now, we’ve only been **fetching and reading data** using queries. Queries are great for loading data and keeping it in sync automatically.
+
+Now we’re moving to **mutating data** — meaning **changing something on the server**.
+
+This includes things like:
+
+* Adding new items (form submit)
+* Updating existing data
+* Deleting data
+
+In React Query, **mutations are handled with `useMutation`**.
+
+Unlike queries:
+
+* Queries run automatically and are cache-driven
+* Mutations run **only when you trigger them** (usually via user actions like form submit)
+
+In this section, we’ll:
+
+* Create a **simple form**
+* Submit data using `useMutation`
+* Send a `POST` request with Axios
+* Handle success and error states
+* Update the UI after mutation by:
+
+  * Invalidating the cache **or**
+  * Updating the cache directly
+
+The goal here is to understand **how mutations work**, not to build a full-featured app.
