@@ -955,3 +955,43 @@ so, we have to use this
 
 ![NewData](Images/JS/React/NewData.png)
 
+## Handling mutation errors
+
+```js
+{postTodo.error && <Alert status="error">{postTodo.error.message}</Alert>}
+```
+
+> Error: Property 'message' does not exist on type '{}'.
+
+So, we have to **cast or type** the error (usually as `Error`) before accessing `.message`.
+
+```js
+  const postTodo = useMutation<Todo, Error, Todo>({ // type cast here
+    mutationFn: (todo: Todo) =>
+      axios
+        .post<Todo>("https://jsonplaceholder.typicode.com/postsx", todo) 
+        .then((res) => res.data),
+
+
+        //.... .... ....
+  })
+```
+
+> You don’t have to memorise these types — when you start typing, TypeScript (and your editor) will show tooltips and generics, so you just pick the right ones instead of guessing.
+
+You type `useMutation<`
+
+VS Code pops the order: `TData`, `TError`, `TVariables`, `TContext`
+
+## Showing mutation progress
+
+```js
+<Button
+  disabled={postTodo.isLoading}
+  variant={"outline"}
+  colorScheme="green"
+  type="submit"
+>
+  {postTodo.isLoading ? "Adding..." : "Add"}
+</Button>
+```        
