@@ -995,3 +995,137 @@ VS Code pops the order: `TData`, `TError`, `TVariables`, `TContext`
   {postTodo.isLoading ? "Adding..." : "Add"}
 </Button>
 ```        
+
+## Building a custom mutation hook
+
+```js
+import { Alert, Button, Input, Spinner } from "@chakra-ui/react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRef } from "react";
+import type { Todo } from "./Hooks/useTodos";
+import axios from "axios";
+
+// --------- Gotta move all these to a seperate file ---------- 
+// ------------------------------------------------------------ 
+const TodoForm = () => {
+  const queryClient = useQueryClient();
+  
+  const postTodo = useMutation<Todo, Error, Todo>({
+    mutationFn: (todo: Todo) =>
+      axios
+    .post<Todo>("https://jsonplaceholder.typicode.com/posts", todo) 
+    .then((res) => res.data),
+    
+    onSuccess: (savedTodo: Todo) => {
+      console.log(savedTodo);
+      queryClient.setQueryData<Todo[]>(["todos"], (todos) => [
+        savedTodo,
+        ...(todos || []),
+      ]);
+
+      if (ref.current) ref.current.value = "";
+    },
+  });
+  // ------------------------------------------------------------ 
+  // ------------------------------------------------------------ 
+
+  const ref = useRef<HTMLInputElement>(null);
+  return (
+    <>
+      {postTodo.error && <Alert status="error">{postTodo.error.message}</Alert>}
+      <form
+        style={{ width: "70vw", display: "flex" }}
+        onSubmit={(event) => {
+          event.preventDefault();
+
+          if (ref.current && ref.current.value) {
+            postTodo.mutate({
+              id: 0,
+              title: ref.current?.value,
+              completed: false,
+              userId: 1,
+            });
+          }
+        }}
+      >
+        <Input placeholder="Enter task" ref={ref} />
+        <Button
+          disabled={postTodo.isLoading}
+          variant={"outline"}
+          colorScheme="green"
+          type="submit"
+          >
+          {postTodo.isLoading ? <Spinner /> : "Add"}
+        </Button>
+      </form>
+    </>
+  );
+};
+
+export default TodoForm;
+```
+
+1. Create hook (ex: `useAddTodos.ts`) and move the specific part there
+
+ + Some minor changes
+
+```js
+import axios from "axios";
+import type { Todo } from "./useTodos";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
+
+
+const useAddTodos = (onAdd: () => void) => {
+    
+    const queryClient = useQueryClient();
+    
+  return useMutation<Todo, Error, Todo>({
+    mutationFn: (todo: Todo) =>
+      axios
+    .post<Todo>("https://jsonplaceholder.typicode.com/posts", todo) 
+    .then((res) => res.data),
+    
+    onSuccess: (savedTodo: Todo) => {
+      console.log(savedTodo);
+      queryClient.setQueryData<Todo[]>(["todos"], (todos) => [
+        savedTodo,
+        ...(todos || []),
+      ]);
+
+    //   if (ref.current) ref.current.value = "";
+    //  we're gonna pass a function as a param instead
+      onAdd(); // will be called 
+    },
+  });
+  // ------------------------------------------------------------ 
+
+}
+export default useAddTodos;
+```
+
+2. `TodoForm.tsx`
+
+```js
+import { Alert, Button, Input, Spinner } from "@chakra-ui/react";
+import { useRef } from "react";
+import useAddTodos from "./Hooks/useAddTodos";
+
+const TodoForm = () => {
+  const ref = useRef<HTMLInputElement>(null);
+
+  // Replace direct useMutation with useAddTodos
+  // Clears input on success
+  const postTodo = useAddTodos(() => ref.current && (ref.current.value = ""));
+
+  return (
+      // ... ... code
+  )
+};
+
+export default TodoForm;
+```
+
+## Creating reusable API client
+
+In our current implementation, we’re duplicating logic across multiple hooks, which leads to repeated code and maintenance headaches. To solve this, we can create a reusable API client that handles all HTTP requests in one place. This keeps our hooks clean, avoids duplication, and makes our code easier to maintain and extend.
+
