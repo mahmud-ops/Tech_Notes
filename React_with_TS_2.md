@@ -1129,3 +1129,337 @@ export default TodoForm;
 
 In our current implementation, we’re duplicating logic across multiple hooks, which leads to repeated code and maintenance headaches. To solve this, we can create a reusable API client that handles all HTTP requests in one place. This keeps our hooks clean, avoids duplication, and makes our code easier to maintain and extend.
 
+1. Open file `Services/apiClient.ts`
+
+```js
+import axios from "axios";
+
+// recap: generic type <T>
+class APIclient <T> {
+    endpoint: string;
+
+    constructor (endpoint: string){
+        this.endpoint = endpoint
+    }
+
+    getData(){
+        return axios
+            .get<T[]>(this.endpoint)
+            .then(res => res.data);
+    }
+
+    post(data: T){
+        return axios
+            .post(this.endpoint,data)
+            .then(res => res.data);
+    }
+
+}
+
+export default APIclient
+```
+
+**Now we can get rid of the Axios boilerplate in our hooks.**
+
+2. `Hooks/useTodos.ts`
+
+```js
+import { useQuery } from "@tanstack/react-query";
+import APIclient from "../Services/apiClient";
+
+export interface Todo {
+  id: number;
+  title: string;
+  completed: boolean;
+  userId: number
+}
+
+const useTodos = () => {
+const apiClient = new APIclient<Todo>("https://jsonplaceholder.typicode.com/posts"); //✨ Replaced
+
+  return useQuery<Todo[], Error>({
+    queryKey: ["todos"],
+    queryFn: apiClient.getData, // ✨ 
+    staleTime: 10_000
+  });
+};
+
+export default useTodos;
+```
+---
+<p style="color: red;">
+  Uncaught TypeError: todos.map is not a function  
+  TodoList TodoList.tsx:19  
+  React 13  
+  TodoList.tsx:19:15
+</p>
+
+---
+
+**Debugging**
+
+Open Inspect, jump to TodoList.tsx:19:15, pause at the breakpoint, and see what it’s returning.
+
+![image](Images/JS/React/TodoListReturn.png)
+
+Look at the return value... `todos` is not an array of objects (only arrays can be mapped)
+
+Now, why is this happening ? It's supposed to return an array of objects of `todos`
+
+**Debugging more 😓**
+
+`apiClient.ts`
+
+```js
+import axios from "axios";
+
+class APIclient <T> {
+    endpoint: string;
+
+    constructor (endpoint: string){
+        this.endpoint = endpoint
+    }
+
+    getData(){
+        debugger; // ✨✨✨
+        return axios
+            .get<T[]>(this.endpoint)
+            .then(res => res.data);
+    }
+
+    post(data: T){
+        return axios
+            .post(this.endpoint,data)
+            .then(res => res.data);
+    }
+
+}
+
+export default APIclient
+```
+
+`debugger` **pauses execution right there** when DevTools is open, letting you inspect variables and flow.
+Basically a **manual breakpoint in code**.
+
+![image](Images/JS/React/undefEndpoint.png)
+
+**`this.endpoint` is undefined**
+
+* The error occurs because `getData` is passed as a callback, causing it to lose its `this` context.
+* As a result, `this.endpoint` becomes `undefined` when React Query executes the function.
+
+**Fix**
+
+use arrow functions
+
+`apiClient.ts`
+
+```js
+import axios from "axios";
+
+class APIclient <T> {
+    endpoint: string;
+
+    constructor (endpoint: string){
+        this.endpoint = endpoint
+    }
+
+    getData = () => {
+        return axios
+            .get<T[]>(this.endpoint)
+            .then(res => res.data);
+    }
+
+    post = (data: T) => {
+        return axios
+            .post(this.endpoint,data)
+            .then(res => res.data);
+    }
+
+}
+
+export default APIclient
+```
+
+**Do the same this for mutation**
+
+```js
+return useMutation<Todo, Error, Todo>({
+  mutationFn: apiClient.post,
+
+
+  // ... ... ...
+})
+```
+
+## Creating a reusable HTTP service
+
+We’ve improved our code a lot, but there’s still one issue: the API endpoint is duplicated in multiple places. This makes the app fragile and hard to maintain. To fix this, we’ll create a single shared API client instance in a service file and reuse it across the app, reducing duplication and preventing errors.
+
+1. Open new file `Services/ todoService.ts`
+
+2. Code 
+
+```js
+import APIclient from "./apiClient";
+
+export interface Todo {
+    id: number;
+    title: string;
+    completed: boolean;
+    userId: number
+}
+
+export default new APIclient<Todo>("https://jsonplaceholder.typicode.com/posts");
+```
+
+**Now, in `useTodos.ts`**
+
+```js
+import { useQuery } from "@tanstack/react-query";
+import type { Todo } from "../Services/todoService";
+import todoService from "../Services/todoService";
+
+const useTodos = () => {
+
+// no need to explicitly create an API client anymore like this
+// const apiClient = new APIclient<Todo>("https://jsonplaceholder.typicode.com/posts");
+
+
+  return useQuery<Todo[], Error>({
+    queryKey: ["todos"],
+    queryFn: todoService.getData, // ✨✨✨
+    staleTime: 10_000
+  });
+};
+
+export default useTodos;
+```
+
+**Same for mutation (eg: `useAddTodos.ts`)**
+
+## Understanding the application layers
+
+Let’s break down our app layer by layer. At the bottom, the API client handles HTTP requests. On top, HTTP services are dedicated API client instances for specific data types, like todos or posts. Next, custom React Query hooks manage fetching, caching, and updating data. Finally, components use these hooks to interact with data. Each layer has a single responsibility, making the architecture clean, maintainable, and scalable.
+
+```mermaid
+graph TD
+    %% Layers
+    subgraph UI_Layer [Components]
+        TF[TodoForm]
+        TL[TodoList]
+    end
+
+    subgraph Logic_Layer [Custom Hooks]
+        UT[useTodos]
+        UAT[useAddTodo]
+    end
+
+    subgraph Service_Layer [HTTP Services]
+        TS[todoService]
+    end
+
+    subgraph Infrastructure_Layer [API Client]
+        AC[APIClient]
+    end
+
+    %% Relationships
+    TF -->|adds todo| UAT
+    TL -->|fetches todos| UT
+
+    UAT --> TS
+    UT --> TS
+
+    TS --> AC
+```
+
+Here’s a **step-by-step breakdown** of the flow in the graph from bottom to top:
+
+---
+
+**1. Infrastructure Layer (API Client)**
+
+* **`APIClient`** is the foundation.
+* Handles **raw HTTP requests** (`GET`, `POST`, etc.) to the backend.
+* Provides generic methods (`getData`, `post`) that can be reused by all services.
+
+---
+
+**2. Service Layer (HTTP Services)**
+
+* **`todoService`** is an instance of `APIClient` dedicated to `Todo` data.
+* Abstracts API details away from the rest of the app.
+* Provides clear methods like `getData()` or `addTodo()` specifically for todos.
+* Reduces duplication and ensures a **single source of truth** for API calls.
+
+---
+
+**3. Logic Layer (Custom Hooks)**
+
+* **`useTodos`** fetches todos and caches them using **React Query**.
+* **`useAddTodo`** handles adding new todos and updating the cache.
+* Both hooks **call the service layer**, never the raw API directly.
+* They manage **state, caching, and side effects**, keeping components clean.
+
+---
+
+**4. UI Layer (Components)**
+
+* **`TodoList`** displays todos by calling `useTodos`.
+* **`TodoForm`** lets users add todos via `useAddTodo`.
+* Components **don’t care about API logic**; they just use the hooks.
+* This keeps the UI **decoupled** from backend details.
+
+---
+
+### **Flow Summary**
+
+1. Component → calls Hook (`TodoForm` → `useAddTodo`)
+2. Hook → calls Service (`useAddTodo` → `todoService`)
+3. Service → calls API Client (`todoService` → `APIClient`)
+4. Data flows back **up** through the layers to update the UI.
+
+---
+
+```mermaid
+graph LR
+  subgraph Detailed diargam
+    %% Layers
+    subgraph UI_Layer [Components]
+        TF[TodoForm]
+        TL[TodoList]
+    end
+
+    subgraph Logic_Layer [Custom Hooks]
+        UT[useTodos]
+        UAT[useAddTodo]
+    end
+
+    subgraph Service_Layer [HTTP Services]
+        TS[todoService]
+    end
+
+    subgraph Infrastructure_Layer [API Client]
+        AC[APIClient]
+    end
+    end 
+
+    %% Relationships with detailed flow
+    TF -->|calls addTodo hook| UAT
+    TL -->|calls fetchTodos hook| UT
+
+    UAT -->|calls todoService methods| TS
+    UT -->|calls todoService methods| TS
+
+    TS -->|sends HTTP requests| AC
+    AC -->|returns data| TS
+    TS -->|returns processed data| UT
+    TS -->|returns processed data| UAT
+    UT -->|returns todos| TL
+    UAT -->|returns updated todos| TF
+```
+
+## Project work
+
+V1: [GameHub](https://game-hub-git-master-abdullah-al-mahmuds-projects.vercel.app/)
+V2: [GameHub (updated)]()

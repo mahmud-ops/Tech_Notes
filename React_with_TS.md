@@ -3761,7 +3761,7 @@ In this hands-on project, you will consolidate everything you’ve learned by bu
 
 **Github repo:** [https://github.com/mahmud-ops/GameHub](https://github.com/mahmud-ops/GameHub)
 
-**Live:** [https://game-hub-three-zeta-86.vercel.app/](https://game-hub-three-zeta-86.vercel.app/)
+**Live:** [https://game-hub-git-master-abdullah-al-mahmuds-projects.vercel.app/](https://game-hub-git-master-abdullah-al-mahmuds-projects.vercel.app/)
 
 # Next : Part 2
 
