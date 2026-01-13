@@ -129,3 +129,96 @@ int fib(int n) {
 
 O(1) < O(log n) < O(n) < O(n log n) < O(n²) < O(2ⁿ)
 
+# Array 
+
+The simplest data structure
+
+**Time Complexity**
+
+**Lookup / Access — O(1)**
+
+* **Why:** Arrays use **contiguous memory**.
+* **How:** Given an index `i`, CPU jumps straight to
+  `address = base + i * size`.
+* No looping, no searching — just direct math. That’s why it’s constant time.
+
+> **Base** is the memory address where the first element of an array is stored.
+>**Example:** if an `int` array starts at address `1000` and each int takes `4 bytes`, then
+>`arr[0] = 1000`, `arr[1] = 1004`, `arr[2] = 1008` — here, **1000 is the base address** everything is > calculated from.
+
+---
+
+**Insert — O(n)**
+
+* **Why:** To keep elements in order, you often need to **shift stuff**.
+* **How:**
+
+  * Insert at **start or middle** → shift all elements after that index → up to `n` moves.
+  * Insert at **end** →
+
+    * If space exists → O(1)
+    * If array is full → new array + copy everything → O(n)
+* **Worst case:** always O(n).
+
+---
+
+**Delete — Best: O(1), Worst: O(n)**
+
+* **Best case (O(1))**
+
+  * Deleting the **last element**.
+  * Just reduce size pointer. No shifting.
+
+* **Worst case (O(n))**
+
+  * Deleting from **start or middle**.
+  * All elements after it must **shift left** to fill the gap.
+
+---
+
+**Quick Summary**
+
+* Access → **O(1)** (direct index math)
+* Insert → **O(n)** (shifting or resizing)
+* Delete → **O(1)** best, **O(n)** worst (depends on position)
+
+ ## Woring with arrays (java)
+
+```java
+ public class New {
+    public static void main(String[] args) {
+        int[] numbers = new int[3];
+        System.out.println(numbers); // I@6d06d69c (prints memory address)
+    }
+}
+```
+```java
+import java.util.Arrays;
+
+public class New {
+    public static void main(String[] args) {
+        int[] numbers = new int[3];
+        System.out.println(Arrays.toString(numbers)); // [0, 0, 0] (Initialised as 0)
+    }
+}
+```
+```java
+import java.util.Arrays;
+
+public class New {
+    public static void main(String[] args) {
+        int[] numbers = new int[3];
+
+        numbers[0] = 10;
+        numbers[1] = 20;
+        numbers[2] = 30;
+
+        System.out.println(Arrays.toString(numbers)); // [10, 20, 30]
+    }
+}
+```
+
+An array's size cannot be changed
+
+## Building an array class
+

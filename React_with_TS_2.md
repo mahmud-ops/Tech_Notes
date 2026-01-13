@@ -1464,3 +1464,59 @@ graph LR
 V1: [GameHub](https://game-rfy9eu2gg-abdullah-al-mahmuds-projects.vercel.app/)
 
 V2: [GameHub (updated)](https://game-bl31hqhjk-abdullah-al-mahmuds-projects.vercel.app/)
+
+# Global state management
+
+**Intro**
+
+This section of the course focuses on how to manage state in a React app the right way. Instead of handling state only inside single components, you will learn how to manage and share state across the whole application. The goal is to clear confusion around common tools and help you understand when and why to use each one.
+
+**What you will learn**
+
+• How reducers help you organize and control state logic
+• How React Context is used to share data between components
+• When Context is enough and when you should look at other state tools
+• The real difference between Context and Redux
+• An introduction to Zustand for managing global state
+• How to choose the right tool for your project instead of following hype
+
+## Consolidating state logic with a reducer
+
+**Reducer:** A function that allows us to centralise state updates in a component
+
+**A basic counter**
+
+```js
+const Counter = () => {
+
+    const [value,setValue] = useState(0)
+
+  return (
+    <div>
+        <Text>{value}</Text>
+        <Button onClick={() => setValue(value + 1)/*state update*/}>Increament</Button>
+        <Button onClick={() => setValue(0)/*state update*/}>Reset</Button>
+    </div>
+  )
+}
+
+export default Counter
+```
+
+Now, we have to centralise the state updates in a seperate component
+
+1. Open new file (eg: `Reducers/counterReducer.ts`)
+
+```js
+interface Action {
+    type: string
+}
+
+const counterReducer = (state: number, action: Action) => {
+    if(action.type == 'Increament') return (state + 1);
+    if(action.type == 'Reset') return (0);
+    return state;
+}
+
+export default counterReducer;
+```
