@@ -48,7 +48,7 @@ const TodoList = () => {
 4. No automatic refresh / refetch
 5. No `caching`
 
-### Caching
+## Caching
 
 - **Definition:** Caching is the process of storing data in a place where it can be accessed quickly in the future instead of fetching it from the original source every time.
 
@@ -277,7 +277,7 @@ const TodoList = () => {
 npm i @tanstack/react-query-devtools@4
 ```
 
-2. `main.tsx`
+1. `main.tsx`
 
 ```js
 import { StrictMode } from "react";
@@ -378,32 +378,33 @@ Here are the **common React Query `defaultOptions.queries`** with **one-line exp
 
 ### React Query refetches data by default under **3 conditions**
 
-* **On component mount**
+- **On component mount**
   When a component using a query mounts and the cached data is **stale**, React Query refetches it.
 
-* **On window focus**
+- **On window focus**
   When the user switches back to the browser tab/window, React Query refetches stale data.
 
-* **On network reconnect**
+- **On network reconnect**
   When the device goes offline and then comes back online, React Query refetches stale data.
 
 These defaults are what keep data **fresh without manual `useEffect` logic**.
 
 We can also customize these behaviors in `queryOptions.queries` using options like `refetchOnMount`, `refetchOnWindowFocus`, and `refetchOnReconnect`.
 
---- 
+---
 
 We can customize these behaviors **per query**, instead of applying them globally from `main.tsx`.
 
 Like this
 
 `useTodos.ts`
+
 ```js
 const useTodos = () => {
   const fetchTodos = () =>
     axios
       .get<Todo[]>("https://jsonplaceholder.typicode.com/todos")
-      .then((res) => res.data); 
+      .then((res) => res.data);
 
   return useQuery<Todo[], Error>({
     queryKey: ["todos"],
@@ -422,6 +423,7 @@ There is a component that fetches posts from the backend (**JSONPlaceholder**) u
 ### Solution
 
 `usePosts.ts`
+
 ```js
 import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
@@ -434,8 +436,8 @@ interface Post {
 }
 
 const usePosts = () => {
-    
-    const fetchPosts = () => 
+
+    const fetchPosts = () =>
         axios
     .get('https://jsonplaceholder.typicode.com/posts')
             .then(res => res.data)
@@ -455,15 +457,16 @@ export default usePosts
 Here we’re going to **parameterize queries** so they can fetch data dynamically based on input, and then **filter posts by user** to only show posts belonging to a specific user.
 
 `usePosts.ts`
+
 ```js
-    
-    const fetchPosts = () => 
+
+    const fetchPosts = () =>
         axios
     .get('https://jsonplaceholder.typicode.com/posts')
             .then(res => res.data)
 
     return useQuery<Post[],Error>({
-        queryKey: ['posts'], // we're gonna work here 
+        queryKey: ['posts'], // we're gonna work here
         queryFn: fetchPosts
     })
 
@@ -475,7 +478,7 @@ Here we’re going to **parameterize queries** so they can fetch data dynamicall
 ```js
 const [userId, setUserId] = useState<number>();
     const { data: posts, error, isLoading } = usePosts(userId); // current userId as argument
-    
+
     if (isLoading) return <Text>Loading...</Text>;
     if (error instanceof Error) return <Text>{error.message}</Text>;
   return (
@@ -497,7 +500,7 @@ In React Query, a query key follows a **hierarchical** structure when parameters
 
 ```js
 const usePosts = (userId: number | undefined) => { // userId as parameter
-    
+
     const fetchPosts = () =>
         axios
     .get('https://jsonplaceholder.typicode.com/posts', {
@@ -519,27 +522,27 @@ Done, Now we can filter posts by user
 
 ### Parameterised Queries – Wrap up
 
-* We began with a **static posts query** that always fetched all posts, regardless of user selection. This meant the data was fixed and not responsive to user input.
+- We began with a **static posts query** that always fetched all posts, regardless of user selection. This meant the data was fixed and not responsive to user input.
 
-* We introduced a **`userId` state** in the UI, allowing the user to select a specific user from a dropdown. This state became the source of truth for which posts should be displayed.
+- We introduced a **`userId` state** in the UI, allowing the user to select a specific user from a dropdown. This state became the source of truth for which posts should be displayed.
 
-* The selected `userId` was then **passed as an argument to the `usePosts` hook**, turning the hook into a dynamic, reusable data-fetching function instead of a hardcoded one.
+- The selected `userId` was then **passed as an argument to the `usePosts` hook**, turning the hook into a dynamic, reusable data-fetching function instead of a hardcoded one.
 
-* Inside the hook, we used `userId` to **parameterize the API request**, ensuring that only posts belonging to the selected user are fetched from the server rather than filtering on the client side.
+- Inside the hook, we used `userId` to **parameterize the API request**, ensuring that only posts belonging to the selected user are fetched from the server rather than filtering on the client side.
 
-* We updated the **query key to include `userId`**, forming a hierarchical structure. This allows React Query to cache posts separately for each user while keeping them logically grouped.
+- We updated the **query key to include `userId`**, forming a hierarchical structure. This allows React Query to cache posts separately for each user while keeping them logically grouped.
 
-* Because the query key changes when `userId` changes, **React Query automatically refetches the data**, eliminating the need for manual refetch logic.
+- Because the query key changes when `userId` changes, **React Query automatically refetches the data**, eliminating the need for manual refetch logic.
 
 Overall, this approach makes the data flow predictable, keeps the cache well-organized, and allows the UI to react instantly to user selection while only fetching the data it actually needs.
 
 ### Cached Data and Instant Switching
 
-* Once posts for a specific user are fetched, React Query **stores them in the cache** under their hierarchical query key.
-* When the user switches to another previously selected user, **no new API request is made**; React Query retrieves the data directly from the cache.
-* This makes **moving between users instant**, providing a smooth and responsive experience.
-* The hierarchical query key ensures that each user’s posts are **cached separately**, so switching users does not overwrite other cached data.
-* This caching strategy improves performance, reduces unnecessary network requests, and makes the app feel faster and more efficient.
+- Once posts for a specific user are fetched, React Query **stores them in the cache** under their hierarchical query key.
+- When the user switches to another previously selected user, **no new API request is made**; React Query retrieves the data directly from the cache.
+- This makes **moving between users instant**, providing a smooth and responsive experience.
+- The hierarchical query key ensures that each user’s posts are **cached separately**, so switching users does not overwrite other cached data.
+- This caching strategy improves performance, reduces unnecessary network requests, and makes the app feel faster and more efficient.
 
 ## Paginated queries
 
@@ -548,47 +551,44 @@ Overall, this approach makes the data flow predictable, keeps the cache well-org
 Define page state and page size
 
 ```js
-
 const PostList = () => {
-    
-    const pageSize = 10 // each page will have 10 posts
-    const [page, setPage] = useState(1);
+  const pageSize = 10; // each page will have 10 posts
+  const [page, setPage] = useState(1);
 
-// .... .... ....
-
-}
+  // .... .... ....
+};
 ```
 
 **usePosts.ts**
 
-* Defined the pagination query structure
+- Defined the pagination query structure
 
 ```ts
 interface postQuery {
-  page: number
-  pageSize: number
+  page: number;
+  pageSize: number;
 }
 ```
 
-* Passed pagination data into the hook
+- Passed pagination data into the hook
 
 ```ts
 const usePosts = (query: postQuery) => {
 ```
 
-* Calculated the starting index for pagination
+- Calculated the starting index for pagination
 
 ```ts
-_start: (query.page - 1) * query.pageSize
+_start: (query.page - 1) * query.pageSize;
 ```
 
-* Limited the number of posts per request
+- Limited the number of posts per request
 
 ```ts
-_limit: query.pageSize
+_limit: query.pageSize;
 ```
 
-* Sent pagination values as URL parameters
+- Sent pagination values as URL parameters
 
 ```ts
 params: {
@@ -597,19 +597,19 @@ params: {
 }
 ```
 
-* Used pagination data in the query key
+- Used pagination data in the query key
 
 ```ts
-queryKey: ["posts", query]
+queryKey: ["posts", query];
 ```
 
-* Returned paginated data through React Query
+- Returned paginated data through React Query
 
 ```ts
 return useQuery<Post[], Error>({
   queryKey: ["posts", query],
-  queryFn: fetchPosts
-})
+  queryFn: fetchPosts,
+});
 ```
 
 **Final code**
@@ -620,12 +620,12 @@ interface postQuery {
     pageSize: number
 }
 
-const usePosts = (query: postQuery) => { 
-    
+const usePosts = (query: postQuery) => {
+
     const fetchPosts = () =>
         axios.get('https://jsonplaceholder.typicode.com/posts', {
-        params: { 
-            _start: (query.page - 1) * query.pageSize, 
+        params: {
+            _start: (query.page - 1) * query.pageSize,
             _limit: query.pageSize
          } // url: https://jsonplaceholder.typicode.com/posts?_start=0&_limit=10
     })
@@ -652,16 +652,16 @@ This will show 1st 10 posts.. now , we're gonna implement pagination buttons
 
 ## Infinite queries
 
-* With `useInfiniteQuery`, we **don’t need to track page numbers manually**—React Query handles pagination internally.
-* We can remove any `page` state or related logic from our component.
-* `pageParam` is automatically passed to the query function by React Query for each fetch.
-* Use `pageParam` to calculate offsets, cursors, or anything else needed to fetch the next page of data.
-* `getNextPageParam` tells React Query what the **next `pageParam`** should be, or `undefined` if there are no more pages.
+- With `useInfiniteQuery`, we **don’t need to track page numbers manually**—React Query handles pagination internally.
+- We can remove any `page` state or related logic from our component.
+- `pageParam` is automatically passed to the query function by React Query for each fetch.
+- Use `pageParam` to calculate offsets, cursors, or anything else needed to fetch the next page of data.
+- `getNextPageParam` tells React Query what the **next `pageParam`** should be, or `undefined` if there are no more pages.
 
 Example bullet:
 
-* **Initial fetch:** `pageParam = 1`
-* **Next fetch:** `getNextPageParam` returns `2` → React Query calls query function with `pageParam = 2`
+- **Initial fetch:** `pageParam = 1`
+- **Next fetch:** `getNextPageParam` returns `2` → React Query calls query function with `pageParam = 2`
 
 First,
 
@@ -671,67 +671,67 @@ First,
 
 ```ts
 interface postQuery {
-    pageSize: number
-    // removed page: number
+  pageSize: number;
+  // removed page: number
 }
 ```
 
-* We no longer track `page` in state.
-* React Query handles the page cursor internally using `pageParam`.
+- We no longer track `page` in state.
+- React Query handles the page cursor internally using `pageParam`.
 
 ---
 
-2. **Use `pageParam` in query function**
+1. **Use `pageParam` in query function**
 
 ```ts
 const fetchPosts = ({ pageParam = 1 }: QueryFunctionContext) =>
-    axios
-        .get('https://jsonplaceholder.typicode.com/posts', {
-            params: { 
-                _start: (pageParam as number - 1) * query.pageSize, 
-                _limit: query.pageSize
-            } 
-        })
-        .then(res => res.data)
+  axios
+    .get("https://jsonplaceholder.typicode.com/posts", {
+      params: {
+        _start: ((pageParam as number) - 1) * query.pageSize,
+        _limit: query.pageSize,
+      },
+    })
+    .then((res) => res.data);
 ```
 
-* `pageParam` defaults to `1` (initial page).
-* Calculated `_start` based on `pageParam`.
-* No reference to external `page` state anymore.
+- `pageParam` defaults to `1` (initial page).
+- Calculated `_start` based on `pageParam`.
+- No reference to external `page` state anymore.
 
 ---
 
-3. **Set up `useInfiniteQuery`**
+1. **Set up `useInfiniteQuery`**
 
 ```ts
 return useInfiniteQuery<Post[], Error>({
-    queryKey: ['posts', query],
-    queryFn: fetchPosts,
-    keepPreviousData: true,
-    getNextPageParam: (lastPage, allPages) => {
-        return lastPage.length > 0 ? allPages.length + 1 : undefined;
-    }
-})
+  queryKey: ["posts", query],
+  queryFn: fetchPosts,
+  keepPreviousData: true,
+  getNextPageParam: (lastPage, allPages) => {
+    return lastPage.length > 0 ? allPages.length + 1 : undefined;
+  },
+});
 
 // lastPage = posts from last fetch, allPages = [[page1], [page2], ...]
 // if lastPage has items, next page = allPages.length + 1
-
 ```
 
-* `queryKey` now only depends on `query` object.
-* `getNextPageParam` calculates next page automatically:
+- `queryKey` now only depends on `query` object.
+- `getNextPageParam` calculates next page automatically:
 
-  * If `lastPage` has items → next page = `allPages.length + 1`
-  * Else → `undefined` (stops fetching)
+  - If `lastPage` has items → next page = `allPages.length + 1`
+  - Else → `undefined` (stops fetching)
+
 ---
 
 ✅ **Special changes we made**:
 
-* Removed manual `page` state from `postQuery`.
-* Used `pageParam` instead of `query.page`.
-* Defaulted `pageParam = 1`.
-* `getNextPageParam` handles next page logic automatically.
-* Query function fully self-contained; React Query handles pagination internally.
+- Removed manual `page` state from `postQuery`.
+- Used `pageParam` instead of `query.page`.
+- Defaulted `pageParam = 1`.
+- `getNextPageParam` handles next page logic automatically.
+- Query function fully self-contained; React Query handles pagination internally.
 
 ## Mutations (Mutating Data)
 
@@ -741,27 +741,27 @@ Now we’re moving to **mutating data** — meaning **changing something on the 
 
 This includes things like:
 
-* Adding new items (form submit)
-* Updating existing data
-* Deleting data
+- Adding new items (form submit)
+- Updating existing data
+- Deleting data
 
 In React Query, **mutations are handled with `useMutation`**.
 
 Unlike queries:
 
-* Queries run automatically and are cache-driven
-* Mutations run **only when you trigger them** (usually via user actions like form submit)
+- Queries run automatically and are cache-driven
+- Mutations run **only when you trigger them** (usually via user actions like form submit)
 
 In this section, we’ll:
 
-* Create a **simple form**
-* Submit data using `useMutation`
-* Send a `POST` request with Axios
-* Handle success and error states
-* Update the UI after mutation by:
+- Create a **simple form**
+- Submit data using `useMutation`
+- Send a `POST` request with Axios
+- Handle success and error states
+- Update the UI after mutation by:
 
-  * Invalidating the cache **or**
-  * Updating the cache directly
+  - Invalidating the cache **or**
+  - Updating the cache directly
 
 The goal here is to understand **how mutations work**, not to build a full-featured app.
 
@@ -772,7 +772,7 @@ import { Button, Input } from "@chakra-ui/react";
 import { useRef } from "react";
 
 const TodoForm = () => {
-  const ref = useRef<HTMLInputElement>(null);
+  const ref = useRef < HTMLInputElement > null;
 
   return (
     <form
@@ -790,25 +790,24 @@ const TodoForm = () => {
 };
 
 export default TodoForm;
-
 ```
 
 **App.tsx**
 
 ```js
-import TodoForm from "./React_Query/TodoForm"
-import TodoList from "./React_Query/TodoList"
+import TodoForm from "./React_Query/TodoForm";
+import TodoList from "./React_Query/TodoList";
 
 const App = () => {
   return (
     <div>
-      <TodoForm/>
-      <TodoList/>
+      <TodoForm />
+      <TodoList />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
 ```
 
 **Now, here comes mutation**
@@ -819,32 +818,32 @@ export default App
 
 In short, it gives you both the **function to trigger the mutation** and the **current status of that mutation**.
 
-2. `mutate` is the function returned by `useMutation` that you call to send data to the server (like a POST request), and it automatically tracks whether the request is loading, succeeded, or failed so you can update your UI accordingly.
+1. `mutate` is the function returned by `useMutation` that you call to send data to the server (like a POST request), and it automatically tracks whether the request is loading, succeeded, or failed so you can update your UI accordingly.
 
 ```js
 const TodoForm = () => {
-  const ref = useRef<HTMLInputElement>(null);
+  const ref = useRef < HTMLInputElement > null;
 
   //1. store the object generated by `useMutation()` in postTodo..
   const postTodo = useMutation({
-    mutationFn: (todo: Todo) => 
+    mutationFn: (todo: Todo) =>
       axios
-        .post('https://jsonplaceholder.typicode.com/posts',todo) // sends the todo data to the server via a POST request
-        .then(res => res.data)
-  })
+        .post("https://jsonplaceholder.typicode.com/posts", todo) // sends the todo data to the server via a POST request
+        .then((res) => res.data),
+  });
 
   return (
     <form
       style={{ width: "70vw", display: "flex" }}
       onSubmit={(event) => {
-        event.preventDefault(); 
+        event.preventDefault();
 
         // 2. call the returned `mutate` function with a todo object to trigger this POST.
         postTodo.mutate({
           id: 0,
           title: ref.current?.value,
           completed: false,
-          userId: 1
+          userId: 1,
         });
       }}
     >
@@ -860,7 +859,7 @@ export default TodoForm;
 ```
 
 > Error : Type 'string | undefined' is not assignable to type 'string'.
->  Type 'undefined' is not assignable to type 'string'. 
+> Type 'undefined' is not assignable to type 'string'.
 
 This error means TypeScript expects a `string`, but your value might be `undefined`, so you need to ensure it’s always a `string` before using it.
 
@@ -882,7 +881,7 @@ Let's test it
 1. Enter something in the form and submit it.
 2. Nothing happens because we haven’t added any functionality to handle or display the submission.
 
-But, something happened under the hood. 
+But, something happened under the hood.
 
 Go to : `inspect > network > xhr > request`
 
@@ -893,30 +892,32 @@ A new post with the given data was successfully sent to the server via a POST re
 **Rendering the new post**
 
 ```js
-  const postTodo = useMutation({
-    mutationFn: (todo: Todo) =>
-      axios
-        .post<Todo>("https://jsonplaceholder.typicode.com/posts", todo) 
-        .then((res) => res.data),
+const postTodo = useMutation({
+  mutationFn: (todo: Todo) =>
+    axios.post <
+    Todo >
+    ("https://jsonplaceholder.typicode.com/posts", todo).then(
+      (res) => res.data
+    ),
 
-      onSuccess: (savedTodo: Todo, newTodo: Todo) => {
-        console.log(savedTodo); // the request worked, and the response data is what you see in the console.
-      }
-  });
+  onSuccess: (savedTodo: Todo, newTodo: Todo) => {
+    console.log(savedTodo); // the request worked, and the response data is what you see in the console.
+  },
+});
 ```
 
 Now you can **use that response to update your UI** instead of just logging it. For example:
 
-* **Add the new todo to a list** so it appears instantly on the page.
-* **Clear the form input** after a successful submission.
-* **Show a success message** to the user.
-* **invalidate the cached list of todos** so React Query refetches the latest data from the server.
+- **Add the new todo to a list** so it appears instantly on the page.
+- **Clear the form input** after a successful submission.
+- **Show a success message** to the user.
+- **invalidate the cached list of todos** so React Query refetches the latest data from the server.
 
 **Invalidating the cache**
 
 In programming (and React Query specifically), **invalidate** means to **mark cached data as outdated**, so the next time it’s needed, it will be **refetched from the server** instead of using the old cached version.
 
-Plain English: *“this data is no longer fresh, go get the latest.”*
+Plain English: _“this data is no longer fresh, go get the latest.”_
 
 ```js
 // this method invalidates queries..
@@ -925,9 +926,9 @@ const queryClient = useQueryClient();
 onSuccess: (savedTodo: Todo, newTodo: Todo) => {
   console.log(savedTodo);
   queryClient.invalidateQueries({
-    queryKey: ['todos']
-  })
-}
+    queryKey: ["todos"],
+  });
+};
 ```
 
 Unfortunately, this approach doesn’t work on `jsonplaceholder` because it’s a **fake online REST API**
@@ -958,7 +959,9 @@ so, we have to use this
 ## Handling mutation errors
 
 ```js
-{postTodo.error && <Alert status="error">{postTodo.error.message}</Alert>}
+{
+  postTodo.error && <Alert status="error">{postTodo.error.message}</Alert>;
+}
 ```
 
 > Error: Property 'message' does not exist on type '{}'.
@@ -969,7 +972,7 @@ So, we have to **cast or type** the error (usually as `Error`) before accessing 
   const postTodo = useMutation<Todo, Error, Todo>({ // type cast here
     mutationFn: (todo: Todo) =>
       axios
-        .post<Todo>("https://jsonplaceholder.typicode.com/postsx", todo) 
+        .post<Todo>("https://jsonplaceholder.typicode.com/postsx", todo)
         .then((res) => res.data),
 
 
@@ -994,7 +997,7 @@ VS Code pops the order: `TData`, `TError`, `TVariables`, `TContext`
 >
   {postTodo.isLoading ? "Adding..." : "Add"}
 </Button>
-```        
+```
 
 ## Building a custom mutation hook
 
@@ -1005,17 +1008,17 @@ import { useRef } from "react";
 import type { Todo } from "./Hooks/useTodos";
 import axios from "axios";
 
-// --------- Gotta move all these to a seperate file ---------- 
-// ------------------------------------------------------------ 
+// --------- Gotta move all these to a seperate file ----------
+// ------------------------------------------------------------
 const TodoForm = () => {
   const queryClient = useQueryClient();
-  
+
   const postTodo = useMutation<Todo, Error, Todo>({
     mutationFn: (todo: Todo) =>
       axios
-    .post<Todo>("https://jsonplaceholder.typicode.com/posts", todo) 
+    .post<Todo>("https://jsonplaceholder.typicode.com/posts", todo)
     .then((res) => res.data),
-    
+
     onSuccess: (savedTodo: Todo) => {
       console.log(savedTodo);
       queryClient.setQueryData<Todo[]>(["todos"], (todos) => [
@@ -1026,8 +1029,8 @@ const TodoForm = () => {
       if (ref.current) ref.current.value = "";
     },
   });
-  // ------------------------------------------------------------ 
-  // ------------------------------------------------------------ 
+  // ------------------------------------------------------------
+  // ------------------------------------------------------------
 
   const ref = useRef<HTMLInputElement>(null);
   return (
@@ -1067,7 +1070,7 @@ export default TodoForm;
 
 1. Create hook (ex: `useAddTodos.ts`) and move the specific part there
 
- + Some minor changes
+- Some minor changes
 
 ```js
 import axios from "axios";
@@ -1076,15 +1079,15 @@ import { useQueryClient, useMutation } from "@tanstack/react-query";
 
 
 const useAddTodos = (onAdd: () => void) => {
-    
+
     const queryClient = useQueryClient();
-    
+
   return useMutation<Todo, Error, Todo>({
     mutationFn: (todo: Todo) =>
       axios
-    .post<Todo>("https://jsonplaceholder.typicode.com/posts", todo) 
+    .post<Todo>("https://jsonplaceholder.typicode.com/posts", todo)
     .then((res) => res.data),
-    
+
     onSuccess: (savedTodo: Todo) => {
       console.log(savedTodo);
       queryClient.setQueryData<Todo[]>(["todos"], (todos) => [
@@ -1094,16 +1097,16 @@ const useAddTodos = (onAdd: () => void) => {
 
     //   if (ref.current) ref.current.value = "";
     //  we're gonna pass a function as a param instead
-      onAdd(); // will be called 
+      onAdd(); // will be called
     },
   });
-  // ------------------------------------------------------------ 
+  // ------------------------------------------------------------
 
 }
 export default useAddTodos;
 ```
 
-2. `TodoForm.tsx`
+1. `TodoForm.tsx`
 
 ```js
 import { Alert, Button, Input, Spinner } from "@chakra-ui/react";
@@ -1161,7 +1164,7 @@ export default APIclient
 
 **Now we can get rid of the Axios boilerplate in our hooks.**
 
-2. `Hooks/useTodos.ts`
+1. `Hooks/useTodos.ts`
 
 ```js
 import { useQuery } from "@tanstack/react-query";
@@ -1179,14 +1182,16 @@ const apiClient = new APIclient<Todo>("https://jsonplaceholder.typicode.com/post
 
   return useQuery<Todo[], Error>({
     queryKey: ["todos"],
-    queryFn: apiClient.getData, // ✨ 
+    queryFn: apiClient.getData, // ✨
     staleTime: 10_000
   });
 };
 
 export default useTodos;
 ```
+
 ---
+
 <p style="color: red;">
   Uncaught TypeError: todos.map is not a function  
   TodoList TodoList.tsx:19  
@@ -1245,8 +1250,8 @@ Basically a **manual breakpoint in code**.
 
 **`this.endpoint` is undefined**
 
-* The error occurs because `getData` is passed as a callback, causing it to lose its `this` context.
-* As a result, `this.endpoint` becomes `undefined` when React Query executes the function.
+- The error occurs because `getData` is passed as a callback, causing it to lose its `this` context.
+- As a result, `this.endpoint` becomes `undefined` when React Query executes the function.
 
 **Fix**
 
@@ -1284,12 +1289,16 @@ export default APIclient
 **Do the same this for mutation**
 
 ```js
-return useMutation<Todo, Error, Todo>({
-  mutationFn: apiClient.post,
+return (
+  useMutation < Todo,
+  Error,
+  Todo >
+    {
+      mutationFn: apiClient.post,
 
-
-  // ... ... ...
-})
+      // ... ... ...
+    }
+);
 ```
 
 ## Creating a reusable HTTP service
@@ -1298,19 +1307,21 @@ We’ve improved our code a lot, but there’s still one issue: the API endpoint
 
 1. Open new file `Services/ todoService.ts`
 
-2. Code 
+2. Code
 
 ```js
 import APIclient from "./apiClient";
 
 export interface Todo {
-    id: number;
-    title: string;
-    completed: boolean;
-    userId: number
+  id: number;
+  title: string;
+  completed: boolean;
+  userId: number;
 }
 
-export default new APIclient<Todo>("https://jsonplaceholder.typicode.com/posts");
+export default new APIclient() <
+  Todo >
+  "https://jsonplaceholder.typicode.com/posts";
 ```
 
 **Now, in `useTodos.ts`**
@@ -1379,36 +1390,36 @@ Here’s a **step-by-step breakdown** of the flow in the graph from bottom to to
 
 **1. Infrastructure Layer (API Client)**
 
-* **`APIClient`** is the foundation.
-* Handles **raw HTTP requests** (`GET`, `POST`, etc.) to the backend.
-* Provides generic methods (`getData`, `post`) that can be reused by all services.
+- **`APIClient`** is the foundation.
+- Handles **raw HTTP requests** (`GET`, `POST`, etc.) to the backend.
+- Provides generic methods (`getData`, `post`) that can be reused by all services.
 
 ---
 
 **2. Service Layer (HTTP Services)**
 
-* **`todoService`** is an instance of `APIClient` dedicated to `Todo` data.
-* Abstracts API details away from the rest of the app.
-* Provides clear methods like `getData()` or `addTodo()` specifically for todos.
-* Reduces duplication and ensures a **single source of truth** for API calls.
+- **`todoService`** is an instance of `APIClient` dedicated to `Todo` data.
+- Abstracts API details away from the rest of the app.
+- Provides clear methods like `getData()` or `addTodo()` specifically for todos.
+- Reduces duplication and ensures a **single source of truth** for API calls.
 
 ---
 
 **3. Logic Layer (Custom Hooks)**
 
-* **`useTodos`** fetches todos and caches them using **React Query**.
-* **`useAddTodo`** handles adding new todos and updating the cache.
-* Both hooks **call the service layer**, never the raw API directly.
-* They manage **state, caching, and side effects**, keeping components clean.
+- **`useTodos`** fetches todos and caches them using **React Query**.
+- **`useAddTodo`** handles adding new todos and updating the cache.
+- Both hooks **call the service layer**, never the raw API directly.
+- They manage **state, caching, and side effects**, keeping components clean.
 
 ---
 
 **4. UI Layer (Components)**
 
-* **`TodoList`** displays todos by calling `useTodos`.
-* **`TodoForm`** lets users add todos via `useAddTodo`.
-* Components **don’t care about API logic**; they just use the hooks.
-* This keeps the UI **decoupled** from backend details.
+- **`TodoList`** displays todos by calling `useTodos`.
+- **`TodoForm`** lets users add todos via `useAddTodo`.
+- Components **don’t care about API logic**; they just use the hooks.
+- This keeps the UI **decoupled** from backend details.
 
 ---
 
@@ -1442,7 +1453,7 @@ graph LR
     subgraph Infrastructure_Layer [API Client]
         AC[APIClient]
     end
-    end 
+    end
 
     %% Relationships with detailed flow
     TF -->|calls addTodo hook| UAT
@@ -1487,20 +1498,34 @@ This section of the course focuses on how to manage state in a React app the rig
 **A basic counter**
 
 ```js
-const Counter = () => {
+export default function Counter() {
+  const [count, setCount] = useState(0);
 
-    const [value,setValue] = useState(0)
+  const inc = () => setCount((c) => c + 1);
+  const dec = () => setCount((c) => c - 1);
+  const reset = () => setCount(0);
 
   return (
-    <div>
-        <Text>{value}</Text>
-        <Button onClick={() => setValue(value + 1)/*state update*/}>Increament</Button>
-        <Button onClick={() => setValue(0)/*state update*/}>Reset</Button>
-    </div>
-  )
-}
+    <Box
+      minH="100vh"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <VStack spacing={6}>
+        <Text fontSize="3xl" fontWeight="bold">
+          Count: {count}
+        </Text>
 
-export default Counter
+        <HStack spacing={4}>
+          <Button onClick={dec}>-</Button>
+          <Button onClick={reset}>Reset</Button>
+          <Button onClick={inc}>+</Button>
+        </HStack>
+      </VStack>
+    </Box>
+  );
+}
 ```
 
 Now, we have to centralise the state updates in a seperate component
@@ -1509,14 +1534,169 @@ Now, we have to centralise the state updates in a seperate component
 
 ```js
 interface Action {
-    type: string
+  type: string;
 }
 
-const counterReducer = (state: number, action: Action) => {
-    if(action.type == 'Increament') return (state + 1);
-    if(action.type == 'Reset') return (0);
-    return state;
-}
+const counterReducer = (state: number, action: Action): number => {
+  if (action.type == "Increament") return state + 1;
+  if (action.type == "Decreament") return state - 1;
+  if (action.type == "Reset") return 0;
+  return state;
+};
 
 export default counterReducer;
+```
+
+2. In `Counter.tsx` component
+
+```js
+export default function Counter() {
+  // dispatch = send (sending an action to reducer)
+  const [count, dispatch] = useReducer(counterReducer, 0); // no need to memorise , appears in suggestion
+
+  return (
+    <Box
+      minH="100vh"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <VStack spacing={6}>
+        <Text fontSize="3xl" fontWeight="bold">
+          Count: {count}
+        </Text>
+
+        <HStack spacing={4}>
+          <Button onClick={() => dispatch({ type: "Decreament" })}>-</Button>
+          <Button onClick={() => dispatch({ type: "Reset" })}>Reset</Button>
+          <Button onClick={() => dispatch({ type: "Increament" })}>+</Button>
+        </HStack>
+      </VStack>
+    </Box>
+  );
+}
+```
+
+Now , all our state management logic is in a seperate folder... (Seperation of concerns)
+
+## Creating complex actions
+
+![TaskList](Images/JS/React/TaskList.png)
+
+```js
+import { Button, HStack, Table, Text } from "@chakra-ui/react";
+import { useState } from "react";
+
+// ---- gotta move these ----
+interface Task {
+  id: number;
+  title: string;
+}
+
+const TaskList = () => {
+  const [tasks, setTasks] = useState<Task[]>([]);
+
+  const addTask = () => {
+    const newTask: Task = {
+      id: Date.now(),
+      title: `Task ${tasks.length + 1}`,
+    };
+    setTasks([...tasks, newTask]);
+  };
+
+  const deleteTask = (id:number) => {
+    setTasks(tasks.filter(t => t.id !== id))
+  }
+// --------------------------
+
+  return (
+    <Table p={4}>
+      <Button colorScheme="blue" onClick={addTask}>
+        Add Task
+      </Button>
+
+      {tasks.map((task) => (
+        <HStack key={task.id} marginY={4}>
+          <Text>
+            {task.title} (ID: {task.id})
+          </Text>
+          <Button variant={"outline"} colorScheme="red" onClick={() => deleteTask(task.id)}>Delete</Button>
+        </HStack>
+      ))}
+    </Table>
+  );
+};
+
+export default TaskList;
+```
+
+We have to handle the state logic in a seperate file
+
+1. Create `Reducers/taskReducer.ts`
+
+```js
+interface Task {
+  id: number;
+  title: string;
+}
+
+interface AddTask {
+    type: "ADD"
+    task: Task
+}
+
+interface DeleteTask {
+    type: "DELETE"
+    taskId: number
+}
+
+const taskReducer = (tasks:Task[],action:AddTask | DeleteTask) => {
+    switch (action.type){
+        case "ADD":
+            return [...tasks,action.task]
+        case "DELETE":
+            return tasks.filter(task => task.id !== action.taskId);
+        default:
+            return tasks;
+    }
+}
+
+export default taskReducer;
+```
+
+2. In `TaskList.tsx` component
+
+```js
+import { useReducer } from "react";
+import taskReducer from "./Reducers/taskReducer";
+
+const TaskList = () => {
+  const [tasks, dispatch] = useReducer(taskReducer, []);
+
+  return (
+    <div>
+      <button
+        onClick={() =>
+          dispatch({
+            type: "ADD",
+            task: { id: tasks.length + 1, title: `Task ` + Date.now() },
+          })
+        }
+      >
+        Add Task
+      </button>
+
+      {tasks.map((task) => (
+        <div key={task.id} style={{ margin: "8px 0" }}>
+          <span>{task.id + ". " + task.title}</span>
+          <button onClick={() => dispatch({ type: "DELETE", taskId: task.id })}>
+            Delete
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default TaskList;
 ```
