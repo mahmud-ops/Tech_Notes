@@ -1700,3 +1700,495 @@ const TaskList = () => {
 
 export default TaskList;
 ```
+
+## Sharing state using react context
+
+**The Core Problem: Prop Drilling**
+
+When state lives in one component but is needed deep down the tree, React forces you to pass it through every middle component.
+
+That means:
+
+* Components receive props they don’t even use
+* Code becomes noisy and fragile
+* Refactoring becomes painful
+* One small change breaks many layers
+
+This mess is called **prop drilling**.
+
+---
+
+**Prop Drilling — Visual**
+
+```mermaid
+graph TD
+A[App - owns state] --> B[Home]
+B --> C[Layout]
+C --> D[TaskList - needs state]
+A --> E[Navbar - also needs state]
+```
+
+State has to travel through **Home → Layout** even though they don’t care about it.
+That’s wasted plumbing.
+
+---
+
+**The Real Fix: React Context**
+
+React Context lets you:
+
+* Store shared state in one place
+* Provide it to the whole component tree
+* Access it directly where needed
+* Skip all the middlemen
+
+Think of context like a **truck** carrying a **box of data**.
+Any component can open the box — no drilling required.
+
+---
+
+**What React Context Solves**
+
+Instead of this:
+
+* Lifting state up
+* Passing props down
+* Repeating props everywhere
+
+You get this:
+
+* One provider at the top
+* Direct access anywhere
+* Cleaner, safer, scalable code
+
+---
+
+**High-Level Flow**
+
+* State is lifted to the closest common parent (usually `App`)
+* A context is created to hold:
+
+  * the state
+  * the dispatch function
+* The app is wrapped with a `Provider`
+* Any component can read the data using `useContext`
+
+---
+
+**Implementation — Step by Step**
+
+**1. Lift state to App**
+
+You move your reducer from a local component into `App` so the data lives at the top.
+
+This makes the state global *inside your app tree* — not global like Redux, just shared.
+
+---
+
+**2. Define the Context Shape**
+
+You decide what goes in the “box”.
+
+Usually:
+
+* the state
+* the dispatch function
+
+Example idea:
+
+* `tasks: Task[]`
+* `dispatch: Dispatch<TaskAction>`
+
+This is where TypeScript shines — it locks the contract.
+
+---
+
+**3. Create the Context**
+
+You use `createContext` and tell TS what kind of data this context carries.
+
+Instead of passing real values, you define the **shape** of the data.
+
+This keeps everything type-safe across your app.
+
+---
+
+**4. Wrap Components with Provider**
+
+At the top level (often in `App`):
+
+* Wrap your UI with `<TasksContext.Provider>`
+* Pass `{ tasks, dispatch }` as the value
+
+Now the data truck is on the road.
+
+---
+
+**5. Consume the Context**
+
+Inside any component that needs the data:
+
+* Use `useContext(TasksContext)`
+* Destructure what you need
+
+  * only `tasks`
+  * or only `dispatch`
+  * or both
+
+No props. No drilling. No noise.
+
+---
+
+**Why This Is Better (No Copium, Just Facts)**
+
+Context gives you:
+
+* Less boilerplate
+* Fewer bugs
+* Easier refactors
+* Cleaner mental model
+* Real scalability
+
+Prop drilling works for tiny apps.
+Context is for apps that actually grow.
+
+---
+
+**When NOT to Use Context**
+
+Don’t abuse it.
+
+Avoid context if:
+
+* State is used by only 1–2 components
+* Data changes every millisecond (can cause re-renders)
+
+Use it when:
+
+* Multiple distant components need the same state
+* You’re tired of passing props like a courier service
+
+### Implementation
+
+In `taskList.tsx`
+
+```js
+import { useReducer } from "react";
+import taskReducer from "./Reducers/taskReducer";
+
+const TaskList = () => {
+  const [tasks, dispatch] = useReducer(taskReducer, []); // state management ( Gotta lift it up to App.tsx)
+
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() =>
+          dispatch({
+            type: "ADD",
+            task: { id: tasks.length + 1, title: `Task ` + Date.now() },
+          })
+        }
+      >
+        Add Task
+      </button>
+
+      {tasks.map((task) => (
+        <div key={task.id} style={{ margin: "8px 0" }}>
+          <span>{task.id + ". " + task.title}</span>
+          <button onClick={() => dispatch({ type: "DELETE", taskId: task.id })}>
+            Delete
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default TaskList;
+```
+
+**App.tsx**
+
+```js
+const App = () => {
+  const [tasks, dispatch] = useReducer(taskReducer, []); // state management
+
+  return (
+    <TaskList/>
+  )
+}
+```
+
+**Now,**
+
+Open `Contexts/taskContext.ts`
+
+React context is like a truck for transporting a box, 
+
+first, we have to define the shape of that box
+
+- **Context** = the truck
+- **TaskContextType** = the box design
+- **{ tasks, dispatch }** = what’s inside the box
+
+```js
+import type { Dispatch } from "react";
+import type { ActionType, Task } from "../Reducers/taskReducer";
+import React from "react";
+
+interface TaskContextType {
+    tasks: Task[];
+    dispatch: Dispatch<ActionType>
+}
+
+const TasksContext = React.createContext<TaskContextType>({} as TaskContextType);
+
+export default TasksContext;
+```
+
+Now, move it up to `App.tsx`
+
+```js
+import { useReducer } from "react";
+import taskReducer from "./Global_state/Reducers/taskReducer";
+import TaskList from "./Global_state/TaskList";
+import TasksContext from "./Global_state/Contexts/taskContext";
+import NavBar from "./Global_state/NavBar";
+
+const App = () => {
+  const [tasks, dispatch] = useReducer(taskReducer, []); // state management
+
+  return (
+    <TasksContext.Provider value={{ tasks, dispatch }}>
+      <NavBar />
+      <TaskList />
+    </TasksContext.Provider>
+  );
+};
+
+export default App;
+```
+
+**Finally, In `TaskList.tsx`**
+
+```js
+import { useContext } from "react";
+import TasksContext from "./Contexts/taskContext";
+
+const TaskList = () => {
+
+  const {tasks, dispatch} = useContext(TasksContext); // state
+
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() =>
+          dispatch({
+            type: "ADD",
+            task: { id: tasks.length + 1, title: `Task ` + Date.now() },
+          })
+        }
+      >
+        Add Task
+      </button>
+
+      {tasks.map((task) => (
+        <div key={task.id} style={{ margin: "8px 0" }}>
+          <span>{task.id + ". " + task.title}</span>
+          <button onClick={() => dispatch({ type: "DELETE", taskId: task.id })}>
+            Delete
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default TaskList;
+```
+
+**NavBar.tsx**
+
+```js
+import { useContext } from "react"
+import TasksContext from "./Contexts/taskContext"
+import { Text } from "@chakra-ui/react";
+
+const NavBar = () => {
+
+    const {tasks} = useContext(TasksContext);
+
+  return (
+    <div>
+        <Text>
+            Task count : 
+            {
+                tasks.length
+            }
+        </Text>
+    </div>
+  )
+}
+
+export default NavBar
+```
+![taskContext](Images/JS/React/TaskContext.png)
+
+In this setup, the app uses `useReducer` in `App` to manage a single task state and shares it through `TasksContext`, so both `TaskList` and `NavBar` read from the same source of truth—when you add or delete a task, the action is dispatched to the reducer, the state updates once, and React automatically re-renders both components, keeping the task list and the task count perfectly in sync without any prop drilling.
+
+**Excercise: create LoginReducer**
+
+After implementation , in `App.tsx`
+
+```js
+const App = () => {
+  const [tasks, taskDispatch] = useReducer(taskReducer, []);
+  const [user, authDispatch] = useReducer(loginReducer, null);
+
+  return (
+    <LoginContext.Provider value={{ user, dispatch: authDispatch }}>
+      <TasksContext.Provider value={{ tasks, dispatch: taskDispatch }}>
+        <NavBar />
+        <TaskList />
+      </TasksContext.Provider>
+    </LoginContext.Provider>
+  );
+};
+
+export default App;
+```
+## Creating custom provider
+
+In the previous version of our app, we were managing multiple reducers (`taskReducer` and `loginReducer`) inside the `App` component. This forced us to rename dispatch functions (`taskDispatch`, `authDispatch`) and wrap components with multiple context providers manually, which made the root component crowded and harder to maintain.
+
+To fix this, we moved related state and logic into dedicated **Provider components**. This makes the architecture cleaner, more modular, and much easier to scale.
+
+**Problems with the old approach (as seen in `App`)**
+
+* Too many reducers and dispatch functions in one place
+* Awkward naming like `taskDispatch` and `authDispatch`
+* `App` became cluttered with nested providers
+* Harder to reuse state logic in other parts of the app
+
+**Benefits of the new approach**
+
+* Each feature manages its own state via its own Provider
+* `App` stays clean and focused on layout, not logic
+* No dispatch name conflicts — every context has its own `dispatch`
+* Easier to move, reuse, or scale features like Auth and Tasks
+* Matches real-world React architecture patterns
+
+1. Create `AuthProvider.tsx`
+
+```js
+import { useReducer, type ReactNode } from "react";
+import loginReducer from "./Reducers/loginReducer";
+import LoginContext from "./Contexts/loginContext";
+
+interface Props {
+    children: ReactNode;
+}
+
+const AuthProvider = ({children}:Props) => {
+
+  const [user, dispatch] = useReducer(loginReducer, null);
+
+  return (
+    <LoginContext.Provider value={{user,dispatch}}>
+        {children}
+    </LoginContext.Provider>
+  )
+}
+
+export default AuthProvider
+```
+
+2. In `App.tsx`
+
+```js
+const App = () => {
+  const [tasks, taskDispatch] = useReducer(taskReducer, []);
+
+  return (
+    <AuthProvider> // wrapped with custom provider
+      <TasksContext.Provider value={{ tasks, dispatch: taskDispatch }}>
+        <NavBar />
+        <TaskList />
+      </TasksContext.Provider>
+    </AuthProvider>
+  );
+};
+
+export default App;
+```
+
+3. Did the same thing with `TaskProvider.tsx`
+
+4. Final result
+
+**App.tsx**
+
+```js
+import AuthProvider from "./Global_state/AuthProvider";
+import NavBar from "./Global_state/NavBar";
+import TaskList from "./Global_state/TaskList";
+import TaskProvider from "./TaskProvider";
+
+/*
+1. Reduced a huge amount of imports
+2. Removed reducer + context logic from App
+3. App now focuses only on layout, not state management
+4. No more dispatch naming conflicts (taskDispatch, authDispatch, etc.)
+5. Providers handle their own state → better separation of concerns
+6. Easier to scale: add more providers without touching App logic
+7. Matches real-world React architecture (modular + reusable) 
+*/
+
+const App = () => {
+  return (
+    <AuthProvider>
+      <TaskProvider>
+        <NavBar />
+        <TaskList />
+      </TaskProvider>
+    </AuthProvider>
+  );
+};
+
+export default App;
+```
+
+## Creating a hook to access context
+
+**Goal : Gaining better seperation of concerns and data hiding**
+
+Create `Hooks/useAuth.ts`
+
+```js
+import { useContext } from "react";
+import LoginContext from "../Contexts/loginContext";
+
+const useAuth = () => useContext(LoginContext)
+
+export default useAuth;
+```
+
+Now, in `Login.tsx`
+
+```js
+// reduced imports
+import useAuth from "./Hooks/useAuth";
+
+const Login = () => {
+
+  const {user,dispatch} = useAuth(); // hidden context
+
+  return (
+    // .... code
+  );
+};
+
+export default Login;
+```
