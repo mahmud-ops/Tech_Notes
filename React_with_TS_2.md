@@ -2192,3 +2192,243 @@ const Login = () => {
 
 export default Login;
 ```
+
+## Organising code for scalability and maintainability
+
+**Modular Code Organization in React**
+
+**1. Current Structure Issue**
+
+* Components, context, hooks, and reducers for tasks are scattered across the project.
+* This makes the code less maintainable and harder to scale.
+
+**2. Solution: Encapsulation in a Module**
+
+* Create a dedicated folder/package (e.g., `tasks`) to keep all related building blocks together.
+* Analogy: Like keeping kitchenware in one kitchen instead of scattered across rooms.
+* Benefits: Easier imports, modularity, scalability, and maintainability.
+
+**3. Moving Building Blocks**
+
+* Moved reducer, custom hook, context, and components (`TaskList`, `TasksProvider`) into the `tasks` folder.
+* Updated imports accordingly.
+
+**4. Public vs Private Interface**
+
+* Principle: Only expose what consumers need; hide implementation details.
+* Example:
+
+  * Public: `TaskList`, `TasksProvider`
+  * Private: Reducer logic, custom hook if only used internally
+
+**5. Internal Refactoring**
+
+* Merged reducer code directly into `TasksProvider` component.
+* Removed unnecessary exports for private building blocks.
+* Simplified project structure by inlining the custom hook into the component that uses it (`TaskList`).
+
+**6. Managing Imports**
+
+* Created `index.ts` inside the `tasks` package to expose only public interfaces:
+
+  ```ts
+  export { default as TasksProvider } from './TasksProvider';
+  export { default as TaskList } from './TaskList';
+  ```
+* Now other parts of the app import directly from the package instead of internal files.
+
+**7. Developer Convenience**
+
+* To find symbols inside files: use `Command+T` (Mac) / `Ctrl+T` (Windows) instead of searching by filename.
+* Keeps everything modular without losing accessibility.
+
+**8. Benefits of This Structure**
+
+* Implementation details (like which reducer or state management method is used) are hidden.
+* Future changes inside the `tasks` package won’t affect the rest of the application.
+* Only the public interface (`TaskList`, `TasksProvider`) is exposed to consumers.
+
+**Key Takeaways**
+
+* Modularize related code in packages/folders.
+* Expose only what’s necessary (public interface).
+* Keep implementation details private to ensure flexibility and maintainability.
+* Refactor thoughtfully based on actual usage, not blindly following patterns.
+
+![taskOrg](Images/JS/React/TaskOrg.png)
+
+1. Open folder `Tasks/`
+2. put all the building blocks in here
+
+```
+Tasks/
+├─ taskContext.ts
+├─ TaskList.tsx
+├─ taskReducer.ts
+└─ useTasks.ts
+```
+
+And fix the imports
+
+Aaaand we're done..
+
+**Practice task: Do the same for auth**
+
+**Done**
+```
+Auth/
+├─ AuthProvider.tsx
+├─ Login.tsx
+├─ loginContext.ts
+└─ useAuth.ts
+```
+
+## **Splitting Context for Efficient Rendering**
+
+**React context** is a powerful way to share data across your application. **However, anytime a value in a context changes, all components consuming that context will rerender.** To avoid unnecessary updates, a context should **only hold related values that tend to change together**, i.e., it should have a **single responsibility**.
+
+**Example & Why It Matters**
+
+* Imagine we have **two separate contexts**: `TasksContext` and `UserContext`.
+* If our **NavBar** component uses both, it will rerender whenever **either the user or the tasks change**.
+* If the NavBar only needs **current user info**, it shouldn’t subscribe to `TasksContext`. This way, it **rerenders only when necessary**.
+* Combining unrelated values into one context can lead to **unnecessary rerenders** and reduce performance.
+
+```mermaid
+flowchart LR
+    A[Tasks + User Combined Context] --> B[NavBar]
+    A --> C[Other Components]
+    B:::note1
+    classDef note1 fill:#f9f,stroke:#333,stroke-width:1px;
+```
+
+**Guidelines for Context Design**
+
+* **Split contexts by purpose:** each context should have a **single responsibility**.
+* Example: `UserContext` handles user info, `TasksContext` handles task state.
+* Avoid making contexts **too fine-grained** (e.g., separate state and dispatch) — it can make the component tree **messy and harder to maintain**.
+
+```mermaid
+flowchart LR
+    subgraph UserContext
+        U[Current User]
+    end
+    subgraph TasksContext
+        T[Tasks List]
+    end
+    U --> NavBar
+    %% NavBar rerenders only when User changes
+```
+
+**Common Mistakes**
+
+* **Separating state and dispatch** into two contexts:
+
+  * Leads to a **complex component tree**.
+  * Tasks and the function to update them are **closely related**, so separating them is unnecessary.
+* Keep **state and its updater together** in the same context.
+
+```mermaid
+flowchart TD
+    TaskState --> TaskDispatch
+    TaskState --> TaskList
+    TaskDispatch --> TaskList
+```
+**Best Practices & Takeaways**
+
+* **React context is not bad** — misuse causes issues.
+* Only use context for **shared state that multiple components need**, and **split it wisely**.
+* Think of context like a **tool**: the right tool used properly can save time, improve performance, and simplify your code.
+
+## **When to Use React Context**
+
+**React context** is useful for sharing **state between components**, but not every type of state should go there.
+
+| **State Type**   | **Description**                                 | **Use Context?** | **Recommended Tool**                |
+| ---------------- | ----------------------------------------------- | ---------------- | ----------------------------------- |
+| **Server State** | Data fetched from backend (tasks, genres, tags) | ❌ No             | React Query / SWR                   |
+| **Client State** | UI-related state (current user, theme, filters) | ✅ Yes            | React Context + useState/useReducer |
+
+---
+
+### **Best Practices**
+
+* **Lift state up** to the nearest common parent if multiple children need it.
+* **Keep context focused:** Each context should have a **single responsibility**.
+* Split contexts if they cause **unnecessary rerenders**.
+* If splitting doesn’t help, consider **state management tools** like Redux, MobX, Recoil, Zustand, Jotai.
+* Zustand is simple and sufficient for most applications.
+
+---
+
+**Summary:**
+
+> Use **context for client/UI state** that multiple components need.
+> Use **React Query or other tools** for server state.
+> Keep **contexts focused and minimal** to avoid performance issues.
+
+Here’s a **concise, clear note** based on your transcript, in an academic + coding style:
+
+---
+
+## **State Management with Zustand**
+
+**Documentation: [https://zustand.docs.pmnd.rs/getting-started/introduction](https://zustand.docs.pmnd.rs/getting-started/introduction)**
+
+Zustand is a **lightweight state management library** that lets you store and manage application state **without the boilerplate** of reducers, context providers, or Redux.
+
+
+**Why use Zustand?**
+
+* Centralizes state in a **single store**.
+* No need for **context providers** to wrap components.
+* Eliminates the need for **reducers and dispatching actions** with string constants.
+* Makes state **accessible anywhere** in the app through a simple hook.
+* Keeps code **clean, concise, and maintainable**.
+
+**How Zustand works**
+
+1. Define a **store interface** (shape of the state and functions).
+2. Use `create()` to build the store.
+3. Implement state properties and **methods** to update them (increment, reset, etc.).
+4. Use the generated **hook** (`useCounterStore`) in any component.
+
+**Example:**
+
+```ts
+interface CounterStore {
+  counter: number;
+  increment: () => void;
+  reset: () => void;
+}
+
+const useCounterStore = create<CounterStore>((set) => ({
+  counter: 0,
+  increment: () => set((state) => ({ counter: state.counter + 1 })),
+  reset: () => set({ counter: 0 }),
+}));
+```
+
+Components can now **directly access and update the store**:
+
+```ts
+const { counter, increment, reset } = useCounterStore();
+```
+
+No context, provider, or reducer needed.
+
+**Why not Context + React Query for everything?**
+
+| **State Type**      | **Recommended Tool**  | **Reason**                                                             |
+| ------------------- | --------------------- | ---------------------------------------------------------------------- |
+| **Server State**    | React Query / SWR     | Automatically handles caching, fetching, and updates.                  |
+| **Client/UI State** | Zustand / Local State | Lightweight, central store for UI state, avoids unnecessary rerenders. |
+
+* Using **context** for complex or widely shared client state can cause **performance issues** due to unnecessary rerenders.
+* Using **context for server state** adds boilerplate and duplicates what React Query already handles efficiently.
+
+**Summary**
+
+> Zustand is perfect for **client state** where multiple components need access.
+> Context + React Query is only needed for **sharing simple state** or **server-fetched data**, respectively.
+> Using Zustand simplifies state logic, removes boilerplate, and keeps components **decoupled and maintainable**.
