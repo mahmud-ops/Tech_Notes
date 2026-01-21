@@ -2432,3 +2432,83 @@ No context, provider, or reducer needed.
 > Zustand is perfect for **client state** where multiple components need access.
 > Context + React Query is only needed for **sharing simple state** or **server-fetched data**, respectively.
 > Using Zustand simplifies state logic, removes boilerplate, and keeps components **decoupled and maintainable**.
+
+### Implementation
+
+1. Created `Counter/store.ts`
+
+```js
+import { create } from "zustand"
+
+// declare the shape of store ( initial data, functions )
+interface CounterStore {
+    counter: number
+    increment: () => void
+    decrement: () => void
+    reset: () => void
+}
+
+// define 
+const useCounterStore = create<CounterStore>(set => ({
+    counter: 0,
+    increment: () => set(store => ({counter: store.counter + 1})),
+    decrement: () => set(store => ({counter: store.counter - 1})),
+    reset: () => set(() => ({counter: 0}))
+}))
+
+export default useCounterStore;
+```
+
+Now, in `Counter.tsx`
+
+We can remove the dispatch strings ans replace them with actual function from the store
+
+```js
+<HStack spacing={4}>
+  <Button onClick={() =>dispatch({type: "Decreament"})}>-</Button>
+  <Button onClick={() =>dispatch({type: "Reset"})}>Reset</Button>
+  <Button onClick={() =>dispatch({type: "Increament"})}>+</Button>
+</HStack>
+```
+
+**Replaced**
+
+```js
+import { Box, Button, HStack, Text, VStack } from "@chakra-ui/react";
+import useCounterStore from "./Store";
+
+export default function Counter() {
+
+  // replaced reducer with counter store
+  const {counter, increment, decrement, reset} = useCounterStore(); 
+
+  return (
+        <HStack spacing={4}>
+          <Button onClick={() =>decrement()}>-</Button>
+          <Button onClick={() =>reset()}>Reset</Button>
+          <Button onClick={() =>increment()}>+</Button>
+        </HStack>
+  );
+}
+```
+
+Or, If you don't want to destructure the store interface
+
+```js
+import { Box, Button, HStack, Text, VStack } from "@chakra-ui/react";
+import useCounterStore from "./Store";
+
+export default function Counter() {
+
+  // replaced reducer with counter store
+  const store = useCounterStore(); 
+
+  return (
+        <HStack spacing={4}>
+          <Button onClick={() =>store.decrement()}>-</Button>
+          <Button onClick={() =>store.reset()}>Reset</Button>
+          <Button onClick={() =>store.increment()}>+</Button>
+        </HStack>
+  );
+}
+```
