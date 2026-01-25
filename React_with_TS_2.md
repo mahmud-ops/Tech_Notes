@@ -53,33 +53,28 @@ const TodoList = () => {
 - **Definition:** Caching is the process of storing data in a place where it can be accessed quickly in the future instead of fetching it from the original source every time.
 
 - **Purpose:**
-
   - Reduces server requests
   - Speeds up data retrieval
   - Improves application performance
   - Enhances user experience
 
 - **In React Applications:**
-
   - Frequently used data can be stored **on the client side**, inside the user's browser.
   - Example: User profile info, recent search results, or product listings can be cached so they don’t need to be fetched from the server every time the page loads.
 
 - **How it works (example scenario):**
-
   1. User opens a dashboard. React fetches user data from the server.
   2. Data is stored in the browser cache (e.g., `localStorage`, `sessionStorage`, or in-memory cache).
   3. Next time the user visits, React checks the cache first.
   4. If data exists in the cache, it’s loaded instantly without calling the server.
 
 - **Benefits:**
-
   - Faster page loads
   - Less network traffic
   - Reduced server load
   - Smooth and responsive user experience
 
 - **Things to keep in mind:**
-
   - Cached data can get outdated (stale), so sometimes it needs to be refreshed.
   - Not all data should be cached, especially sensitive or frequently changing data.
 
@@ -719,7 +714,6 @@ return useInfiniteQuery<Post[], Error>({
 
 - `queryKey` now only depends on `query` object.
 - `getNextPageParam` calculates next page automatically:
-
   - If `lastPage` has items → next page = `allPages.length + 1`
   - Else → `undefined` (stops fetching)
 
@@ -759,7 +753,6 @@ In this section, we’ll:
 - Send a `POST` request with Axios
 - Handle success and error states
 - Update the UI after mutation by:
-
   - Invalidating the cache **or**
   - Updating the cache directly
 
@@ -1709,10 +1702,10 @@ When state lives in one component but is needed deep down the tree, React forces
 
 That means:
 
-* Components receive props they don’t even use
-* Code becomes noisy and fragile
-* Refactoring becomes painful
-* One small change breaks many layers
+- Components receive props they don’t even use
+- Code becomes noisy and fragile
+- Refactoring becomes painful
+- One small change breaks many layers
 
 This mess is called **prop drilling**.
 
@@ -1737,10 +1730,10 @@ That’s wasted plumbing.
 
 React Context lets you:
 
-* Store shared state in one place
-* Provide it to the whole component tree
-* Access it directly where needed
-* Skip all the middlemen
+- Store shared state in one place
+- Provide it to the whole component tree
+- Access it directly where needed
+- Skip all the middlemen
 
 Think of context like a **truck** carrying a **box of data**.
 Any component can open the box — no drilling required.
@@ -1751,27 +1744,27 @@ Any component can open the box — no drilling required.
 
 Instead of this:
 
-* Lifting state up
-* Passing props down
-* Repeating props everywhere
+- Lifting state up
+- Passing props down
+- Repeating props everywhere
 
 You get this:
 
-* One provider at the top
-* Direct access anywhere
-* Cleaner, safer, scalable code
+- One provider at the top
+- Direct access anywhere
+- Cleaner, safer, scalable code
 
 ---
 
 **High-Level Flow**
 
-* State is lifted to the closest common parent (usually `App`)
-* A context is created to hold:
+- State is lifted to the closest common parent (usually `App`)
+- A context is created to hold:
+  - the state
+  - the dispatch function
 
-  * the state
-  * the dispatch function
-* The app is wrapped with a `Provider`
-* Any component can read the data using `useContext`
+- The app is wrapped with a `Provider`
+- Any component can read the data using `useContext`
 
 ---
 
@@ -1781,7 +1774,7 @@ You get this:
 
 You move your reducer from a local component into `App` so the data lives at the top.
 
-This makes the state global *inside your app tree* — not global like Redux, just shared.
+This makes the state global _inside your app tree_ — not global like Redux, just shared.
 
 ---
 
@@ -1791,13 +1784,13 @@ You decide what goes in the “box”.
 
 Usually:
 
-* the state
-* the dispatch function
+- the state
+- the dispatch function
 
 Example idea:
 
-* `tasks: Task[]`
-* `dispatch: Dispatch<TaskAction>`
+- `tasks: Task[]`
+- `dispatch: Dispatch<TaskAction>`
 
 This is where TypeScript shines — it locks the contract.
 
@@ -1817,8 +1810,8 @@ This keeps everything type-safe across your app.
 
 At the top level (often in `App`):
 
-* Wrap your UI with `<TasksContext.Provider>`
-* Pass `{ tasks, dispatch }` as the value
+- Wrap your UI with `<TasksContext.Provider>`
+- Pass `{ tasks, dispatch }` as the value
 
 Now the data truck is on the road.
 
@@ -1828,12 +1821,11 @@ Now the data truck is on the road.
 
 Inside any component that needs the data:
 
-* Use `useContext(TasksContext)`
-* Destructure what you need
-
-  * only `tasks`
-  * or only `dispatch`
-  * or both
+- Use `useContext(TasksContext)`
+- Destructure what you need
+  - only `tasks`
+  - or only `dispatch`
+  - or both
 
 No props. No drilling. No noise.
 
@@ -1843,11 +1835,11 @@ No props. No drilling. No noise.
 
 Context gives you:
 
-* Less boilerplate
-* Fewer bugs
-* Easier refactors
-* Cleaner mental model
-* Real scalability
+- Less boilerplate
+- Fewer bugs
+- Easier refactors
+- Cleaner mental model
+- Real scalability
 
 Prop drilling works for tiny apps.
 Context is for apps that actually grow.
@@ -1860,13 +1852,13 @@ Don’t abuse it.
 
 Avoid context if:
 
-* State is used by only 1–2 components
-* Data changes every millisecond (can cause re-renders)
+- State is used by only 1–2 components
+- Data changes every millisecond (can cause re-renders)
 
 Use it when:
 
-* Multiple distant components need the same state
-* You’re tired of passing props like a courier service
+- Multiple distant components need the same state
+- You’re tired of passing props like a courier service
 
 ### Implementation
 
@@ -1914,17 +1906,15 @@ export default TaskList;
 const App = () => {
   const [tasks, dispatch] = useReducer(taskReducer, []); // state management
 
-  return (
-    <TaskList/>
-  )
-}
+  return <TaskList />;
+};
 ```
 
 **Now,**
 
 Open `Contexts/taskContext.ts`
 
-React context is like a truck for transporting a box, 
+React context is like a truck for transporting a box,
 
 first, we have to define the shape of that box
 
@@ -1977,8 +1967,7 @@ import { useContext } from "react";
 import TasksContext from "./Contexts/taskContext";
 
 const TaskList = () => {
-
-  const {tasks, dispatch} = useContext(TasksContext); // state
+  const { tasks, dispatch } = useContext(TasksContext); // state
 
   return (
     <div>
@@ -2012,28 +2001,23 @@ export default TaskList;
 **NavBar.tsx**
 
 ```js
-import { useContext } from "react"
-import TasksContext from "./Contexts/taskContext"
+import { useContext } from "react";
+import TasksContext from "./Contexts/taskContext";
 import { Text } from "@chakra-ui/react";
 
 const NavBar = () => {
-
-    const {tasks} = useContext(TasksContext);
+  const { tasks } = useContext(TasksContext);
 
   return (
     <div>
-        <Text>
-            Task count : 
-            {
-                tasks.length
-            }
-        </Text>
+      <Text>Task count :{tasks.length}</Text>
     </div>
-  )
-}
+  );
+};
 
-export default NavBar
+export default NavBar;
 ```
+
 ![taskContext](Images/JS/React/TaskContext.png)
 
 In this setup, the app uses `useReducer` in `App` to manage a single task state and shares it through `TasksContext`, so both `TaskList` and `NavBar` read from the same source of truth—when you add or delete a task, the action is dispatched to the reducer, the state updates once, and React automatically re-renders both components, keeping the task list and the task count perfectly in sync without any prop drilling.
@@ -2059,6 +2043,7 @@ const App = () => {
 
 export default App;
 ```
+
 ## Creating custom provider
 
 In the previous version of our app, we were managing multiple reducers (`taskReducer` and `loginReducer`) inside the `App` component. This forced us to rename dispatch functions (`taskDispatch`, `authDispatch`) and wrap components with multiple context providers manually, which made the root component crowded and harder to maintain.
@@ -2067,18 +2052,18 @@ To fix this, we moved related state and logic into dedicated **Provider componen
 
 **Problems with the old approach (as seen in `App`)**
 
-* Too many reducers and dispatch functions in one place
-* Awkward naming like `taskDispatch` and `authDispatch`
-* `App` became cluttered with nested providers
-* Harder to reuse state logic in other parts of the app
+- Too many reducers and dispatch functions in one place
+- Awkward naming like `taskDispatch` and `authDispatch`
+- `App` became cluttered with nested providers
+- Harder to reuse state logic in other parts of the app
 
 **Benefits of the new approach**
 
-* Each feature manages its own state via its own Provider
-* `App` stays clean and focused on layout, not logic
-* No dispatch name conflicts — every context has its own `dispatch`
-* Easier to move, reuse, or scale features like Auth and Tasks
-* Matches real-world React architecture patterns
+- Each feature manages its own state via its own Provider
+- `App` stays clean and focused on layout, not logic
+- No dispatch name conflicts — every context has its own `dispatch`
+- Easier to move, reuse, or scale features like Auth and Tasks
+- Matches real-world React architecture patterns
 
 1. Create `AuthProvider.tsx`
 
@@ -2112,7 +2097,9 @@ const App = () => {
   const [tasks, taskDispatch] = useReducer(taskReducer, []);
 
   return (
-    <AuthProvider> // wrapped with custom provider
+    <AuthProvider>
+      {" "}
+      // wrapped with custom provider
       <TasksContext.Provider value={{ tasks, dispatch: taskDispatch }}>
         <NavBar />
         <TaskList />
@@ -2170,7 +2157,7 @@ Create `Hooks/useAuth.ts`
 import { useContext } from "react";
 import LoginContext from "../Contexts/loginContext";
 
-const useAuth = () => useContext(LoginContext)
+const useAuth = () => useContext(LoginContext);
 
 export default useAuth;
 ```
@@ -2199,61 +2186,61 @@ export default Login;
 
 **1. Current Structure Issue**
 
-* Components, context, hooks, and reducers for tasks are scattered across the project.
-* This makes the code less maintainable and harder to scale.
+- Components, context, hooks, and reducers for tasks are scattered across the project.
+- This makes the code less maintainable and harder to scale.
 
 **2. Solution: Encapsulation in a Module**
 
-* Create a dedicated folder/package (e.g., `tasks`) to keep all related building blocks together.
-* Analogy: Like keeping kitchenware in one kitchen instead of scattered across rooms.
-* Benefits: Easier imports, modularity, scalability, and maintainability.
+- Create a dedicated folder/package (e.g., `tasks`) to keep all related building blocks together.
+- Analogy: Like keeping kitchenware in one kitchen instead of scattered across rooms.
+- Benefits: Easier imports, modularity, scalability, and maintainability.
 
 **3. Moving Building Blocks**
 
-* Moved reducer, custom hook, context, and components (`TaskList`, `TasksProvider`) into the `tasks` folder.
-* Updated imports accordingly.
+- Moved reducer, custom hook, context, and components (`TaskList`, `TasksProvider`) into the `tasks` folder.
+- Updated imports accordingly.
 
 **4. Public vs Private Interface**
 
-* Principle: Only expose what consumers need; hide implementation details.
-* Example:
-
-  * Public: `TaskList`, `TasksProvider`
-  * Private: Reducer logic, custom hook if only used internally
+- Principle: Only expose what consumers need; hide implementation details.
+- Example:
+  - Public: `TaskList`, `TasksProvider`
+  - Private: Reducer logic, custom hook if only used internally
 
 **5. Internal Refactoring**
 
-* Merged reducer code directly into `TasksProvider` component.
-* Removed unnecessary exports for private building blocks.
-* Simplified project structure by inlining the custom hook into the component that uses it (`TaskList`).
+- Merged reducer code directly into `TasksProvider` component.
+- Removed unnecessary exports for private building blocks.
+- Simplified project structure by inlining the custom hook into the component that uses it (`TaskList`).
 
 **6. Managing Imports**
 
-* Created `index.ts` inside the `tasks` package to expose only public interfaces:
+- Created `index.ts` inside the `tasks` package to expose only public interfaces:
 
   ```ts
-  export { default as TasksProvider } from './TasksProvider';
-  export { default as TaskList } from './TaskList';
+  export { default as TasksProvider } from "./TasksProvider";
+  export { default as TaskList } from "./TaskList";
   ```
-* Now other parts of the app import directly from the package instead of internal files.
+
+- Now other parts of the app import directly from the package instead of internal files.
 
 **7. Developer Convenience**
 
-* To find symbols inside files: use `Command+T` (Mac) / `Ctrl+T` (Windows) instead of searching by filename.
-* Keeps everything modular without losing accessibility.
+- To find symbols inside files: use `Command+T` (Mac) / `Ctrl+T` (Windows) instead of searching by filename.
+- Keeps everything modular without losing accessibility.
 
 **8. Benefits of This Structure**
 
-* Implementation details (like which reducer or state management method is used) are hidden.
-* Future changes inside the `tasks` package won’t affect the rest of the application.
-* Only the public interface (`TaskList`, `TasksProvider`) is exposed to consumers.
+- Implementation details (like which reducer or state management method is used) are hidden.
+- Future changes inside the `tasks` package won’t affect the rest of the application.
+- Only the public interface (`TaskList`, `TasksProvider`) is exposed to consumers.
 
 **Key Takeaways**
 
-* Modularize related code in packages/folders.
-* Expose only what’s necessary (public interface).
-* Keep implementation details private to ensure flexibility and maintainability.
-* Refactor thoughtfully based on actual usage, not blindly following patterns.
+- Modularize related code in packages/folders.
+- Expose only what’s necessary (public interface).
+- Keep implementation details private to ensure flexibility and maintainability.
+- Refactor thoughtfully based on actual usage, not blindly following patterns.
 
 ![taskOrg](Images/JS/React/TaskOrg.png)
 
@@ -2275,6 +2262,7 @@ Aaaand we're done..
 **Practice task: Do the same for auth**
 
 **Done**
+
 ```
 Auth/
 ├─ AuthProvider.tsx
@@ -2289,10 +2277,10 @@ Auth/
 
 **Example & Why It Matters**
 
-* Imagine we have **two separate contexts**: `TasksContext` and `UserContext`.
-* If our **NavBar** component uses both, it will rerender whenever **either the user or the tasks change**.
-* If the NavBar only needs **current user info**, it shouldn’t subscribe to `TasksContext`. This way, it **rerenders only when necessary**.
-* Combining unrelated values into one context can lead to **unnecessary rerenders** and reduce performance.
+- Imagine we have **two separate contexts**: `TasksContext` and `UserContext`.
+- If our **NavBar** component uses both, it will rerender whenever **either the user or the tasks change**.
+- If the NavBar only needs **current user info**, it shouldn’t subscribe to `TasksContext`. This way, it **rerenders only when necessary**.
+- Combining unrelated values into one context can lead to **unnecessary rerenders** and reduce performance.
 
 ```mermaid
 flowchart LR
@@ -2304,9 +2292,9 @@ flowchart LR
 
 **Guidelines for Context Design**
 
-* **Split contexts by purpose:** each context should have a **single responsibility**.
-* Example: `UserContext` handles user info, `TasksContext` handles task state.
-* Avoid making contexts **too fine-grained** (e.g., separate state and dispatch) — it can make the component tree **messy and harder to maintain**.
+- **Split contexts by purpose:** each context should have a **single responsibility**.
+- Example: `UserContext` handles user info, `TasksContext` handles task state.
+- Avoid making contexts **too fine-grained** (e.g., separate state and dispatch) — it can make the component tree **messy and harder to maintain**.
 
 ```mermaid
 flowchart LR
@@ -2322,11 +2310,11 @@ flowchart LR
 
 **Common Mistakes**
 
-* **Separating state and dispatch** into two contexts:
+- **Separating state and dispatch** into two contexts:
+  - Leads to a **complex component tree**.
+  - Tasks and the function to update them are **closely related**, so separating them is unnecessary.
 
-  * Leads to a **complex component tree**.
-  * Tasks and the function to update them are **closely related**, so separating them is unnecessary.
-* Keep **state and its updater together** in the same context.
+- Keep **state and its updater together** in the same context.
 
 ```mermaid
 flowchart TD
@@ -2334,11 +2322,12 @@ flowchart TD
     TaskState --> TaskList
     TaskDispatch --> TaskList
 ```
+
 **Best Practices & Takeaways**
 
-* **React context is not bad** — misuse causes issues.
-* Only use context for **shared state that multiple components need**, and **split it wisely**.
-* Think of context like a **tool**: the right tool used properly can save time, improve performance, and simplify your code.
+- **React context is not bad** — misuse causes issues.
+- Only use context for **shared state that multiple components need**, and **split it wisely**.
+- Think of context like a **tool**: the right tool used properly can save time, improve performance, and simplify your code.
 
 ## **When to Use React Context**
 
@@ -2346,18 +2335,18 @@ flowchart TD
 
 | **State Type**   | **Description**                                 | **Use Context?** | **Recommended Tool**                |
 | ---------------- | ----------------------------------------------- | ---------------- | ----------------------------------- |
-| **Server State** | Data fetched from backend (tasks, genres, tags) | ❌ No             | React Query / SWR                   |
-| **Client State** | UI-related state (current user, theme, filters) | ✅ Yes            | React Context + useState/useReducer |
+| **Server State** | Data fetched from backend (tasks, genres, tags) | ❌ No            | React Query / SWR                   |
+| **Client State** | UI-related state (current user, theme, filters) | ✅ Yes           | React Context + useState/useReducer |
 
 ---
 
 ### **Best Practices**
 
-* **Lift state up** to the nearest common parent if multiple children need it.
-* **Keep context focused:** Each context should have a **single responsibility**.
-* Split contexts if they cause **unnecessary rerenders**.
-* If splitting doesn’t help, consider **state management tools** like Redux, MobX, Recoil, Zustand, Jotai.
-* Zustand is simple and sufficient for most applications.
+- **Lift state up** to the nearest common parent if multiple children need it.
+- **Keep context focused:** Each context should have a **single responsibility**.
+- Split contexts if they cause **unnecessary rerenders**.
+- If splitting doesn’t help, consider **state management tools** like Redux, MobX, Recoil, Zustand, Jotai.
+- Zustand is simple and sufficient for most applications.
 
 ---
 
@@ -2377,14 +2366,13 @@ Here’s a **concise, clear note** based on your transcript, in an academic + co
 
 Zustand is a **lightweight state management library** that lets you store and manage application state **without the boilerplate** of reducers, context providers, or Redux.
 
-
 **Why use Zustand?**
 
-* Centralizes state in a **single store**.
-* No need for **context providers** to wrap components.
-* Eliminates the need for **reducers and dispatching actions** with string constants.
-* Makes state **accessible anywhere** in the app through a simple hook.
-* Keeps code **clean, concise, and maintainable**.
+- Centralizes state in a **single store**.
+- No need for **context providers** to wrap components.
+- Eliminates the need for **reducers and dispatching actions** with string constants.
+- Makes state **accessible anywhere** in the app through a simple hook.
+- Keeps code **clean, concise, and maintainable**.
 
 **How Zustand works**
 
@@ -2424,8 +2412,8 @@ No context, provider, or reducer needed.
 | **Server State**    | React Query / SWR     | Automatically handles caching, fetching, and updates.                  |
 | **Client/UI State** | Zustand / Local State | Lightweight, central store for UI state, avoids unnecessary rerenders. |
 
-* Using **context** for complex or widely shared client state can cause **performance issues** due to unnecessary rerenders.
-* Using **context for server state** adds boilerplate and duplicates what React Query already handles efficiently.
+- Using **context** for complex or widely shared client state can cause **performance issues** due to unnecessary rerenders.
+- Using **context for server state** adds boilerplate and duplicates what React Query already handles efficiently.
 
 **Summary**
 
@@ -2448,7 +2436,7 @@ interface CounterStore {
     reset: () => void
 }
 
-// define 
+// define
 const useCounterStore = create<CounterStore>(set => ({
     counter: 0,
     increment: () => set(store => ({counter: store.counter + 1})),
@@ -2465,9 +2453,9 @@ We can remove the dispatch strings ans replace them with actual function from th
 
 ```js
 <HStack spacing={4}>
-  <Button onClick={() =>dispatch({type: "Decreament"})}>-</Button>
-  <Button onClick={() =>dispatch({type: "Reset"})}>Reset</Button>
-  <Button onClick={() =>dispatch({type: "Increament"})}>+</Button>
+  <Button onClick={() => dispatch({ type: "Decreament" })}>-</Button>
+  <Button onClick={() => dispatch({ type: "Reset" })}>Reset</Button>
+  <Button onClick={() => dispatch({ type: "Increament" })}>+</Button>
 </HStack>
 ```
 
@@ -2478,16 +2466,15 @@ import { Box, Button, HStack, Text, VStack } from "@chakra-ui/react";
 import useCounterStore from "./Store";
 
 export default function Counter() {
-
   // replaced reducer with counter store
-  const {counter, increment, decrement, reset} = useCounterStore(); 
+  const { counter, increment, decrement, reset } = useCounterStore();
 
   return (
-        <HStack spacing={4}>
-          <Button onClick={() =>decrement()}>-</Button>
-          <Button onClick={() =>reset()}>Reset</Button>
-          <Button onClick={() =>increment()}>+</Button>
-        </HStack>
+    <HStack spacing={4}>
+      <Button onClick={() => decrement()}>-</Button>
+      <Button onClick={() => reset()}>Reset</Button>
+      <Button onClick={() => increment()}>+</Button>
+    </HStack>
   );
 }
 ```
@@ -2499,16 +2486,236 @@ import { Box, Button, HStack, Text, VStack } from "@chakra-ui/react";
 import useCounterStore from "./Store";
 
 export default function Counter() {
-
   // replaced reducer with counter store
-  const store = useCounterStore(); 
+  const store = useCounterStore();
 
   return (
-        <HStack spacing={4}>
-          <Button onClick={() =>store.decrement()}>-</Button>
-          <Button onClick={() =>store.reset()}>Reset</Button>
-          <Button onClick={() =>store.increment()}>+</Button>
-        </HStack>
+    <HStack spacing={4}>
+      <Button onClick={() => store.decrement()}>-</Button>
+      <Button onClick={() => store.reset()}>Reset</Button>
+      <Button onClick={() => store.increment()}>+</Button>
+    </HStack>
   );
 }
+```
+
+# React router
+
+**[Official docs](https://reactrouter.com/6.30.3/start/tutorial)**
+
+React Router is a library that lets you handle navigation in a React app without reloading the page. It maps URLs to components, so different paths (`/login`, `/profile`, `/products/42`) render different UI while staying inside a single-page application (SPA).
+
+Instead of the browser asking the server for a new page every time, React Router listens to URL changes and swaps components on the client side. This makes apps faster, smoother, and more “app-like.”
+
+At a high level, React Router gives you:
+
+- **Declarative routing** → define routes as components, not messy conditionals
+- **Dynamic routes** → URLs with params (like user IDs)
+- **Nested routes** → layouts + pages that scale cleanly
+- **Navigation helpers** → links, redirects, and programmatic navigation
+
+Bottom line: React Router is the glue between your app’s UI and the URL, making React apps behave like real multi-page websites—minus the reloads.
+
+## Setup
+
+```
+npm install react-router-dom@6.10.0
+```
+
+## Start
+
+We begin with a simple project structure:
+
+```
+Router/
+├─ HomePage.tsx
+└─ UserList.tsx
+```
+
+Our goal is to enable navigation between **HomePage** and **UserList**—from the homepage to the user list, and back again—using React Router.
+
+This means setting up routes for both components and adding navigation links so users can move between these pages without a full page reload.
+
+1. Open file `Routing/routes.tsx`
+
+```
+Router/
+├─ HomePage.tsx
+├─ routes.tsx (new)
+└─ UserList.tsx
+```
+
+**2. `routes.tsx`**
+
+```ts
+import { createBrowserRouter } from "react-router-dom";
+
+const router = createBrowserRouter([
+  // route objects will be defined here
+]);
+
+export default router;
+```
+
+`createBrowserRouter` is a **function provided by React Router** that creates a browser-based routing configuration.
+
+It **returns a router object** that:
+
+- Listens to URL changes using the browser’s History API
+- Matches the current URL with the correct route definition
+- Decides which React component should be rendered
+
+Inside `createBrowserRouter`, we pass an **array of route objects**, where each object describes:
+
+- the `path` (URL)
+- the `element` (component to render)
+- optional nested routes, loaders, actions, etc.
+
+This router is later supplied to the app using `RouterProvider`, which activates routing in the React application.
+
+3. Passing the array of objects having path and element
+
+---
+
+```ts
+import { createBrowserRouter } from "react-router-dom";
+import HomePage from "./HomePage";
+import UserList from "./UserList";
+
+const router = createBrowserRouter([
+  { path: "/", element: <HomePage /> },
+  { path: "/users", element: <UserList /> },
+]);
+
+export default router;
+```
+
+We’re not done yet.
+`createBrowserRouter` returns a **router object**, and we stored it in `router`.
+Now we have to **connect this router to the React application**.
+
+To do that, we use **`RouterProvider`** at the root of the app (`main.tsx`).
+`RouterProvider` takes the router object and:
+
+- starts listening to URL changes
+- renders the correct component based on the current path
+
+Without `RouterProvider`, the routes exist only on paper—React won’t use them.
+
+**4. `main.tsx`**
+
+```ts
+import { RouterProvider } from "react-router-dom";
+import router from "./Router/routes.tsx";
+
+createRoot(document.getElementById("root")!).render(
+  <StrictMode>
+    <RouterProvider router={router} />
+  </StrictMode>
+);
+```
+
+`RouterProvider` activates the router we created earlier.
+
+When the app starts, it:
+
+- reads the current browser URL
+- matches it against the route definitions
+- renders the component for the matching path
+
+So at the base URL (`/`), React Router renders the element mapped to `/`, which is `<HomePage />`.
+This behaves like loading `index.html`, but instead of the server deciding what page to send, **React Router decides what component to render on the client side**.
+
+In short: `RouterProvider` makes the URL the source of truth for what gets rendered.
+
+> <a> tag is used for the links
+
+## Using `<Link>` instead of `<a>`
+
+When we’re on the Home page and click a normal `<a>` tag, the browser:
+
+- sends a new request to the server
+
+![route](Images/JS/React/routeXhr.png)
+
+- reloads the entire page
+- then navigates to `/users`
+
+This **breaks the SPA behavior** and resets React state, which is a problem.
+
+To solve this, React Router provides the **`<Link>`** component.
+
+`<Link>` changes the URL **without reloading the page**.
+It updates the browser history and lets React Router swap components internally.
+
+Example:
+
+```tsx
+import { Link } from "react-router-dom";
+
+<Link to="/users">Go to User List</Link>;
+```
+
+Now:
+
+- no full page reload
+- state stays in memory
+- navigation feels instant
+
+Rule of thumb:
+Use `<a>` for external websites, and `<Link>` for internal navigation inside a React app.
+
+## Programmatic Navigation
+
+Sometimes navigation shouldn’t happen on a click.
+For example, after submitting a form, you may want to automatically send the user back to the Home page.
+
+In these cases, `<Link>` isn’t enough.
+React Router provides the **`useNavigate`** hook for navigation through logic.
+
+```tsx
+import { useNavigate } from "react-router-dom";
+
+const navigate = useNavigate();
+
+const handleSubmit = () => {
+  // form logic
+  navigate("/");
+};
+```
+
+Here, `navigate("/")`:
+
+- changes the URL programmatically
+- does **not** reload the page
+- renders the component mapped to `/`
+
+Use `useNavigate` when navigation depends on events, conditions, or side effects—like form submission, auth checks, or API success.
+
+**Example**
+
+```js
+import { Button, Input } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+
+const FormSub = () => {
+  const navigate_to = useNavigate();
+
+  return (
+    <>
+      <h1>Submit this form</h1>
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          navigate_to("/"); // home page
+        }}
+      >
+        <Input type="text" />
+        <Button type="submit">Submit</Button>
+      </form>
+    </>
+  );
+};
+
+export default FormSub;
 ```
