@@ -2719,3 +2719,277 @@ const FormSub = () => {
 
 export default FormSub;
 ```
+
+## Passing data with route parameters
+
+Route parameters let us create **dynamic URLs** and read values directly from the address bar.
+
+**1. Define a Dynamic Route (`routes.tsx`)**
+
+```js
+import { createBrowserRouter } from "react-router-dom";
+import HomePage from "./HomePage";
+import UserList from "./UserList";
+import UserData from "./UserData";
+
+const router = createBrowserRouter([
+  { path: "/", element: <HomePage /> },
+  { path: "/users", element: <UserList /> },
+  { path: "/users/:id", element: <UserData /> },
+]);
+
+export default router;
+```
+
+Here, `:id` is a **route parameter**.
+Any value after `/users/` will be captured as `id`.
+
+**2. Create Dynamic Links (`UserList.tsx`)**
+
+```tsx
+import { Link } from "react-router-dom";
+
+const users = [
+  { id: 1, name: "Mahmud" },
+  { id: 2, name: "Abdullah" },
+  { id: 3, name: "Joshim" },
+  { id: 4, name: "Mosh" },
+  { id: 5, name: "Hamedani" },
+];
+
+const UserList = () => {
+  return (
+    <>
+      <h1>Users</h1>
+
+      <ul>
+        {users.map((user) => (
+          <li key={user.id}>
+            <Link to={`/users/${user.id}`}>{user.name}</Link>
+          </li>
+        ))}
+      </ul>
+
+      <Link to="/">Home</Link>
+    </>
+  );
+};
+
+export default UserList;
+```
+
+Each link generates a unique URL like:
+
+* `/users/1`
+* `/users/2`
+
+**3. Read the Route Parameter (`UserData.tsx`)**
+
+```js
+import { useParams, Link } from "react-router-dom";
+
+const UserData = () => {
+  const { id } = useParams();
+
+  return (
+    <>
+      <h1>User Details</h1>
+      <p>User ID: {id}</p>
+
+      <Link to="/users">Back to Users</Link>
+    </>
+  );
+};
+
+export default UserData;
+```
+
+![url/id](Images/JS/React/userId_route.png)
+
+`useParams()` extracts values from the URL.
+In `/users/3`, `id` will be `"3"` (always a string).
+
+---
+
+**How It Works (Flow)**
+
+* Click user → URL becomes `/users/:id`
+* React Router matches the route
+* `UserData` renders
+* `useParams()` reads `id` from the URL
+
+The **URL becomes the data carrier**, not props.
+
+This is the foundation for user profiles, product pages, blog posts—basically any real-world React app.
+
+## How to Get Data About the Current Route
+
+React Router exposes hooks to read different parts of the current URL.
+
+
+**1. `useParams()`**
+
+```ts
+const params = useParams();
+```
+
+* Returns an **object of route parameters**
+* Values come from dynamic segments in the route definition
+* Always returned as **strings**
+
+Example:
+
+* Route: `/users/:id`
+* URL: `/users/3`
+* Result:
+
+  ```ts
+  { id: "3" }
+  ```
+
+Use this when data is encoded in the **path**.
+
+**2. `useSearchParams()`**
+
+```ts
+const [searchParams, setSearchParams] = useSearchParams();
+```
+
+* Returns an **array with two elements**
+
+  1. `URLSearchParams` object (query string)
+  2. updater function to modify it
+* Used for query parameters after `?`
+
+Example:
+
+* URL: `/users?sort=name&page=2`
+* Access:
+
+  ```ts
+  searchParams.get("sort"); // "name"
+  searchParams.get("page"); // "2"
+  ```
+
+Use this for **filters, sorting, pagination, UI state**.
+
+**3. `useLocation()`**
+
+```ts
+const location = useLocation();
+```
+
+* Returns a **location object** describing the current URL
+* Common properties:
+
+  * `pathname` → `/users/3`
+  * `search` → `?sort=name`
+  * `hash` → `#section`
+  * `state` → data passed via navigation
+
+Example:
+
+```ts
+location.pathname; // current path
+location.search;   // query string
+```
+
+Use this when you need **full context of the current route** or to react to route changes.
+
+**Quick Mental Model**
+
+* `useParams` → **path variables**
+* `useSearchParams` → **query string**
+* `useLocation` → **everything about the URL**
+
+That’s the full routing data surface—clean, predictable, no magic.
+
+## Nested Routes
+
+Nested routes let us **render multiple components on the same page** by sharing a common layout (like a navbar) while swapping only part of the UI.
+
+![nr](Images/JS/React/NestedRoute_1.png)
+
+**1. Create a layout file (`Layout.tsx`)**
+
+The layout component holds the **persistent UI** and an `<Outlet />` where child routes will render.
+
+```tsx
+import { Outlet } from "react-router-dom";
+import NavBar from "./NavBar";
+
+const Layout = () => {
+  return (
+    <>
+      <NavBar />
+      <div id="main">
+        <Outlet />
+      </div>
+    </>
+  );
+};
+
+export default Layout;
+```
+
+`<Outlet />` is a placeholder.
+React Router replaces it with the component of the **currently matched child route**.
+
+**2. Create nested routing in `routes.tsx`**
+
+```ts
+import { createBrowserRouter } from "react-router-dom";
+import HomePage from "./HomePage";
+import UserList from "./UserList";
+import UserData from "./UserData";
+import Layout from "./Layout";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      { index: true, element: <HomePage /> },
+      { path: "users", element: <UserList /> },
+      { path: "users/:id", element: <UserData /> },
+    ],
+  },
+]);
+
+export default router;
+```
+
+Here:
+
+* `Layout` renders **once**
+* child routes control what appears inside `<Outlet />`
+* `index: true` means “render this when the parent path matches exactly”
+
+**3. Navigation (`NavBar.tsx`)**
+
+```tsx
+import { HStack } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
+
+const NavBar = () => {
+  return (
+    <HStack spacing={4}>
+      <Link to="/">Home</Link>
+      <Link to="/users">Users</Link>
+    </HStack>
+  );
+};
+
+export default NavBar;
+```
+
+Navigation updates the URL, React Router swaps the outlet content, and the navbar stays visible.
+
+**Mental Model (Important)**
+
+* `Layout` → shared UI (navbar, footer, sidebar)
+* `<Outlet />` → dynamic content area
+* Parent route → controls structure
+* Child routes → control page content
+
+This is how real apps avoid re-rendering headers and sidebars on every page change.
