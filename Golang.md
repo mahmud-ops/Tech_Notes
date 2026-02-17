@@ -1241,3 +1241,58 @@ Be careful with `:=`.
 9. `defer` Function Call
 10. Receiver Function (Method)
 11. IIFE — Immediately Invoked Function Expression
+
+## standard function
+
+AKA named function
+```go
+func Add(x int, y int) int {
+	var z = x + y;
+	return  z;
+}
+```
+
+## init function
+
+we can't call an init function, the compiler calls it automatically
+
+```go
+package main
+
+import (
+	"fmt"
+	"example.com/mathLib"
+)
+
+func main() {
+	result := mathLib.Add(4, 5);
+	fmt.Println(result);
+}
+
+func init(){
+	fmt.Println("Called init function");
+}
+```
+
+init function always gets called first
+
+```
+Called init function
+9
+```
+## Anonymous function and IIFE
+
+* **Anonymous Function:** A function without a name.
+* **IIFE (Immediately Invoked Function Expression):** A function that is defined and executed immediately. An anonymous function can also be an IIFE.
+
+**Example in Go:**
+
+```go
+func(a int, b int) {
+    c := a + b
+    fmt.Println(c)
+}(4, 7)
+```
+
+* Here, the function has no name (anonymous) and is invoked immediately with arguments `4` and `7`.
+* **Output:** `11`
