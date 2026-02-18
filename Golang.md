@@ -693,7 +693,7 @@ You don't control it — Go decides.
 
 ---
 
-## **Critical Correction**
+**Critical Correction**
 
 Wrong mental model:
 
@@ -712,7 +712,7 @@ Separate memory worlds.
 
 ---
 
-## **Elite Insight**
+**Elite Insight**
 
 Go stacks are **dynamic**.
 
@@ -723,7 +723,7 @@ This is why Go can run massive concurrency without melting RAM.
 
 ---
 
-## **Ultra-Clean Mental Model**
+**Ultra-Clean Mental Model**
 
 When program starts:
 
@@ -744,7 +744,7 @@ Variables exist ONLY while their box is active.
 
 ---
 
-## **Final Brain Rule**
+**Final Brain Rule**
 
 🔥 Every `{}` is a memory boundary.
 
@@ -805,6 +805,7 @@ func main() {
     // fmt.Println(age) ❌ Error: age not defined
 }
 ```
+
 ## Package scope
 
 Folder structure:
@@ -1280,6 +1281,7 @@ init function always gets called first
 Called init function
 9
 ```
+
 ## Anonymous function and IIFE
 
 * **Anonymous Function:** A function without a name.
@@ -1296,3 +1298,52 @@ func(a int, b int) {
 
 * Here, the function has no name (anonymous) and is invoked immediately with arguments `4` and `7`.
 * **Output:** `11`
+
+## 1st Order vs Higher Order Functions
+
+**First Order Function**
+
+* Standard function
+* Anonymous function
+* IIFE (Immediately Invoked Function Expression)
+
+**Conceptual connection:**
+
+* Works with objects, properties, and relations (1st-order logic in discrete math)
+* Functions operate on values but cannot take/return other functions
+
+**Higher Order Function (HOF)**
+
+* Any function satisfying at least one of:
+
+  * Takes a function as a parameter (callback)
+  * Returns a function
+  * Both
+* Also referred to as **First-Class Functions**
+
+**Example in Go:**
+
+```go
+package main
+
+import "fmt"
+
+// HOF: takes a function as parameter
+func processOp(x int, y int, op func(a int, b int) int) int {
+	return op(x, y)
+}
+
+func add(p int, q int) int {
+	return p + q
+}
+
+func main() {
+	sum := processOp(4, 5, add)
+	fmt.Println(sum) // 9
+}
+```
+
+**Notes:**
+
+* HOFs allow abstraction and functional patterns (map, filter, reduce).
+* Bridges programming paradigm with discrete math: functions as relations, higher-order reasoning, modularity.
