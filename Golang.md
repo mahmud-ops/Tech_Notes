@@ -20,16 +20,19 @@ B --> E[/Output/]
 **Go Basics — C++ Dev Quick Cheatsheet**
 
 **Philosophy**
+
 - Go → minimal, opinionated, fast compile, built for concurrency.
 - C++ → highly flexible, complex, performance-tuned with manual control.
 
 ---
 
 **Project Structure**
+
 - Go uses modules (`go.mod`) for dependency management.
 - Similar vibe to `CMake` / `vcpkg`, but way simpler.
 
 Example:
+
 ```
 go mod init app-name
 ```
@@ -37,6 +40,7 @@ go mod init app-name
 ---
 
 **Package & Import**
+
 - `package main` → entry point package.
 - `import` → kinda like C++ `#include`, but it pulls compiled packages, not raw headers.
 
@@ -47,12 +51,14 @@ import "fmt"
 ```
 
 👉 Think:
+
 - Go import = headers + linker handled automatically.
 - No header/source split.
 
 ---
 
 **Main Function**
+
 ```
 func main() {
     fmt.Println("Hello")
@@ -62,11 +68,13 @@ func main() {
 - `func` replaces return-type-first syntax.
 
 C++:
+
 ```
 int main() {}
 ```
 
 Go:
+
 ```
 func main() {}
 ```
@@ -78,16 +86,19 @@ Cleaner, less ceremony.
 **Variables**
 
 **Declaration**
+
 ```
 var age int = 20
 ```
 
 **Type inference**
+
 ```
 var age = 20
 ```
 
 **Short syntax (MOST used)**
+
 ```
 age := 20
 ```
@@ -98,6 +109,7 @@ Closest is `auto`, but shorter.
 ---
 
 **Constants**
+
 ```
 const Pi = 3.14
 ```
@@ -125,6 +137,7 @@ C++ lets you get away with more.
 ---
 
 **Functions**
+
 ```
 func add(a int, b int) int {
     return a + b
@@ -132,11 +145,13 @@ func add(a int, b int) int {
 ```
 
 Shortcut:
+
 ```
 func add(a, b int) int
 ```
 
 **Multiple returns (huge feature)**
+
 ```
 func divide(a, b int) (int, int) {
     return a/b, a%b
@@ -161,6 +176,7 @@ if err != nil {
 👉 Explicit > magical.
 
 C++:
+
 - exceptions (optional)
 - error codes
 
@@ -182,6 +198,7 @@ Safer than C++.
 ---
 
 **Structs (like lightweight classes)**
+
 ```
 type User struct {
     Name string
@@ -190,6 +207,7 @@ type User struct {
 ```
 
 Usage:
+
 ```
 u := User{Name: "Mahmud", Age: 20}
 ```
@@ -199,6 +217,7 @@ u := User{Name: "Mahmud", Age: 20}
 ---
 
 **Methods**
+
 ```
 func (u User) greet() {
     fmt.Println("Hi", u.Name)
@@ -223,6 +242,7 @@ If a struct has `speak()`, it automatically satisfies the interface.
 C++ requires inheritance.
 
 Go says:
+
 > "If it walks like a duck… ship it."
 
 ---
@@ -230,6 +250,7 @@ Go says:
 **Control Flow**
 
 **If**
+
 ```
 if x > 10 {
 }
@@ -240,16 +261,19 @@ No parentheses needed.
 ---
 
 **For (only loop type)**
+
 ```
 for i := 0; i < 5; i++ {}
 ```
 
 While-style:
+
 ```
 for condition {}
 ```
 
 Infinite:
+
 ```
 for {}
 ```
@@ -277,6 +301,7 @@ default:
 **Arrays vs Slices**
 
 **Array**
+
 ```
 var a [5]int
 ```
@@ -284,6 +309,7 @@ var a [5]int
 Fixed size — rarely used.
 
 **Slice (dynamic)**
+
 ```
 s := []int{1,2,3}
 s = append(s, 4)
@@ -295,6 +321,7 @@ vector from STL, but built-in.
 ---
 
 **Maps**
+
 ```
 m := map[string]int{
     "age": 20,
@@ -308,6 +335,7 @@ Equivalent → `unordered_map`.
 **Concurrency (Go's superpower)**
 
 **Goroutine**
+
 ```
 go doWork()
 ```
@@ -315,6 +343,7 @@ go doWork()
 Cheaper than threads.
 
 **Channels**
+
 ```
 ch := make(chan int)
 ch <- 5
@@ -328,11 +357,13 @@ C++ can do this, but setup is heavier.
 ---
 
 **Memory Management**
+
 - Garbage collected.
 - No `new/delete`.
 - No RAII stress.
 
 Tradeoff:
+
 - Slight runtime cost
 - Massive dev speed
 
@@ -353,6 +384,7 @@ No `public/private` keywords.
 
 **Formatting**
 Run this and forget about style debates:
+
 ```
 go fmt
 ```
@@ -362,6 +394,7 @@ Imagine forcing every C++ dev to obey one formatter 😄
 ---
 
 **Build & Run**
+
 ```
 go run main.go
 go build
@@ -374,6 +407,7 @@ Deployment becomes stupid easy.
 ---
 
 **When Go Beats C++**
+
 - Backend services
 - Cloud infra
 - Networking tools
@@ -381,6 +415,7 @@ Deployment becomes stupid easy.
 - Concurrency-heavy workloads
 
 **When C++ Still Wins**
+
 - Game engines
 - Embedded systems
 - Ultra low-latency apps
@@ -392,9 +427,10 @@ Deployment becomes stupid easy.
 Stop trying to be clever.
 
 Go rewards:
-- clarity  
-- small abstractions  
-- readable code  
+
+- clarity
+- small abstractions
+- readable code
 
 Not template wizardry.
 
@@ -436,8 +472,8 @@ Scope is the **visibility boundary** of a variable — it decides **where the va
 
 Think of every `{}` as a memory box.
 
-* Parent box → can be seen by child boxes
-* Child box → invisible to sibling or parent once execution leaves it
+- Parent box → can be seen by child boxes
+- Child box → invisible to sibling or parent once execution leaves it
 
 ---
 
@@ -451,9 +487,9 @@ flowchart TD
     C -.cannot access siblings.-> D[another function]
 ```
 
-* `add` can read globals ✅
-* `main` can read globals ✅
-* `main` CANNOT read `z` ❌
+- `add` can read globals ✅
+- `main` can read globals ✅
+- `main` CANNOT read `z` ❌
 
 Why? Different box.
 
@@ -505,7 +541,6 @@ Ultra-temporary memory.
 
 ## **Full RAM Execution Walkthrough**
 
-
 ## **Stage 1 — Program Loaded Into RAM**
 
 ```mermaid
@@ -526,16 +561,16 @@ flowchart TD
 
 Allocated now:
 
-* `p`
-* `q`
+- `p`
+- `q`
 
 Not allocated yet:
 
-* `a`
-* `b`
-* `x`
-* `y`
-* `z`
+- `a`
+- `b`
+- `x`
+- `y`
+- `z`
 
 Functions live in the **code segment** — they are instructions, not variables.
 
@@ -666,17 +701,17 @@ It literally stops existing in RAM.
 
 ### **Stack**
 
-* Automatic memory
-* Extremely fast
-* Temporary
-* Function-based
+- Automatic memory
+- Extremely fast
+- Temporary
+- Function-based
 
 ### **Heap**
 
-* Dynamic memory
-* Slower
-* Garbage collected
-* Used when data must survive function return
+- Dynamic memory
+- Slower
+- Garbage collected
+- Used when data must survive function return
 
 Example:
 
@@ -758,9 +793,9 @@ Understand this early → debugging becomes surgical instead of guesswork.
 
 **Global Scope (Go)**
 
-* Declared outside all functions.
-* Visible across the entire package.
-* Usually avoided unless truly necessary.
+- Declared outside all functions.
+- Visible across the entire package.
+- Usually avoided unless truly necessary.
 
 ```go
 package main
@@ -783,8 +818,8 @@ func printApp() {
 
 **Local Scope (Go)**
 
-* Declared inside a function or block.
-* Cannot be accessed outside that block.
+- Declared inside a function or block.
+- Cannot be accessed outside that block.
 
 ```go
 package main
@@ -850,9 +885,9 @@ func add(x int, y int) {
 
 **Important Concept**
 
-* Go compiles packages, not individual files.
-* When files are in the same folder and have the same package name, they are compiled together.
-* Functions defined in one file are accessible in another file within the same package.
+- Go compiles packages, not individual files.
+- When files are in the same folder and have the same package name, they are compiled together.
+- Functions defined in one file are accessible in another file within the same package.
 
 ---
 
@@ -872,9 +907,9 @@ Why?
 
 Because:
 
-* `add.go` does not contain a `main()` function.
-* You’re trying to run only one file.
-* Go needs the full package context.
+- `add.go` does not contain a `main()` function.
+- You’re trying to run only one file.
+- Go needs the full package context.
 
 ---
 
@@ -906,10 +941,10 @@ This runs the entire package (all `.go` files in the folder).
 
 **Key Takeaways**
 
-* Same folder + same package = shared scope.
-* Go builds packages as a whole.
-* Use `go run .` to avoid file-specific errors.
-* Only one `main()` function is allowed in `package main`.
+- Same folder + same package = shared scope.
+- Go builds packages as a whole.
+- Use `go run .` to avoid file-specific errors.
+- Only one `main()` function is allowed in `package main`.
 
 Clean, simple, no confusion.
 
@@ -943,9 +978,9 @@ func Add(x int, y int) int {
 
 Important:
 
-* Package name should match the folder name.
-* Function must start with a capital letter to be exported.
-* No need for `fmt` here since we are returning, not printing.
+- Package name should match the folder name.
+- Function must start with a capital letter to be exported.
+- No need for `fmt` here since we are returning, not printing.
 
 ---
 
@@ -965,8 +1000,8 @@ could not import mathlib (cannot find package in GOROOT)
 
 Reason:
 
-* Go only knows standard library packages (`fmt`, `math`, etc.).
-* Your custom package needs a **module path**.
+- Go only knows standard library packages (`fmt`, `math`, etc.).
+- Your custom package needs a **module path**.
 
 ---
 
@@ -1018,9 +1053,9 @@ func main() {
 
 Notice:
 
-* Import path = `module name + folder name`
-* `Add` is capitalized (exported)
-* Folder name is lowercase
+- Import path = `module name + folder name`
+- `Add` is capitalized (exported)
+- Folder name is lowercase
 
 ---
 
@@ -1040,12 +1075,12 @@ Output:
 
 **Key Rules to Remember**
 
-* Folder name → lowercase
-* Package name → same as folder
-* Exported functions → start with capital letter
-* Import path → `module-name/folder-name`
-* Always initialize a module for custom packages
-* Use `go run .` to run the whole module
+- Folder name → lowercase
+- Package name → same as folder
+- Exported functions → start with capital letter
+- Import path → `module-name/folder-name`
+- Always initialize a module for custom packages
+- Use `go run .` to run the whole module
 
 ---
 
@@ -1089,9 +1124,9 @@ Outer x again: 10
 
 Explanation:
 
-* The inner `x := 20` creates a new variable.
-* It does NOT modify the outer `x`.
-* Once the block ends, the inner `x` disappears.
+- The inner `x := 20` creates a new variable.
+- It does NOT modify the outer `x`.
+- Once the block ends, the inner `x` disappears.
 
 ---
 
@@ -1152,9 +1187,9 @@ Why?
 
 Because:
 
-* `x := x + 5` tries to declare a NEW `x`
-* But while declaring it, it tries to use itself
-* The outer `x` is hidden at that moment
+- `x := x + 5` tries to declare a NEW `x`
+- But while declaring it, it tries to use itself
+- The outer `x` is hidden at that moment
 
 Correct way:
 
@@ -1199,10 +1234,10 @@ That can cause subtle bugs.
 
 **Key Rules**
 
-* `:=` creates a new variable
-* `=` updates an existing variable
-* Inner scope variables hide outer scope variables
-* Shadowing is allowed but dangerous if unnoticed
+- `:=` creates a new variable
+- `=` updates an existing variable
+- Inner scope variables hide outer scope variables
+- Shadowing is allowed but dangerous if unnoticed
 
 ---
 
@@ -1210,11 +1245,11 @@ That can cause subtle bugs.
 
 New scope is created by:
 
-* `{ }` blocks
-* `if`
-* `for`
-* `switch`
-* function bodies
+- `{ }` blocks
+- `if`
+- `for`
+- `switch`
+- function bodies
 
 ---
 
@@ -1246,6 +1281,7 @@ Be careful with `:=`.
 ## standard function
 
 AKA named function
+
 ```go
 func Add(x int, y int) int {
 	var z = x + y;
@@ -1284,8 +1320,8 @@ Called init function
 
 ## Anonymous function and IIFE
 
-* **Anonymous Function:** A function without a name.
-* **IIFE (Immediately Invoked Function Expression):** A function that is defined and executed immediately. An anonymous function can also be an IIFE.
+- **Anonymous Function:** A function without a name.
+- **IIFE (Immediately Invoked Function Expression):** A function that is defined and executed immediately. An anonymous function can also be an IIFE.
 
 **Example in Go:**
 
@@ -1296,30 +1332,30 @@ func(a int, b int) {
 }(4, 7)
 ```
 
-* Here, the function has no name (anonymous) and is invoked immediately with arguments `4` and `7`.
-* **Output:** `11`
+- Here, the function has no name (anonymous) and is invoked immediately with arguments `4` and `7`.
+- **Output:** `11`
 
 ## 1st Order vs Higher Order Functions
 
 **First Order Function**
 
-* Standard function
-* Anonymous function
-* IIFE (Immediately Invoked Function Expression)
+- Standard function
+- Anonymous function
+- IIFE (Immediately Invoked Function Expression)
 
 **Conceptual connection:**
 
-* Works with objects, properties, and relations (1st-order logic in discrete math)
-* Functions operate on values but cannot take/return other functions
+- Works with objects, properties, and relations (1st-order logic in discrete math)
+- Functions operate on values but cannot take/return other functions
 
 **Higher Order Function (HOF)**
 
-* Any function satisfying at least one of:
+- Any function satisfying at least one of:
+  - Takes a function as a parameter (callback)
+  - Returns a function
+  - Both
 
-  * Takes a function as a parameter (callback)
-  * Returns a function
-  * Both
-* Also referred to as **First-Class Functions**
+- Also referred to as **First-Class Functions**
 
 **Example in Go:**
 
@@ -1345,5 +1381,508 @@ func main() {
 
 **Notes:**
 
-* HOFs allow abstraction and functional patterns (map, filter, reduce).
-* Bridges programming paradigm with discrete math: functions as relations, higher-order reasoning, modularity.
+- HOFs allow abstraction and functional patterns (map, filter, reduce).
+- Bridges programming paradigm with discrete math: functions as relations, higher-order reasoning, modularity.
+# Internal memory
+
+## Sample code
+
+**`main.go`**
+
+```go
+package main
+
+import "fmt"
+
+var a = 10;
+
+func add(x int,y int){
+	z := x + y;
+	fmt.Println(z);
+}
+
+func main(){
+	add(5,4);
+	add(a,3);
+}
+
+func init(){
+	fmt.Println("Init function");
+}
+```
+A program goes through 2 phases
+
+1. Compilation phase
+2. Execution phase 
+
+When a Go program executes, the OS loads it into RAM. Memory is logically divided into segments:
+
+| code segment | Data segment | Stack | Heap |
+| ------------ | ------------ | ----- | ---- |
+
+**Code segment:** Stores functions
+**Data segment (Global memory):** Stores global variables
+
+## **Simulating `main.go`**
+
+### Compilation phase
+
+The `main.go` creates a binary file named `main` and the variables and functions are stored in the code segment and data segment
+
+### Execution phase
+
+1. The compiler finds the `init` function in the `code segment`.
+
+| add | main | init |
+| --- | ---- | ---- |
+
+2. It pushes `init()` onto the `stack` for execution. The allocated space is called the `stack frame` of the `init` function.
+
+**Stack**
+
+| `init()` stackframe |   |   |
+| ------------------- | - | - |
+
+Run `init()` → `stack.pop()` → removes `init()`
+
+3. It finds `main()` in the code segment and sees that `add()` is called inside it.
+
+```go
+func add(x int,y int){
+	z := x + y;
+	fmt.Println(z);
+}
+
+func main(){ // code segment
+	add(5,4);
+	add(a,3);
+}
+```
+
+4. It pushes `main()` onto the stack → then pushes `add(5,4)` onto the stack.
+
+| `main()` stackframe | `add(5,4)` stackframe |   |
+| ------------------- | --------------------- | - |
+
+Run `add()` → `stack.pop()`
+
+5. Again, it pushes `add(a,3)` → finds `a` in the data segment (`a = 10`).
+
+| `main()` stackframe | `add(10,3)` stackframe |   |
+| ------------------- | ---------------------- | - |
+
+Run `add()` → `stack.pop()`
+
+| `main()` stackframe |   |   |
+| ------------------- | - | - |
+
+6. End of `main()` → `stack.pop()`
+
+7. All data in RAM is cleared.
+Your note is structurally correct. Below is the same format, with **explicit inclusion of `closure` and `escape analysis` inside the simulation**, without changing your structure.
+
+---
+
+# Closure + Some more simulation
+
+> In this simulation we'll need `heap` of the RAM
+
+Closure is a `function` that remembers and can access variables from its outer scope, even after the outer function finishes executing.
+
+**Sample code**
+
+```go
+package main
+
+import "fmt"
+
+const a = 10
+
+var p = 20
+
+func outer() func() {
+	money := 100
+	age := 21
+
+	fmt.Println("Age =",age)
+
+	show := func() { // closure
+		money = money + a + p
+		fmt.Println(money)
+	}
+
+	return show
+}
+
+func call() {
+	inc_1 := outer()
+	inc_1()
+	inc_1()
+
+	inc_2 := outer()
+	inc_2()
+	inc_2()
+}
+
+func main() {
+	call()
+}
+
+func init() {
+	fmt.Println("=== Bank ===")
+}
+```
+
+---
+
+## **Simulation**
+
+---
+
+### **1. Compilation phase**
+
+The compiler generates a binary file.
+
+**Code segment stores:**
+
+| outer | call | main | init | show |
+| ----- | ---- | ---- | ---- | ---- |
+
+* `show` is compiled as normal function code.
+* `show` is marked as a **closure**, because it captures `money` from `outer`.
+* `const a = 10` is usually inlined by the compiler.
+* `var p = 20` goes to the **Data segment**.
+
+**Data segment**
+
+| p = 20 |
+
+No heap allocation happens at compile time.
+
+---
+
+### **2. Execution phase**
+
+When the program runs, OS loads it into RAM.
+
+| Code segment | Data segment | Stack | Heap |
+| ------------ | ------------ | ----- | ---- |
+
+---
+
+**Step 1 — Execute `init()`**
+
+Push `init()` to stack.
+
+**Stack**
+
+| `init()` frame |
+| -------------- |
+
+Prints:
+
+```
+=== Bank ===
+```
+
+Pop `init()`.
+
+Stack becomes empty.
+
+---
+
+**Step 2 — Execute `main()`**
+
+Push `main()`.
+
+**Stack**
+
+| `main()` |
+| -------- |
+
+Inside `main()` → calls `call()`.
+
+Push `call()`.
+
+**Stack**
+
+| `main()` | `call()` |
+| -------- | -------- |
+
+---
+
+**Step 3 — `inc_1 := outer()`**
+
+Push `outer()`.
+
+**Stack**
+
+| `main()` | `call()` | `outer()` |
+| -------- | -------- | --------- |
+
+Inside `outer()`:
+
+```
+money := 100
+age := 21
+```
+
+Now important part:
+
+`show` is a **closure** because it captures the variable `money` from the outer function.
+
+When the compiler sees this, it performs **Escape Analysis**.
+
+### 🔎 Escape Analysis (what the compiler checks)
+
+Question the compiler asks:
+
+> Will `money` live beyond the lifetime of `outer()`?
+
+Answer:
+
+Yes — because `outer()` returns `show`, and `show` uses `money`.
+
+Therefore:
+
+* `money` **escapes** the stack frame of `outer()`
+* So it must be allocated on the **Heap**
+* `age` does NOT escape → stays on **Stack**
+
+Memory now:
+
+**Heap**
+
+| money₁ = 100 |
+
+**Stack**
+
+| `main()` | `call()` | `outer()` (age=21) |
+
+Prints:
+
+```
+Age = 21
+```
+
+`outer()` returns the **closure value**.
+
+Important:
+
+A closure value internally contains:
+
+* Pointer to function code (`show`)
+* Pointer to captured variables (`money₁` on heap)
+
+Pop `outer()`.
+
+**Stack**
+
+| `main()` | `call()` |
+
+Now:
+
+```
+inc_1 →
+   - show (code segment)
+   - heap cell (money₁)
+```
+
+---
+
+**Step 4 — `inc_1()` first call**
+
+Push `show()`.
+
+**Stack**
+
+| `main()` | `call()` | `show()` |
+| -------- | -------- | -------- |
+
+Inside `show()`:
+
+```
+money = money + a + p
+```
+
+Where:
+
+* `money` → Heap (captured by closure)
+* `a` → inlined constant
+* `p` → Data segment
+
+Calculation:
+
+```
+100 + 10 + 20 = 130
+```
+
+Heap becomes:
+
+| money₁ = 130 |
+
+Prints `130`.
+
+Pop `show()`.
+
+---
+
+**Step 5 — `inc_1()` second call**
+
+Push `show()` again.
+
+Heap currently:
+
+| money₁ = 130 |
+
+Update:
+
+```
+130 + 10 + 20 = 160
+```
+
+Heap:
+
+| money₁ = 160 |
+
+Prints `160`.
+
+Pop `show()`.
+
+---
+
+**Step 6 — `inc_2 := outer()`**
+
+Push new `outer()`.
+
+**Stack**
+
+| `main()` | `call()` | `outer()` |
+
+Inside new `outer()`:
+
+```
+money := 100
+age := 21
+```
+
+Again compiler performs **Escape Analysis**.
+
+Result:
+
+* This new `money` also escapes
+* New heap allocation created
+
+Heap now:
+
+| money₁ = 160 |
+| money₂ = 100 |
+
+Prints:
+
+```
+Age = 21
+```
+
+Pop `outer()`.
+
+Now:
+
+```
+inc_2 →
+   - show (code segment)
+   - heap cell (money₂)
+```
+
+---
+
+**Step 7 — `inc_2()` twice**
+
+First call:
+
+```
+100 + 10 + 20 = 130
+```
+
+Heap:
+
+| money₁ = 160 |
+| money₂ = 130 |
+
+Second call:
+
+```
+130 + 10 + 20 = 160
+```
+
+Heap:
+
+| money₁ = 160 |
+| money₂ = 160 |
+
+Notice:
+
+`inc_1` and `inc_2` use the same function code,
+but each closure has its own separate heap allocation.
+
+---
+
+**Step 8 — End of `call()`**
+
+Pop `call()`.
+
+Stack:
+
+| `main()` |
+
+Now:
+
+`inc_1` and `inc_2` go out of scope.
+
+No references remain to `money₁` and `money₂`.
+
+They become eligible for **Garbage Collection**.
+
+---
+
+**Step 9 — End of `main()`**
+
+Pop `main()`.
+
+Stack becomes empty.
+
+Program exits.
+
+OS clears stack, heap, data, and code from RAM.
+
+---
+
+## **Final Memory Summary**
+
+| Item                 | Location                           |
+| -------------------- | ---------------------------------- |
+| `show` function code | Code segment                       |
+| `p`                  | Data segment                       |
+| `money`              | Heap (due to escape analysis)      |
+| `age`                | Stack                              |
+| `inc_1`, `inc_2`     | Stack (holding closure references) |
+
+---
+
+## **Critical Insight**
+
+Each call to `outer()`:
+
+* Creates a new heap allocation for `money`
+* Happens because of **Escape Analysis**
+* Returns a **closure** that captures that specific heap cell
+
+`inc_1` and `inc_2` share the same function code,
+but they do NOT share the same captured state.
+
+That separation is the entire point of closures in Go.
+
+> There is another mechanism related to the heap called the Garbage Collector (GC).
+> When no live references point to money anymore (for example, after inc_1 and inc_2 go out of scope), the GC marks those heap allocations as unreachable and later reclaims that memory automatically.
+
+![GC](Images/Golang/Garbage_collector.png)
