@@ -1886,3 +1886,35 @@ That separation is the entire point of closures in Go.
 > When no live references point to money anymore (for example, after inc_1 and inc_2 go out of scope), the GC marks those heap allocations as unreachable and later reclaims that memory automatically.
 
 ![GC](Images/Golang/Garbage_collector.png)
+
+# Struct
+
+It's stored in `code segment`
+
+```go
+package main
+
+import "fmt"
+
+type User struct {
+	Name string
+	Age  int
+}
+
+func main() {
+	user_1 := User{  // Instance of `User` type
+		Name: "Mahmud",
+		Age:  21,
+	}
+
+	user_2 := User{ // Instance of `User` type
+		Name: "Habib",
+		Age:  30,
+	}
+
+	fmt.Println(user_1.Name)
+	fmt.Println(user_1.Age)
+	fmt.Println(user_2.Name)
+	fmt.Println(user_2.Age)
+}
+```
