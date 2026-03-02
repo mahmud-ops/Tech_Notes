@@ -1918,3 +1918,36 @@ func main() {
 	fmt.Println(user_2.Age)
 }
 ```
+
+**Example of reciever function**
+
+```go
+package main
+
+import "fmt"
+
+type User struct {
+	Name string
+	Age  int
+}
+
+func printUser(user User){ // reciever function
+	fmt.Println(user.Name);
+	fmt.Println(user.Age);
+}
+
+func main() {
+	user_1 := User{
+		Name: "Mahmud",
+		Age:  21,
+	}
+
+	user_2 := User{
+		Name: "Habib",
+		Age:  30,
+	}
+
+	printUser(user_1);
+	printUser(user_2);
+}
+```
