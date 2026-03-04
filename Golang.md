@@ -1951,3 +1951,334 @@ func main() {
 	printUser(user_2);
 }
 ```
+
+# Array
+
+## Sample Code
+
+**`main.go`**
+
+```go
+package main
+
+import "fmt"
+
+var globalArr = [3]int{1, 2, 3}
+
+func modify(arr [3]int) {
+	arr[0] = 100
+	fmt.Println("Inside modify:", arr)
+}
+
+func main() {
+	localArr := [3]int{4, 5, 6}
+
+	fmt.Println("Before modify:", localArr)
+	modify(localArr)
+	fmt.Println("After modify:", localArr)
+
+	fmt.Println("Global array:", globalArr)
+}
+```
+
+---
+
+A program goes through 2 phases
+
+1. Compilation phase
+2. Execution phase
+
+When a Go program executes, the OS loads it into RAM. Memory is logically divided into segments:
+
+| Code segment | Data segment | Stack | Heap |
+| ------------ | ------------ | ----- | ---- |
+
+**Code segment:** Stores compiled functions
+**Data segment (Global memory):** Stores global variables
+**Stack:** Stores function calls and local variables
+**Heap:** Stores dynamically allocated data (if escape happens)
+
+---
+
+## Simulating `main.go`
+
+---
+
+### Compilation phase
+
+The `main.go` creates a binary file named `main`.
+
+Stored in memory layout:
+
+| Code Segment | Data Segment |
+| ------------ | ------------ |
+| modify       | globalArr    |
+| main         |              |
+
+Important compile-time rule:
+
+* `[3]int` and `[4]int` are **different types**
+* Array size is part of the type
+* `modify([3]int)` only accepts `[3]int`
+
+No heap allocation yet.
+
+---
+
+### Execution phase
+
+---
+
+**1️⃣ Runtime calls `main()`**
+
+| main() stackframe |
+| ----------------- |
+
+Inside `main()`:
+
+```
+localArr := [3]int{4, 5, 6}
+```
+
+`localArr` is created inside the stack frame.
+
+Stack:
+
+| main() stackframe  |
+| ------------------ |
+| localArr = [4 5 6] |
+
+---
+
+**2️⃣ Call `modify(localArr)`**
+
+Push `modify()` onto stack.
+
+| main() | modify(localArr) |
+| ------ | ---------------- |
+
+Critical concept:
+
+👉 Arrays are **value types**
+
+So `localArr` is **copied** into `modify`.
+
+Stack now:
+
+| main() stackframe  |
+| ------------------ |
+| localArr = [4 5 6] |
+
+| modify() stackframe |
+| ------------------- |
+| arr = [4 5 6]       |
+
+Two separate arrays exist.
+
+---
+
+**3️⃣ Inside `modify()`**
+
+```
+arr[0] = 100
+```
+
+This changes only the copied array.
+
+Stack:
+
+| modify() stackframe |
+| ------------------- |
+| arr = [100 5 6]     |
+
+Prints:
+
+```
+Inside modify: [100 5 6]
+```
+
+---
+
+**4️⃣ `modify()` ends**
+
+Stack pop.
+
+| main() stackframe  |
+| ------------------ |
+| localArr = [4 5 6] |
+
+Original array unchanged.
+
+Prints:
+
+```
+After modify: [4 5 6]
+```
+
+---
+
+**5️⃣ Accessing Global Array**
+
+```
+fmt.Println(globalArr)
+```
+
+`globalArr` lives in **Data Segment**
+
+Memory layout:
+
+| Data Segment        |
+| ------------------- |
+| globalArr = [1 2 3] |
+
+It is not on the stack.
+
+---
+
+**6️⃣ End of `main()`**
+
+Stack cleared.
+
+Program ends.
+
+---
+
+## Important Internal Concepts
+
+---
+
+### 1️⃣ Arrays Are Value Types
+
+* Passing array → full copy
+* Assigning array → full copy
+
+Example:
+
+```go
+a := [3]int{1,2,3}
+b := a
+```
+
+Memory:
+
+| a       | b       |
+| ------- | ------- |
+| [1 2 3] | [1 2 3] |
+
+Two different arrays.
+
+---
+
+### 2️⃣ Stack vs Heap
+
+In this program:
+
+* localArr → stack
+* arr (inside modify) → stack copy
+* globalArr → data segment
+* heap → NOT used
+
+No escape → no heap allocation.
+# Pointer
+
+A variable that stores the address of a value.
+
+**Sample code**
+
+```go
+package main
+
+import "fmt"
+
+func print(numbers [5]int){
+	fmt.Println(numbers);
+}
+
+func main(){
+	arr := [5]int{1,3,4,5,7};
+
+	print(arr);
+}
+```
+
+Here, the array is copied when it is passed as a function parameter.
+
+That means a new copy of the entire array is created inside the `print` function.
+
+If the size of the array is 10,000,000, copying each element will take extra time and consume more memory.
+
+To solve this, we can pass the address of the array instead of copying the whole array.
+
+Like,
+
+Suppose there is a paper where 1,2,3 is written. Someone reads the numbers, memorizes them, goes to RAM and writes 1,2,3 again on another paper. This takes extra time and uses extra paper.
+
+Instead, he should just tell RAM where the paper is. RAM will go and look at the original paper himself.
+
+```go
+package main
+
+import "fmt"
+
+func print(numbers *[5]int){ // * means pointer (now the address using `&` must be passed)
+	fmt.Println(numbers);
+}
+
+func main(){
+	arr := [5]int{1,3,4,5,7};
+
+	print(&arr); // passing the address of the array
+}
+```
+
+Now the array is not copied. Only its memory address is passed to the function.
+
+**Pointer x struct**
+
+```go 
+package main
+
+import "fmt"
+
+type User struct {
+	Name string
+	Age int
+	Salary float64
+}
+
+func main(){
+	user_1 := User {
+		Name: "Mahmud",
+		Age: 21,
+		Salary: 4000,
+	}
+
+	p := &user_1
+
+	fmt.Println(*p); 
+	// {Mahmud 21 4000}
+}
+```
+
+Here:
+
+- `p := &user_1` → `p` stores the address of `user_1`
+- `*p` → dereferencing the pointer (accessing the actual value stored at that address)
+
+Instead of copying the whole struct, we work with its address.
+
+**Theory**
+
+**Pass by value:**
+
+A copy of the variable is passed to the function.  
+Any change inside the function does not affect the original variable.  
+In Go, arrays and structs are passed by value by default.
+
+**Pass by reference (using pointer in Go):**
+
+Go does not have true pass-by-reference. Instead, we pass a pointer to the variable.
+
+The function receives the address of the original value.  
+Using that address, it can read or modify the original data.  
+No large data copying happens in this case.
