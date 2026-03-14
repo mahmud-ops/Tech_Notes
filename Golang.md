@@ -2277,7 +2277,7 @@ In Go, arrays and structs are passed by value by default.
 
 **Pass by reference (using pointer in Go):**
 
-Go does not have true pass-by-reference. Instead, we pass a pointer to the variable.
+Go does not have true pass-by-reference. Instead, we pass a pointer to the variable. 
 
 The function receives the address of the original value.  
 Using that address, it can read or modify the original data.  
