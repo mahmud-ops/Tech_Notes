@@ -24,7 +24,14 @@ B --> E[/Output/]
 - Go → minimal, opinionated, fast compile, built for concurrency.
 - C++ → highly flexible, complex, performance-tuned with manual control.
 
----
+---package main
+
+import "fmt"
+
+func main(){
+fmt.Println("Hello world");
+fmt.Println("SUUUUUUUUUUUUUUUUUUUUIi");
+}
 
 **Project Structure**
 
@@ -1383,6 +1390,7 @@ func main() {
 
 - HOFs allow abstraction and functional patterns (map, filter, reduce).
 - Bridges programming paradigm with discrete math: functions as relations, higher-order reasoning, modularity.
+
 # Internal memory
 
 ## Sample code
@@ -1410,10 +1418,11 @@ func init(){
 	fmt.Println("Init function");
 }
 ```
+
 A program goes through 2 phases
 
 1. Compilation phase
-2. Execution phase 
+2. Execution phase
 
 When a Go program executes, the OS loads it into RAM. Memory is logically divided into segments:
 
@@ -1440,8 +1449,8 @@ The `main.go` creates a binary file named `main` and the variables and functions
 
 **Stack**
 
-| `init()` stackframe |   |   |
-| ------------------- | - | - |
+| `init()` stackframe |     |     |
+| ------------------- | --- | --- |
 
 Run `init()` → `stack.pop()` → removes `init()`
 
@@ -1461,25 +1470,25 @@ func main(){ // code segment
 
 4. It pushes `main()` onto the stack → then pushes `add(5,4)` onto the stack.
 
-| `main()` stackframe | `add(5,4)` stackframe |   |
-| ------------------- | --------------------- | - |
+| `main()` stackframe | `add(5,4)` stackframe |     |
+| ------------------- | --------------------- | --- |
 
 Run `add()` → `stack.pop()`
 
 5. Again, it pushes `add(a,3)` → finds `a` in the data segment (`a = 10`).
 
-| `main()` stackframe | `add(10,3)` stackframe |   |
-| ------------------- | ---------------------- | - |
+| `main()` stackframe | `add(10,3)` stackframe |     |
+| ------------------- | ---------------------- | --- |
 
 Run `add()` → `stack.pop()`
 
-| `main()` stackframe |   |   |
-| ------------------- | - | - |
+| `main()` stackframe |     |     |
+| ------------------- | --- | --- |
 
 6. End of `main()` → `stack.pop()`
 
 7. All data in RAM is cleared.
-Your note is structurally correct. Below is the same format, with **explicit inclusion of `closure` and `escape analysis` inside the simulation**, without changing your structure.
+   Your note is structurally correct. Below is the same format, with **explicit inclusion of `closure` and `escape analysis` inside the simulation**, without changing your structure.
 
 ---
 
@@ -1548,10 +1557,10 @@ The compiler generates a binary file.
 | outer | call | main | init | show |
 | ----- | ---- | ---- | ---- | ---- |
 
-* `show` is compiled as normal function code.
-* `show` is marked as a **closure**, because it captures `money` from `outer`.
-* `const a = 10` is usually inlined by the compiler.
-* `var p = 20` goes to the **Data segment**.
+- `show` is compiled as normal function code.
+- `show` is marked as a **closure**, because it captures `money` from `outer`.
+- `const a = 10` is usually inlined by the compiler.
+- `var p = 20` goes to the **Data segment**.
 
 **Data segment**
 
@@ -1645,9 +1654,9 @@ Yes — because `outer()` returns `show`, and `show` uses `money`.
 
 Therefore:
 
-* `money` **escapes** the stack frame of `outer()`
-* So it must be allocated on the **Heap**
-* `age` does NOT escape → stays on **Stack**
+- `money` **escapes** the stack frame of `outer()`
+- So it must be allocated on the **Heap**
+- `age` does NOT escape → stays on **Stack**
 
 Memory now:
 
@@ -1671,8 +1680,8 @@ Important:
 
 A closure value internally contains:
 
-* Pointer to function code (`show`)
-* Pointer to captured variables (`money₁` on heap)
+- Pointer to function code (`show`)
+- Pointer to captured variables (`money₁` on heap)
 
 Pop `outer()`.
 
@@ -1707,9 +1716,9 @@ money = money + a + p
 
 Where:
 
-* `money` → Heap (captured by closure)
-* `a` → inlined constant
-* `p` → Data segment
+- `money` → Heap (captured by closure)
+- `a` → inlined constant
+- `p` → Data segment
 
 Calculation:
 
@@ -1770,8 +1779,8 @@ Again compiler performs **Escape Analysis**.
 
 Result:
 
-* This new `money` also escapes
-* New heap allocation created
+- This new `money` also escapes
+- New heap allocation created
 
 Heap now:
 
@@ -1873,9 +1882,9 @@ OS clears stack, heap, data, and code from RAM.
 
 Each call to `outer()`:
 
-* Creates a new heap allocation for `money`
-* Happens because of **Escape Analysis**
-* Returns a **closure** that captures that specific heap cell
+- Creates a new heap allocation for `money`
+- Happens because of **Escape Analysis**
+- Returns a **closure** that captures that specific heap cell
 
 `inc_1` and `inc_2` share the same function code,
 but they do NOT share the same captured state.
@@ -2017,9 +2026,9 @@ Stored in memory layout:
 
 Important compile-time rule:
 
-* `[3]int` and `[4]int` are **different types**
-* Array size is part of the type
-* `modify([3]int)` only accepts `[3]int`
+- `[3]int` and `[4]int` are **different types**
+- Array size is part of the type
+- `modify([3]int)` only accepts `[3]int`
 
 No heap allocation yet.
 
@@ -2149,8 +2158,8 @@ Program ends.
 
 ### 1️⃣ Arrays Are Value Types
 
-* Passing array → full copy
-* Assigning array → full copy
+- Passing array → full copy
+- Assigning array → full copy
 
 Example:
 
@@ -2173,12 +2182,13 @@ Two different arrays.
 
 In this program:
 
-* localArr → stack
-* arr (inside modify) → stack copy
-* globalArr → data segment
-* heap → NOT used
+- localArr → stack
+- arr (inside modify) → stack copy
+- globalArr → data segment
+- heap → NOT used
 
 No escape → no heap allocation.
+
 # Pointer
 
 A variable that stores the address of a value.
@@ -2235,7 +2245,7 @@ Now the array is not copied. Only its memory address is passed to the function.
 
 **Pointer x struct**
 
-```go 
+```go
 package main
 
 import "fmt"
@@ -2255,7 +2265,7 @@ func main(){
 
 	p := &user_1
 
-	fmt.Println(*p); 
+	fmt.Println(*p);
 	// {Mahmud 21 4000}
 }
 ```
@@ -2277,8 +2287,637 @@ In Go, arrays and structs are passed by value by default.
 
 **Pass by reference (using pointer in Go):**
 
-Go does not have true pass-by-reference. Instead, we pass a pointer to the variable. 
+Go does not have true pass-by-reference. Instead, we pass a pointer to the variable.
 
 The function receives the address of the original value.  
 Using that address, it can read or modify the original data.  
 No large data copying happens in this case.
+
+# Slice
+
+A **Go slice** is a dynamically-sized, flexible view over an array. It lets you work with a sequence of elements without managing the underlying array size directly.
+
+Key points:
+
+- Has a **length** (number of elements) and **capacity** (size of underlying array).
+- Can **grow or shrink** using built-in functions like `append`.
+- Supports **indexing** like arrays.
+
+Example:
+
+```go
+arr := [5]int{1,2,3,4,5}
+s := arr[1:4] // slice of arr from index 1 to 3 → [2 3 4]
+```
+
+**Declaring and slice**
+
+```go
+package main
+
+import "fmt"
+
+func main()  {
+    sl := []int{1,2,3,4,5} // slice literal (no size defined)
+    sli :=  []int{} // empty / nil slice
+}
+```
+
+**We can declate a slice like this too**
+
+```go
+package main
+
+import "fmt"
+
+func main()  {
+    s := make([]int,5)
+    fmt.Println(s); // --> [0 0 0 0 0]
+}
+```
+
+```go
+package main
+
+import "fmt"
+
+func main()  {
+    s := make([]int,5,6)
+    fmt.Println(s); // --> [0 0 0 0 0]
+    fmt.Println("Length:",len(s)) // --> Length: 5
+    fmt.Println("Capacity:",cap(s)) // --> Capacity: 6
+}
+```
+
+Now, let's stress test something.. if, a slice has a length 3 capacity 5. can we assign a value at index 4 ?
+
+```go
+package main
+
+import "fmt"
+
+func main()  {
+    s := make([]int,3,5)
+
+    s[4] = 10
+
+    fmt.Println(s); // --> [0 0 0 0 0]
+    fmt.Println("Length:",len(s)) // --> Length: 5
+    fmt.Println("Capacity:",cap(s)) // --> Capacity: 6
+}
+```
+
+```
+panic: runtime error: index out of range [4] with length 3
+```
+
+Slice **length** controls what you can access. **Capacity** only matters when appending or extending the slice.
+
+**More code**
+
+```go
+package main
+
+import "fmt"
+
+func show(s []int){
+    fmt.Println()
+    fmt.Println("Slice:",s)
+    fmt.Println("Length:",len(s))
+    fmt.Println("Capacity:",cap(s))
+}
+
+
+func main()  {
+    s:= []int{} // an empty slice
+    show(s);
+
+    s = append(s,1,2,3)
+    show(s);
+}
+```
+
+```
+Slice: []
+Length: 0
+Capacity: 0
+
+Slice: [1 2 3]
+Length: 3
+Capacity: 3
+```
+
+**Let's append another number, and look at the capacity**
+
+```go
+s = append(s,5)
+show(s);
+```
+
+```
+Slice: [1 2 3]
+Length: 3
+Capacity: 3
+
+Slice: [1 2 3 5]
+Length: 4
+Capacity: 6
+```
+
+Capacity doubled
+
+> in Go, when a slice grows beyond its capacity, the underlying array is reallocated. The capacity **usually doubles** for small slices, up to 1024 elements; beyond that, it grows by about **25%** each time.
+
+## Code simulation
+
+**Code**
+
+```go
+package main
+
+import "fmt"
+
+func main()  {
+    var x[]int
+
+    x = append(x,1)
+    x = append(x,2)
+    x = append(x,3)
+
+    y := x
+
+    x = append(x,4)
+
+    y = append(y,5)
+
+    x[0] = 10
+
+    fmt.Println(x)
+    fmt.Println(y)
+}
+```
+
+The output will not be
+
+```
+[10 2 3 4]
+[1 2 3 5]
+```
+
+It'll be
+
+```
+[10 2 3 5]
+[10 2 3 5]
+```
+
+**People assume** from here `y := x` , y will create a new slice and will run seperately , actually `y` just points to the same underlying array as x, so changes to one slice can affect the other unless ...
+
+the slice is explicitly **copied or reallocated.**
+
+Which means if after `y := x` we somehow reallocate the slices, they will act seperatly..
+
+They get reallocated if the capacity is changed
+
+We'll understand better in simulation
+
+### Simulation
+
+#### **Step 1**
+
+| code segment | data segment | stack | heap |
+| ------------ | ------------ | ----- | ---- |
+
+```go
+var x[]int
+x = append(x,1)
+```
+
+1. A stackframe for `append()` will be created in stack
+2. Here, the go compiler will create a temporary array (`temp_arr = {1}`) which will be transfered to `heap` because
+
+   > Go wants the slice to persist after append() returns, so the backing array must survive beyond the function’s stack frame, hence heap allocation.
+
+3. A temporary slice will be created in the stackframe having
+   > Pointer: Address of 1 (in heap), lenght: 1, Capacity: 1
+
+**Stackframe**
+
+i.
+
+| 1   | slice |     |     |     |     |     |
+| --- | ----- | --- | --- | --- | --- | --- |
+
+ii.
+
+|     | slice |     |     |     |     |     |
+| --- | ----- | --- | --- | --- | --- | --- |
+
+```
+Slice
+
+ptr = heap[0] ( not literally like this)
+len = 1
+cap = 1
+
+```
+
+Heap
+
+| Address | 0   | 1   | 2   | 3   | 4   | 5   |
+| ------- | --- | --- | --- | --- | --- | --- |
+| 1       |     |     |     |     |     |     |
+| ---     | --- | --- | --- | --- | --- | --- |
+
+#### **Step 2**
+
+```go
+x = append(x,2)
+```
+
+While appending another value, the compiler will check if we have enough capacity
+
+since the capacity is 1, we can't append another value..
+
+1. A stackframe for `append()` will be created in stack
+2. Here, the go compiler will copy the previous slice's value as a temporary array (`temp_arr = {1}`) but it'll have take 2 memory cells (1 for the old value, 1 empty cell for appending the new value)
+
+and then the new value will be placed beside it (`temp_arr = {1,2}`)
+
+which will be transfered to `heap` because
+
+> Go wants the slice to persist after append() returns, so the backing array must survive beyond the function’s stack frame, hence heap allocation.
+
+Heap
+
+| Address | 0   | 1   | 2   | 3   | 4   | 5   |
+| ------- | --- | --- | --- | --- | --- | --- |
+| 1(old)  | 1   | 2   |     |     |     |     |
+| ---     | --- | --- | --- | --- | --- | --- |
+
+3. A temporary slice will be created in the stackframe having
+
+   > Pointer: Address of 1 (heap[1]), length: 2, Capacity: 2
+
+4. The slice will be assigned to `s`
+
+5. stack.pop() --> (Empty stack)
+
+#### **Step 3**
+
+```go
+x = append(x,3)
+```
+
+1. A stackframe for `append()` will be created in stack
+2. Here, the go compiler will copy the previous slice's value as a temporary array (`temp_arr = {1,2}`) but it'll have take 4 memory cells (2 for the old value, 2 empty cell for appending the new value)
+
+> if the compiler needs to increase capacity, the no. of cells will be doubled upto 1024 cells
+
+and then the new value will be placed beside it (`temp_arr = {1,2,3}`)
+
+which will be transfered to `heap` because
+
+> Go wants the slice to persist after append() returns, so the backing array must survive beyond the function’s stack frame, hence heap allocation.
+
+Heap
+
+| Address | 0      | 1      | 2   | 3   | 4   | 5   |
+| ------- | ------ | ------ | --- | --- | --- | --- |
+| 1(old)  | 1(old) | 2(old) | 1   | 2   | 3   |     |
+| ---     | ---    | ---    | --- | --- | --- | --- |
+
+3. A temporary slice will be created in the stackframe having
+
+   > Pointer: Address of 1 (heap[3]), length: 3, Capacity: 4
+
+4. The slice will be assigned to `s`
+
+5. stack.pop() --> (Empty stack)
+
+**Currently, slice = [1,2,3]**
+
+#### **Step 4**
+
+```go
+y := x
+```
+
+Now, y = [1,2,3]
+
+```
+Pointer = heap[6]
+length = 3
+capacity = 4
+```
+
+As we saw, the array **reallocates only when the capacity is exceeded**.
+
+Since there is **one extra slot remaining**, no reallocation happens this time.
+
+Both `x` and `y` **point to the same underlying array**. Therefore, when a new value is appended to `y`, the value is written into the same shared array. Because both slices reference that same memory, **the change becomes visible in both `x` and `y`.**
+
+#### **Step 5**
+
+```go
+x = append(x,4)
+```
+
+Since there is **one extra slot remaining**, no reallocation happens this time.
+
+the go compiler will copy the previous slice's value as a temporary array (`temp_arr = {1,2,3}`)
+
+and then the new value will be placed beside it (`temp_arr = {1,2,3,4}`)
+
+which will be transfered to `heap` because
+
+Heap
+
+| 1      | 2      | 3   | 4   | 5   | 6   |
+| ------ | ------ | --- | --- | --- | --- |
+| 1(old) | 2(old) | 1   | 2   | 3   | 4   |
+| ---    | ---    | --- | --- | --- | --- |
+
+3. A temporary slice will be created in the stackframe having
+
+   > Pointer: Address of 1 (heap[3]), length: 3, Capacity: 4
+
+4. The slice will be assigned to `s`
+
+5. stack.pop() --> (Empty stack)
+
+Both slices reference that same memory, **the change becomes visible in both `x` and `y`.**
+
+#### **Step 6** 
+
+```go
+y = append(y,5)
+```
+
+y copied x when x had 1 empty slot left..
+
+hence y will not double cells..
+
+now `y = 1,2,3,5`
+
+- But now **`y` overwrites the same shared slot that `x` used for `4`**, because both slices still reference the **same underlying array** and there was **only one free cell** available.
+
+So when `y = append(y, 5)` runs:
+
+* `y` has **len = 3, cap = 4**
+* The append fits within the existing capacity
+* No reallocation happens
+* The value **5 is written into index 3 of the shared array**
+
+Since `x` also points to that same array, the value **4 gets replaced by 5**.
+
+As a result, the underlying array becomes:
+
+```
+[1, 2, 3, 5]
+```
+
+Therefore both slices now see the same data:
+
+```
+x = [1 2 3 5]
+y = [1 2 3 5]
+```
+
+#### **Step 7**
+
+```go
+x[0] = 10
+```
+
+Both `x` and `y` still **point to the same underlying array**.
+
+So when we modify the first element through `x`, the change is written directly to the **shared memory location in the heap**.
+
+Since `y` references the same array, it will **see the same updated value**.
+
+Heap
+
+| Address | 0   | 1   | 2   | 3   | 4   | 5   |
+| ------- | --- | --- | --- | --- | --- | --- |
+| Value   | 10  | 2   | 3   | 5   |     |     |
+| ---     | --- | --- | --- | --- | --- | --- |
+
+Both slices now reference this same array.
+
+```
+x = [10,2,3,5]
+y = [10,2,3,5]
+```
+
+Therefore, modifying an element through one slice **affects the other slice as well**, because they still **share the same underlying array in memory**
+**What if we add a line `x := append(x,5)` before this `y := x`**
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var x []int
+
+	x = append(x, 1)
+	x = append(x, 2)
+	x = append(x, 3)
+	x = append(x, 5)
+
+	y := x
+
+	x = append(x, 4)
+
+	y = append(y, 5)
+
+	x[0] = 10
+
+	fmt.Println(x)
+	fmt.Println(y)
+}
+```
+
+### Simulation
+
+#### **Step 1–3**
+
+After the first three appends:
+
+```go
+x = append(x,1)
+x = append(x,2)
+x = append(x,3)
+```
+
+The slice grows like before.
+
+```
+Slice
+
+ptr = heap[0]
+len = 3
+cap = 4
+```
+
+Heap
+
+| Address | 0   | 1   | 2   | 3   |
+| ------- | --- | --- | --- | --- |
+| Value   | 1   | 2   | 3   |     |
+| ---     | --- | --- | --- | --- |
+
+**Currently, slice = [1,2,3]**
+
+---
+
+#### **Step 4**
+
+```go
+x = append(x,5)
+```
+
+Since there is **one extra slot remaining**, no reallocation happens.
+
+The value `5` is written to the next free cell.
+
+Heap
+
+| Address | 0   | 1   | 2   | 3   |
+| ------- | --- | --- | --- | --- |
+| Value   | 1   | 2   | 3   | 5   |
+| ---     | --- | --- | --- | --- |
+
+Slice metadata becomes
+
+```
+ptr = heap[0]
+len = 4
+cap = 4
+```
+
+**Currently, slice = [1,2,3,5]**
+
+---
+
+#### **Step 5**
+
+```go
+y := x
+```
+
+Now `y` becomes a **copy of the slice header**, not the array.
+
+So both slices point to the **same underlying array**.
+
+```
+x → ptr = heap[0], len = 4, cap = 4
+y → ptr = heap[0], len = 4, cap = 4
+```
+
+Heap
+
+| Address | 0   | 1   | 2   | 3   |
+| ------- | --- | --- | --- | --- |
+| Value   | 1   | 2   | 3   | 5   |
+| ---     | --- | --- | --- | --- |
+
+---
+
+#### **Step 6**
+
+```go
+x = append(x,4)
+```
+
+Now the slice is **full** (`len = cap = 4`).
+
+So Go must **reallocate a new array**.
+
+1. A new array with **double capacity (8)** is created.
+2. Old values are copied.
+3. The new value `4` is appended.
+
+Heap
+
+| Address | 0(old) | 1(old) | 2(old) | 3(old) | 4   | 5   | 6   | 7   |
+| ------- | ------ | ------ | ------ | ------ | --- | --- | --- | --- |
+| Value   | 1      | 2      | 3      | 5      | 4   |     |     |     |
+| ---     | ---    | ---    | ---    | ---    | --- | --- | --- | --- |
+
+Slice metadata now becomes
+
+```
+x → ptr = heap[new], len = 5, cap = 8
+```
+
+But **y still points to the old array**.
+
+```
+y → ptr = heap[old], len = 4, cap = 4
+```
+
+So now the slices are **completely independent**.
+
+---
+
+#### **Step 7**
+
+```go
+y = append(y,5)
+```
+
+Since `y` also has **len = cap = 4**, it must **reallocate a new array as well**.
+
+A new array is created and the values are copied.
+
+Heap
+
+| Address | 0   | 1   | 2   | 3   | 4   |
+| ------- | --- | --- | --- | --- | --- |
+| Value   | 1   | 2   | 3   | 5   | 5   |
+| ---     | --- | --- | --- | --- | --- |
+
+Slice metadata becomes
+
+```
+y → ptr = heap[new2], len = 5, cap = 8
+```
+
+Now `x` and `y` **point to completely different arrays**.
+
+---
+
+#### **Step 8**
+
+```go
+x[0] = 10
+```
+
+Now the change only affects **x's array**, because `y` no longer shares the same memory.
+
+Heap for `x`
+
+| Address | 0   | 1   | 2   | 3   | 4   |
+| ------- | --- | --- | --- | --- | --- |
+| Value   | 10  | 2   | 3   | 5   | 4   |
+| ---     | --- | --- | --- | --- | --- |
+
+Heap for `y`
+
+| Address | 0   | 1   | 2   | 3   | 4   |
+| ------- | --- | --- | --- | --- | --- |
+| Value   | 1   | 2   | 3   | 5   | 5   |
+| ---     | --- | --- | --- | --- | --- |
+
+Final result
+
+```go
+x = [10 2 3 5 4]
+y = [1 2 3 5 5]
+```
+
+> The old values will be removed by the garbage collector
+
+![GC](Images/Golang/Garbage_collector.png)
