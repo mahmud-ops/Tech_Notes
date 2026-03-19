@@ -99,18 +99,18 @@ Example: Input binary `1011111` (decimal 95)
 
 **Memory (conceptual “cells”):**
 
-| Cell | 0 | 1 | 2 | 3 | … |
-|------|---|---|---|---|
-| Value |   | 95 |   |   |
+| Cell  | 0   | 1   | 2   | 3   | …   |
+| ----- | --- | --- | --- | --- | --- |
+| Value |     | 95  |     |     |     |
 
-* The **pointer register** in the CPU holds the address of the data to be processed.
-* The **processing unit** fetches the data from memory, performs the operation, and stores intermediate results in registers.
+- The **pointer register** in the CPU holds the address of the data to be processed.
+- The **processing unit** fetches the data from memory, performs the operation, and stores intermediate results in registers.
 
 **Output:** Punched cards with holes representing the computed results, later decoded manually.
 
 **Notes:**
 
-* The Analytical Engine had **no hard disk or electronic memory**. All storage was mechanical.
+- The Analytical Engine had **no hard disk or electronic memory**. All storage was mechanical.
 
 **Data Flow (Mermaid Diagram):**
 
