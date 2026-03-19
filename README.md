@@ -21,8 +21,8 @@ A comprehensive collection of my technical and academic notes in Markdown format
 | **React with TypeScript**        | [React_with_TS.md](./React_with_TS.md)                   | React with TypeScript notes                        |
 | **React with TypeScript 2**      | [React_with_TS_2.md](./React_with_TS_2.md)               | Advanced React with TypeScript notes               |
 | **TypeScript**                   | [Typescript.md](./Typescript.md)                         | TypeScript language notes                          |
-| **Guides**                       | [How*to_write*,md_files.md](./How_to_write_,md_files.md) | Guide on writing effective Markdown files          |
-
+| **Computer Architecture & OS**    | [Computer_architechture_and_OS.md](./Computer_architechture_and_OS.md) | Computer architecture and operating systems notes  |
+| **Guides**                       | [How_to_write_,md_files.md](./How_to_write_,md_files.md) | Guide on writing effective Markdown files          |
 ## Key Features
 
 - **Well-organized structure** - Notes categorized by programming language and topic
