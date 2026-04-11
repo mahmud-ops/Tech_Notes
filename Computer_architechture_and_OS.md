@@ -83,10 +83,6 @@ timeline
              : Internet, mobile computing, cloud systems
 ```
 
-Got you. Here’s your refined note with a **Mermaid flowchart** for the data flow:
-
----
-
 ## How did the Analytical Engine work?
 
 **Components of the CPU:**
@@ -123,3 +119,6 @@ flowchart LR
 ```
 
 ---
+
+# Operating system intro
+
